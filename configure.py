@@ -29,7 +29,7 @@ from tools.project import (
 # Game versions
 DEFAULT_VERSION = 0
 VERSIONS = [
-    "GAMEID",  # 0
+    "GS2E78",  # 0
 ]
 
 parser = argparse.ArgumentParser()
@@ -199,8 +199,12 @@ cflags_base = [
     "-multibyte",  # For Wii compilers, replace with `-enc SJIS`
     "-i include",
     f"-i build/{config.version}/include",
-    f"-DBUILD_VERSION={version_num}",
-    f"-DVERSION_{config.version}",
+    "-i src/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+    "-i src/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common_Embedded/Math/Include",
+    "-i src/PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Include",
+    "-i src/PowerPC_EABI_Support/MSL/MSL_C++/MSL_Common/Include",
+    "-i src/PowerPC_EABI_Support/Runtime/Inc",
+    f"-DVERSION={version_num}",
 ]
 
 # Debug flags
@@ -266,6 +270,55 @@ config.warn_missing_config = True
 config.warn_missing_source = False
 config.libs = [
     {
+        "lib": "test",
+        "mw_version": "GC/1.3.2",
+        "cflags": cflags_base,
+        "progress_category": "game",
+        "host": True,
+        "objects": [
+            Object(NonMatching, "summoner.cpp"),
+            Object(NonMatching, "effect_mem.cpp"),
+            Object(NonMatching, "effects.cpp"),
+            Object(NonMatching, "gr_font.cpp"),
+            Object(NonMatching, "gamewide.cpp"),
+            Object(NonMatching, "gamesound.cpp"),
+            Object(NonMatching, "character_instance.cpp"),
+            Object(NonMatching, "vif_particles.cpp"),
+            Object(NonMatching, "spells_queue.cpp"),
+            Object(NonMatching, "norlsallocpool.cpp"),
+            Object(NonMatching, "characterinfo.cpp"),
+            Object(NonMatching, "dc_menu.cpp"),
+            Object(NonMatching, "level_unseen.cpp"),
+            Object(NonMatching, "level_arena.cpp"),
+            Object(NonMatching, "objectrender.cpp"),
+            Object(NonMatching, "living_entity.cpp"),
+            Object(NonMatching, "pathfinding.cpp"),
+            Object(NonMatching, "combat_skills.cpp"),
+            Object(NonMatching, "gameload.cpp"),
+            Object(NonMatching, "level_scripts.cpp"),
+            Object(NonMatching, "new_fullscreen.cpp"),
+            Object(NonMatching, "cutscene.cpp"),
+            Object(NonMatching, "water_ripples.cpp"),
+            Object(NonMatching, "rain.cpp"),
+            Object(NonMatching, "level_scripts_loadsave.cpp"),
+            Object(NonMatching, "level_sequences_loadsave.cpp"),
+            Object(NonMatching, "flipbook.cpp"),
+            Object(NonMatching, "gamemem.cpp"),
+            Object(NonMatching, "FileSystem.cpp"),
+            Object(NonMatching, "PackFileSystem.cpp"),
+            Object(NonMatching, "NGCSystem.cpp"),
+            Object(NonMatching, "gr_ngc.cpp"),
+            Object(NonMatching, "S3dConvert.cpp"),
+            Object(NonMatching, "lore.cpp"),
+            Object(NonMatching, "quests.cpp"),
+            Object(NonMatching, "new_help.cpp"),
+            Object(NonMatching, "new_tutorial.cpp"),
+            Object(NonMatching, "SoundSystem.cpp"),
+            Object(NonMatching, "SoundConvert.cpp"),
+            Object(NonMatching, "CrankyMemcard.cpp"),
+        ],
+    },
+    {
         "lib": "Runtime.PPCEABI.H",
         "mw_version": config.linker_version,
         "cflags": cflags_runtime,
@@ -275,6 +328,26 @@ config.libs = [
             Object(NonMatching, "Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
         ],
     },
+    DolphinLib(
+        "os",
+        [
+            Object(NonMatching, "dolphin/os/OS.c"),
+            Object(NonMatching, "dolphin/os/__start.c")
+        ],
+    ),
+    DolphinLib(
+        "ai",
+        [
+            Object(NonMatching, "dolphin/ai/ai.c"),
+        ]
+    ),
+    DolphinLib(
+        "ar",
+        [
+            Object(NonMatching, "dolphin/ar/ar.c"),
+            Object(NonMatching, "dolphin/ar/arq.c")
+        ]
+    ),
 ]
 
 # Optional extra categories for progress tracking

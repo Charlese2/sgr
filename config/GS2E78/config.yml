@@ -1,0 +1,10 @@
+# See config.example.yml for documentation.
+name: main
+object_base: orig/GS2E78
+object: sys/main.dol
+hash: 81eed189cc27a22ca6140c700f05e86829f4e841
+symbols: config/GS2E78/symbols.txt
+splits: config/GS2E78/splits.txt
+# Change this to match the linker verison.
+# See config.example.yml for a list.
+mw_comment_version: 11

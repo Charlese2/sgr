@@ -1,0 +1,217 @@
+Sections:
+	.init       type:code align:4
+	extab       type:rodata align:32
+	extabindex  type:rodata align:32
+	.text       type:code align:32
+	.ctors      type:rodata align:16
+	.dtors      type:rodata align:4
+	.rodata     type:rodata align:32
+	.data       type:data align:4
+	.bss        type:bss align:32
+	.sdata      type:data align:32
+	.sbss       type:bss align:32
+	.sdata2     type:rodata align:4
+	.sbss2      type:bss align:32
+
+summoner.cpp:
+	extab       start:0x80005620 end:0x80005630
+	extabindex  start:0x8000B7A0 end:0x8000B7B8
+	.text       start:0x80014180 end:0x80014A58
+
+effects.cpp:
+	extab       start:0x800056A0 end:0x80005918
+	extabindex  start:0x8000B860 end:0x8000BBFC
+	.text       start:0x80016A68 end:0x800215B0
+
+gr_font.cpp:
+	extab       start:0x800059B8 end:0x800059D8
+	extabindex  start:0x8000BCEC end:0x8000BCF8
+	.text       start:0x80023B2C end:0x80023F04
+
+effect_mem.cpp:
+	extab       start:0x80005BC0 end:0x80005BC8
+	extabindex  start:0x8000BFBC end:0x8000BFC8
+	.text       start:0x8002ADC8 end:0x8002B0DC
+
+gamewide.cpp:
+	extab       start:0x800064C8 end:0x800064D0
+	extabindex  start:0x8000CCC4 end:0x8000CCD0
+	.text       start:0x8005A554 end:0x8005A5E8
+
+gamesound.cpp:
+	extab       start:0x800066A0 end:0x800066C0
+	extabindex  start:0x8000CF88 end:0x8000CF94
+	.text       start:0x8005EA4C end:0x8005ED8C
+
+character_instance.cpp:
+	extab       start:0x800067EC end:0x800067F4
+	extabindex  start:0x8000D138 end:0x8000D144
+	.text       start:0x80063674 end:0x800638EC
+
+vif_particles.cpp:
+	extab       start:0x80006AC4 end:0x80006ACC
+	extabindex  start:0x8000D564 end:0x8000D570
+	.text       start:0x80070DF8 end:0x8007107C
+
+spells_queue.cpp:
+	extab       start:0x80006CFC end:0x80006D14
+	extabindex  start:0x8000D8A0 end:0x8000D8AC
+	.text       start:0x8007A784 end:0x8007AD90
+
+norlsallocpool.cpp:
+	extab       start:0x80006EDC end:0x80006EE4
+	extabindex  start:0x8000DAA4 end:0x8000DAB0
+	.text       start:0x80081158 end:0x800812AC
+
+characterinfo.cpp:
+	extab       start:0x80006F44 end:0x80007054
+	extabindex  start:0x8000DB1C end:0x8000DC30
+	.text       start:0x80081F04 end:0x800859E8
+
+dc_menu.cpp:
+	extab       start:0x800072DC end:0x800072FC
+	extabindex  start:0x8000DF90 end:0x8000DF9C
+	.text       start:0x8008DC3C end:0x8008E46C
+
+level_unseen.cpp:
+	extab       start:0x800073F4 end:0x800073FC
+	extabindex  start:0x8000E110 end:0x8000E11C
+	.text       start:0x80091AFC end:0x80091C18
+
+level_arena.cpp:
+	extab       start:0x8000744C end:0x80007454
+	extabindex  start:0x8000E194 end:0x8000E1A0
+	.text       start:0x80093278 end:0x800935A8
+
+objectrender.cpp:
+	extab       start:0x80007744 end:0x800077EC
+	extabindex  start:0x8000E608 end:0x8000E704
+	.text       start:0x800A36BC end:0x800A87C4
+
+living_entity.cpp:
+	extab       start:0x8000798C end:0x80007994
+	extabindex  start:0x8000E974 end:0x8000E980
+	.text       start:0x800B1AF4 end:0x800B2640
+
+pathfinding.cpp:
+	extab       start:0x80007EF0 end:0x80007F18
+	extabindex  start:0x8000F10C end:0x8000F118
+	.text       start:0x800C98B8 end:0x800CAAFC
+
+combat_skills.cpp:
+	extab       start:0x80008050 end:0x80008058
+	extabindex  start:0x8000F2EC end:0x8000F2F8
+	.text       start:0x800D03CC end:0x800D139C
+
+gameload.cpp:
+	extab       start:0x800088B0 end:0x800088B8
+	extabindex  start:0x8000FEF8 end:0x8000FF04
+	.text       start:0x800F8074 end:0x800F82A4
+
+level_scripts.cpp:
+	extab       start:0x800089E8 end:0x800089F0
+	extabindex  start:0x800100CC end:0x800100D8
+	.text       start:0x800FDE74 end:0x800FE160
+
+new_fullscreen.cpp:
+	extab       start:0x80008DAC end:0x80008DB4
+	extabindex  start:0x80010654 end:0x80010660
+	.text       start:0x80112A6C end:0x80112DDC
+
+cutscene.cpp:
+	extab       start:0x80009184 end:0x800091C4
+	extabindex  start:0x80010C18 end:0x80010C30
+	.text       start:0x80124058 end:0x8012464C
+
+water_ripples.cpp:
+	extab       start:0x8000999C end:0x800099A4
+	extabindex  start:0x800117F4 end:0x80011800
+	.text       start:0x801396F8 end:0x80139970
+
+rain.cpp:
+	extab       start:0x80009A14 end:0x80009A1C
+	extabindex  start:0x800118A8 end:0x800118B4
+	.text       start:0x8013BBB4 end:0x8013BE38
+
+level_scripts_loadsave.cpp:
+	extab       start:0x80009AB4 end:0x80009B3C
+	extabindex  start:0x80011998 end:0x80011A1C
+	.text       start:0x8013D028 end:0x80140998
+
+level_sequences_loadsave.cpp:
+	extab       start:0x80009BCC end:0x8000A0DC
+	extabindex  start:0x80011AF4 end:0x8001228C
+	.text       start:0x80144A50 end:0x8014F4E8
+
+flipbook.cpp:
+	extab       start:0x8000A104 end:0x8000A10C
+	extabindex  start:0x800122C8 end:0x800122D4
+	.text       start:0x801500E0 end:0x80150444
+
+gamemem.cpp:
+	extab       start:0x8000A11C end:0x8000A124
+	extabindex  start:0x800122EC end:0x800122F8
+	.text       start:0x8015057C end:0x801507D8
+
+FileSystem.cpp:
+	extab       start:0x8000A25C end:0x8000A264
+	extabindex  start:0x8001246C end:0x80012478
+	.text       start:0x80151CE8 end:0x80151EB0
+
+PackFileSystem.cpp:
+	extab       start:0x8000A2BC end:0x8000A2C4
+	extabindex  start:0x800124D8 end:0x800124E4
+	.text       start:0x80152658 end:0x80152960
+
+NGCSystem.cpp:
+	extab       start:0x8000A344 end:0x8000A364
+	extabindex  start:0x800125A4 end:0x800125D4
+	.text       start:0x801535B4 end:0x8015461C
+
+gr_ngc.cpp:
+	extab       start:0x8000A51C end:0x8000A534
+	extabindex  start:0x8001282C end:0x80012838
+	.text       start:0x80157F34 end:0x801580F4
+
+S3dConvert.cpp:
+	extab       start:0x8000A5D4 end:0x8000A5DC
+	extabindex  start:0x800128D4 end:0x800128E0
+	.text       start:0x80158F78 end:0x80159354
+
+lore.cpp:
+	extab       start:0x8000A814 end:0x8000A834
+	extabindex  start:0x80012C34 end:0x80012C40
+	.text       start:0x801627A8 end:0x80162B08
+
+quests.cpp:
+	extab       start:0x8000A84C end:0x8000A86C
+	extabindex  start:0x80012C64 end:0x80012C70
+	.text       start:0x80162D74 end:0x801630C8
+
+new_help.cpp:
+	extab       start:0x8000AB7C end:0x8000AB9C
+	extabindex  start:0x800130CC end:0x800130D8
+	.text       start:0x8016CD6C end:0x8016D068
+
+new_tutorial.cpp:
+	extab       start:0x8000ADBC end:0x8000ADDC
+	extabindex  start:0x80013408 end:0x80013414
+	.text       start:0x80177AB8 end:0x80177CA4
+
+SoundSystem.cpp:
+	extab       start:0x8000AF54 end:0x8000AF5C
+	extabindex  start:0x80013648 end:0x80013654
+	.text       start:0x801800D8 end:0x801801DC
+
+SoundConvert.cpp:
+	extab       start:0x8000B0AC end:0x8000B0C4
+	extabindex  start:0x80013828 end:0x80013834
+	.text       start:0x80183104 end:0x80183268
+
+dolphin/os/OS.c:
+	.text       start:0x8018A910 end:0x80190EB8
+
+CrankyMemcard.cpp:
+	extab       start:0x8000B774 end:0x8000B784
+	extabindex  start:0x80014134 end:0x8001414C
+	.text       start:0x801EE584 end:0x801EE834
