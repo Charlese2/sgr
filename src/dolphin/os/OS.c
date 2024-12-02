@@ -3,9 +3,9 @@
 //
 
 #include "dolphin/os/OS.h"
-#include "dolphin/os/OSReset.h"
 #include "dolphin/base/PPCArch.h"
 #include "dolphin/db/db.h"
+#include "dolphin/os/OSReset.h"
 #include "dolphin/pad/Pad.h"
 #include "dolphin/dvd/dvdfs.h"
 #include "dolphin/types.h"
@@ -30,20 +30,20 @@
 
 void _epilog();
 
-extern OSBootInfo* BootInfo;
+OSBootInfo* BootInfo;
 
-static volatile u32* BI2DebugFlag;
+volatile u32* BI2DebugFlag;
 
-static u32* BI2DebugFlagHolder;
+u32* BI2DebugFlagHolder;
 
 OSTime __OSStartTime;
 
-extern BOOL __OSInIPL;
+BOOL __OSInIPL;
 
-extern f64 ZeroPS;
+f64 ZeroPS;
 f64 ZeroPS;
 
-extern f64 ZeroF;
+f64 ZeroF;
 f64 ZeroF;
 
 asm void __OSFPRInit(void) {
@@ -146,7 +146,7 @@ u32 OSGetConsoleType(void) {
 }
 
 
-extern DVDDriveInfo DriveInfo;
+DVDDriveInfo DriveInfo;
 
 void* __OSSavedRegionStart;
 void* __OSSavedRegionEnd;
@@ -155,8 +155,9 @@ extern OSExceptionHandler* OSExceptionTable;
 OSExceptionHandler* OSExceptionTable;
 
 extern BOOL AreWeInitialized;
+BOOL AreWeInitialized;
 
-extern BOOL __OSIsGcam;
+BOOL __OSIsGcam;
 
 static void ClearArena(void) {
     if (OSGetResetCode() != 0x80000000) {
@@ -201,12 +202,10 @@ static void InquiryCallback(s32 result, DVDCommandBlock* block) {
 
 static u8 DriveBlock[48];
 
-static const char* __OSVersion = "<< Dolphin SDK - OS	release build: Sep 27 2002 14:02:03 (0x2301) >>";
-
-extern u8 __ArenaHi[];
-extern u8 __ArenaLo[];
-extern void* _stack_end;
-extern char _db_stack_end[];
+u8 __ArenaHi[];
+u8 __ArenaLo[];
+void* _stack_end;
+char _stack_addr[];
 
 void OSInit(void) {
     /*
@@ -262,7 +261,7 @@ void OSInit(void) {
         // if the input arenaLo is null, and debug flag location exists (and flag is < 2),
         //     set arenaLo to just past the end of the db stack
         if ((BootInfo->arena_lo == NULL) && (BI2DebugFlag != 0) && (*BI2DebugFlag < 2)) {
-            debugArenaLo = (char*)(((u32)_db_stack_end + 0x1f) & ~0x1f);
+            debugArenaLo = (char*)(((u32)_stack_addr + 0x1f) & ~0x1f);
             OSSetArenaLo(debugArenaLo);
         }
 
@@ -287,21 +286,21 @@ void OSInit(void) {
         
         if (BootInfo->console_type & OS_CONSOLE_EMULATOR)
         {
-            BootInfo->console_type = 1;
+            BootInfo->console_type = OS_CONSOLE_DEVHW1;
         }
         else 
         {
-            BootInfo->console_type = OS_CONSOLE_MINNOW;
+            BootInfo->console_type = 1;
         }
 
-        BootInfo->console_type = BootInfo->console_type + (__OSDeviceCode >> 0x1cU);
+        BootInfo->console_type += (__PIRegs[11] &= 0xF0000000);
 
         if ((BOOL)__OSInIPL == FALSE) {
             __OSInitMemoryProtection();
         }
 
         OSReport("\nDolphin OS $Revision: 54 $.\n");
-        OSReport("Kernel built : %s %s\n", "Jun 5 2002", "02:09:12");
+        OSReport("Kernel built : %s %s\n", "Jun  5 2002", "02:09:12");
         OSReport("Console Type : ");
 
         if (BootInfo == NULL || (inputConsoleType = BootInfo->console_type) == 0) {
@@ -310,12 +309,12 @@ void OSInit(void) {
             inputConsoleType = BootInfo->console_type;
         }
 
-        switch (inputConsoleType & 0xFFFF0000) {
+        switch (inputConsoleType & 0x10000000) {
         case OS_CONSOLE_RETAIL:
             OSReport("Retail %d\n", inputConsoleType);
             break;
         default:
-            switch (inputConsoleType & 0x0000FFFF) {
+            switch (inputConsoleType) {
             case OS_CONSOLE_EMULATOR:
                 OSReport("Mac Emulator\n");
                 break;

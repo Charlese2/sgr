@@ -17,6 +17,7 @@ summoner.cpp:
 	extab       start:0x80005620 end:0x80005630
 	extabindex  start:0x8000B7A0 end:0x8000B7B8
 	.text       start:0x80014180 end:0x80014A58
+	.bss        start:0x80228F80 end:0x80228F94
 
 effects.cpp:
 	extab       start:0x800056A0 end:0x80005918
@@ -209,7 +210,35 @@ SoundConvert.cpp:
 	.text       start:0x80183104 end:0x80183268
 
 dolphin/os/OS.c:
-	.text       start:0x8018A910 end:0x80190EB8
+	.text       start:0x8018A910 end:0x8018B258
+	.data       start:0x802112A0 end:0x8021145C
+	.bss        start:0x80451F80 end:0x80451FA0
+	.sbss       start:0x80475C20 end:0x80475C50
+
+dolphin/os/OSAlloc.c:
+	.text       start:0x8018B994 end:0x8018C018
+	.data       start:0x80211460 end:0x802117F8
+	.sdata      start:0x804741C0 end:0x804741C8
+	.sbss       start:0x80475C58 end:0x80475C68
+
+dolphin/dvd/dvdlow.c:
+	.text       start:0x80192F7C end:0x80193A9C
+	.bss        start:0x80452A80 end:0x80452B10
+	.sdata      start:0x804741E8 end:0x804741F0
+	.sbss       start:0x80475CF0 end:0x80475D38
+
+dolphin/dvd/dvdfs.c:
+	.text       start:0x80193A9C end:0x80194378
+	.data       start:0x80213800 end:0x80213934
+	.sdata      start:0x804741F0 end:0x804741F8
+	.sbss       start:0x80475D38 end:0x80475D58
+
+dolphin/dvd/dvd.c:
+	.text       start:0x80194494 end:0x80196AC4
+	.data       start:0x80213BF0 end:0x80213C9C
+	.bss        start:0x80452B60 end:0x80452C38
+	.sdata      start:0x804741F8 end:0x804741FC
+	.sbss       start:0x80475D58 end:0x80475DA8
 
 CrankyMemcard.cpp:
 	extab       start:0x8000B774 end:0x8000B784

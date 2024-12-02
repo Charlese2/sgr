@@ -1,6 +1,6 @@
 #include "dolphin/dvd/dvdfs.h"
-#include "dolphin/dvd.h"
-#include "dolphin/os.h"
+#include "dolphin/dvd/dvd.h"
+#include "dolphin/os/os.h"
 
 void __DVDFSInit();
 int DVDConvertPathToEntrynum(const char* path);
@@ -28,19 +28,14 @@ struct FSTEntry {
     unsigned int nextEntryOrLength;
 };
 
-/* 80451758-8045175C 000C58 0004+00 1/1 0/0 0/0 .sbss            BootInfo */
 static OSBootInfo* BootInfo;
 
-/* 8045175C-80451760 000C5C 0004+00 10/10 0/0 0/0 .sbss            FstStart */
 static FSTEntry* FstStart;
 
-/* 80451760-80451764 000C60 0004+00 5/5 0/0 0/0 .sbss            FstStringStart */
 static char* FstStringStart;
 
-/* 80451764-80451768 000C64 0004+00 2/2 0/0 0/0 .sbss            MaxEntryNum */
 static unsigned int MaxEntryNum;
 
-/* 803484F0-80348528 342E30 0038+00 0/0 2/2 0/0 .text            __DVDFSInit */
 void __DVDFSInit() {
     BootInfo = (OSBootInfo*)OSPhysicalToCached(0);
     FstStart = (FSTEntry*)BootInfo->fst_location;
@@ -51,13 +46,10 @@ void __DVDFSInit() {
     }
 }
 
-/* 80451768-8045176C 000C68 0004+00 4/4 0/0 0/0 .sbss            currentDirectory */
 static u32 currentDirectory;
 
-/* 80451770-80451778 000C70 0008+00 2/2 3/3 0/0 .sbss            __DVDThreadQueue */
 OSThreadQueue __DVDThreadQueue;
 
-/* 8045176C-80451770 000C6C 0004+00 1/1 1/1 0/0 .sbss            __DVDLongFileNameFlag */
 u32 __DVDLongFileNameFlag;
 
 /* For convenience */
@@ -82,7 +74,6 @@ static BOOL isSame(const char* path, const char* string) {
     return FALSE;
 }
 
-/* 80348528-8034881C 342E68 02F4+00 3/3 6/6 0/0 .text            DVDConvertPathToEntrynum */
 int DVDConvertPathToEntrynum(const char* pathPtr) {
     const char* ptr;
     char* stringPtr;
@@ -142,7 +133,7 @@ int DVDConvertPathToEntrynum(const char* pathPtr) {
                 illegal = TRUE;
 
             if (illegal)
-                OSPanic(__FILE__, 387,
+                OSPanic(__FILE__, 376,
                         "DVDConvertEntrynumToPath(possibly DVDOpen or DVDChangeDir or DVDOpenDir): "
                         "specified directory "
                         "or file (%s) doesn't match standard 8.3 format. This is a temporary "
@@ -183,7 +174,6 @@ int DVDConvertPathToEntrynum(const char* pathPtr) {
     }
 }
 
-/* 8034881C-80348890 34315C 0074+00 0/0 3/3 0/0 .text            DVDFastOpen */
 int DVDFastOpen(s32 entrynum, DVDFileInfo* fileInfo) {
     if ((entrynum < 0) || (entrynum >= MaxEntryNum) || entryIsDir(entrynum)) {
         return FALSE;
@@ -197,7 +187,6 @@ int DVDFastOpen(s32 entrynum, DVDFileInfo* fileInfo) {
     return TRUE;
 }
 
-/* 80348890-80348958 3431D0 00C8+00 0/0 3/3 1/1 .text            DVDOpen */
 BOOL DVDOpen(const char* fileName, DVDFileInfo* fileInfo) {
     s32 entry;
     char currentDir[128];
@@ -222,7 +211,6 @@ BOOL DVDOpen(const char* fileName, DVDFileInfo* fileInfo) {
     return TRUE;
 }
 
-/* 80348958-8034897C 343298 0024+00 0/0 4/4 2/2 .text            DVDClose */
 BOOL DVDClose(DVDFileInfo* fileInfo) {
     DVDCancel(&(fileInfo->block));
     return TRUE;
@@ -239,7 +227,6 @@ static u32 myStrncpy(char* dest, char* src, u32 maxlen) {
     return (maxlen - i);
 }
 
-/* 8034897C-80348ADC 3432BC 0160+00 2/2 0/0 0/0 .text            entryToPath */
 static u32 entryToPath(u32 entry, char* path, u32 maxlen) {
     char* name;
     u32 loc;
@@ -263,7 +250,6 @@ static u32 entryToPath(u32 entry, char* path, u32 maxlen) {
     return loc;
 }
 
-/* 80348ADC-80348C30 34341C 0154+00 1/1 0/0 0/0 .text            DVDConvertEntrynumToPath */
 static BOOL DVDConvertEntrynumToPath(s32 entrynum, char* path, u32 maxlen) {
     u32 loc;
 
@@ -287,12 +273,10 @@ static BOOL DVDConvertEntrynumToPath(s32 entrynum, char* path, u32 maxlen) {
     return TRUE;
 }
 
-/* 80348C30-80348CF4 343570 00C4+00 1/1 0/0 0/0 .text            DVDGetCurrentDir */
 BOOL DVDGetCurrentDir(char* path, u32 maxlen) {
     return DVDConvertEntrynumToPath((s32)currentDirectory, path, maxlen);
 }
 
-/* 80348CF4-80348D54 343634 0060+00 0/0 2/2 0/0 .text            DVDChangeDir */
 BOOL DVDChangeDir(const char* dirName) {
     s32 entry;
     entry = DVDConvertPathToEntrynum(dirName);
@@ -307,15 +291,14 @@ BOOL DVDChangeDir(const char* dirName) {
 
 #define DVD_MIN_TRANSFER_SIZE 32
 
-/* 80348D54-80348E14 343694 00C0+00 0/0 2/2 0/0 .text            DVDReadAsyncPrio */
 BOOL DVDReadAsyncPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset,
                       DVDCallback callback, s32 prio) {
-    if (!((0 <= offset) && (offset <= fileInfo->length))) {
-        OSPanic(__FILE__, 750, "DVDReadAsync(): specified area is out of the file  ");
+    if (!((0 <= offset) && (offset < fileInfo->length))) {
+        OSPanic(__FILE__, 739, "DVDReadAsync(): specified area is out of the file  ");
     }
 
     if (!((0 <= offset + length) && (offset + length < fileInfo->length + DVD_MIN_TRANSFER_SIZE))) {
-        OSPanic(__FILE__, 756, "DVDReadAsync(): specified area is out of the file  ");
+        OSPanic(__FILE__, 745, "DVDReadAsync(): specified area is out of the file  ");
     }
 
     fileInfo->callback = callback;
@@ -329,7 +312,6 @@ BOOL DVDReadAsyncPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset,
 #define offsetof(type, memb) ((u32) & ((type*)0)->memb)
 #endif
 
-/* 80348E14-80348E44 343754 0030+00 1/1 0/0 0/0 .text            cbForReadAsync */
 static void cbForReadAsync(s32 result, DVDCommandBlock* block) {
     DVDFileInfo* fileInfo;
 
@@ -339,7 +321,6 @@ static void cbForReadAsync(s32 result, DVDCommandBlock* block) {
     }
 }
 
-/* 80348E44-80348F5C 343784 0118+00 0/0 9/9 3/3 .text            DVDReadPrio */
 int DVDReadPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset, s32 prio) {
     BOOL result;
     DVDCommandBlock* block;
@@ -347,12 +328,12 @@ int DVDReadPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset, s32 p
     BOOL enabled;
     int retVal;
 
-    if (!((0 <= offset) && (offset <= fileInfo->length))) {
-        OSPanic(__FILE__, 820, "DVDRead(): specified area is out of the file  ");
+    if (!((0 <= offset) && (offset < fileInfo->length))) {
+        OSPanic(__FILE__, 809, "DVDRead(): specified area is out of the file  ");
     }
 
     if (!((0 <= offset + length) && (offset + length < fileInfo->length + DVD_MIN_TRANSFER_SIZE))) {
-        OSPanic(__FILE__, 826, "DVDRead(): specified area is out of the file  ");
+        OSPanic(__FILE__, 815, "DVDRead(): specified area is out of the file  ");
     }
 
     block = &(fileInfo->block);
@@ -389,13 +370,11 @@ int DVDReadPrio(DVDFileInfo* fileInfo, void* addr, s32 length, s32 offset, s32 p
     return retVal;
 }
 
-/* 80348F5C-80348F80 34389C 0024+00 1/1 0/0 0/0 .text            cbForReadSync */
 /* This is based on the revolution SDK, these may not match in all cases */
 static void cbForReadSync(s32 result, DVDCommandBlock* block) {
     OSWakeupThread(&__DVDThreadQueue);
 }
 
-/* 80348F80-80349040 3438C0 00C0+00 0/0 3/3 0/0 .text            DVDOpenDir */
 BOOL DVDOpenDir(const char* dirName, DVDDirectory* dir) {
     s32 entry;
     char currentDir[128];
@@ -418,7 +397,6 @@ BOOL DVDOpenDir(const char* dirName, DVDDirectory* dir) {
     return TRUE;
 }
 
-/* 80349040-803490E4 343980 00A4+00 0/0 3/3 0/0 .text            DVDReadDir */
 BOOL DVDReadDir(DVDDirectory* dir, DVDDirectoryEntry* dirent) {
     u32 loc = dir->location;
     if ((loc <= dir->entry_number) || (dir->next <= loc)) {
@@ -432,9 +410,4 @@ BOOL DVDReadDir(DVDDirectory* dir, DVDDirectoryEntry* dirent) {
     dir->location = entryIsDir(loc) ? nextDir(loc) : (loc + 1);
 
     return TRUE;
-}
-
-/* 803490E4-803490EC 343A24 0008+00 0/0 3/3 0/0 .text            DVDCloseDir */
-BOOL DVDCloseDir() {
-    return 1;
 }

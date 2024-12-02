@@ -133,7 +133,11 @@ BOOL DVDReadAbsAsyncPrio(DVDCommandBlock* block, void* addr, s32 length, s32 off
 BOOL DVDReadAbsAsyncForBS(DVDCommandBlock* block, void* addr, s32 length, s32 offset,
                           DVDCBCallback callback);
 BOOL DVDReadDiskID(DVDCommandBlock* block, DVDDiskID* diskID, DVDCBCallback callback);
-BOOL DVDCancelStreamAsync(DVDCommandBlock* block, DVDCBCallback callback);
+BOOL DVDCancelStreamAsync(DVDCommandBlock* block, u32 length, u32 offset, DVDCBCallback callback);
+BOOL DVDCancelStreamAsync2(DVDCommandBlock* block, DVDCBCallback callback);
+BOOL DVDCancelStreamAsync3(DVDCommandBlock* block, DVDCBCallback callback);
+BOOL DVDCancelStreamAsync4(DVDCommandBlock* block, DVDCBCallback callback);
+BOOL DVDCancelStreamAsync5(DVDCommandBlock* block, DVDCBCallback callback);
 BOOL DVDStopStreamAtEndAsync(DVDCommandBlock* block, DVDCBCallback callback);
 BOOL DVDGetStreamPlayAddrAsync(DVDCommandBlock* block, DVDCBCallback callback);
 BOOL DVDInquiryAsync(DVDCommandBlock* block, DVDDriveInfo* info, DVDCBCallback callback);

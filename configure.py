@@ -332,7 +332,8 @@ config.libs = [
         "os",
         [
             Object(NonMatching, "dolphin/os/OS.c"),
-            Object(NonMatching, "dolphin/os/__start.c")
+            Object(NonMatching, "dolphin/os/__start.c"),
+            Object(NonMatching, "dolphin/os/OSAlloc.c"),
         ],
     ),
     DolphinLib(
@@ -345,7 +346,15 @@ config.libs = [
         "ar",
         [
             Object(NonMatching, "dolphin/ar/ar.c"),
-            Object(NonMatching, "dolphin/ar/arq.c")
+            Object(NonMatching, "dolphin/ar/arq.c"),
+        ]
+    ),
+    DolphinLib(
+        "dvd",
+        [
+            Object(NonMatching, "dolphin/dvd/dvd.c"),
+            Object(NonMatching, "dolphin/dvd/dvdfs.c"),
+            Object(NonMatching, "dolphin/dvd/dvdlow.c"),
         ]
     ),
 ]

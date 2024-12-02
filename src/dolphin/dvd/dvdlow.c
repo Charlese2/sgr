@@ -1,5 +1,5 @@
 #include "dolphin/dvd/dvdlow.h"
-#include "dolphin/dvd.h"
+#include "dolphin/dvd/dvd.h"
 #include "dolphin/os/OSAlarm.h"
 #include "dolphin/os/OSContext.h"
 #include "dolphin/os/OSReset.h"
@@ -408,7 +408,6 @@ BOOL DVDLowReadDiskID(u32 arg0, DVDLowCallback cb) {
     return 1;
 }
 
-/* 80348014-803480A0 342954 008C+00 0/0 9/9 0/0 .text            DVDLowStopMotor */
 BOOL DVDLowStopMotor(DVDLowCallback cb) {
     Callback = cb;
     StopAtNextInt = FALSE;
@@ -418,7 +417,6 @@ BOOL DVDLowStopMotor(DVDLowCallback cb) {
     return 1;
 }
 
-/* 803480A0-8034812C 3429E0 008C+00 0/0 7/7 0/0 .text            DVDLowRequestError */
 BOOL DVDLowRequestError(DVDLowCallback cb) {
     Callback = cb;
     StopAtNextInt = FALSE;
@@ -502,7 +500,6 @@ DVDLowCallback DVDLowClearCallback() {
     DVDLowCallback rv;
     __DIRegs[1] = 0;
     rv = Callback;
-    WaitingCoverClose = FALSE;
     Callback = NULL;
     return rv;
 }
