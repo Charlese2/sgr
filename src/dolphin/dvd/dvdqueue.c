@@ -1,137 +1,164 @@
-#include "dolphin/dvd/dvdqueue.h"
-#include "dolphin/dvd.h"
+#include <dolphin.h>
+#include <dolphin/dvd.h>
 
-void __DVDClearWaitingQueue();
-BOOL __DVDPushWaitingQueue(s32 prio, DVDCommandBlock* block);
-DVDCommandBlock* __DVDPopWaitingQueue(void);
-BOOL __DVDCheckWaitingQueue(void);
-BOOL __DVDDequeueWaitingQueue(DVDCommandBlock* block);
+#include "dvd/__dvd.h"
 
-#define MAX_QUEUES 4
+static struct {
+    /* 0x00 */ struct DVDCommandBlock * next;
+    /* 0x04 */ struct DVDCommandBlock * prev;
+} WaitingQueue[4];
 
-typedef struct {
-    DVDCommandBlock* next;
-    DVDCommandBlock* prev;
-} DVDQueue;
+static struct DVDCommandBlock * PopWaitingQueuePrio(long prio);
 
-/* 8044C998-8044C9B8 0796B8 0020+00 4/4 0/0 0/0 .bss             WaitingQueue */
-static DVDQueue WaitingQueue[MAX_QUEUES];
-
-/* 8034B874-8034B8AC 3461B4 0038+00 0/0 5/5 0/0 .text            __DVDClearWaitingQueue */
 void __DVDClearWaitingQueue(void) {
-    u32 i;
+    unsigned long i;
+    struct DVDCommandBlock * q;
 
-    for (i = 0; i < MAX_QUEUES; i++) {
-        DVDCommandBlock* q;
-
-        q = (DVDCommandBlock*)&(WaitingQueue[i]);
+    for(i = 0; i < 4; i++) {
+        q = (struct DVDCommandBlock *)&WaitingQueue[i].next;
         q->next = q;
         q->prev = q;
     }
 }
 
-/* 8034B8AC-8034B914 3461EC 0068+00 0/0 5/5 0/0 .text            __DVDPushWaitingQueue */
-BOOL __DVDPushWaitingQueue(s32 prio, DVDCommandBlock* block) {
-    BOOL enabled;
-    DVDCommandBlock* q;
-
-    enabled = OSDisableInterrupts();
-
-    q = (DVDCommandBlock*)&(WaitingQueue[prio]);
+int __DVDPushWaitingQueue(long prio, struct DVDCommandBlock * block) {
+    int enabled = OSDisableInterrupts();
+    struct DVDCommandBlock * q = (struct DVDCommandBlock *)&WaitingQueue[prio];
 
     q->prev->next = block;
     block->prev = q->prev;
     block->next = q;
     q->prev = block;
-
     OSRestoreInterrupts(enabled);
-
-    return TRUE;
+    return 1;
 }
 
-static DVDCommandBlock* PopWaitingQueuePrio(s32 prio) {
-    DVDCommandBlock* tmp;
-    BOOL enabled;
-    DVDCommandBlock* q;
+static struct DVDCommandBlock * PopWaitingQueuePrio(long prio) {
+    struct DVDCommandBlock * tmp;
+    int enabled;
+    struct DVDCommandBlock * q;
 
     enabled = OSDisableInterrupts();
-
-    q = (DVDCommandBlock*)&(WaitingQueue[prio]);
-
+    q = (struct DVDCommandBlock *)&WaitingQueue[prio];
+    ASSERTLINE(0x54, q->next != q);
     tmp = q->next;
     q->next = tmp->next;
     tmp->next->prev = q;
-
     OSRestoreInterrupts(enabled);
-
-    tmp->next = (DVDCommandBlock*)NULL;
-    tmp->prev = (DVDCommandBlock*)NULL;
-
+    tmp->next = 0;
+    tmp->prev = 0;
     return tmp;
 }
 
-/* 8034B914-8034B9B4 346254 00A0+00 0/0 2/2 0/0 .text            __DVDPopWaitingQueue */
-DVDCommandBlock* __DVDPopWaitingQueue(void) {
-    u32 i;
-    BOOL enabled;
-    DVDCommandBlock* q;
+struct DVDCommandBlock * __DVDPopWaitingQueue(void) {
+    unsigned long i;
+    int enabled;
+    struct DVDCommandBlock * q;
 
     enabled = OSDisableInterrupts();
-
-    for (i = 0; i < MAX_QUEUES; i++) {
-        q = (DVDCommandBlock*)&(WaitingQueue[i]);
+    for(i = 0; i < 4; i++) {
+        q = (struct DVDCommandBlock *)&WaitingQueue[i];
         if (q->next != q) {
-            OSRestoreInterrupts(enabled);
-            return PopWaitingQueuePrio((s32)i);
+            return PopWaitingQueuePrio(i);
         }
     }
-
     OSRestoreInterrupts(enabled);
-
-    return (DVDCommandBlock*)NULL;
+    return NULL;
 }
 
-/* 8034B9B4-8034BA0C 3462F4 0058+00 0/0 1/1 0/0 .text            __DVDCheckWaitingQueue */
-BOOL __DVDCheckWaitingQueue(void) {
-    u32 i;
-    BOOL enabled;
-    DVDCommandBlock* q;
+int __DVDCheckWaitingQueue(void) {
+    unsigned long i;
+    int enabled;
+    struct DVDCommandBlock * q;
 
     enabled = OSDisableInterrupts();
-
-    for (i = 0; i < MAX_QUEUES; i++) {
-        q = (DVDCommandBlock*)&(WaitingQueue[i]);
+    for(i = 0; i < 4; i++) {
+        q = (struct DVDCommandBlock *)&WaitingQueue[i];
         if (q->next != q) {
-            OSRestoreInterrupts(enabled);
-            return TRUE;
+            return 1;
         }
     }
-
     OSRestoreInterrupts(enabled);
-
-    return FALSE;
+    return 0;
 }
 
-/* 8034BA0C-8034BA6C 34634C 0060+00 0/0 1/1 0/0 .text            __DVDDequeueWaitingQueue */
-BOOL __DVDDequeueWaitingQueue(DVDCommandBlock* block) {
-    BOOL enabled;
-    DVDCommandBlock* prev;
-    DVDCommandBlock* next;
+int __DVDDequeueWaitingQueue(struct DVDCommandBlock * block) {
+    int enabled;
+    struct DVDCommandBlock * prev;
+    struct DVDCommandBlock * next;
 
     enabled = OSDisableInterrupts();
-
     prev = block->prev;
     next = block->next;
-
-    if ((prev == (DVDCommandBlock*)NULL) || (next == (DVDCommandBlock*)NULL)) {
+    if (prev == NULL || next == NULL) {
         OSRestoreInterrupts(enabled);
-        return FALSE;
+        return 0;
     }
-
     prev->next = next;
     next->prev = prev;
-
     OSRestoreInterrupts(enabled);
+    return 1;
+}
 
-    return TRUE;
+int __DVDIsBlockInWaitingQueue(struct DVDCommandBlock * block) {
+    unsigned long i;
+    struct DVDCommandBlock * start;
+    struct DVDCommandBlock * q;
+
+    for(i = 0; i < 4; i++) {
+        start = (struct DVDCommandBlock *)&WaitingQueue[i];
+        if (start->next == start) {
+            continue;
+        }
+        for(q = start->next; q != start; q = q->next) {
+            if (q == block) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+static char * CommandNames[16] = {
+    "",
+    "READ",
+    "SEEK",
+    "CHANGE_DISK",
+    "BSREAD",
+    "READID",
+    "INITSTREAM",
+    "CANCELSTREAM",
+    "STOP_STREAM_AT_END",
+    "REQUEST_AUDIO_ERROR",
+    "REQUEST_PLAY_ADDR",
+    "REQUEST_START_ADDR",
+    "REQUEST_LENGTH",
+    "AUDIO_BUFFER_CONFIG",
+    "INQUIRY",
+    "BS_CHANGE_DISK",
+};
+
+void DVDDumpWaitingQueue(void) {
+    unsigned long i;
+    struct DVDCommandBlock * start;
+    struct DVDCommandBlock * q;
+
+    OSReport("==== DVD Waiting Queue Status ====\n");
+    for(i = 0; i < 4; i++) {
+        OSReport("< Queue #%d > ", i);
+        start = (struct DVDCommandBlock *)&WaitingQueue[i];
+        if (start->next == start) {
+            OSReport("None\n");
+        } else {
+            OSReport("\n");
+            for(q = start->next; q != start; q = q->next) {
+                OSReport("0x%08x: Command: %s ", q, CommandNames[q->command]);
+                if (q->command == 1) {
+                    OSReport("Disk offset: %d, Length: %d, Addr: 0x%08x\n", q->offset, q->length, q->addr);
+                } else {
+                    OSReport("\n");
+                }
+            }
+        }
+    }
 }

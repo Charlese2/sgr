@@ -1,4 +1,16 @@
-#include "dolphin/dsp/dsp_debug.h"
+#include <dolphin/dsp.h>
 
-/* 80352580-803525D0 34CEC0 0050+00 0/0 2/2 0/0 .text            __DSP_debug_printf */
-void __DSP_debug_printf(const char* fmt, ...) {}
+#include "__dsp.h"
+
+// this is duplicated from dsp.c
+DSPTaskInfo *__DSP_first_task;
+DSPTaskInfo *__DSP_last_task;
+DSPTaskInfo *__DSP_curr_task;
+DSPTaskInfo *__DSP_tmp_task;
+
+void __DSP_debug_printf(const char *fmt, ...) {}
+
+DSPTaskInfo *__DSPGetCurrentTask(void)
+{
+    return __DSP_curr_task;
+}

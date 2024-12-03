@@ -1,176 +1,94 @@
-#include "dolphin/pad/Padclamp.h"
+#include <dolphin.h>
+#include <dolphin/pad.h>
 
-// older version of MSL_C sqrtf. needed here instead of updated version
-static inline f32 dolsqrtf(f32 x) {
-    static const f64 _half = .5;
-    static const f64 _three = 3.0;
-    vf32 y;
-    if (x > 0.0f) {
-        f64 guess = __frsqrte((f64)x);                         // returns an approximation to
-        guess = _half * guess * (_three - guess * guess * x);  // now have 12 sig bits
-        guess = _half * guess * (_three - guess * guess * x);  // now have 24 sig bits
-        guess = _half * guess * (_three - guess * guess * x);  // now have 32 sig bits
-        y = (f32)(x * guess);
-        return y;
-    }
-    return x;
-}
+static unsigned char TriggerMin;
+static unsigned char TriggerMax;
 
-static void ClampStick(s8* px, s8* py, s8 max, s8 xy, s8 min);
-static void ClampCircle(s8* px, s8* py, s8 radius, s8 min);
+// functions
+static void ClampStick(signed char * px, signed char * py);
+static void ClampTrigger(unsigned char * trigger);
 
-/* 8034DDBC-8034DEEC 3486FC 0130+00 1/1 0/0 0/0 .text            ClampStick */
-static void ClampStick(s8* px, s8* py, s8 max, s8 xy, s8 min) {
-    int x = *px;
-    int y = *py;
+static void ClampStick(signed char * px, signed char * py) {
+    int x;
+    int y;
     int signX;
     int signY;
     int d;
 
-    if (0 <= x) {
+    x = *px;
+    y = *py;
+
+    if (x >= 0) {
         signX = 1;
     } else {
         signX = -1;
         x = -x;
     }
-
-    if (0 <= y) {
+    if (y >= 0) {
         signY = 1;
     } else {
         signY = -1;
         y = -y;
     }
-
-    if (x <= min) {
+    if (x <= 0xF) {
         x = 0;
     } else {
-        x -= min;
+        x -= 0xF;
     }
-    if (y <= min) {
+    if (y <= 0xF) {
         y = 0;
     } else {
-        y -= min;
+        y -= 0xF;
     }
-
     if (x == 0 && y == 0) {
         *px = *py = 0;
         return;
     }
-
-    if (xy * y <= xy * x) {
-        d = xy * x + (max - xy) * y;
-        if (xy * max < d) {
-            x = (s8)(xy * max * x / d);
-            y = (s8)(xy * max * y / d);
+    if ((y * 0x34) <= (x * 0x34)) {
+        d = (x * 0x34) + (y * 0x16);
+        if (d > 0xF08) {
+            x = (s8) ((x * 0xF08) / d);
+            y = (s8) ((y * 0xF08) / d);
         }
     } else {
-        d = xy * y + (max - xy) * x;
-        if (xy * max < d) {
-            x = (s8)(xy * max * x / d);
-            y = (s8)(xy * max * y / d);
+        d = (y * 0x34) + (x * 0x16);
+        if (d > 0xF08) {
+            x = (s8) ((x * 0xF08) / d);
+            y = (s8) ((y * 0xF08) / d);
         }
     }
-
-    *px = (s8)(signX * x);
-    *py = (s8)(signY * y);
+    *px = signX * x;
+    *py = signY * y;
 }
 
-/* 8034DEEC-8034E094 34882C 01A8+00 1/1 0/0 0/0 .text            ClampCircle */
-void ClampCircle(s8* px, s8* py, s8 radius, s8 min) {
-    int x = *px;
-    int y = *py;
-    int squared;
-    int length;
-
-    if (-min < x && x < min) {
-        x = 0;
-    } else if (0 < x) {
-        x -= min;
-    } else {
-        x += min;
-    }
-
-    if (-min < y && y < min) {
-        y = 0;
-    } else if (0 < y) {
-        y -= min;
-    } else {
-        y += min;
-    }
-
-    squared = x * x + y * y;
-    if (radius * radius < squared) {
-        length = dolsqrtf(squared);
-        x = (x * radius) / length;
-        y = (y * radius) / length;
-    }
-
-    *px = x;
-    *py = y;
-}
-
-/* ############################################################################################## */
-/* 803A2170-803A2180 02E7D0 000A+06 2/2 0/0 0/0 .rodata          ClampRegion */
-static const PADClampRegion ClampRegion = {
-    // Triggers
-    30,
-    180,
-
-    // Left stick
-    15,
-    72,
-    40,
-
-    // Right stick
-    15,
-    59,
-    31,
-
-    // Stick radii
-    56,
-    44,
-};
-
-inline void ClampTrigger(u8* trigger, u8 min, u8 max) {
-    if (*trigger <= min) {
+static void ClampTrigger(unsigned char * trigger) {
+    if (*trigger <= TriggerMin) {
         *trigger = 0;
+        return;
+    }
+    if (TriggerMax < *trigger) {
+        *trigger = TriggerMax;
+    }
+    *trigger -= TriggerMin;
+}
+
+void PADClamp(PADStatus * status) {
+    int i;
+
+    if (PADGetSpec() < PAD_SPEC_4) {
+        TriggerMin = 0x28;
+        TriggerMax = 0xB4;
     } else {
-        if (max < *trigger) {
-            *trigger = max;
-        }
-        *trigger -= min;
+        TriggerMin = 0x10;
+        TriggerMax = 0x9C;
     }
-}
 
-/* 8034E094-8034E1A8 3489D4 0114+00 0/0 1/1 0/0 .text            PADClamp */
-void PADClamp(PADStatus* status) {
-    int i;
-    for (i = 0; i < 4; i++, status++) {
-        if (status->error != PAD_ERR_NONE) {
-            continue;
+    for(i = 0; i < 4; i++, status++) {
+        if (status->err == PAD_ERR_NONE) {
+            ClampStick(&status->stickX, &status->stickY);
+            ClampStick(&status->substickX, &status->substickY);
+            ClampTrigger(&status->triggerLeft);
+            ClampTrigger(&status->triggerRight);
         }
-
-        ClampStick(&status->stick_x, &status->stick_y, ClampRegion.maxStick, ClampRegion.xyStick,
-                   ClampRegion.minStick);
-        ClampStick(&status->substick_x, &status->substick_y, ClampRegion.maxSubstick,
-                   ClampRegion.xySubstick, ClampRegion.minSubstick);
-        ClampTrigger(&status->trigger_left, ClampRegion.minTrigger, ClampRegion.maxTrigger);
-        ClampTrigger(&status->trigger_right, ClampRegion.minTrigger, ClampRegion.maxTrigger);
-    }
-}
-
-/* 8034E1A8-8034E2B4 348AE8 010C+00 0/0 1/1 0/0 .text            PADClampCircle */
-void PADClampCircle(PADStatus* status) {
-    int i;
-    for (i = 0; i < 4; ++i, status++) {
-        if (status->error != PAD_ERR_NONE) {
-            continue;
-        }
-
-        ClampCircle(&status->stick_x, &status->stick_y, ClampRegion.radStick, ClampRegion.minStick);
-        ClampCircle(&status->substick_x, &status->substick_y, ClampRegion.radSubstick,
-                    ClampRegion.minSubstick);
-        ClampTrigger(&status->trigger_left, ClampRegion.minTrigger, ClampRegion.maxTrigger);
-        ClampTrigger(&status->trigger_right, ClampRegion.minTrigger, ClampRegion.maxTrigger);
     }
 }

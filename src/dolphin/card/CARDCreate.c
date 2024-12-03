@@ -1,67 +1,62 @@
-#include "dolphin/card/CARDCreate.h"
-#include "dolphin/card.h"
-#include "dolphin/card/CARDPriv.h"
-#include "dolphin/dvd.h"
+#include <dolphin.h>
+#include <dolphin/card.h>
 
-static void CreateCallbackFat(s32 chan, s32 result);
+#include "card/__card.h"
 
-/* 80358108-80358238 352A48 0130+00 1/1 0/0 0/0 .text            CreateCallbackFat */
-static void CreateCallbackFat(s32 chan, s32 result) {
-    CARDControl* card;
-    CARDDir* dir;
-    CARDDir* ent;
-    CARDCallback callback;
+static void CreateCallbackFat(long chan, long result);
+
+static void CreateCallbackFat(long chan, long result) {
+    struct CARDControl * card;
+    struct CARDDir * dir;
+    struct CARDDir * ent;
+    void (* callback)(long, long);
 
     card = &__CARDBlock[chan];
     callback = card->apiCallback;
-    card->apiCallback = 0;
-    if (result < 0) {
-        goto error;
-    }
+    card->apiCallback = NULL;
 
-    dir = __CARDGetDirBlock(card);
-    ent = &dir[card->freeNo];
-    memcpy(ent->gameName, card->diskID->game_name, sizeof(ent->gameName));
-    memcpy(ent->company, card->diskID->company, sizeof(ent->company));
-    ent->permission = CARD_ATTR_PUBLIC;
-    ent->copyTimes = 0;
-    ent->startBlock = card->startBlock;
-
-    ent->bannerFormat = 0;
-    ent->iconAddr = 0xFFFFFFFF;
-    ent->iconFormat = 0;
-    ent->iconSpeed = 0;
-    ent->commentAddr = 0xFFFFFFFF;
-
-    CARDSetIconSpeed(ent, 0, CARD_STAT_SPEED_FAST);
-
-    card->fileInfo->offset = 0;
-    card->fileInfo->iBlock = ent->startBlock;
-
-    ent->time = (u32)OSTicksToSeconds(OSGetTime());
-    result = __CARDUpdateDir(chan, callback);
-    if (result < 0) {
-        goto error;
-    }
-    return;
-
-error:
-    __CARDPutControlBlock(card, result);
-    if (callback) {
-        callback(chan, result);
+    if (result >= 0) {
+        dir = __CARDGetDirBlock(card);
+        ent = &dir[card->freeNo];
+        memcpy(ent->gameName, __CARDDiskID->gameName, sizeof(ent->gameName));
+        memcpy(ent->company,  __CARDDiskID->company, sizeof(ent->company));
+        ent->permission = 4;
+        ent->copyTimes = 0;
+        ASSERTLINE(0x66, CARDIsValidBlockNo(card, card->startBlock));
+        ent->startBlock = (u16) card->startBlock;
+        ent->bannerFormat = 0;
+        ent->iconAddr = -1;
+        ent->iconFormat = 0;
+        ent->iconSpeed = 0;
+        ent->commentAddr = -1;
+        card->fileInfo->offset = 0;
+        card->fileInfo->iBlock = ent->startBlock;
+        ent->time = OSTicksToSeconds(OSGetTime());
+        result = __CARDUpdateDir(chan, callback);
+        if (result < 0) {
+            goto after;
+        }
+    } else {
+after:;
+        __CARDPutControlBlock(card, result);
+        if (callback) {
+            callback(chan, result);
+        }
     }
 }
 
-/* 80358238-80358458 352B78 0220+00 1/1 0/0 0/0 .text            CARDCreateAsync */
 s32 CARDCreateAsync(s32 chan, const char* fileName, u32 size, CARDFileInfo* fileInfo,
-                    CARDCallback callback) {
+                                        CARDCallback callback) {
     CARDControl* card;
     CARDDir* dir;
     CARDDir* ent;
-    s32 result;
     u16 fileNo;
     u16 freeNo;
     u16* fat;
+    s32 result;
+
+    ASSERTLINE(0xA4, 0 <= chan && chan < 2);
+    ASSERTLINE(0xA5, strlen(fileName) <= CARD_FILENAME_MAX);
 
     if (strlen(fileName) > (u32)CARD_FILENAME_MAX) {
         return CARD_RESULT_NAMETOOLONG;
@@ -72,7 +67,9 @@ s32 CARDCreateAsync(s32 chan, const char* fileName, u32 size, CARDFileInfo* file
         return result;
     }
 
-    if (size <= 0 || (size % card->sectorSize) != 0) {
+    ASSERTLINE(0xB1, 0 < size && (size % card->sectorSize) == 0);
+
+    if (size <= 0 || (size % card->sectorSize) != 0) {        
         return CARD_RESULT_FATAL_ERROR;
     }
 
@@ -84,14 +81,12 @@ s32 CARDCreateAsync(s32 chan, const char* fileName, u32 size, CARDFileInfo* file
             if (freeNo == (u16)-1) {
                 freeNo = fileNo;
             }
-        } else if (memcmp(ent->gameName, card->diskID->game_name, sizeof(ent->gameName)) == 0 &&
-                   memcmp(ent->company, card->diskID->company, sizeof(ent->company)) == 0 &&
-                   __CARDCompareFileName(ent, fileName))
-        {
+        } else if (memcmp(ent->gameName, __CARDDiskID->gameName, sizeof(ent->gameName)) == 0 &&
+                             memcmp(ent->company, __CARDDiskID->company, sizeof(ent->company)) == 0 &&
+                             __CARDCompareFileName(ent, fileName)) {
             return __CARDPutControlBlock(card, CARD_RESULT_EXIST);
         }
     }
-
     if (freeNo == (u16)-1) {
         return __CARDPutControlBlock(card, CARD_RESULT_NOENT);
     }
@@ -105,7 +100,7 @@ s32 CARDCreateAsync(s32 chan, const char* fileName, u32 size, CARDFileInfo* file
     card->freeNo = freeNo;
     ent = &dir[freeNo];
     ent->length = (u16)(size / card->sectorSize);
-    strncpy((char*)ent->fileName, fileName, CARD_FILENAME_MAX);
+    strncpy((char *)ent->fileName, fileName, CARD_FILENAME_MAX);
 
     card->fileInfo = fileInfo;
     fileInfo->chan = chan;
@@ -118,12 +113,11 @@ s32 CARDCreateAsync(s32 chan, const char* fileName, u32 size, CARDFileInfo* file
     return result;
 }
 
-/* 80358458-803584A0 352D98 0048+00 0/0 1/1 0/0 .text            CARDCreate */
-s32 CARDCreate(s32 chan, const char* fileName, u32 size, CARDFileInfo* fileInfo) {
-    s32 result = CARDCreateAsync(chan, fileName, size, fileInfo, __CARDSyncCallback);
+long CARDCreate(long chan, char * fileName, unsigned long size, struct CARDFileInfo * fileInfo) {
+    long result = CARDCreateAsync(chan, fileName, size, fileInfo, __CARDSyncCallback);
+
     if (result < 0) {
         return result;
     }
-
     return __CARDSync(chan);
 }

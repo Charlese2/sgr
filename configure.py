@@ -199,11 +199,8 @@ cflags_base = [
     "-multibyte",  # For Wii compilers, replace with `-enc SJIS`
     "-i include",
     f"-i build/{config.version}/include",
-    "-i src/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
-    "-i src/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common_Embedded/Math/Include",
-    "-i src/PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Include",
-    "-i src/PowerPC_EABI_Support/MSL/MSL_C++/MSL_Common/Include",
-    "-i src/PowerPC_EABI_Support/Runtime/Inc",
+    "-i include/libc",
+    "-i src/dolphin",
     f"-DVERSION={version_num}",
 ]
 
@@ -229,6 +226,12 @@ cflags_rel = [
     *cflags_base,
     "-sdata 0",
     "-sdata2 0",
+]
+
+# game flags
+cflags_game = [
+    *cflags_base,
+    #"-inline off",
 ]
 
 config.linker_version = "GC/1.3.2"
@@ -272,7 +275,7 @@ config.libs = [
     {
         "lib": "test",
         "mw_version": "GC/1.3.2",
-        "cflags": cflags_base,
+        "cflags": cflags_game,
         "progress_category": "game",
         "host": True,
         "objects": [
@@ -324,8 +327,8 @@ config.libs = [
         "cflags": cflags_runtime,
         "progress_category": "sdk",  # str | List[str]
         "objects": [
-            Object(NonMatching, "Runtime.PPCEABI.H/global_destructor_chain.c"),
-            Object(NonMatching, "Runtime.PPCEABI.H/__init_cpp_exceptions.cpp"),
+            Object(Matching, "src/Runtime/global_destructor_chain.c"),
+            Object(Matching, "src/Runtime/__init_cpp_exceptions.cpp"),
         ],
     },
     DolphinLib(
@@ -333,7 +336,11 @@ config.libs = [
         [
             Object(NonMatching, "dolphin/os/OS.c"),
             Object(NonMatching, "dolphin/os/__start.c"),
+            Object(NonMatching, "dolphin/os/OSAlarm.c"),
             Object(NonMatching, "dolphin/os/OSAlloc.c"),
+            Object(NonMatching, "dolphin/os/OSArena.c"),
+            Object(NonMatching, "dolphin/os/OSAudioSystem.c"),
+            Object(NonMatching, "dolphin/os/OSCache.c"),
         ],
     ),
     DolphinLib(
@@ -349,12 +356,59 @@ config.libs = [
             Object(NonMatching, "dolphin/ar/arq.c"),
         ]
     ),
+        DolphinLib(
+        "ax",
+        [
+            Object(NonMatching, "dolphin/ax/AX.c"),
+            Object(NonMatching, "dolphin/ax/AXAlloc.c"),
+            Object(NonMatching, "dolphin/ax/AXAux.c"),
+            Object(NonMatching, "dolphin/ax/AXCL.c"),
+            Object(NonMatching, "dolphin/ax/AXOut.c"),
+            Object(NonMatching, "dolphin/ax/AXProf.c"),
+            Object(NonMatching, "dolphin/ax/AXSPB.c"),
+            Object(NonMatching, "dolphin/ax/AXVPB.c"),
+            Object(NonMatching, "dolphin/ax/DSPCode.c"),
+        ]
+    ),
     DolphinLib(
         "dvd",
         [
             Object(NonMatching, "dolphin/dvd/dvd.c"),
             Object(NonMatching, "dolphin/dvd/dvdfs.c"),
             Object(NonMatching, "dolphin/dvd/dvdlow.c"),
+            Object(NonMatching, "dolphin/dvd/dvderror.c"),
+        ]
+    ),
+    DolphinLib(
+        "dsp",
+        [
+            Object(NonMatching, "dolphin/dsp/dsp.c"),
+        ]
+    ),
+    DolphinLib(
+        "PPCArch",
+        [
+            Object(NonMatching, "dolphin/base/PPCArch.c"),
+
+        ]
+    ),
+    DolphinLib(
+        "card",
+        [
+            Object(NonMatching, "dolphin/card/CARDBios.c"),
+            Object(NonMatching, "dolphin/card/CARDBlock.c"),
+            Object(NonMatching, "dolphin/card/CARDCheck.c"),
+            Object(NonMatching, "dolphin/card/CARDCreate.c"),
+            Object(NonMatching, "dolphin/card/CARDDir.c"),
+            Object(NonMatching, "dolphin/card/CARDFormat.c"),
+            Object(NonMatching, "dolphin/card/CARDMount.c"),
+            Object(NonMatching, "dolphin/card/CARDNet.c"),
+            Object(NonMatching, "dolphin/card/CARDOpen.c"),
+            Object(NonMatching, "dolphin/card/CARDRdwr.c"),
+            Object(NonMatching, "dolphin/card/CARDRead.c"),
+            Object(NonMatching, "dolphin/card/CARDStat.c"),
+            Object(NonMatching, "dolphin/card/CARDUnlock.c"),
+            Object(NonMatching, "dolphin/card/CARDWrite.c"),
         ]
     ),
 ]

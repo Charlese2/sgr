@@ -1,38 +1,35 @@
-#ifndef OSMUTEX_H
-#define OSMUTEX_H
+#ifndef _DOLPHIN_OSMUTEX_H_
+#define _DOLPHIN_OSMUTEX_H_
 
-#include "dolphin/os/OSThread.h"
+#include <dolphin/os/OSThread.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct OSMutex {
-    /* 0x00 */ OSThreadQueue queue;
-    /* 0x08 */ OSThread* thread;
-    /* 0x0C */ s32 count;
-    /* 0x10 */ OSMutexLink link;
-} OSMutex;  // Size: 0x18
+typedef struct OSMutex
+{
+    /*0x00*/ OSThreadQueue queue;
+    /*0x08*/ OSThread *thread;
+    /*0x0C*/ s32 count;
+    /*0x10*/ OSMutexLink link;
+} OSMutex;
 
-typedef struct OSCond {
-    OSThreadQueue queue;
-} OSCond;
+struct OSCond
+{
+    OSThreadQueue   queue;
+};
 
-void OSInitMutex(OSMutex* mutex);
-void OSLockMutex(OSMutex* mutex);
-void OSUnlockMutex(OSMutex* mutex);
-BOOL OSTryLockMutex(OSMutex* mutex);
-void OSInitCond(OSCond* cond);
-void OSWaitCond(OSCond* cond, OSMutex* mutex);
-void OSSignalCond(OSCond* cond);
-
-void __OSUnlockAllMutex(OSThread* thread);
-BOOL __OSCheckMutex(OSMutex* thread);
-BOOL __OSCheckDeadLock(OSThread* thread);
-BOOL __OSCheckMutexes(OSThread* thread);
+void OSInitMutex(struct OSMutex * mutex);
+void OSLockMutex(struct OSMutex * mutex);
+void OSUnlockMutex(struct OSMutex * mutex);
+BOOL OSTryLockMutex(struct OSMutex * mutex);
+void OSInitCond(struct OSCond * cond);
+void OSWaitCond(struct OSCond * cond, struct OSMutex * mutex);
+void OSSignalCond(struct OSCond * cond);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
-#endif /* OSMUTEX_H */
+#endif

@@ -1,49 +1,46 @@
-#ifndef GXTEXTURE_H
-#define GXTEXTURE_H
+#ifndef _DOLPHIN_GX_GXTEXTURE_H_
+#define _DOLPHIN_GX_GXTEXTURE_H_
 
-#include "dolphin/gx/GXInit.h"
+#include <dolphin/gx/GXEnum.h>
+#include <dolphin/gx/GXStruct.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-u32 GXGetTexBufferSize(u16 width, u16 height, u32 format, GXBool mipmap, u8 max_lod);
-void __GetImageTileCount(GXTexFmt format, u16 width, u16 height, u32* a, u32* b, u32* c);
-void GXInitTexObj(GXTexObj* obj, void* image, u16 width, u16 height, GXTexFmt fmt,
-                  GXTexWrapMode wrapS, GXTexWrapMode wrapT, GXBool mipmap);
-void GXInitTexObjCI(GXTexObj* obj, void* image, u16 width, u16 height, GXCITexFmt format,
-                    GXTexWrapMode wrapS, GXTexWrapMode wrapT, GXBool mipmap, u32 tlut_name);
-void GXInitTexObjLOD(GXTexObj* obj, GXTexFilter min_filter, GXTexFilter max_filter, f32 min_lod,
-                     f32 max_lod, f32 lod_bias, GXBool bias_clamp, GXBool edge_lod,
-                     GXAnisotropy aniso);
-void* GXGetTexObjData(GXTexObj* obj);
-u16 GXGetTexObjWidth(GXTexObj* obj);
-u16 GXGetTexObjHeight(GXTexObj* obj);
-GXTexFmt GXGetTexObjFmt(const GXTexObj* obj);
-GXTexWrapMode GXGetTexObjWrapS(GXTexObj* obj);
-GXTexWrapMode GXGetTexObjWrapT(GXTexObj* obj);
-GXBool GXGetTexObjMipMap(const GXTexObj* obj);
-u32 GXGetTexObjTlut(GXTexObj* obj);
-void GXLoadTexObj(GXTexObj* obj, GXTexMapID id);
-void GXInitTlutObj(GXTlutObj* obj, void* lut, GXTlutFmt fmt, u16 entry_num);
-void GXLoadTlut(GXTlutObj* obj, u32 tlut_name);
-void GXInitTexCacheRegion(GXTexRegion* region, GXBool is_32b_mipmap, u32 tmem_even,
-                          GXTexCacheSize size_even, u32 tmem_odd, GXTexCacheSize size_odd);
-void GXInitTlutRegion(GXTlutRegion* region, u32 tmem_addr, GXTlutSize tlut_size);
+typedef GXTexRegion *(*GXTexRegionCallback)(GXTexObj *t_obj, GXTexMapID id);
+typedef GXTlutRegion *(*GXTlutRegionCallback)(u32 idx);
+
+u32 GXGetTexBufferSize(u16 width, u16 height, u32 format, u8 mipmap, u8 max_lod);
+void GXInitTexObj(GXTexObj *obj, void *image_ptr, u16 width, u16 height, GXTexFmt format, GXTexWrapMode wrap_s, GXTexWrapMode wrap_t, u8 mipmap);
+void GXInitTexObjCI(GXTexObj *obj, void *image_ptr, u16 width, u16 height, GXCITexFmt format, GXTexWrapMode wrap_s, GXTexWrapMode wrap_t, u8 mipmap, u32 tlut_name);
+void GXInitTexObjLOD(GXTexObj *obj, GXTexFilter min_filt, GXTexFilter mag_filt,
+    f32 min_lod, f32 max_lod, f32 lod_bias, GXBool bias_clamp,
+    GXBool do_edge_lod, GXAnisotropy max_aniso);
+void GXInitTexObjData(GXTexObj *obj, void *image_ptr);
+void GXInitTexObjWrapMode(GXTexObj *obj, GXTexWrapMode s, GXTexWrapMode t);
+void GXInitTexObjTlut(GXTexObj *obj, u32 tlut_name);
+void GXInitTexObjUserData(GXTexObj *obj, void *user_data);
+void *GXGetTexObjUserData(const GXTexObj *obj);
+void GXLoadTexObjPreLoaded(GXTexObj *obj, GXTexRegion *region, GXTexMapID id);
+void GXLoadTexObj(GXTexObj *obj, GXTexMapID id);
+void GXInitTlutObj(GXTlutObj *tlut_obj, void *lut, GXTlutFmt fmt, u16 n_entries);
+void GXLoadTlut(GXTlutObj *tlut_obj, u32 tlut_name);
+void GXInitTexCacheRegion(GXTexRegion *region, u8 is_32b_mipmap, u32 tmem_even, GXTexCacheSize size_even, u32 tmem_odd, GXTexCacheSize size_odd);
+void GXInitTexPreLoadRegion(GXTexRegion *region, u32 tmem_even, u32 size_even, u32 tmem_odd, u32 size_odd);
+void GXInitTlutRegion(GXTlutRegion *region, u32 tmem_addr, GXTlutSize tlut_size);
+void GXInvalidateTexRegion(GXTexRegion *region);
 void GXInvalidateTexAll(void);
+GXTexRegionCallback GXSetTexRegionCallback(GXTexRegionCallback f);
+GXTlutRegionCallback GXSetTlutRegionCallback(GXTlutRegionCallback f);
+void GXPreLoadEntireTexture(GXTexObj *tex_obj, GXTexRegion *region);
+void GXSetTexCoordScaleManually(GXTexCoordID coord, u8 enable, u16 ss, u16 ts);
+void GXSetTexCoordCylWrap(GXTexCoordID coord, u8 s_enable, u8 t_enable);
+void GXSetTexCoordBias(GXTexCoordID coord, u8 s_enable, u8 t_enable);
 
-GXTexRegionCallback GXSetTexRegionCallback(GXTexRegionCallback callback);
-GXTlutRegionCallback GXSetTlutRegionCallback(GXTlutRegionCallback callback);
-
-void GXSetTexCoordScaleManually(GXTexCoordID coord, GXBool enable, u16 s_scale, u16 t_scale);
-void GXSetTexCoordBias(GXTexCoordID coord, GXBool s_enable, GXBool t_enable);
-
-void __SetSURegs(u32 texImgIndex, u32 setUpRegIndex);
-void __GXSetSUTexRegs();
-void __GXSetTmemConfig(u32);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
-#endif /* GXTEXTURE_H */
+#endif

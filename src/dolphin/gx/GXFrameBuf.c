@@ -1,638 +1,515 @@
-#include "dolphin/gx/GXFrameBuf.h"
-#include "dolphin/gx/GX.h"
+#include <dolphin/gx.h>
+#include <dolphin/os.h>
+#include <macros.h>
+
+#include "__gx.h"
+
+GXRenderModeObj GXNtsc240Ds = {
+    1,
+    640, 240, 240,
+    40, 0,
+    640, 480,
+    0,
+    0,
+    0,
+    { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 },
+    { 0, 0, 21, 22, 21, 0, 0 }
+};
+
+GXRenderModeObj GXNtsc240DsAa = {
+    1, 640, 240, 240, 40, 0, 640, 480, 0, 0, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 0, 0, 21, 22, 21, 0, 0 }
+};
+
+GXRenderModeObj GXNtsc240Int = {
+    0, 640, 240, 240, 40, 0, 640, 480, 0, 1, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 }
+};
+
+GXRenderModeObj GXNtsc240IntAa = {
+    0, 640, 240, 240, 40, 0, 640, 480, 0, 1, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 0, 0, 21, 22, 21, 0, 0 }
+};
 
 GXRenderModeObj GXNtsc480IntDf = {
-    VI_TVMODE_NTSC_INT,
-    640,
-    480,
-    480,
-    40,
-    0,
-    640,
-    480,
-    VI_XFBMODE_DF,
-    GX_FALSE,
-    GX_FALSE,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    8,
-    8,
-    10,
-    12,
-    10,
-    8,
-    8,
+    0, 640, 480, 480, 40, 0, 640, 480, 1, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 8, 8, 10, 12, 10, 8, 8 }
 };
 
 GXRenderModeObj GXNtsc480Int = {
-    VI_TVMODE_NTSC_INT,
-    640,
-    480,
-    480,
-    40,
-    0,
-    640,
-    480,
-    VI_XFBMODE_DF,
-    GX_FALSE,
-    GX_FALSE,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    0,
-    0,
-    21,
-    22,
-    21,
-    0,
-    0,
+    0, 640, 480, 480, 40, 0, 640, 480, 1, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 }
 };
 
-GXRenderModeObj GXMpal480IntDf = {
-    VI_TVMODE_MPAL_INT,
-    640,
-    480,
-    480,
-    40,
-    0,
-    640,
-    480,
-    VI_XFBMODE_DF,
-    GX_FALSE,
-    GX_FALSE,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    8,
-    8,
-    10,
-    12,
-    10,
-    8,
-    8,
+GXRenderModeObj GXNtsc480IntAa = {
+    0, 640, 242, 480, 40, 0, 640, 480, 1, 0, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 4, 8, 12, 16, 12, 8, 4 }
 };
 
-GXRenderModeObj GXPal528IntDf = {
-    VI_TVMODE_PAL_INT,
-    640,
-    528,
-    528,
-    40,
-    23,
-    640,
-    528,
-    VI_XFBMODE_DF,
-    GX_FALSE,
-    GX_FALSE,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    8,
-    8,
-    10,
-    12,
-    10,
-    8,
-    8,
+GXRenderModeObj GXNtsc480Prog = {
+    2, 640, 480, 480, 40, 0, 640, 480, 0, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 }
 };
 
-GXRenderModeObj GXEurgb60Hz480IntDf = {
-    VI_TVMODE_EURGB60_INT,
-    640,
-    480,
-    480,
-    40,
-    0,
-    640,
-    480,
-    VI_XFBMODE_DF,
-    GX_FALSE,
-    GX_FALSE,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    6,
-    8,
-    8,
-    10,
-    12,
-    10,
-    8,
-    8,
+GXRenderModeObj GXNtsc480ProgAa = {
+    2, 640, 242, 480, 40, 0, 640, 480, 0, 0, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 4, 8, 12, 16, 12, 8, 4 }
 };
 
-void GXSetDispCopySrc(u16 left, u16 top, u16 width, u16 height) {
-    gx->cpDispSrc = 0;
-    GX_BITFIELD_SET(gx->cpDispSrc, 22, 10, left);
-    GX_BITFIELD_SET(gx->cpDispSrc, 12, 10, top);
-    GX_BITFIELD_SET(gx->cpDispSrc, 0, 8, 73);
+GXRenderModeObj GXMpal240Ds = {9, 640, 240, 240, 40, 0, 640, 480, 0, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXMpal240DsAa = {9, 640, 240, 240, 40, 0, 640, 480, 0, 0, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXMpal240Int = {8, 640, 240, 240, 40, 0, 640, 480, 0, 1, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXMpal240IntAa = {8, 640, 240, 240, 40, 0, 640, 480, 0, 1, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXMpal480IntDf = {8, 640, 480, 480, 40, 0, 640, 480, 1, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 8, 8, 10, 12, 10, 8, 8 } };
+GXRenderModeObj GXMpal480Int = {8, 640, 480, 480, 40, 0, 640, 480, 1, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXMpal480IntAa = {8, 640, 242, 480, 40, 0, 640, 480, 1, 0, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 4, 8, 12, 16, 12, 8, 4 } };
+GXRenderModeObj GXPal264Ds = {5, 640, 264, 264, 40, 23, 640, 528, 0, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXPal264DsAa = {5, 640, 264, 264, 40, 23, 640, 528, 0, 0, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXPal264Int = {4, 640, 264, 264, 40, 23, 640, 528, 0, 1, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXPal264IntAa = {4, 640, 264, 264, 40, 23, 640, 528, 0, 1, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXPal528IntDf = {4, 640, 528, 528, 40, 23, 640, 528, 1, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 8, 8, 10, 12, 10, 8, 8 } };
+GXRenderModeObj GXPal528Int = {4, 640, 528, 528, 40, 23, 640, 528, 1, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 } };
+GXRenderModeObj GXPal524IntAa = {4, 640, 264, 524, 40, 23, 640, 524, 1, 0, 1, { 3, 2, 9, 6, 3, 10, 3, 2, 9, 6, 3, 10, 9, 2, 3, 6, 9, 10, 9, 2, 3, 6, 9, 10 }, { 4, 8, 12, 16, 12, 8, 4 } };
+GXRenderModeObj GXRmHW = {1, 320, 240, 240, 40, 0, 640, 480, 0, 0, 0, { 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 }, { 0, 0, 21, 22, 21, 0, 0 } };
 
-    gx->cpDispSize = 0;
-    GX_BITFIELD_SET(gx->cpDispSize, 22, 10, width - 1);
-    GX_BITFIELD_SET(gx->cpDispSize, 12, 10, height - 1);
-    GX_BITFIELD_SET(gx->cpDispSize, 0, 8, 74);
-}
+void GXAdjustForOverscan(GXRenderModeObj *rmin, GXRenderModeObj *rmout, u16 hor, u16 ver)
+{
+    unsigned short hor2 = hor * 2;
+    unsigned short ver2 = ver * 2;
+    unsigned long verf;
 
-void GXSetTexCopySrc(u16 left, u16 top, u16 width, u16 height) {
-    gx->cpTexSrc = 0;
-    GX_BITFIELD_SET(gx->cpTexSrc, 22, 10, left);
-    GX_BITFIELD_SET(gx->cpTexSrc, 12, 10, top);
-    GX_BITFIELD_SET(gx->cpTexSrc, 0, 8, 0x49);
-    gx->cpTexSize = 0;
-    GX_BITFIELD_SET(gx->cpTexSize, 22, 10, width - 1);
-    GX_BITFIELD_SET(gx->cpTexSize, 12, 10, height - 1);
-    GX_BITFIELD_SET(gx->cpTexSize, 0, 8, 0x4A);
-}
-
-void GXSetDispCopyDst(u16 arg0, u16 arg1) {
-    s32 val = (s32)((arg0 << 1) & 0xFFFE) >> 5;
-    gx->cpDispStride = 0;
-    GX_BITFIELD_SET(gx->cpDispStride, 22, 10, val);
-    GX_BITFIELD_SET(gx->cpDispStride, 0, 8, 0x4D);
-}
-
-void GXSetTexCopyDst(u16 width, u16 height, GXTexFmt format, GXBool useMIPmap) {
-    u32 sp20, sp1C, sp18;
-    u32 value;
-    u8 depthRelated;
-
-    gx->cpTexZ = GX_NONE;
-
-    depthRelated = format & 0xf;
-    if (format == GX_TF_Z16) {
-        depthRelated = 0xb;
+    if (rmin != rmout) {
+        *rmout = *rmin;
     }
 
-    switch (format) {
+    rmout->fbWidth = rmin->fbWidth - hor2;
+    verf = (ver2 * rmin->efbHeight) / (u32)rmin->xfbHeight;
+    rmout->efbHeight = rmin->efbHeight - verf;
+    if (rmin->xFBmode == VI_XFBMODE_SF && (rmin->viTVmode & 2) != 2) {
+        rmout->xfbHeight = rmin->xfbHeight - ver;
+    } else {
+        rmout->xfbHeight = rmin->xfbHeight - ver2;
+    }
+    rmout->viWidth = rmin->viWidth - hor2;
+    rmout->viHeight = rmin->viHeight - ver2;
+    rmout->viXOrigin = rmin->viXOrigin + hor;
+    rmout->viYOrigin = rmin->viYOrigin + ver;
+}
+
+void GXSetDispCopySrc(u16 left, u16 top, u16 wd, u16 ht)
+{
+    CHECK_GXBEGIN(0x3B9, "GXSetDispCopySrc");
+
+    gx->cpDispSrc = 0;
+    SET_REG_FIELD(0x3BC, gx->cpDispSrc, 10,  0, left);
+    SET_REG_FIELD(0x3BD, gx->cpDispSrc, 10, 10, top);
+    SET_REG_FIELD(0x3BE, gx->cpDispSrc,  8, 24, 0x49);
+
+    gx->cpDispSize = 0;
+    SET_REG_FIELD(0x3C1, gx->cpDispSize, 10,  0, wd - 1);
+    SET_REG_FIELD(0x3C2, gx->cpDispSize, 10, 10, ht - 1);
+    SET_REG_FIELD(0x3C3, gx->cpDispSize,  8, 24, 0x4A);
+}
+
+
+void GXSetTexCopySrc(u16 left, u16 top, u16 wd, u16 ht)
+{
+    CHECK_GXBEGIN(0x3D5, "GXSetTexCopySrc");
+
+    gx->cpTexSrc = 0;
+    SET_REG_FIELD(0x3D8, gx->cpTexSrc, 10,  0, left);
+    SET_REG_FIELD(0x3D9, gx->cpTexSrc, 10, 10, top);
+    SET_REG_FIELD(0x3DA, gx->cpTexSrc,  8, 24, 0x49);
+
+    gx->cpTexSize = 0;
+    SET_REG_FIELD(0x3DD, gx->cpTexSize, 10,  0, wd - 1);
+    SET_REG_FIELD(0x3DE, gx->cpTexSize, 10, 10, ht - 1);
+    SET_REG_FIELD(0x3DF, gx->cpTexSize,  8, 24, 0x4A);
+}
+
+void GXSetDispCopyDst(u16 wd, u16 ht)
+{
+    u16 stride;
+
+    ASSERTMSGLINE(0x3F3, (wd & 0xF) == 0, "GXSetDispCopyDst: Width must be a multiple of 16");
+    CHECK_GXBEGIN(0x3F4, "GXSetDispCopyDst");
+
+    stride = (int)wd * 2;
+    gx->cpDispStride = 0;
+    SET_REG_FIELD(0x3FA, gx->cpDispStride, 10,  0, (stride >> 5) );
+    SET_REG_FIELD(0x3FB, gx->cpDispStride,  8, 24, 0x4D);
+}
+
+void GXSetTexCopyDst(u16 wd, u16 ht, GXTexFmt fmt, GXBool mipmap)
+{
+    u32 rowTiles;
+    u32 colTiles;
+    u32 cmpTiles;
+    u32 peTexFmt;
+    u32 peTexFmtH;
+
+    CHECK_GXBEGIN(0x415, "GXSetTexCopyDst");
+
+    gx->cpTexZ = 0;
+    peTexFmt = fmt & 0xF;
+    ASSERTMSGLINEV(0x434, peTexFmt < 13, "%s: invalid texture format", "GXSetTexCopyDst");
+
+    if (fmt == GX_TF_Z16) {
+        peTexFmt = 0xB;
+    }
+    switch (fmt) {
     case GX_TF_I4:
     case GX_TF_I8:
     case GX_TF_IA4:
     case GX_TF_IA8:
-    case GX_CTF_A8:
-        GX_SET_REG(gx->cpTex, 3, 15, 16);
+    case GX_CTF_YUVA8:
+        SET_REG_FIELD(0, gx->cpTex, 2, 15, 3);
         break;
     default:
-        GX_SET_REG(gx->cpTex, 2, 15, 16);
+        SET_REG_FIELD(0, gx->cpTex, 2, 15, 2);
         break;
     }
 
-    gx->cpTexZ = (format & 0x10) == 0x10;
+    gx->cpTexZ = (fmt & _GX_TF_ZTF) == _GX_TF_ZTF;
+    peTexFmtH = (peTexFmt >> 3) & 1;
+    !peTexFmt;
+    SET_REG_FIELD(0x44B, gx->cpTex, 1, 3, peTexFmtH);
+    peTexFmt = peTexFmt & 7;
+    __GetImageTileCount(fmt, wd, ht, &rowTiles, &colTiles, &cmpTiles);
 
-    value = depthRelated >> 3;
-
-    GX_SET_REG(gx->cpTex, value, 28, 28);
-
-    depthRelated &= 7;
-
-    __GetImageTileCount(format, width, height, &sp20, &sp1C, &sp18);
-
-    gx->cpTexStride = GX_NONE;
-    GX_SET_REG(gx->cpTexStride, sp20 * sp18, 22, 31);
-    GX_SET_REG(gx->cpTexStride, 0x4D, 0, 7);
-
-    GX_SET_REG(gx->cpTex, useMIPmap, 22, 22);
-    GX_SET_REG(gx->cpTex, depthRelated, 25, 27);
+    gx->cpTexStride = 0;
+    SET_REG_FIELD(0x454, gx->cpTexStride, 10,  0, rowTiles * cmpTiles);
+    SET_REG_FIELD(0x455, gx->cpTexStride,  8, 24, 0x4D);
+    SET_REG_FIELD(0x456, gx->cpTex, 1, 9, mipmap);
+    SET_REG_FIELD(0x457, gx->cpTex, 3, 4, peTexFmt);
 }
 
-void GXSetDispCopyFrame2Field(GXCopyMode arg0) {
-    GX_BITFIELD_SET(gx->cpDisp, 18, 2, arg0);
-    GX_BITFIELD_SET(gx->cpTex, 18, 2, 0);
+void GXSetDispCopyFrame2Field(GXCopyMode mode)
+{
+    CHECK_GXBEGIN(0x468, "GXSetDispCopyFrame2Field");
+    SET_REG_FIELD(0x469, gx->cpDisp, 2, 12, mode);
+    SET_REG_FIELD(0x46A, gx->cpTex, 2, 12, 0);
 }
 
-// clang-format off
-#define INSERT_FIELD(reg, value, nbits, shift)                                 \
-    (reg) = ((u32) (reg) & ~(((1 << (nbits)) - 1) << (shift))) |               \
-            ((u32) (value) << (shift));
-// clang-format on
+void GXSetCopyClamp(GXFBClamp clamp)
+{
+    u8 clmpB;
+    u8 clmpT;
 
-void GXSetCopyClamp(GXFBClamp clamp) {
-    u8 isTop = (clamp & GX_CLAMP_TOP) == GX_CLAMP_TOP;
-    u8 isBottom = (clamp & GX_CLAMP_BOTTOM) == GX_CLAMP_BOTTOM;
-    gx->cpDisp = __rlwimi(gx->cpDisp, isTop, 0, 31, 31);
-    gx->cpDisp = __rlwimi(gx->cpDisp, isBottom, 1, 30, 30);
-    gx->cpTex = __rlwimi(gx->cpTex, isTop, 0, 31, 31);
-    gx->cpTex = __rlwimi(gx->cpTex, isBottom, 1, 30, 30);
+    CHECK_GXBEGIN(0x47D, "GXSetCopyClamp");
+
+    clmpT = (clamp & 1) == 1;
+    clmpB = (clamp & 2) == 2;
+
+    SET_REG_FIELD(0x481, gx->cpDisp, 1, 0, clmpT);
+    SET_REG_FIELD(0x482, gx->cpDisp, 1, 1, clmpB);
+
+    SET_REG_FIELD(0x484, gx->cpTex, 1, 0, clmpT);
+    SET_REG_FIELD(0x485, gx->cpTex, 1, 1, clmpB);
 }
 
-static u32 __GXGetNumXfbLines(u32 height, u32 scale) {
-    u32 numLines;
-    u32 actualHeight;
-    u32 newScale;
-
-    numLines = (height - 1) * 0x100;
-    actualHeight = (numLines / scale) + 1;
-
-    newScale = scale;
-
-    if (newScale > 0x80 && newScale < 0x100) {
-        while (newScale % 2 == 0) {
-            newScale /= 2;
-        }
-
-        if (height % newScale == 0) {
-            actualHeight++;
-        }
-    }
-
-    if (actualHeight > 0x400) {
-        actualHeight = 0x400;
-    }
-
-    return actualHeight;
-}
-
-u16 GXGetNumXfbLines(const u16 efbHeight, f32 yScale) {
-    u32 scale = (u32)(256.0f / yScale) & 0x1FF;
-
-    return __GXGetNumXfbLines(efbHeight, scale);
-}
-
-f32 GXGetYScaleFactor(u16 efbHeight, u16 xfbHeight) {
-    u32 scale;
-    u32 height1;
-    u32 height2;
-    f32 scale2;
-    f32 scale1;
-
-    height1 = xfbHeight;
-    scale1 = (f32)xfbHeight / (f32)efbHeight;
-    scale = (u32)(256.0f / scale1) & 0x1FF;
-    height2 = __GXGetNumXfbLines(efbHeight, scale);
-
-    while (height2 > xfbHeight) {
-        height1--;
-        scale1 = (f32)height1 / (f32)efbHeight;
-        scale = (u32)(256.0f / scale1) & 0x1FF;
-        height2 = __GXGetNumXfbLines(efbHeight, scale);
-    }
-
-    scale2 = scale1;
-    while (height2 < xfbHeight) {
-        scale2 = scale1;
-        height1++;
-        scale1 = (f32)height1 / (f32)efbHeight;
-        scale = (u32)(256.0f / scale1) & 0x1FF;
-        height2 = __GXGetNumXfbLines(efbHeight, scale);
-    }
-
-    return scale2;
-}
-
-u32 GXSetDispCopyYScale(f32 vertScale) {
-    u32 scale;
-    GXBool check;
-    u32 height;
+u32 GXSetDispCopyYScale(f32 vscale)
+{
+    u8 enable;
+    u32 iScale;
+    f32 fScale;
+    u32 ht;
     u32 reg;
 
-    scale = (u32)(256.0f / vertScale) & 0x1FF;
-    check = (scale != 0x100);
+    CHECK_GXBEGIN(0x49B, "GXSetDispCopyYScale");
+
+    ASSERTMSGLINE(0x49D, vscale >= 1.0f, "GXSetDispCopyYScale: Vertical scale must be >= 1.0");
+
+    iScale = (u32) (256.0f / vscale) & 0x1FF;
+    fScale = 256.0f / (f32) iScale;
+    enable = (iScale != 256);
 
     reg = 0;
-    GX_SET_REG(reg, scale, 23, 31);
-    GX_SET_REG(reg, 0x4E, 0, 7);
-    GX_BP_LOAD_REG(reg);
-    gx->bpSentNot = GX_FALSE;
-
-    GX_SET_REG(gx->cpDisp, check, 21, 21);
-
-    height = (gx->cpDispSize >> 10 & 0x3FF) + 1;
-
-    return __GXGetNumXfbLines(height, scale);
+    SET_REG_FIELD(0x4A6, reg, 9, 0, iScale);
+    SET_REG_FIELD(0x4A7, reg, 8, 24, 0x4E);
+    GX_WRITE_RAS_REG(reg);
+    gx->bpSent = 1;
+    SET_REG_FIELD(0x4AB, gx->cpDisp, 1, 10, enable);
+    ht = GET_REG_FIELD(gx->cpDispSize, 10, 10) + 1;
+    return ht * fScale;
 }
 
-void GXSetCopyClear(GXColor color, u32 clear_z) {
-    u32 r6 = 0;
-    GX_BITFIELD_SET(r6, 24, 8, color.r);
-    GX_BITFIELD_SET(r6, 16, 8, color.a);
-    GX_BITFIELD_SET(r6, 0, 8, 0x4f);
-    GXFIFO.u8 = 0x61;
-    GXFIFO.u32 = r6;
-
-    r6 = 0;
-    GX_BITFIELD_SET(r6, 24, 8, color.b);
-    GX_BITFIELD_SET(r6, 16, 8, color.g);
-    GX_BITFIELD_SET(r6, 0, 8, 0x50);
-    GXFIFO.u8 = 0x61;
-    GXFIFO.u32 = r6;
-
-    r6 = 0;
-    GX_BITFIELD_SET(r6, 8, 24, clear_z);
-    GX_BITFIELD_SET(r6, 0, 8, 0x51);
-    GXFIFO.u8 = 0x61;
-    GXFIFO.u32 = r6;
-
-    gx->bpSentNot = 0;
-}
-
-void GXSetCopyFilter(GXBool useAA, u8 samplePattern[12][2], GXBool doVertFilt, u8 vFilt[7]) {
-    u32 vals[4];
-    u32 unk1;
-    u32 unk2;
-
-    if (useAA) {
-        vals[0] = 0;
-        GX_SET_REG(vals[0], samplePattern[0][0], 28, 31);
-        GX_SET_REG(vals[0], samplePattern[0][1], 24, 27);
-        GX_SET_REG(vals[0], samplePattern[1][0], 20, 23);
-        GX_SET_REG(vals[0], samplePattern[1][1], 16, 19);
-        GX_SET_REG(vals[0], samplePattern[2][0], 12, 15);
-        GX_SET_REG(vals[0], samplePattern[2][1], 8, 11);
-        GX_SET_REG(vals[0], 1, 0, 7);
-
-        vals[1] = 0;
-        GX_SET_REG(vals[1], samplePattern[3][0], 28, 31);
-        GX_SET_REG(vals[1], samplePattern[3][1], 24, 27);
-        GX_SET_REG(vals[1], samplePattern[4][0], 20, 23);
-        GX_SET_REG(vals[1], samplePattern[4][1], 16, 19);
-        GX_SET_REG(vals[1], samplePattern[5][0], 12, 15);
-        GX_SET_REG(vals[1], samplePattern[5][1], 8, 11);
-        GX_SET_REG(vals[1], 2, 0, 7);
-
-        vals[2] = 0;
-        GX_SET_REG(vals[2], samplePattern[6][0], 28, 31);
-        GX_SET_REG(vals[2], samplePattern[6][1], 24, 27);
-        GX_SET_REG(vals[2], samplePattern[7][0], 20, 23);
-        GX_SET_REG(vals[2], samplePattern[7][1], 16, 19);
-        GX_SET_REG(vals[2], samplePattern[8][0], 12, 15);
-        GX_SET_REG(vals[2], samplePattern[8][1], 8, 11);
-        GX_SET_REG(vals[2], 3, 0, 7);
-
-        vals[3] = 0;
-        GX_SET_REG(vals[3], samplePattern[9][0], 28, 31);
-        GX_SET_REG(vals[3], samplePattern[9][1], 24, 27);
-        GX_SET_REG(vals[3], samplePattern[10][0], 20, 23);
-        GX_SET_REG(vals[3], samplePattern[10][1], 16, 19);
-        GX_SET_REG(vals[3], samplePattern[11][0], 12, 15);
-        GX_SET_REG(vals[3], samplePattern[11][1], 8, 11);
-        GX_SET_REG(vals[3], 4, 0, 7);
-    } else {
-        vals[0] = 0x01666666;
-        vals[1] = 0x02666666;
-        vals[2] = 0x03666666;
-        vals[3] = 0x04666666;
-    }
-
-    GX_BP_LOAD_REG(vals[0]);
-    GX_BP_LOAD_REG(vals[1]);
-    GX_BP_LOAD_REG(vals[2]);
-    GX_BP_LOAD_REG(vals[3]);
-
-    unk1 = 0;
-    GX_SET_REG(unk1, 0x53, 0, 7);
-    unk2 = 0;
-    GX_SET_REG(unk2, 0x54, 0, 7);
-
-    if (doVertFilt) {
-        GX_SET_REG(unk1, vFilt[0], 26, 31);
-        GX_SET_REG(unk1, vFilt[1], 20, 25);
-        GX_SET_REG(unk1, vFilt[2], 14, 19);
-        GX_SET_REG(unk1, vFilt[3], 8, 13);
-        GX_SET_REG(unk2, vFilt[4], 26, 31);
-        GX_SET_REG(unk2, vFilt[5], 20, 25);
-        GX_SET_REG(unk2, vFilt[6], 14, 19);
-
-    } else {
-        GX_SET_REG(unk1, 0, 26, 31);
-        GX_SET_REG(unk1, 0, 20, 25);
-        GX_SET_REG(unk1, 21, 14, 19);
-        GX_SET_REG(unk1, 22, 8, 13);
-        GX_SET_REG(unk2, 21, 26, 31);
-        GX_SET_REG(unk2, 0, 20, 25);
-        GX_SET_REG(unk2, 0, 14, 19);
-    }
-
-    GX_BP_LOAD_REG(unk1);
-    GX_BP_LOAD_REG(unk2);
-
-    gx->bpSentNot = GX_FALSE;
-}
-
-void GXSetDispCopyGamma(GXGamma gamma) {
-    GX_BITFIELD_SET(gx->cpDisp, 23, 2, gamma);
-}
-
-void GXCopyDisp(void* dest, GXBool doClear) {
+void GXSetCopyClear(GXColor clear_clr, u32 clear_z)
+{
     u32 reg;
-    u32 newDest;
-    GXBool check;
 
-    if (doClear) {
+    CHECK_GXBEGIN(0x4C4, "GXSetCopyClear");
+    ASSERTMSGLINE(0x4C6, clear_z <= 0xFFFFFF, "GXSetCopyClear: Z clear value is out of range");
+
+    reg = 0;
+    SET_REG_FIELD(0x4C9, reg, 8, 0, clear_clr.r);
+    SET_REG_FIELD(0x4CA, reg, 8, 8, clear_clr.a);
+    SET_REG_FIELD(0x4CB, reg, 8, 24, 0x4F);
+    GX_WRITE_RAS_REG(reg);
+
+    reg = 0;
+    SET_REG_FIELD(0x4CF, reg, 8, 0, clear_clr.b);
+    SET_REG_FIELD(0x4D0, reg, 8, 8, clear_clr.g);
+    SET_REG_FIELD(0x4D1, reg, 8, 24, 0x50);
+    GX_WRITE_RAS_REG(reg);
+
+    reg = 0;
+    SET_REG_FIELD(0x4D5, reg, 24, 0, clear_z);
+    SET_REG_FIELD(0x4D6, reg, 8, 24, 0x51);
+    GX_WRITE_RAS_REG(reg);
+    gx->bpSent = 1;
+}
+
+void GXSetCopyFilter(GXBool aa, const u8 sample_pattern[12][2], GXBool vf, const u8 vfilter[7]) {
+    u32 msLoc[4];
+    u32 coeff0;
+    u32 coeff1;
+
+    CHECK_GXBEGIN(0x4F1, "GXSetCopyFilter");
+
+    if (aa != 0) {
+        msLoc[0] = 0;
+        SET_REG_FIELD(0x4F5, msLoc[0], 4,  0, sample_pattern[0][0]);
+        SET_REG_FIELD(0x4F6, msLoc[0], 4,  4, sample_pattern[0][1]);
+        SET_REG_FIELD(0x4F7, msLoc[0], 4,  8, sample_pattern[1][0]);
+        SET_REG_FIELD(0x4F8, msLoc[0], 4, 12, sample_pattern[1][1]);
+        SET_REG_FIELD(0x4F9, msLoc[0], 4, 16, sample_pattern[2][0]);
+        SET_REG_FIELD(0x4FA, msLoc[0], 4, 20, sample_pattern[2][1]);
+        SET_REG_FIELD(0x4FB, msLoc[0], 8, 24, 1);
+
+        msLoc[1] = 0;
+        SET_REG_FIELD(0x4FE, msLoc[1], 4,  0, sample_pattern[3][0]);
+        SET_REG_FIELD(0x4FF, msLoc[1], 4,  4, sample_pattern[3][1]);
+        SET_REG_FIELD(0x500, msLoc[1], 4,  8, sample_pattern[4][0]);
+        SET_REG_FIELD(0x501, msLoc[1], 4, 12, sample_pattern[4][1]);
+        SET_REG_FIELD(0x502, msLoc[1], 4, 16, sample_pattern[5][0]);
+        SET_REG_FIELD(0x503, msLoc[1], 4, 20, sample_pattern[5][1]);
+        SET_REG_FIELD(0x504, msLoc[1], 8, 24, 2);
+
+        msLoc[2] = 0;
+        SET_REG_FIELD(0x507, msLoc[2], 4,  0, sample_pattern[6][0]);
+        SET_REG_FIELD(0x508, msLoc[2], 4,  4, sample_pattern[6][1]);
+        SET_REG_FIELD(0x509, msLoc[2], 4,  8, sample_pattern[7][0]);
+        SET_REG_FIELD(0x50A, msLoc[2], 4, 12, sample_pattern[7][1]);
+        SET_REG_FIELD(0x50B, msLoc[2], 4, 16, sample_pattern[8][0]);
+        SET_REG_FIELD(0x50C, msLoc[2], 4, 20, sample_pattern[8][1]);
+        SET_REG_FIELD(0x50D, msLoc[2], 8, 24, 3);
+
+        msLoc[3] = 0;
+        SET_REG_FIELD(0x510, msLoc[3], 4,  0, sample_pattern[9][0]);
+        SET_REG_FIELD(0x511, msLoc[3], 4,  4, sample_pattern[9][1]);
+        SET_REG_FIELD(0x512, msLoc[3], 4,  8, sample_pattern[10][0]);
+        SET_REG_FIELD(0x513, msLoc[3], 4, 12, sample_pattern[10][1]);
+        SET_REG_FIELD(0x514, msLoc[3], 4, 16, sample_pattern[11][0]);
+        SET_REG_FIELD(0x515, msLoc[3], 4, 20, sample_pattern[11][1]);
+        SET_REG_FIELD(0x516, msLoc[3], 8, 24, 4);
+    } else {
+        msLoc[0] = 0x01666666;
+        msLoc[1] = 0x02666666;
+        msLoc[2] = 0x03666666;
+        msLoc[3] = 0x04666666;
+    }
+    GX_WRITE_RAS_REG(msLoc[0]);
+    GX_WRITE_RAS_REG(msLoc[1]);
+    GX_WRITE_RAS_REG(msLoc[2]);
+    GX_WRITE_RAS_REG(msLoc[3]);
+
+    coeff0 = 0;
+    SET_REG_FIELD(0, coeff0, 8, 24, 0x53);
+    coeff1 = 0;
+    SET_REG_FIELD(0, coeff1, 8, 24, 0x54);
+    if (vf != 0) {
+        SET_REG_FIELD(0x52E, coeff0, 6,  0, vfilter[0]);
+        SET_REG_FIELD(0x52F, coeff0, 6,  6, vfilter[1]);
+        SET_REG_FIELD(0x530, coeff0, 6, 12, vfilter[2]);
+        SET_REG_FIELD(0x531, coeff0, 6, 18, vfilter[3]);
+        SET_REG_FIELD(0x532, coeff1, 6,  0, vfilter[4]);
+        SET_REG_FIELD(0x533, coeff1, 6,  6, vfilter[5]);
+        SET_REG_FIELD(0x534, coeff1, 6, 12, vfilter[6]);
+    } else {
+        SET_REG_FIELD(0, coeff0, 6,  0, 0);
+        SET_REG_FIELD(0, coeff0, 6,  6, 0);
+        SET_REG_FIELD(0, coeff0, 6, 12, 21);
+        SET_REG_FIELD(0, coeff0, 6, 18, 22);
+        SET_REG_FIELD(0, coeff1, 6,  0, 21);
+        SET_REG_FIELD(0, coeff1, 6,  6,  0);
+        SET_REG_FIELD(0, coeff1, 6, 12,  0);
+    }
+    GX_WRITE_RAS_REG(coeff0);
+    GX_WRITE_RAS_REG(coeff1);
+    gx->bpSent = 1;
+}
+
+void GXSetDispCopyGamma(GXGamma gamma)
+{
+    CHECK_GXBEGIN(0x555, "GXSetDispCopyGamma");
+    SET_REG_FIELD(0x556, gx->cpDisp, 2, 7, gamma);
+}
+
+#if DEBUG
+static void __GXVerifCopy(void *dest, u8 clear)
+{
+    u8 clmpT;
+    u8 clmpB;
+    u32 x0;
+    u32 y0;
+    u32 dx;
+    u32 dy;
+
+    CHECK_GXBEGIN(0x56A, "GXCopyDisp");
+
+    clmpT = GET_REG_FIELD(gx->cpDisp, 1, 0);
+    clmpB = (u32)GET_REG_FIELD(gx->cpDisp, 1, 1);
+    x0 = GET_REG_FIELD(gx->cpDispSrc, 10, 0);
+    dx = GET_REG_FIELD(gx->cpDispSize, 10, 0) + 1;
+    y0 = GET_REG_FIELD(gx->cpDispSrc, 10, 10);
+    dy = GET_REG_FIELD(gx->cpDispSize, 10, 10) + 1;
+
+    ASSERTMSGLINE(0x574, clmpT || y0 != 0, "GXCopy: Have to set GX_CLAMP_TOP if source top == 0");
+    ASSERTMSGLINE(0x576, clmpB || y0 + dy <= 528, "GXCopy: Have to set GX_CLAMP_BOTTOM if source bottom > 528");
+    ASSERTMSGLINE(0x57B, (gx->peCtrl & 7) != 3 || clear == 0, "GXCopy: Can not do clear while pixel type is Z");
+    if ((u32) (gx->peCtrl & 7) == 5) {
+        ASSERTMSGLINE(0x581, clear == 0, "GXCopy: Can not clear YUV framebuffer");
+        ASSERTMSGLINE(0x583, (x0 & 3) == 0, "GXCopy: Source x is not multiple of 4 for YUV copy");
+        ASSERTMSGLINE(0x585, (y0 & 3) == 0, "GXCopy: Source y is not multiple of 4 for YUV copy");
+        ASSERTMSGLINE(0x587, (dx & 3) == 0, "GXCopy: Source width is not multiple of 4 for YUV copy");
+        ASSERTMSGLINE(0x589, (dy & 3) == 0, "GXCopy: Source height is not multiple of 4 for YUV copy");
+    } else {
+        ASSERTMSGLINE(0x58D, (x0 & 1) == 0, "GXCopy: Source x is not multiple of 2 for RGB copy");
+        ASSERTMSGLINE(0x58F, (y0 & 1) == 0, "GXCopy: Source y is not multiple of 2 for RGB copy");
+        ASSERTMSGLINE(0x591, (dx & 1) == 0, "GXCopy: Source width is not multiple of 2 for RGB copy");
+        ASSERTMSGLINE(0x593, (dy & 1) == 0, "GXCopy: Source height is not multiple of 2 for RGB copy");
+    }
+    ASSERTMSGLINE(0x597, ((u32)dest & 0x1F) == 0, "GXCopy: Display destination address not 32B aligned");
+}
+#endif
+
+void GXCopyDisp(void *dest, GXBool clear)
+{
+    u32 reg;
+    u32 tempPeCtrl;
+    u32 phyAddr;
+    u8 changePeCtrl;
+
+    CHECK_GXBEGIN(0x5B1, "GXCopyDisp");
+
+#if DEBUG
+    __GXVerifCopy(dest, clear);
+#endif
+    if (clear) {
         reg = gx->zmode;
-        GX_SET_REG(reg, 1, 31, 31);
-        GX_SET_REG(reg, 7, 28, 30);
-        GX_BP_LOAD_REG(reg);
+        SET_REG_FIELD(0, reg, 1, 0, 1);
+        SET_REG_FIELD(0, reg, 3, 1, 7);
+        GX_WRITE_RAS_REG(reg);
 
         reg = gx->cmode0;
-        GX_SET_REG(reg, 0, 31, 31);
-        GX_SET_REG(reg, 0, 30, 30);
-        GX_BP_LOAD_REG(reg);
+        SET_REG_FIELD(0, reg, 1, 0, 0);
+        SET_REG_FIELD(0, reg, 1, 1, 0);
+        GX_WRITE_RAS_REG(reg);
     }
-
-    check = GX_FALSE;
-    if ((doClear || (gx->peCtrl & 0x7) == 3) && (gx->peCtrl >> 6 & 0x1) == 1) {
-        check = GX_TRUE;
-        reg = gx->peCtrl;
-        GX_SET_REG(reg, 0, 25, 25);
-        GX_BP_LOAD_REG(reg);
+    changePeCtrl = FALSE;
+    if ((clear || (u32)GET_REG_FIELD(gx->peCtrl, 3, 0) == 3)
+     && (u32)GET_REG_FIELD(gx->peCtrl, 1, 6) == 1) {
+        changePeCtrl = TRUE;
+        tempPeCtrl = gx->peCtrl;
+        SET_REG_FIELD(0, tempPeCtrl, 1, 6, 0);
+        GX_WRITE_RAS_REG(tempPeCtrl);
     }
+    GX_WRITE_RAS_REG(gx->cpDispSrc);
+    GX_WRITE_RAS_REG(gx->cpDispSize);
+    GX_WRITE_RAS_REG(gx->cpDispStride);
 
-    GX_BP_LOAD_REG(gx->cpDispSrc);
-    GX_BP_LOAD_REG(gx->cpDispSize);
-    GX_BP_LOAD_REG(gx->cpDispStride);
-
-    newDest = (u32)dest & 0x3FFFFFFF;
+    phyAddr = (u32)dest & 0x3FFFFFFF;
     reg = 0;
-    GX_SET_REG(reg, newDest >> 5, 11, 31);
-    GX_SET_REG(reg, 0x4B, 0, 7);
-    GX_BP_LOAD_REG(reg);
+    SET_REG_FIELD(0x5D8, reg, 21, 0, phyAddr >> 5);
+    SET_REG_FIELD(0x5D9, reg, 8, 24, 0x4B);
+    GX_WRITE_RAS_REG(reg);
 
-    GX_SET_REG(gx->cpDisp, doClear, 20, 20);
-    GX_SET_REG(gx->cpDisp, 1, 17, 17);
-    GX_SET_REG(gx->cpDisp, 0x52, 0, 7);
-    GX_BP_LOAD_REG(gx->cpDisp);
+    SET_REG_FIELD(0x5DC, gx->cpDisp, 1, 11, clear);
+    SET_REG_FIELD(0x5DD, gx->cpDisp, 1, 14, 1);
+    SET_REG_FIELD(0x5DE, gx->cpDisp, 8, 24, 0x52);
+    GX_WRITE_RAS_REG(gx->cpDisp);
 
-    if (doClear) {
-        GX_BP_LOAD_REG(gx->zmode);
-        GX_BP_LOAD_REG(gx->cmode0);
+    if (clear) {
+        GX_WRITE_RAS_REG(gx->zmode);
+        GX_WRITE_RAS_REG(gx->cmode0);
     }
-
-    if (check) {
-        GX_BP_LOAD_REG(gx->peCtrl);
+    if (changePeCtrl) {
+        GX_WRITE_RAS_REG(gx->peCtrl);
     }
-
-    gx->bpSentNot = GX_FALSE;
+    gx->bpSent = 1;
 }
 
-void GXCopyTex(void* dest, GXBool doClear) {
+void GXCopyTex(void *dest, GXBool clear)
+{
     u32 reg;
-    u32 reg2;
-    u32 newDest;
-    GXBool check;
+    u32 tempPeCtrl;
+    u32 phyAddr;
+    u8 changePeCtrl;
 
-    if (doClear) {
+    CHECK_GXBEGIN(0x604, "GXCopyTex");
+
+#if DEBUG
+    __GXVerifCopy(dest, clear);
+#endif
+    if (clear) {
         reg = gx->zmode;
-        GX_SET_REG(reg, 1, 31, 31);
-        GX_SET_REG(reg, 7, 28, 30);
-        GX_BP_LOAD_REG(reg);
+        SET_REG_FIELD(0, reg, 1, 0, 1);
+        SET_REG_FIELD(0, reg, 3, 1, 7);
+        GX_WRITE_RAS_REG(reg);
 
         reg = gx->cmode0;
-        GX_SET_REG(reg, 0, 31, 31);
-        GX_SET_REG(reg, 0, 30, 30);
-        GX_BP_LOAD_REG(reg);
+        SET_REG_FIELD(0, reg, 1, 0, 0);
+        SET_REG_FIELD(0, reg, 1, 1, 0);
+        GX_WRITE_RAS_REG(reg);
     }
-
-    check = GX_FALSE;
-    reg2 = gx->peCtrl;
-    if (gx->cpTexZ && (reg2 & 0x7) != 3) {
-        check = GX_TRUE;
-        GX_SET_REG(reg2, 3, 29, 31);
+    changePeCtrl = 0;
+    tempPeCtrl = gx->peCtrl;
+    if (((u8) gx->cpTexZ != 0) && ((u32) (tempPeCtrl & 7) != 3)) {
+        changePeCtrl = 1;
+        tempPeCtrl = (tempPeCtrl & 0xFFFFFFF8) | 3;
     }
-
-    if ((doClear || (reg2 & 0x7) == 3) && (reg2 >> 6 & 0x1) == 1) {
-        check = GX_TRUE;
-        GX_SET_REG(reg2, 0, 25, 25);
+    if (((clear != 0) || ((u32) (tempPeCtrl & 7) == 3)) && ((u32) ((tempPeCtrl >> 6U) & 1) == 1)) {
+        changePeCtrl = 1;
+        tempPeCtrl &= 0xFFFFFFBF;
     }
-
-    if (check) {
-        GX_BP_LOAD_REG(reg2);
+    if (changePeCtrl) {
+        GX_WRITE_RAS_REG(tempPeCtrl);
     }
+    GX_WRITE_RAS_REG(gx->cpTexSrc);
+    GX_WRITE_RAS_REG(gx->cpTexSize);
+    GX_WRITE_RAS_REG(gx->cpTexStride);
 
-    GX_BP_LOAD_REG(gx->cpTexSrc);
-    GX_BP_LOAD_REG(gx->cpTexSize);
-    GX_BP_LOAD_REG(gx->cpTexStride);
-
-    newDest = (u32)dest & 0x3FFFFFFF;
+    phyAddr = (u32)dest & 0x3FFFFFFF;
     reg = 0;
-    GX_SET_REG(reg, newDest >> 5, 11, 31);
-    GX_SET_REG(reg, 0x4B, 0, 7);
-    GX_BP_LOAD_REG(reg);
+    SET_REG_FIELD(0x635, reg, 21, 0, phyAddr >> 5);
+    SET_REG_FIELD(0x636, reg, 8, 24, 0x4B);
+    GX_WRITE_RAS_REG(reg);
 
-    GX_SET_REG(gx->cpTex, doClear, 20, 20);
-    GX_SET_REG(gx->cpTex, 0, 17, 17);
-    GX_SET_REG(gx->cpTex, 0x52, 0, 7);
-    GX_BP_LOAD_REG(gx->cpTex);
+    SET_REG_FIELD(0x639, gx->cpTex, 1, 11, clear);
+    SET_REG_FIELD(0x63A, gx->cpTex, 1, 14, 0);
+    SET_REG_FIELD(0x63B, gx->cpTex, 8, 24, 0x52);
+    GX_WRITE_RAS_REG(gx->cpTex);
 
-    if (doClear) {
-        GX_BP_LOAD_REG(gx->zmode);
-        GX_BP_LOAD_REG(gx->cmode0);
+    if (clear != 0) {
+        GX_WRITE_RAS_REG(gx->zmode);
+        GX_WRITE_RAS_REG(gx->cmode0);
     }
-
-    if (check) {
-        GX_BP_LOAD_REG(gx->peCtrl);
+    if (changePeCtrl) {
+        GX_WRITE_RAS_REG(gx->peCtrl);
     }
-
-    gx->bpSentNot = GX_FALSE;
+    gx->bpSent = 1;
 }
 
-void GXClearBoundingBox(void) {
-    GXFIFO.u8 = GX_LOAD_BP_REG;
-    GXFIFO.u32 = 0x550003FF;
-    GXFIFO.u8 = GX_LOAD_BP_REG;
-    GXFIFO.u32 = 0x560003FF;
-    set_x2(GX_FALSE);
+void GXClearBoundingBox(void)
+{
+    u32 reg;
+
+    CHECK_GXBEGIN(0x65B, "GXClearBoundingBox");
+    reg = 0x550003FF;
+    GX_WRITE_RAS_REG(reg);
+    reg = 0x560003FF;
+    GX_WRITE_RAS_REG(reg);
+    gx->bpSent = 1;
+}
+
+void GXReadBoundingBox(u16 *left, u16 *top, u16 *right, u16 *bottom)
+{
+    CHECK_GXBEGIN(0x671, "GXReadBoundingBox");
+    *left = __peReg[8];
+    *top = __peReg[10];
+    *right = __peReg[9];
+    *bottom = __peReg[11];
 }
