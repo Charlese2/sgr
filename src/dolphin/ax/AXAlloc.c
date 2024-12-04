@@ -15,16 +15,15 @@ AXVPB * __AXGetStackHead(u32 priority) {
 
 void __AXServiceCallbackStack(void) {
     AXVPB * p;
-    int old;
 
     for(p = __AXPopCallbackStack(); p; p = __AXPopCallbackStack()) {
-        if (p->callback) {
-            p->callback(p);
-        }
-        old = OSDisableInterrupts();
+        if(p->priority){
+            if (p->callback) {
+                p->callback(p);
+            }
         __AXRemoveFromStack(p);
         __AXPushFreeStack(p);
-        OSRestoreInterrupts(old);
+        }
     }
 }
 
@@ -54,6 +53,7 @@ void __AXAllocQuit(void) {
 void __AXPushFreeStack(AXVPB * p) {
     p->next = __AXStackHead[0];
     __AXStackHead[0] = p;
+    p->priority = 0;
 }
 
 AXVPB * __AXPopFreeStack(void) {

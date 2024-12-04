@@ -35,7 +35,7 @@ BOOL OSCheckAlarmQueue(void) {
 }
 
 static void SetTimer(struct OSAlarm * alarm) {
-    OSTime delta = alarm->fire - OSGetTime();
+    OSTime delta = alarm->fire - __OSGetSystemTime();
 
     if (delta < 0) {
         PPCMtdec(0);
@@ -62,7 +62,7 @@ static void InsertAlarm(OSAlarm* alarm, OSTime fire, OSAlarmHandler handler) {
     OSAlarm* prev;
     
     if (0 < alarm->period) {
-        OSTime time = OSGetTime();
+        OSTime time = __OSGetSystemTime();
         
         fire = alarm->start;
         if (alarm->start < time) {
@@ -116,7 +116,7 @@ void OSSetAlarm(OSAlarm* alarm, OSTime tick, OSAlarmHandler handler) {
     ASSERTMSGLINE(0x115, handler, "OSSetAlarm(): null handler was specified.");
     enabled = OSDisableInterrupts();
     alarm->period = 0;
-    InsertAlarm(alarm, OSGetTime() + tick, handler);
+    InsertAlarm(alarm, __OSGetSystemTime() + tick, handler);
     ASSERTLINE(0x11C, OSCheckAlarmQueue());
     OSRestoreInterrupts(enabled);
 }

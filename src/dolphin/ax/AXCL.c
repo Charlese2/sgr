@@ -10,6 +10,7 @@ static u32 __AXCommandListPosition;
 static u16 * __AXClWrite;
 static u32 __AXCommandListCycles;
 u32 __AXClMode;
+BOOL lbl_80475F0C;
 
 u32 __AXGetCommandListCycles(void) {
     return __AXCommandListCycles;
@@ -111,6 +112,7 @@ void __AXClInit(void) {
     __AXClMode = 0;
     __AXCommandListPosition = 0;
     __AXClWrite = (void*)&__AXCommandList;
+    lbl_80475F0C = 1;
 }
 
 void __AXClQuit(void) {

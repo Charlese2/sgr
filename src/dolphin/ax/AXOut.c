@@ -35,7 +35,6 @@ void __AXOutNewFrame(u32 lessDspCycles) {
     do {} while (DSPCheckMailToDSP() != 0U);
     DSPSendMailToDSP(cl);
     do {} while (DSPCheckMailToDSP() != 0U);
-    old = OSEnableInterrupts();
     __AXServiceCallbackStack();
     __AXLocalProfile.auxProcessingStart = OSGetTime();
     __AXProcessAux();
@@ -55,7 +54,6 @@ void __AXOutNewFrame(u32 lessDspCycles) {
     if (profile) {
         memcpy(profile, &__AXLocalProfile, sizeof(AXPROFILE));
     }
-    OSRestoreInterrupts(old);
 }
 
 void __AXOutAiCallback(void) {
@@ -63,8 +61,8 @@ void __AXOutAiCallback(void) {
         __AXOsTime = OSGetTime();
     }
     if (__AXOutDspReady == 1) {
-        __AXOutNewFrame(0);
         __AXOutDspReady = 0;
+        __AXOutNewFrame(0);
         return;
     }
     __AXOutDspReady = 2;

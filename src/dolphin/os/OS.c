@@ -52,6 +52,7 @@ static unsigned long * BI2DebugFlag;
 static double ZeroF;
 static int AreWeInitialized;
 static void (* * OSExceptionTable)(unsigned char, struct OSContext *);
+OSTime __OSStartTime;
 
 // functions
 static asm void __OSInitFPRs(void);
@@ -114,10 +115,19 @@ void OSInit() {
 
     if (AreWeInitialized == 0) {
         AreWeInitialized = 1;
+
+        __OSStartTime = __OSGetSystemTime();
         OSDisableInterrupts();
-        BootInfo = (struct OSBootInfo_s *)OSPhysicalToCached(0);
+
+
+        PPCDisableSpeculation();
+        PPCSetFpNonIEEEMode();
+
         BI2DebugFlag = NULL;
+        BootInfo = (struct OSBootInfo_s *)OSPhysicalToCached(0);
+
         __DVDLongFileNameFlag = 0;
+
         bi2StartAddr = (void*)(*(u32*)OSPhysicalToCached(0xF4));
         if (bi2StartAddr) {
             BI2DebugFlag = (void*)((char*)bi2StartAddr + 0xC);
@@ -148,12 +158,8 @@ void OSInit() {
             BootInfo->consoleType = OS_CONSOLE_RETAIL1;
         }
         BootInfo->consoleType += (__PIRegs[11] & 0xF0000000) >> 28;
-        OSReport("\nDolphin OS $Revision: 36 $.\n");
-#if DEBUG
-        OSReport("Kernel built : %s %s\n", "May 22 2001", "01:47:06");
-#else
-        OSReport("Kernel built : %s %s\n", "May 22 2001", "02:04:48");
-#endif
+        OSReport("\nDolphin OS $Revision: 54 $.\n");
+        OSReport("Kernel built : %s %s\n", "Jun  5 2002", "02:09:12");
         OSReport("Console Type : ");
 
         // work out what console type this corresponds to and report it

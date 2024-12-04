@@ -337,7 +337,7 @@ config.libs = [
             Object(NonMatching, "dolphin/os/OS.c"),
             Object(NonMatching, "dolphin/os/__start.c"),
             Object(NonMatching, "dolphin/os/OSAlarm.c"),
-            Object(NonMatching, "dolphin/os/OSAlloc.c"),
+            Object(Matching, "dolphin/os/OSAlloc.c"),
             Object(NonMatching, "dolphin/os/OSArena.c"),
             Object(NonMatching, "dolphin/os/OSAudioSystem.c"),
             Object(NonMatching, "dolphin/os/OSCache.c"),
@@ -388,7 +388,7 @@ config.libs = [
     DolphinLib(
         "PPCArch",
         [
-            Object(NonMatching, "dolphin/base/PPCArch.c"),
+            Object(Matching, "dolphin/base/PPCArch.c"),
 
         ]
     ),
