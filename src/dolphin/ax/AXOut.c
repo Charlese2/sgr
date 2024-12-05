@@ -109,6 +109,7 @@ void __AXOutInitDSP(void) {
     do {} while (__AXDSPInitFlag == 0);
 }
 
+int lbl_80475F34;
 void __AXOutInit(void) {
 #ifdef DEBUG
     OSReport("Initializing AXOut code module\n");
@@ -117,6 +118,7 @@ void __AXOutInit(void) {
     ASSERTLINE(0x13C, ((u32)&__AXOutBuffer[1][0] & 0x1F) == 0);
     ASSERTLINE(0x13D, ((u32)&__AXOutSBuffer[0] & 0x1F) == 0);
     __AXOutFrame = 0;
+    lbl_80475F34 = 0;
     memset(__AXOutBuffer, 0, sizeof(__AXOutBuffer));
     DCFlushRange(__AXOutBuffer, sizeof(__AXOutBuffer));
     memset(__AXOutSBuffer, 0, sizeof(__AXOutSBuffer));

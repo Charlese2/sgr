@@ -285,15 +285,15 @@ dolphin/ax/AX.c:
 dolphin/ax/AXAlloc.c:
 	.text       start:0x8019C240 end:0x8019C6FC
 	.bss        start:0x80452E60 end:0x80452F60
-	.sbss       start:0x80475EC0 end:0x80475EC8
+	.sbss       start:0x80475EC0 end:0x80475EC4
 
 dolphin/ax/AXAux.c:
-	.text       start:0x8019C6FC end:0x8019CBB8
+	.text       start:0x8019C6FC end:0x8019CB74
 	.bss        start:0x80452F60 end:0x80455C60
-	.sbss       start:0x80475EC8 end:0x80475EF4
+	.sbss       start:0x80475EC8 end:0x80475F00
 
 dolphin/ax/AXCL.c:
-	.text       start:0x8019D268 end:0x8019D28C
+	.text       start:0x8019CB74 end:0x8019D28C
 	.bss        start:0x80455C60 end:0x80456260
 	.sbss       start:0x80475F00 end:0x80475F18
 

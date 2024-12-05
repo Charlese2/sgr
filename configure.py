@@ -228,12 +228,6 @@ cflags_rel = [
     "-sdata2 0",
 ]
 
-# game flags
-cflags_game = [
-    *cflags_base,
-    #"-inline off",
-]
-
 config.linker_version = "GC/1.3.2"
 
 
@@ -275,7 +269,7 @@ config.libs = [
     {
         "lib": "test",
         "mw_version": "GC/1.3.2",
-        "cflags": cflags_game,
+        "cflags": cflags_base,
         "progress_category": "game",
         "host": True,
         "objects": [
@@ -359,8 +353,8 @@ config.libs = [
         DolphinLib(
         "ax",
         [
-            Object(NonMatching, "dolphin/ax/AX.c"),
-            Object(NonMatching, "dolphin/ax/AXAlloc.c"),
+            Object(Matching, "dolphin/ax/AX.c"),
+            Object(Matching, "dolphin/ax/AXAlloc.c"),
             Object(NonMatching, "dolphin/ax/AXAux.c"),
             Object(NonMatching, "dolphin/ax/AXCL.c"),
             Object(NonMatching, "dolphin/ax/AXOut.c"),

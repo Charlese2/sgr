@@ -87,6 +87,8 @@ u32 OSGetPhysicalMemSize(void);
 
 void __OSPSInit();
 
+extern BOOL __OSIsGcam;
+
 typedef struct OSCalendarTime
 {
     /*0x00*/ int sec;
@@ -115,6 +117,18 @@ typedef struct OSBootInfo_s {
     void * FSTLocation; // offset 0x38, size 0x4
     unsigned long FSTMaxLength; // offset 0x3C, size 0x4
 } OSBootInfo;
+
+typedef struct BI2Debug {
+    /* 0x00 */ s32 debugMonSize;
+    /* 0x04 */ s32 simMemSize;
+    /* 0x08 */ u32 argOffset;
+    /* 0x0C */ u32 debugFlag;
+    /* 0x10 */ int trackLocation;
+    /* 0x14 */ int trackSize;
+    /* 0x18 */ u32 countryCode;
+    /* 0x1C */ u8 unk[8];
+    /* 0x24 */ u32 padSpec;
+}  BI2Debug;
 
 OSTick OSGetTick(void);
 OSTime OSGetTime(void);
@@ -149,11 +163,16 @@ BOOL OSRestoreInterrupts(BOOL level);
 #define OS_SOUND_MODE_MONO   0
 #define OS_SOUND_MODE_STEREO 1
 
+volatile u16 __OSDeviceCode AT_ADDRESS(0x800030E6);
+
 u32 OSGetSoundMode(void);
 void OSSetSoundMode(u32 mode);
 
 void OSReport(char *, ...);
 void OSPanic(char *file, int line, char *msg, ...);
+
+extern u32 BOOT_REGION_START AT_ADDRESS(0x812FDFF0);
+extern u32 BOOT_REGION_END AT_ADDRESS(0x812FDFEC);
 
 #define OSRoundUp32B(x)   (((u32)(x) + 32 - 1) & ~(32 - 1))
 #define OSRoundDown32B(x) (((u32)(x)) & ~(32 - 1))
@@ -172,6 +191,8 @@ void *OSUncachedToCached(void *ucaddr);
 #define OSCachedToUncached(caddr)    ((void*) ((u8*)(caddr)  + (OS_BASE_UNCACHED - OS_BASE_CACHED)))
 #define OSUncachedToCached(ucaddr)   ((void*) ((u8*)(ucaddr) - (OS_BASE_UNCACHED - OS_BASE_CACHED)))
 #endif
+
+extern BOOL __OSInIPL;
 
 #ifdef __cplusplus
 }

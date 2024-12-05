@@ -67,12 +67,23 @@ void __AXGetAuxBOutput(u32 * p) {
 
 void __AXProcessAux(void) {
     struct AX_AUX_DATA auxData;
+    struct AX_AUX_DATA auxDataB;
 
     __AXAuxADspWrite = &__AXBufferAuxA[__AXAuxDspWritePosition][0];
     __AXAuxADspRead = &__AXBufferAuxA[__AXAuxDspReadPosition][0];
     __AXAuxBDspWrite = &__AXBufferAuxB[__AXAuxDspWritePosition][0];
     __AXAuxBDspRead = &__AXBufferAuxB[__AXAuxDspReadPosition][0];
-    if (__AXCallbackAuxA) {
+    if (__AXCallbackAuxA && __AXClMode == 2) {
+        auxData.l = &__AXBufferAuxA[__AXAuxCpuReadWritePosition][0];
+        auxData.r = &__AXBufferAuxA[__AXAuxCpuReadWritePosition][160];
+        auxData.s = &__AXBufferAuxA[__AXAuxCpuReadWritePosition][320];
+        auxDataB.l = &__AXBufferAuxB[__AXAuxCpuReadWritePosition][0];
+        DCInvalidateRange(auxData.l, 0x780);
+        DCInvalidateRange(auxDataB.l, 0x280);
+        __AXCallbackAuxA(&auxData.l, __AXContextAuxA);
+        DCFlushRangeNoSync(auxData.l, 0x780);
+        DCFlushRangeNoSync(auxDataB.l, 0x280);
+    } else {
         auxData.l = &__AXBufferAuxA[__AXAuxCpuReadWritePosition][0];
         auxData.r = &__AXBufferAuxA[__AXAuxCpuReadWritePosition][160];
         auxData.s = &__AXBufferAuxA[__AXAuxCpuReadWritePosition][320];
@@ -80,6 +91,7 @@ void __AXProcessAux(void) {
         __AXCallbackAuxA(&auxData.l, __AXContextAuxA);
         DCFlushRangeNoSync(auxData.l, 0x780);
     }
+
     if (__AXCallbackAuxB && __AXClMode != 4) {
         auxData.l = &__AXBufferAuxB[__AXAuxCpuReadWritePosition][0];
         auxData.r = &__AXBufferAuxB[__AXAuxCpuReadWritePosition][160];
