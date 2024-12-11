@@ -65,10 +65,12 @@ short main_parameters[10];
 
 void main()
 {
+    int remaining = (short)2;
+
     memset(&main_parameters, 0xff, 18);
     main_parameters[8] = (short)0;
 
-    int remaining = 2;
+    
     do {
         if (main_parameters[0] != 0xff) {
             main_parameters[8] = 1;
@@ -100,9 +102,10 @@ void main()
         }
         if (main_parameters[9] != 0xff) {
             main_parameters[8] = 1;
+            break;
         }
 
-        remaining--;
+        remaining = remaining + -1;
     } while (remaining != 0);
 
 

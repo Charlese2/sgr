@@ -201,6 +201,7 @@ cflags_base = [
     f"-i build/{config.version}/include",
     "-i include/libc",
     "-i src/dolphin",
+    "-i include/PowerPC_EABI_Support/Runtime",
     f"-DVERSION={version_num}",
 ]
 
@@ -321,8 +322,8 @@ config.libs = [
         "cflags": cflags_runtime,
         "progress_category": "sdk",  # str | List[str]
         "objects": [
-            Object(Matching, "src/Runtime/global_destructor_chain.c"),
-            Object(Matching, "src/Runtime/__init_cpp_exceptions.cpp"),
+            Object(Matching, "PowerPC_EABI_Support/Runtime/global_destructor_chain.c"),
+            Object(Matching, "PowerPC_EABI_Support/Runtime/__init_cpp_exceptions.cpp"),
         ],
     },
     DolphinLib(
@@ -330,11 +331,32 @@ config.libs = [
         [
             Object(NonMatching, "dolphin/os/OS.c"),
             Object(NonMatching, "dolphin/os/__start.c"),
-            Object(NonMatching, "dolphin/os/OSAlarm.c"),
+            Object(Matching, "dolphin/os/OSAlarm.c"),
             Object(Matching, "dolphin/os/OSAlloc.c"),
-            Object(NonMatching, "dolphin/os/OSArena.c"),
-            Object(NonMatching, "dolphin/os/OSAudioSystem.c"),
-            Object(NonMatching, "dolphin/os/OSCache.c"),
+            Object(Matching, "dolphin/os/OSArena.c"),
+            Object(Matching, "dolphin/os/OSAudioSystem.c"),
+            Object(Matching, "dolphin/os/OSCache.c"),
+            Object(Matching, "dolphin/os/OSContext.c"),
+            Object(Matching, "dolphin/os/OSError.c"),
+            Object(NonMatching, "dolphin/os/OSExi.c"),
+            Object(NonMatching, "dolphin/os/OSExiAd16.c"),
+            Object(NonMatching, "dolphin/os/OSFont.c"),
+            Object(Matching, "dolphin/os/OSInterrupt.c"),
+            Object(Matching, "dolphin/os/OSLink.c"),
+            Object(NonMatching, "dolphin/os/OSMemory.c"),
+            Object(NonMatching, "dolphin/os/OSMessage.c"),
+            Object(NonMatching, "dolphin/os/OSMutex.c"),
+            Object(NonMatching, "dolphin/os/OSReset.c"),
+            Object(NonMatching, "dolphin/os/OSResetSW.c"),
+            Object(NonMatching, "dolphin/os/OSRtc.c"),
+            Object(NonMatching, "dolphin/os/OSSerial.c"),
+            Object(NonMatching, "dolphin/os/OSStopwatch.c"),
+            Object(NonMatching, "dolphin/os/OSSync.c"),
+            Object(NonMatching, "dolphin/os/OSThread.c"),
+            Object(Matching, "dolphin/os/OSTime.c"),
+            Object(NonMatching, "dolphin/os/OSTimer.c"),
+            Object(NonMatching, "dolphin/os/OSUartExi.c"),
+            Object(NonMatching, "dolphin/os/time.dolphin.c"),
         ],
     ),
     DolphinLib(
@@ -383,6 +405,14 @@ config.libs = [
         "PPCArch",
         [
             Object(Matching, "dolphin/base/PPCArch.c"),
+
+        ]
+    ),
+    DolphinLib(
+        "gx",
+        [
+            Object(NonMatching, "dolphin/gx/GXTexture.c"),
+            Object(NonMatching, "dolphin/gx/GXMisc.c"),
 
         ]
     ),

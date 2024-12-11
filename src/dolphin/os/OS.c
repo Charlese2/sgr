@@ -56,6 +56,8 @@ static double ZeroF;
 static int AreWeInitialized;
 static void (* * OSExceptionTable)(unsigned char, struct OSContext *);
 OSTime __OSStartTime;
+BOOL __OSInIPL;
+BOOL __OSIsGcam;
 
 // functions
 static asm void __OSInitFPRs(void);
@@ -163,7 +165,7 @@ static void InquiryCallback(s32 result, DVDCommandBlock* block) {
 static u8 DriveBlock[48];
 
 void OSInit() {
-    BI2Debug* DebugInfo;
+    BI2Debug* DebugInfo = NULL;
     unsigned long consoleType;
     void * bi2StartAddr;
     u32 hid2;
@@ -285,8 +287,21 @@ void OSInit() {
 }
 
 static u32 __OSExceptionLocations[] = {
-    0x00000100, 0x00000200, 0x00000300, 0x00000400, 0x00000500, 0x00000600, 0x00000700, 0x00000800,
-    0x00000900, 0x00000C00, 0x00000D00, 0x00000F00, 0x00001300, 0x00001400, 0x00001700,
+    0x00000100,  // 0  System reset
+    0x00000200,  // 1  Machine check
+    0x00000300,  // 2  DSI - seg fault or DABR
+    0x00000400,  // 3  ISI
+    0x00000500,  // 4  External interrupt
+    0x00000600,  // 5  Alignment
+    0x00000700,  // 6  Program
+    0x00000800,  // 7  FP Unavailable
+    0x00000900,  // 8  Decrementer
+    0x00000C00,  // 9  System call
+    0x00000D00,  // 10 Trace
+    0x00000F00,  // 11 Performance monitor
+    0x00001300,  // 12 Instruction address breakpoint.
+    0x00001400,  // 13 System management interrupt
+    0x00001700   // 14 Thermal interrupt
 };
 
 #if DEBUG

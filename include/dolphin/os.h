@@ -87,8 +87,6 @@ u32 OSGetPhysicalMemSize(void);
 
 void __OSPSInit();
 
-extern BOOL __OSIsGcam;
-
 typedef struct OSCalendarTime
 {
     /*0x00*/ int sec;
@@ -191,8 +189,6 @@ void *OSUncachedToCached(void *ucaddr);
 #define OSCachedToUncached(caddr)    ((void*) ((u8*)(caddr)  + (OS_BASE_UNCACHED - OS_BASE_CACHED)))
 #define OSUncachedToCached(ucaddr)   ((void*) ((u8*)(ucaddr) - (OS_BASE_UNCACHED - OS_BASE_CACHED)))
 #endif
-
-extern BOOL __OSInIPL;
 
 #ifdef __cplusplus
 }

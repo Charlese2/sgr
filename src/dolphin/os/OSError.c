@@ -3,9 +3,12 @@
 #include <dolphin/os.h>
 
 // internal include
+#include "dolphin/os/OSInterrupt.h"
+#include "dolphin/os/OSThread.h"
 #include "os/__os.h"
 
-static OSErrorHandler OSErrorTable[15];
+extern OSErrorHandler OSErrorTable[15];
+OSErrorHandler OSErrorTable[15];
 
 void OSReport(char* msg, ...) {
   va_list marker;
@@ -47,7 +50,10 @@ void __OSUnhandledException(unsigned char exception, struct OSContext * context,
         OSReport("Non-recoverable Exception %d", exception);
     } else {
         if (OSErrorTable[exception]) {
+            OSDisableScheduler();
             OSErrorTable[exception](exception, context, dsisr, dar);
+            OSEnableScheduler();
+            __OSReschedule();
             OSLoadContext(context);
         }
         if (exception == __OS_EXCEPTION_DECREMENTER) {
@@ -60,7 +66,8 @@ void __OSUnhandledException(unsigned char exception, struct OSContext * context,
 #endif
     OSReport("\n");
     OSDumpContext(context);
-    OSReport("\nDSISR= 0x%08x                   DAR  = 0x%08x\n", dsisr, dar);
+    OSReport("\nDSISR = 0x%08x                   DAR  = 0x%08x\n", dsisr, dar);
+    OSReport("TB = 0x%016llx\n", OSGetTime());
 
     switch(exception) {
           case __OS_EXCEPTION_DSI:
@@ -83,6 +90,16 @@ void __OSUnhandledException(unsigned char exception, struct OSContext * context,
                      "at or around 0x%x (read from SRR0)\n",
                      context->srr0, dar);
             break;
+          case __OS_EXCEPTION_MEMORY_PROTECTION:
+            OSReport("\n");
+            OSReport("AI DMA Address =   0x%04x%04x\n", __DSPRegs[24], __DSPRegs[25]);
+            OSReport("ARAM DMA Address = 0x%04x%04x\n", __DSPRegs[16], __DSPRegs[17]);
+            OSReport("DI DMA Address =   0x%08x\n", __DIRegs[5]);
+            break;
+          
+
     }
+    OSReport("\nLast interrupt (%d): SRR0 = 0x%08x  TB = 0x%016llx\n",
+         __OSLastInterrupt, __OSLastInterruptSrr0, __OSLastInterruptTime);
     PPCHalt();
 }

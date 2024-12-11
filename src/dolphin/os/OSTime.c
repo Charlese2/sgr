@@ -61,6 +61,8 @@ void __OSSetTime(long long time) {
     OSRestoreInterrupts(enabled);
 }
 
+extern volatile OSTime OS_SYSTEM_TIME AT_ADDRESS(0x800030D8);
+
 long long __OSGetSystemTime() {
     int enabled;
     long long * timeAdjustAddr;
@@ -72,6 +74,16 @@ long long __OSGetSystemTime() {
     result = OSGetTime() + *timeAdjustAddr;
     OSRestoreInterrupts(enabled);
     return result;
+}
+
+OSTime __OSTimeToSystemTime(s64 time) {
+
+    u8 _[4];
+
+    BOOL intr = OSDisableInterrupts();
+    OSTime sysTime = OS_SYSTEM_TIME + time;
+    OSRestoreInterrupts(intr);
+    return sysTime;
 }
 
 asm void __OSSetTick(register unsigned long newTicks) {

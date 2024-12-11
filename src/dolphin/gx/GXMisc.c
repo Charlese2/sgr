@@ -4,7 +4,7 @@
 #include <dolphin/os.h>
 #include <macros.h>
 
-#include "__gx.h"
+#include "gx/__gx.h"
 
 static GXDrawSyncCallback TokenCB;
 static GXDrawDoneCallback DrawDoneCB;
@@ -14,8 +14,13 @@ static OSThreadQueue FinishQueue;
 void GXSetMisc(GXMiscToken token, u32 val)
 {
     switch (token) {
+    case GX_MT_NULL:
+        break;
+    
     case GX_MT_XF_FLUSH:
-        gx->vNum = val;
+        gx->vNum = 1;
+        gx->vNum = !gx->vLim;
+
         if (gx->vNum != 0) {
             gx->dirtyState |= 8;
         }
@@ -23,8 +28,6 @@ void GXSetMisc(GXMiscToken token, u32 val)
     case GX_MT_DL_SAVE_CONTEXT:
         ASSERTMSGLINE(0xC4, !gx->inDispList, "GXSetMisc: Cannot change DL context setting while making a display list");
         gx->dlSaveContext = (val > 0);
-        break;
-    case GX_MT_NULL:
         break;
     default:
 #if DEBUG
@@ -137,7 +140,7 @@ void GXPixModeSync(void)
 {
     CHECK_GXBEGIN(0x20D, "GXPixModeSync");
     GX_WRITE_RAS_REG(gx->peCtrl);
-    gx->bpSent = 1;
+    gx->bpSent = 0;
 }
 
 void GXTexModeSync(void)
@@ -479,7 +482,7 @@ u32 GXDecompressZ16(u32 z16, GXZFmt16 zfmt)
         z24 = (cb1 | ((z16 & 0xFFF) << shift)) & 0xFFFFFF;
         break;
     default:
-        OSPanic(__FILE__, 0x3E2, "GXDecompressZ16: Invalid Z format\n");
+        OSPanic(__FILE__, 0x3eb, "GXDecompressZ16: Invalid Z format\n");
         break;
     }
     return z24;

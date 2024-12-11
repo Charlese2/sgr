@@ -116,7 +116,7 @@ _disable:
     rlwinm  r5, r4, 0, 17, 15
 _restore:
     mtmsr   r5
-    rlwinm  r4, r4, 17, 31, 31
+    rlwinm  r3, r4, 17, 31, 31
     blr
   // clang-format on
 }
@@ -168,6 +168,7 @@ static u32 SetInterruptMask(OSInterruptMask mask, OSInterruptMask current) {
   case __OS_INTERRUPT_MEM_1:
   case __OS_INTERRUPT_MEM_2:
   case __OS_INTERRUPT_MEM_3:
+  case __OS_INTERRUPT_MEM_ADDRESS:
     reg = 0;
     if (!(current & OS_INTERRUPTMASK_MEM_0))
       reg |= 0x1;
@@ -473,6 +474,12 @@ void __OSDispatchInterrupt(__OSException exception, OSContext* context) {
 
     handler = __OSGetInterruptHandler(interrupt);
     if (handler) {
+      if (__OS_INTERRUPT_MEM_ADDRESS < interrupt) {
+        __OSLastInterrupt = interrupt;
+        __OSLastInterruptTime = OSGetTime();
+        __OSLastInterruptSrr0 = context->srr0;
+      }
+
       OSDisableScheduler();
       handler(interrupt, context);
       OSEnableScheduler();

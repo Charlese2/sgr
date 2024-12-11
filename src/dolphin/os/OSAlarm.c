@@ -2,6 +2,7 @@
 #include <dolphin/os.h>
 
 // internal header
+#include "dolphin/os/OSContext.h"
 #include "os/__os.h"
 
 struct OSAlarmQueue {
@@ -137,8 +138,9 @@ void OSSetPeriodicAlarm(OSAlarm* alarm, OSTime start, OSTime period, OSAlarmHand
     ASSERTMSGLINE(0x14D, period > 0, "OSSetPeriodicAlarm(): period was less than zero.");
     ASSERTMSGLINE(0x14E, handler, "OSSetPeriodicAlarm(): null handler was specified.");
     enabled = OSDisableInterrupts();
+    
     alarm->period = period;
-    alarm->start = start;
+    alarm->start = __OSTimeToSystemTime(start);;
     InsertAlarm(alarm, 0, handler);
     ASSERTLINE(0x156, OSCheckAlarmQueue());
     OSRestoreInterrupts(enabled);
@@ -180,8 +182,9 @@ static void DecrementerExceptionCallback(register __OSException exception,
     OSAlarm* next;
     OSAlarmHandler handler;
     OSTime time;
+    OSContext exceptionContext;
 
-    time = OSGetTime();
+    time = __OSGetSystemTime();
     alarm = AlarmQueue.head;
     if (alarm == 0) {
         OSLoadContext(context);
@@ -212,7 +215,11 @@ static void DecrementerExceptionCallback(register __OSException exception,
     }
 
     OSDisableScheduler();
+    OSClearContext(&exceptionContext);
+    OSSetCurrentContext(&exceptionContext);
     handler(alarm, context);
+    OSClearContext(&exceptionContext);
+    OSSetCurrentContext(context);
     OSEnableScheduler();
     __OSReschedule();
     OSLoadContext(context);

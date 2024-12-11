@@ -201,9 +201,10 @@ new_tutorial.cpp:
 	.text       start:0x80177AB8 end:0x80177CA4
 
 SoundSystem.cpp:
-	extab       start:0x8000AF54 end:0x8000AF5C
-	extabindex  start:0x80013648 end:0x80013654
-	.text       start:0x801800D8 end:0x801801DC
+	extab       start:0x8000AEAC end:0x8000B0AC
+	extabindex  start:0x8001354C end:0x80013828
+	.text       start:0x8017D9F0 end:0x80183104
+	.ctors      start:0x801EEA38 end:0x801EEA44
 
 SoundConvert.cpp:
 	extab       start:0x8000B0AC end:0x8000B0C4
@@ -216,7 +217,7 @@ dolphin/base/PPCArch.c:
 dolphin/os/OS.c:
 	.text       start:0x8018A910 end:0x8018B258
 	.data       start:0x802112A0 end:0x8021145C
-	.bss        start:0x80451F80 end:0x80451FA0
+	.bss        start:0x80451FA0 end:0x80451FD0
 	.sbss       start:0x80475C20 end:0x80475C50
 
 dolphin/os/OSAlarm.c:
@@ -241,6 +242,38 @@ dolphin/os/OSAudioSystem.c:
 dolphin/os/OSCache.c:
 	.text       start:0x8018C2CC end:0x8018C718
 	.data       start:0x80211878 end:0x80211AA8
+
+dolphin/os/OSContext.c:
+	.text       start:0x8018C718 end:0x8018CEC4
+	.data       start:0x80211AA8 end:0x80211C80
+
+dolphin/os/OSError.c:
+	.text       start:0x8018CEC4 end:0x8018D28C
+	.data       start:0x80211C80 end:0x80211FA0
+	.bss        start:0x80451FD0 end:0x8045200C
+	.sdata      start:0x804741D0 end:0x804741D4
+
+dolphin/os/OSFont.c:
+	.text       start:0x8018D28C end:0x8018DFEC
+	.data       start:0x80211FA0 end:0x80212AB0
+	.sdata      start:0x804741D8 end:0x804741E0
+	.sbss       start:0x80475C70 end:0x80475C80
+
+dolphin/os/OSInterrupt.c:
+	.text       start:0x8018DFEC end:0x8018E858
+	.data       start:0x80212AB0 end:0x80212AE0
+	.sbss       start:0x80475C80 end:0x80475C84
+
+dolphin/os/OSLink.c:
+	.text       start:0x8018E858 end:0x8018E870
+
+dolphin/os/OSReset.c:
+	.text       start:0x8018EDCC end:0x8018F1B0
+	.sbss       start:0x80475CA8 end:0x80475CB0
+
+dolphin/os/OSTime.c:
+	.text       start:0x80190E34 end:0x801912B0
+	.data       start:0x80212AF0 end:0x80212B50
 
 axdriver.c:
 	.text       start:0x80191B84 end:0x80191D00
@@ -342,16 +375,31 @@ dolphin/card/CARDFormat.c:
 dolphin/card/CARDCreate.c:
 	.text       start:0x801A7AA4 end:0x801A7E3C
 
-src/Runtime/global_destructor_chain.c:
+dolphin/gx/GXMisc.c:
+	.text       start:0x801AB700 end:0x801ABE18
+	.data       start:0x80218B68 end:0x80218B98
+	.sbss       start:0x80476010 end:0x80476028
+
+PowerPC_EABI_Support/Runtime/global_destructor_chain.c:
 	.text       start:0x801B76DC end:0x801B773C
 	.dtors      start:0x801EEA68 end:0x801EEA6C
 	.sbss       start:0x80476028 end:0x80476030
 
-src/Runtime/__init_cpp_exceptions.cpp:
+PowerPC_EABI_Support/Runtime/__init_cpp_exceptions.cpp:
 	.text       start:0x801B8504 end:0x801B8580
 	.ctors      start:0x801EE840 end:0x801EE844
 	.dtors      start:0x801EEA60 end:0x801EEA68
 	.sdata      start:0x804742B8 end:0x804742BC
+
+GCN_Mem_Alloc.c:
+	.text       start:0x801B9BCC end:0x801B9C84
+
+dolphin/os/OSExi.c:
+	.text       start:0x801C6570 end:0x801C7E3C
+	.bss        start:0x804725C0 end:0x80472680
+
+dolphin/os/OSSerial.c:
+	.text       start:0x801C7EAC end:0x801C9894
 
 CrankyMemcard.cpp:
 	extab       start:0x8000B774 end:0x8000B784
