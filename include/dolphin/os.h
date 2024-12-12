@@ -167,7 +167,7 @@ u32 OSGetSoundMode(void);
 void OSSetSoundMode(u32 mode);
 
 void OSReport(char *, ...);
-void OSPanic(char *file, int line, char *msg, ...);
+void OSPanic(const char *file, int line, char *msg, ...);
 
 extern u32 BOOT_REGION_START AT_ADDRESS(0x812FDFF0);
 extern u32 BOOT_REGION_END AT_ADDRESS(0x812FDFEC);
