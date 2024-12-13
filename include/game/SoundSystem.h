@@ -1,25 +1,18 @@
-#ifndef AUDIO_H
-#define AUDIO_H
-
-#include "global.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "dolphin/ax.h"
 
 typedef unsigned char    byte;
 typedef unsigned char   undefined;
 typedef unsigned short    undefined2;
 typedef unsigned int    undefined4;
 
-struct audio_file_names {
+typedef struct audio_file_names {
     char file_name[32];
     u32 field1_0x20;
     u32 field2_0x24;
     u32 field3_0x28;
-};
+} audio_file_names;
 
-struct audio2 {
+typedef struct audio2 {
     undefined *field0_0x0;
     struct CommandList *field1_0x4;
     undefined *field2_0x8;
@@ -47,7 +40,7 @@ struct audio2 {
     undefined *field24_0x40;
 } audio2;
 
-struct new_struct {
+typedef struct new_struct {
     int sound_index;
     int field1_0x4;
     undefined4 field2_0x8;
@@ -65,18 +58,68 @@ struct new_struct {
     undefined4 field14_0x38;
     undefined4 field15_0x3c;
     undefined4 field16_0x40;
-};
+} new_struct;
 
-struct AudioCache {
+typedef struct AudioCache {
     int field0_0x0;
     int field1_0x4;
     char field2_0x8[56];
+} AudioCache;
+
+struct unk {
+    undefined4 field0_0x0;
+    undefined4 field1_0x4;
 };
+
+struct astruct_7 {
+    struct AID_Queue *AID_Queue;
+    int field1_0x4;
+    AXVPB *SomeSFXStruct;
+    float field3_0xc;
+    undefined *field4_0x10;
+};
+
+struct astruct_19 {
+    undefined field0_0x0;
+    undefined field1_0x1;
+    undefined field2_0x2;
+    undefined field3_0x3;
+    undefined4 field4_0x4;
+    undefined4 field5_0x8;
+};
+
+typedef struct astruct_9 {
+    AXVPB *field0_0x0;
+    unk *field1_0x4;
+    astruct_7 field2_0x8;
+    astruct_19 *field3_0x1c;
+    undefined field4_0x20;
+    undefined field5_0x21;
+    undefined field6_0x22;
+    undefined field7_0x23;
+    int field8_0x24;
+    int field9_0x28;
+    undefined field10_0x2c;
+    undefined field11_0x2d;
+    undefined field12_0x2e;
+    undefined field13_0x2f;
+    undefined field14_0x30;
+    undefined field15_0x31;
+    undefined field16_0x32;
+    undefined field17_0x33;
+    int field18_0x34;
+    int field19_0x38;
+    int field20_0x3c;
+    byte field21_0x40;
+    undefined field22_0x41;
+    undefined field23_0x42;
+    undefined field24_0x43;
+} astruct_9;
 
 typedef struct AudioInterface_Struct {
     /* 0x00 */ char field0_0x0[60];
     /* 0x3c */ char* field1_0x3c;
-    /* 0x40 */ u32 queue_of_sounds_not_preloaded;
+    /* 0x40 */ u32 number_in_queue_of_sounds_not_preloaded;
     /* 0x44 */ s32 next_index;
     /* 0x48 */ char field4_0x48[340];
     /* 0x19c */ s32 field5_0x19c;
@@ -84,20 +127,20 @@ typedef struct AudioInterface_Struct {
     /* 0x1ac */ s32 field7_0x1ac;
     /* 0x1b0 */ s32 field8_0x1b0;
     /* 0x1b4 */ char field9_0x1b4[12];
-    /* 0x1c0 */ struct audio_file_names field10_0x1c0[512];
+    /* 0x1c0 */ audio_file_names audioFileNames[512];
     /* 0x59c0 */ char field11_0x59c0[22516];
-    /* 0xb1b4 */ struct SomeSFXStruct *field12_0xb1b4;
-    /* 0xb1b8 */ struct audio2 SomeAudio[6];
+    /* 0xb1b4 */ AXVPB *field12_0xb1b4;
+    /* 0xb1b8 */ audio2 SomeAudio[6];
     /* 0xb350 */ char field14_0xb350[6116];
-    /* 0xcb34 */ struct SomeSFXStruct *SomeSFXStruct;
+    /* 0xcb34 */ AXVPB *SomeSFXStruct;
     /* 0xcb38 */ char *field16_0xcb38;
     /* 0xcb3c */ char field17_0xcb3c[44];
-    /* 0xcb68 */ struct new_struct SomeQueue[37];
+    /* 0xcb68 */ new_struct SomeQueue[37];
     /* 0xd53c */ char field19_0xd53c[44];
     /* 0xd568 */ char field20_0xd568[1740];
-    /* 0xdc34 */ struct AudioCache audio_cache[26];
+    /* 0xdc34 */ AudioCache audio_cache[26];
     /* 0xe2b4*/ char field22_0xe2b4[384];
-    /* 0xe434 */ struct astruct_9 *field23_0xe434;
+    /* 0xe434 */ astruct_9 *field23_0xe434;
     /* 0xe438 */ char field24_0xe438[2556];
     /* 0xee34 */ BOOL field25_0xee34;
     /* 0xee35 */ BOOL in_use;
@@ -116,7 +159,7 @@ typedef struct AudioInterface_Struct {
     /* 0x137f0 */ char field39_0x137f0[24192];
 } AudioInterface_Struct;  // Size: 0x19670
 
-struct struct_5_1 {
+typedef struct struct_5_1 {
     undefined field0_0x0;
     undefined field1_0x1;
     undefined field2_0x2;
@@ -127,7 +170,7 @@ struct struct_5_1 {
     undefined field7_0x7;
     undefined2 crash_variable1;
     undefined2 crash_variable2;
-};
+} struct_5_1;
 
 typedef struct astruct_5 {
     float field0_0x0;
@@ -152,7 +195,7 @@ typedef struct astruct_5 {
     undefined field19_0x16;
     undefined field20_0x17;
     void *index;
-    uint SomeStatus;
+    u32 SomeStatus;
     undefined field23_0x20;
     undefined field24_0x21;
     undefined field25_0x22;
@@ -436,8 +479,4 @@ typedef struct astruct_5 {
     struct struct_5_1 field303_0x138;
 } astruct_5;
 
-#ifdef __cplusplus
-};
-#endif
-
-#endif /* AUDIO_H */
+void InitializeAudio (AudioInterface_Struct * audioBuffers);

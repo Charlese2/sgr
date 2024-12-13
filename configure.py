@@ -199,7 +199,7 @@ cflags_base = [
     "-multibyte",  # For Wii compilers, replace with `-enc SJIS`
     "-i include",
     f"-i build/{config.version}/include",
-    "-i include/libc",
+    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
     f"-DVERSION={version_num}",
@@ -342,6 +342,7 @@ config.libs = [
         "objects": [
             Object(Matching, "PowerPC_EABI_Support/Runtime/global_destructor_chain.c"),
             Object(Matching, "PowerPC_EABI_Support/Runtime/__init_cpp_exceptions.cpp"),
+            Object(Matching, "PowerPC_EABI_Support/Runtime/__mem.c"),
         ],
     },
     DolphinLib(

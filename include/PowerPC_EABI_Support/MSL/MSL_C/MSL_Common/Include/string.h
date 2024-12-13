@@ -9,9 +9,9 @@
 extern "C" {
 #endif
 
-SECTION_INIT void* memcpy(void* dest, const void* src, size_t n);
-SECTION_INIT void __fill_mem(void* dest, int val, size_t count);
 SECTION_INIT void* memset(void* dest, int val, size_t count);
+SECTION_INIT void __fill_mem(void* dest, int val, size_t count);
+SECTION_INIT void* memcpy(void* dest, const void* src, size_t n);
 
 int memcmp(const void* lhs, const void* rhs, size_t count);
 void* __memrchr(const void* ptr, int ch, size_t count);

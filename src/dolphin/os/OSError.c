@@ -10,7 +10,7 @@
 extern OSErrorHandler OSErrorTable[15];
 OSErrorHandler OSErrorTable[15];
 
-void OSReport(char* msg, ...) {
+void OSReport(const char* msg, ...) {
   va_list marker;
   va_start(marker, msg);
   vprintf(msg, marker);

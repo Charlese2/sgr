@@ -166,7 +166,7 @@ volatile u16 __OSDeviceCode AT_ADDRESS(0x800030E6);
 u32 OSGetSoundMode(void);
 void OSSetSoundMode(u32 mode);
 
-void OSReport(char *, ...);
+void OSReport(const char *, ...);
 void OSPanic(const char *file, int line, char *msg, ...);
 
 extern u32 BOOT_REGION_START AT_ADDRESS(0x812FDFF0);
