@@ -36,6 +36,10 @@ struct MIXChannel {
     /* 0x52 */ u16 vBR1;
     /* 0x54 */ u16 vBS;
     /* 0x56 */ u16 vBS1;
+    /* 0x58 */ u16 unk58;
+    /* 0x5a */ u16 unk5a;
+    /* 0x5c */ u16 unk5c;
+    /* 0x5e */ u16 unk5e;
 };
 
 // mix.c

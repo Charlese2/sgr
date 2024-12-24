@@ -1,6 +1,7 @@
 #ifndef _DOLPHIN_OSINTERRUPT_H_
 #define _DOLPHIN_OSINTERRUPT_H_
 
+#include "dolphin/os.h"
 #include <dolphin/types.h>
 #include <dolphin/os/OSException.h>
 

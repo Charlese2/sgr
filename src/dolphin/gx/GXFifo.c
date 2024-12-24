@@ -4,7 +4,7 @@
 #include <dolphin/os.h>
 #include <macros.h>
 
-#include "__gx.h"
+#include "gx/__gx.h"
 
 static OSThread *__GXCurrentThread;
 static GXBool CPGPLinked;
@@ -428,6 +428,8 @@ void __GXFifoInit(void)
     __OSUnmaskInterrupts(0x4000);
     __GXCurrentThread = OSGetCurrentThread();
     GXOverflowSuspendInProgress = FALSE;
+    CPUFifo = 0;
+    GPFifo = 0;
 }
 
 static void __GXFifoReadEnable(void)

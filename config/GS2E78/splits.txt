@@ -152,9 +152,10 @@ objectrender.cpp:
 	.text       start:0x800A36BC end:0x800A87C4
 
 living_entity.cpp:
-	extab       start:0x8000798C end:0x80007994
-	extabindex  start:0x8000E974 end:0x8000E980
-	.text       start:0x800B1AF4 end:0x800B2640
+	extab       start:0x8000798C end:0x80007B78
+	extabindex  start:0x8000E974 end:0x8000EBD8
+	.text       start:0x800B1AF4 end:0x800BBB60
+	.ctors      start:0x801EE918 end:0x801EE91C
 
 pathfinding.cpp:
 	extab       start:0x80007EF0 end:0x80007F18
@@ -241,24 +242,48 @@ PowerPC_EABI_Support/Runtime/__mem.c:
 	.init       start:0x80005434 end:0x8000556C
 
 FileSystem.cpp:
-	extab       start:0x8000A25C end:0x8000A264
-	extabindex  start:0x8001246C end:0x80012478
-	.text       start:0x80151CE8 end:0x80151EB0
+	extab       start:0x8000A25C end:0x8000A274
+	extabindex  start:0x8001246C end:0x80012490
+	.text       start:0x80151CE8 end:0x80151F14
+	.ctors      start:0x801EE9B4 end:0x801EE9B8
 
 PackFileSystem.cpp:
-	extab       start:0x8000A2BC end:0x8000A2C4
-	extabindex  start:0x800124D8 end:0x800124E4
-	.text       start:0x80152658 end:0x80152960
+	extab       start:0x8000A274 end:0x8000A2D4
+	extabindex  start:0x80012490 end:0x800124FC
+	.text       start:0x80151F14 end:0x80152AA0
+	.ctors      start:0x801EE9B8 end:0x801EE9BC
+	.bss        start:0x803C16CC end:0x803C16F0
 
 NGCSystem.cpp:
 	extab       start:0x8000A344 end:0x8000A364
 	extabindex  start:0x800125A4 end:0x800125D4
 	.text       start:0x801535B4 end:0x8015461C
 
+MemSystem.cpp:
+	extab       start:0x8000A36C end:0x8000A384
+	extabindex  start:0x800125E0 end:0x80012604
+	.text       start:0x801547B0 end:0x801548E4
+	.ctors      start:0x801EE9BC end:0x801EE9C0
+
+InputSystem.cpp:
+	extab       start:0x8000A384 end:0x8000A3CC
+	extabindex  start:0x80012604 end:0x80012670
+	.text       start:0x801548E4 end:0x80155394
+	.ctors      start:0x801EE9C0 end:0x801EE9C4
+	.bss        start:0x803C1814 end:0x803C1960
+
+LevelManager.cpp:
+	extab       start:0x8000A3CC end:0x8000A40C
+	extabindex  start:0x80012670 end:0x800126AC
+	.text       start:0x80155394 end:0x801558B8
+	.ctors      start:0x801EE9C4 end:0x801EE9C8
+	.sbss       start:0x804755C8 end:0x804755D0
+
 RenderSystem.cpp:
-	extab       start:0x8000A414 end:0x8000A48C
-	extabindex  start:0x800126B8 end:0x8001276C
-	.text       start:0x80155AE0 end:0x80157094
+	extab       start:0x8000A414 end:0x8000A4E4
+	extabindex  start:0x800126B8 end:0x800127F0
+	.text       start:0x80155AE0 end:0x80157A88
+	.ctors      start:0x801EE9C8 end:0x801EE9CC
 
 gr_ngc.cpp:
 	extab       start:0x8000A4E4 end:0x8000A534
@@ -296,10 +321,17 @@ new_tutorial.cpp:
 	.text       start:0x8017742C end:0x80177CA4
 
 SoundSystem.cpp:
-	extab       start:0x8000AEAC end:0x8000B0AC
-	extabindex  start:0x8001354C end:0x80013828
-	.text       start:0x8017D9F0 end:0x80183104
-	.ctors      start:0x801EEA38 end:0x801EEA44
+	extab       start:0x8000AEAC end:0x8000AF94
+	extabindex  start:0x8001354C end:0x80013684
+	.text       start:0x8017D9EC end:0x80180778
+	.ctors      start:0x801EEA38 end:0x801EEA40
+	.sdata2     start:0x8047A758 end:0x8047A79C
+
+snd.cpp:
+	extab       start:0x8000AF94 end:0x8000B034
+	extabindex  start:0x80013684 end:0x80013774
+	.text       start:0x80180778 end:0x801829B4
+	.ctors      start:0x801EEA40 end:0x801EEA44
 
 SoundConvert.cpp:
 	extab       start:0x8000B0AC end:0x8000B104
@@ -308,9 +340,9 @@ SoundConvert.cpp:
 	.ctors      start:0x801EEA44 end:0x801EEA48
 
 MusicSystem.cpp:
-	extab       start:0x8000B11C end:0x8000B17C
-	extabindex  start:0x800138B8 end:0x80013948
-	.text       start:0x80183E08 end:0x801848FC
+	extab       start:0x8000B11C end:0x8000B164
+	extabindex  start:0x800138B8 end:0x80013924
+	.text       start:0x80183E08 end:0x80184838
 	.ctors      start:0x801EEA48 end:0x801EEA4C
 
 dolphin/base/PPCArch.c:
@@ -380,21 +412,32 @@ dolphin/os/OSResetSW.c:
 	.text       start:0x8018F1B0 end:0x8018F53C
 
 dolphin/os/OSRtc.c:
-	.text       start:0x8018F53C end:0x8018FECC
+	.text       start:0x8018F53C end:0x8018FE48
 	.bss        start:0x80452040 end:0x80452098
+
+dolphin/os/OSPad.c:
+	.text       start:0x8018FE48 end:0x8018FF78
 
 dolphin/os/OSSync.c:
 	.text       start:0x8018FF78 end:0x8018FFFC
 
 dolphin/os/OSThread.c:
 	.text       start:0x8018FFFC end:0x80190E34
+	.bss        start:0x80452098 end:0x80452A80
+	.sbss       start:0x80475CD0 end:0x80475CE0
 
 dolphin/os/OSTime.c:
 	.text       start:0x80190E34 end:0x801912B0
 	.data       start:0x80212AF0 end:0x80212B50
 
-axdriver.c:
+axqueue.c:
 	.text       start:0x80191B84 end:0x80191D00
+
+dolphin/mtx/mtx.c:
+	.text       start:0x80192414 end:0x801927A4
+
+dolphin/mtx/mtx44.c:
+	.text       start:0x801927A4 end:0x8019290C
 
 dolphin/dvd/dvdlow.c:
 	.text       start:0x80192F7C end:0x80193A9C
@@ -418,6 +461,18 @@ dolphin/dvd/dvd.c:
 dolphin/dvd/dvderror.c:
 	.text       start:0x80197028 end:0x801971C0
 	.data       start:0x80213D08 end:0x80213D50
+
+dolphin/vi/vi.c:
+	.text       start:0x80197400 end:0x80198E3C
+	.data       start:0x80213F24 end:0x80214088
+	.bss        start:0x80452CC8 end:0x80452D40
+	.sbss       start:0x80475DB8 end:0x80475E04
+
+dolphin/pad/Pad.c:
+	.text       start:0x80198E3C end:0x8019A800
+	.bss        start:0x80452E20 end:0x80452E60
+	.sdata      start:0x80474210 end:0x80474224
+	.sbss       start:0x80475E04 end:0x80475E30
 
 dolphin/ai/ai.c:
 	.text       start:0x8019A800 end:0x8019B154
@@ -449,12 +504,12 @@ dolphin/ax/AXCL.c:
 	.sbss       start:0x80475F00 end:0x80475F18
 
 dolphin/ax/AXOut.c:
-	.text       start:0x8019D2A8 end:0x8019D90C
+	.text       start:0x8019D2A8 end:0x8019D914
 	.bss        start:0x80456260 end:0x8045AA80
 	.sbss       start:0x80475F18 end:0x80475F38
 
 dolphin/ax/AXSPB.c:
-	.text       start:0x8019D920 end:0x8019DDD8
+	.text       start:0x8019D914 end:0x8019DDD8
 	.bss        start:0x8045AA80 end:0x8045AAC0
 	.sbss       start:0x80475F38 end:0x80475F60
 
@@ -463,6 +518,12 @@ dolphin/ax/AXVPB.c:
 	.bss        start:0x8045AAC0 end:0x8046BEC0
 	.sbss       start:0x80475F60 end:0x80475F70
 	.sdata2     start:0x8047A9B0 end:0x8047A9B4
+
+dolphin/mix/mix.c:
+	.text       start:0x8019F0DC end:0x801A1148
+	.data       start:0x80217AE0 end:0x802186A0
+	.bss        start:0x8046BEC0 end:0x8046D7E0
+	.sbss       start:0x80475F80 end:0x80475F88
 
 dolphin/dsp/dsp.c:
 	.text       start:0x801A1168 end:0x801A12C4
@@ -493,10 +554,26 @@ dolphin/card/CARDFormat.c:
 dolphin/card/CARDCreate.c:
 	.text       start:0x801A7AA4 end:0x801A7E3C
 
+dolphin/gx/GXFifo.c:
+	.text       start:0x801A9DB4 end:0x801AA554
+	.sbss       start:0x80475FF0 end:0x80476010
+
+dolphin/gx/GXAttr.c:
+	.text       start:0x801AA554 end:0x801AB700
+
 dolphin/gx/GXMisc.c:
 	.text       start:0x801AB700 end:0x801ABE18
 	.data       start:0x80218B68 end:0x80218B98
 	.sbss       start:0x80476010 end:0x80476028
+
+dolphin/gx/GXGeometry.c:
+	.text       start:0x801ABE18 end:0x801AC23C
+
+dolphin/gx/GXDisplayList.c:
+	.text       start:0x801AF7F8 end:0x801AF868
+
+dolphin/gx/GXPerf.c:
+	.text       start:0x801AFFD4 end:0x801B08D0
 
 PowerPC_EABI_Support/Runtime/global_destructor_chain.c:
 	.text       start:0x801B76DC end:0x801B773C
@@ -512,6 +589,13 @@ PowerPC_EABI_Support/Runtime/__init_cpp_exceptions.cpp:
 GCN_Mem_Alloc.c:
 	.text       start:0x801B9BCC end:0x801B9C84
 
+dolphin/odenotstub/odenotstub.c:
+	.text       start:0x801C5AE8 end:0x801C5AF0
+
+dolphin/hio/hio.c:
+	.text       start:0x801C60D4 end:0x801C6114
+	.sbss       start:0x8047605C end:0x80476060
+
 dolphin/os/OSExi.c:
 	.text       start:0x801C6570 end:0x801C7E3C
 	.bss        start:0x804725C0 end:0x80472680
@@ -519,7 +603,17 @@ dolphin/os/OSExi.c:
 dolphin/os/OSSerial.c:
 	.text       start:0x801C7EAC end:0x801C9894
 
-CrankyMemcard.cpp:
+Cranky/CrankyInput.cpp:
+	extab       start:0x8000B3C0 end:0x8000B400
+	extabindex  start:0x80013BC4 end:0x80013C24
+	.text       start:0x801C9894 end:0x801CA0C0
+
+Cranky/CrankyFileManager.cpp:
+	extab       start:0x8000B400 end:0x8000B468
+	extabindex  start:0x80013C24 end:0x80013CC0
+	.text       start:0x801CA0C0 end:0x801CA934
+
+Cranky/CrankyMemcard.cpp:
 	extab       start:0x8000B6D4 end:0x8000B784
 	extabindex  start:0x80014044 end:0x8001414C
 	.text       start:0x801ED6D0 end:0x801EE834

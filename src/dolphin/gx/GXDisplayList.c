@@ -1,10 +1,10 @@
-#include <libc/string.h>
+#include <string.h>
 
 #include <dolphin/gx.h>
 #include <dolphin/os.h>
 #include <macros.h>
 
-#include "__gx.h"
+#include "gx/__gx.h"
 
 static struct __GXFifoObj DisplayListFifo;
 static volatile struct __GXFifoObj *OldCPUFifo;

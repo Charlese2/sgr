@@ -199,9 +199,6 @@ cflags_base = [
     "-multibyte",  # For Wii compilers, replace with `-enc SJIS`
     "-i include",
     f"-i build/{config.version}/include",
-    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
-    "-i src/dolphin",
-    "-i include/PowerPC_EABI_Support/Runtime",
     f"-DVERSION={version_num}",
 ]
 
@@ -220,6 +217,30 @@ cflags_runtime = [
     "-gccinc",
     "-common off",
     "-inline auto",
+    "-i include/PowerPC_EABI_Support/Runtime",
+    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+]
+
+cflags_sdk = [
+    *cflags_base,
+    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+    "-i src/dolphin",
+    "-i include/PowerPC_EABI_Support/Runtime",
+    "-DTEST"
+]
+
+cflags_game = [
+    *cflags_base,
+    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+    "-i src/dolphin",
+    "-i include/PowerPC_EABI_Support/Runtime",
+]
+
+cflags_lib = [
+    *cflags_base,
+    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+    "-i src/dolphin",
+    "-i include/PowerPC_EABI_Support/Runtime",
 ]
 
 # REL flags
@@ -237,11 +258,19 @@ def DolphinLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
     return {
         "lib": lib_name,
         "mw_version": "GC/1.2.5n",
-        "cflags": cflags_base,
+        "cflags": cflags_sdk,
         "progress_category": "sdk",
         "objects": objects,
     }
 
+def Lib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "mw_version": "GC/1.3.2",
+        "cflags": cflags_lib,
+        "progress_category": "game",
+        "objects": objects,
+    }
 
 # Helper function for REL script objects
 def Rel(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
@@ -268,9 +297,9 @@ config.warn_missing_config = True
 config.warn_missing_source = False
 config.libs = [
     {
-        "lib": "test",
+        "lib": "game",
         "mw_version": "GC/1.3.2",
-        "cflags": cflags_base,
+        "cflags": cflags_game,
         "progress_category": "game",
         "host": True,
         "objects": [
@@ -321,6 +350,9 @@ config.libs = [
             Object(NonMatching, "FileSystem.cpp"),
             Object(NonMatching, "PackFileSystem.cpp"),
             Object(NonMatching, "NGCSystem.cpp"),
+            Object(NonMatching, "MemSystem.cpp"),
+            Object(NonMatching, "InputSystem.cpp"),
+            Object(NonMatching, "LevelManager.cpp"),
             Object(NonMatching, "RenderSystem.cpp"),
             Object(NonMatching, "gr_ngc.cpp"),
             Object(NonMatching, "S3dConvert.cpp"),
@@ -331,7 +363,6 @@ config.libs = [
             Object(NonMatching, "SoundSystem.cpp"),
             Object(NonMatching, "SoundConvert.cpp"),
             Object(NonMatching, "MusicSystem.cpp"),
-            Object(NonMatching, "CrankyMemcard.cpp"),
         ],
     },
     {
@@ -365,9 +396,10 @@ config.libs = [
             Object(NonMatching, "dolphin/os/OSReset.c"),
             Object(NonMatching, "dolphin/os/OSResetSW.c"),
             Object(NonMatching, "dolphin/os/OSRtc.c"),
+            Object(NonMatching, "dolphin/os/OSPad.c"),
             Object(NonMatching, "dolphin/os/OSSerial.c"),
             Object(Matching, "dolphin/os/OSSync.c"),
-            Object(NonMatching, "dolphin/os/OSThread.c"),
+            Object(Matching, "dolphin/os/OSThread.c"),
             Object(Matching, "dolphin/os/OSTime.c"),
             Object(NonMatching, "dolphin/os/OSTimer.c"),
             Object(NonMatching, "dolphin/os/OSUartExi.c"),
@@ -387,9 +419,13 @@ config.libs = [
             Object(NonMatching, "dolphin/ar/arq.c"),
         ]
     ),
-        DolphinLib(
-        "ax",
-        [
+    {
+        "lib": "ax",
+        "mw_version": "GC/1.2.5n",
+        "cflags": cflags_sdk,
+        "progress_category": "sdk",
+        "host": True,
+        "objects": [
             Object(Matching, "dolphin/ax/AX.c"),
             Object(Matching, "dolphin/ax/AXAlloc.c"),
             Object(NonMatching, "dolphin/ax/AXAux.c"),
@@ -399,8 +435,9 @@ config.libs = [
             Object(NonMatching, "dolphin/ax/AXSPB.c"),
             Object(NonMatching, "dolphin/ax/AXVPB.c"),
             Object(NonMatching, "dolphin/ax/DSPCode.c"),
+            
         ]
-    ),
+    },
     DolphinLib(
         "dvd",
         [
@@ -428,7 +465,11 @@ config.libs = [
         [
             Object(NonMatching, "dolphin/gx/GXTexture.c"),
             Object(NonMatching, "dolphin/gx/GXMisc.c"),
-
+            Object(NonMatching, "dolphin/gx/GXGeometry.c"),
+            Object(NonMatching, "dolphin/gx/GXDisplayList.c"),
+            Object(NonMatching, "dolphin/gx/GXFifo.c"),
+            Object(NonMatching, "dolphin/gx/GXAttr.c"),
+            Object(NonMatching, "dolphin/gx/GXPerf.c"),
         ]
     ),
     DolphinLib(
@@ -448,6 +489,51 @@ config.libs = [
             Object(NonMatching, "dolphin/card/CARDStat.c"),
             Object(NonMatching, "dolphin/card/CARDUnlock.c"),
             Object(NonMatching, "dolphin/card/CARDWrite.c"),
+        ]
+    ),
+    DolphinLib(
+        "vi",
+        [
+            Object(NonMatching, "dolphin/vi/vi.c"),
+        ]
+    ),
+    DolphinLib(
+        "odenotstub",
+        [
+            Object(Matching, "dolphin/odenotstub/odenotstub.c"),
+        ]
+    ),
+    DolphinLib(
+        "mtx",
+        [
+            Object(NonMatching, "dolphin/mtx/mtx.c"),
+            Object(NonMatching, "dolphin/mtx/mtx44.c"),
+        ]
+    ),
+    DolphinLib(
+        "mix",
+        [
+            Object(NonMatching, "dolphin/mix/mix.c"),
+        ]
+    ),
+    DolphinLib(
+        "hio",
+        [
+            Object(NonMatching, "dolphin/hio/hio.c"),
+        ]
+    ),
+    DolphinLib(
+        "pad",
+        [
+            Object(NonMatching, "dolphin/pad/Pad.c"),
+        ]
+    ),
+    Lib(
+        "Cranky",
+        [
+            Object(NonMatching, "Cranky/CrankyInput.cpp"),
+            Object(NonMatching, "Cranky/CrankyFileManager.cpp"),
+            Object(NonMatching, "Cranky/CrankyMemcard.cpp"),
         ]
     ),
 ]

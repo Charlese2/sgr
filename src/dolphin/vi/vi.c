@@ -4,9 +4,9 @@
 #include <dolphin/hw_regs.h>
 #include <macros.h>
 
-#include "__gx.h"
+#include "gx/__gx.h"
 #include "os/__os.h"
-#include "__vi.h"
+#include "vi/__vi.h"
 
 typedef struct {
     u8 equ;

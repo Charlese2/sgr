@@ -1,3 +1,4 @@
+#include "NMWException.h"
 #include "dolphin/ax.h"
 
 typedef unsigned char    byte;
@@ -116,7 +117,15 @@ typedef struct astruct_9 {
     undefined field24_0x43;
 } astruct_9;
 
-typedef struct AudioInterface_Struct {
+class SoundSystem {
+public:
+    SoundSystem();
+    ~SoundSystem();
+    void LoadNewSoundsFromDisk();
+    void InitializeAudio();
+    void SomethingAXQueue();
+    void LoadUncachedSoundFromDisk();
+
     /* 0x00 */ char field0_0x0[60];
     /* 0x3c */ char* field1_0x3c;
     /* 0x40 */ u32 number_in_queue_of_sounds_not_preloaded;
@@ -150,14 +159,19 @@ typedef struct AudioInterface_Struct {
     /* 0xee39 */ BOOL deativated;
     /* 0xee3a */ char field31_0xee3a[2054];
     /* 0xf640 */ char* field32_0xf640;
-    /* 0xf644 */ char field33_0xf644[6556];
+    /* 0xf644 */ char field33_0xf644[1404];
+    /* 0xfbc0 */ char MusicStringPool[5120];
+    /* 0x10fc0 */ DestructorChain MusicStringPoolDestructorChain;
+    /* 0x10fcc */ char* MusicStringPoolAddress;
     /* 0x10fe0 */ float Volume_Default;
     /* 0x10fe4 */ float field35_0x10fe4;
     /* 0x10fe8 */ float Voice_Volume;
     /* 0x10fec */ float field37_0x10fec;
     /* 0x10ff0 */ float field38_0x10ff0[2560];
     /* 0x137f0 */ char field39_0x137f0[24192];
-} AudioInterface_Struct;  // Size: 0x19670
+};  // Size: 0x19670
+
+void ProcessAXQueue();
 
 typedef struct struct_5_1 {
     undefined field0_0x0;
@@ -478,5 +492,3 @@ typedef struct astruct_5 {
     undefined field302_0x137;
     struct struct_5_1 field303_0x138;
 } astruct_5;
-
-void InitializeAudio (AudioInterface_Struct * audioBuffers);

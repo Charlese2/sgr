@@ -1,3 +1,4 @@
+#include "dolphin/os/OSInterrupt.h"
 #include <dolphin/exi.h>
 #include <dolphin/hio.h>
 #include <dolphin/os.h>
@@ -17,7 +18,7 @@ static void ExtHandler(s32 chan, OSContext *context)
 static void ExiHandler(s32 chan, OSContext *context)
 {
     if (ExiCallback) {
-        ExiCallback();
+        ExiCallback(chan);
     }
 }
 
@@ -25,7 +26,7 @@ static void DbgHandler(__OSInterrupt interrupt, OSContext *context)
 {
     __PIRegs[0] = 0x1000;
     if (ExiCallback) {
-        ExiCallback();
+        ExiCallback(interrupt);
     }
 }
 
@@ -34,7 +35,7 @@ static void TxHandler(s32 chan, OSContext *context)
     EXIDeselect(Chan);
     EXIUnlock(Chan);
     if (TxCallback) {
-        TxCallback();
+        TxCallback(chan);
     }
 }
 
@@ -43,7 +44,7 @@ static void RxHandler(s32 chan, OSContext *context)
     EXIDeselect(Chan);
     EXIUnlock(Chan);
     if (RxCallback) {
-        RxCallback();
+        RxCallback(chan);
     }
 }
 

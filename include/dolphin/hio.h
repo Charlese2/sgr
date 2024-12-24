@@ -2,7 +2,7 @@
 
 #include <dolphin/types.h>
 
-typedef void (*HIOCallback)(void);
+typedef void (*HIOCallback)(int);
 typedef BOOL (*HIOEnumCallback)(s32 chan);
 
 BOOL HIOEnumDevices(HIOEnumCallback callback);

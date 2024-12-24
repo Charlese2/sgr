@@ -172,6 +172,9 @@ static int UnlockSram(int commit, unsigned long offset) {
     if (commit != 0) {
         if (offset == 0) {
             struct OSSram * sram  = (struct OSSram *)&Scb.sram[0];
+            if ((sram->flags & 3) > 2) {
+                sram->flags = sram->flags & (char)0xfc;
+            }
             sram->checkSum = sram->checkSumInv = 0;
             for(p = (unsigned short*)&sram->counterBias; p < ((u16*)&Scb.sram[sizeof (struct OSSram)]); p++) {
                 sram->checkSum += *p;
