@@ -409,14 +409,14 @@ config.libs = [
     DolphinLib(
         "ai",
         [
-            Object(NonMatching, "dolphin/ai/ai.c"),
+            Object(Matching, "dolphin/ai/ai.c"),
         ]
     ),
     DolphinLib(
         "ar",
         [
             Object(NonMatching, "dolphin/ar/ar.c"),
-            Object(NonMatching, "dolphin/ar/arq.c"),
+            Object(Matching, "dolphin/ar/arq.c"),
         ]
     ),
     {
@@ -444,7 +444,9 @@ config.libs = [
             Object(NonMatching, "dolphin/dvd/dvd.c"),
             Object(NonMatching, "dolphin/dvd/dvdfs.c"),
             Object(NonMatching, "dolphin/dvd/dvdlow.c"),
-            Object(NonMatching, "dolphin/dvd/dvderror.c"),
+            Object(NonMatching, "dolphin/dvd/dvdqueue.c"),
+            Object(Matching, "dolphin/dvd/dvderror.c"),
+            Object(Matching, "dolphin/dvd/fstload.c"),
         ]
     ),
     DolphinLib(
@@ -508,6 +510,19 @@ config.libs = [
         [
             Object(NonMatching, "dolphin/mtx/mtx.c"),
             Object(NonMatching, "dolphin/mtx/mtx44.c"),
+            Object(NonMatching, "dolphin/mtx/vec.c"),
+        ]
+    ),
+    DolphinLib(
+        "db",
+        [
+            Object(NonMatching, "dolphin/db/db.c"),
+        ]
+    ),
+    DolphinLib(
+        "axart",
+        [
+            Object(NonMatching, "dolphin/axart/axart.c"),
         ]
     ),
     DolphinLib(

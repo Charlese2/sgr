@@ -32,7 +32,7 @@ static void cb(long result, struct DVDCommandBlock * block) {
     }
     if (result == -1) {
         return;
-    } else if (result == -2) {
+    } else if (result == -4) {
         status = 0;
         DVDReset();
         DVDReadDiskID(block, idTmp, cb);

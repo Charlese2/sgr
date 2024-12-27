@@ -1,6 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/dvd.h>
 
+#include "dolphin/os.h"
 #include "dvd/__dvd.h"
 
 static struct {

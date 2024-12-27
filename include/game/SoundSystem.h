@@ -1,5 +1,6 @@
 #include "NMWException.h"
 #include "dolphin/ax.h"
+#include "dolphin/axart.h"
 
 typedef unsigned char    byte;
 typedef unsigned char   undefined;
@@ -7,11 +8,75 @@ typedef unsigned short    undefined2;
 typedef unsigned int    undefined4;
 
 typedef struct audio_file_names {
-    char file_name[32];
-    u32 field1_0x20;
-    u32 field2_0x24;
-    u32 field3_0x28;
+    char file_name[20];
+    u32 field1_0x14;
+    u32 field2_0x18;
+    u32 field3_0x1c;
+    u32 field4_0x20;
+    u32 field5_0x24;
+    u32 field6_0x28;
 } audio_file_names;
+
+struct astruct_23 {
+    AXVPB *field0_0x0;
+    undefined field1_0x4;
+    undefined field2_0x5;
+    undefined field3_0x6;
+    undefined field4_0x7;
+    AXARTSound sound;
+    undefined field6_0x10;
+    undefined field7_0x11;
+    undefined field8_0x12;
+    undefined field9_0x13;
+    undefined field10_0x14;
+    undefined field11_0x15;
+    undefined field12_0x16;
+    undefined field13_0x17;
+    undefined field14_0x18;
+    undefined field15_0x19;
+    undefined field16_0x1a;
+    undefined field17_0x1b;
+    undefined field18_0x1c;
+    undefined field19_0x1d;
+    undefined field20_0x1e;
+    undefined field21_0x1f;
+    undefined field22_0x20;
+    undefined field23_0x21;
+    undefined field24_0x22;
+    undefined field25_0x23;
+    undefined field26_0x24;
+    undefined field27_0x25;
+    undefined field28_0x26;
+    undefined field29_0x27;
+    undefined field30_0x28;
+    undefined field31_0x29;
+    undefined field32_0x2a;
+    undefined field33_0x2b;
+    undefined field34_0x2c;
+    undefined field35_0x2d;
+    undefined field36_0x2e;
+    undefined field37_0x2f;
+    undefined field38_0x30;
+    undefined field39_0x31;
+    undefined field40_0x32;
+    undefined field41_0x33;
+    undefined field42_0x34;
+    undefined field43_0x35;
+    undefined field44_0x36;
+    undefined field45_0x37;
+    undefined field46_0x38;
+    undefined field47_0x39;
+    undefined field48_0x3a;
+    undefined field49_0x3b;
+    undefined field50_0x3c;
+    undefined field51_0x3d;
+    undefined field52_0x3e;
+    undefined field53_0x3f;
+    undefined field54_0x40;
+    bool sound_finished_playing;
+    undefined field56_0x42;
+    undefined field57_0x43;
+};
 
 typedef struct audio2 {
     undefined *field0_0x0;
@@ -72,14 +137,6 @@ struct unk {
     undefined4 field1_0x4;
 };
 
-struct astruct_7 {
-    struct AID_Queue *AID_Queue;
-    int field1_0x4;
-    AXVPB *SomeSFXStruct;
-    float field3_0xc;
-    undefined *field4_0x10;
-};
-
 struct astruct_19 {
     undefined field0_0x0;
     undefined field1_0x1;
@@ -92,7 +149,7 @@ struct astruct_19 {
 typedef struct astruct_9 {
     AXVPB *field0_0x0;
     unk *field1_0x4;
-    astruct_7 field2_0x8;
+    AXARTSound field2_0x8;
     astruct_19 *field3_0x1c;
     undefined field4_0x20;
     undefined field5_0x21;
@@ -123,7 +180,8 @@ public:
     ~SoundSystem();
     void LoadNewSoundsFromDisk();
     void InitializeAudio();
-    void SomethingAXQueue();
+    void Reinitialize(bool state);
+    void AddSound(int index);
     void LoadUncachedSoundFromDisk();
 
     /* 0x00 */ char field0_0x0[60];
@@ -138,40 +196,35 @@ public:
     /* 0x1b4 */ char field9_0x1b4[12];
     /* 0x1c0 */ audio_file_names audioFileNames[512];
     /* 0x59c0 */ char field11_0x59c0[22516];
-    /* 0xb1b4 */ AXVPB *field12_0xb1b4;
+    /* 0xb1b4 */ AXVPB *axVoice;
     /* 0xb1b8 */ audio2 SomeAudio[6];
     /* 0xb350 */ char field14_0xb350[6116];
-    /* 0xcb34 */ AXVPB *SomeSFXStruct;
-    /* 0xcb38 */ char *field16_0xcb38;
-    /* 0xcb3c */ char field17_0xcb3c[44];
-    /* 0xcb68 */ new_struct SomeQueue[37];
-    /* 0xd53c */ char field19_0xd53c[44];
-    /* 0xd568 */ char field20_0xd568[1740];
+    /* 0xcb7c */ struct astruct_23 unkcb34[64];
     /* 0xdc34 */ AudioCache audio_cache[26];
-    /* 0xe2b4*/ char field22_0xe2b4[384];
-    /* 0xe434 */ astruct_9 *field23_0xe434;
-    /* 0xe438 */ char field24_0xe438[2556];
-    /* 0xee34 */ BOOL field25_0xee34;
+    /* 0xe2b4*/ char field17_0xe2b4[384];
+    /* 0xe434 */ astruct_9 *field18_0xe434;
+    /* 0xe438 */ char field19_0xe438[2556];
+    /* 0xee34 */ BOOL field20_0xee34;
     /* 0xee35 */ BOOL in_use;
-    /* 0xee36 */ BOOL field27_0xee36;
-    /* 0xee37 */ BOOL field28_0xee37;
+    /* 0xee36 */ BOOL field22_0xee36;
+    /* 0xee37 */ BOOL field23_0xee37;
     /* 0xee38 */ BOOL processing_queue;
     /* 0xee39 */ BOOL deativated;
-    /* 0xee3a */ char field31_0xee3a[2054];
-    /* 0xf640 */ char* field32_0xf640;
-    /* 0xf644 */ char field33_0xf644[1404];
+    /* 0xee3a */ char field26_0xee3a[2054];
+    /* 0xf640 */ char* field27_0xf640;
+    /* 0xf644 */ char field28_0xf644[1404];
     /* 0xfbc0 */ char MusicStringPool[5120];
     /* 0x10fc0 */ DestructorChain MusicStringPoolDestructorChain;
     /* 0x10fcc */ char* MusicStringPoolAddress;
     /* 0x10fe0 */ float Volume_Default;
-    /* 0x10fe4 */ float field35_0x10fe4;
+    /* 0x10fe4 */ float field33_0x10fe4;
     /* 0x10fe8 */ float Voice_Volume;
-    /* 0x10fec */ float field37_0x10fec;
-    /* 0x10ff0 */ float field38_0x10ff0[2560];
-    /* 0x137f0 */ char field39_0x137f0[24192];
+    /* 0x10fec */ float field35_0x10fec;
+    /* 0x10ff0 */ float field36_0x10ff0[2560];
+    /* 0x137f0 */ char field37_0x137f0[24192];
 };  // Size: 0x19670
 
-void ProcessAXQueue();
+void ProcessAXARTSounds();
 
 typedef struct struct_5_1 {
     undefined field0_0x0;

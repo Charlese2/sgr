@@ -38,6 +38,7 @@ typedef struct OSSramEx {
     unsigned char flashID[2][12];
     unsigned long wirelessKeyboardID;
     unsigned short wirelessPadID[4];
+    unsigned char dvdErrorCode;
     unsigned short _padding0;
     unsigned char flashIDCheckSum[2];
     unsigned char _padding1[4];

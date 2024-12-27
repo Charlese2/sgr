@@ -5,12 +5,13 @@
 #include "os/__os.h"
 
 // .sbss
-static void (* Callback)(unsigned long); // size: 0x4, address: 0x0
-static void (* ResetCoverCallback)(unsigned long); // size: 0x4, address: 0x4
-static volatile long long LastResetEnd; // size: 0x8, address: 0x8
-static volatile unsigned long ResetOccurred; // size: 0x4, address: 0x10
-static int WaitingCoverClose; // size: 0x4, address: 0x14
-static volatile int Breaking; // size: 0x4, address: 0x18
+static BOOL StopAtNextInt; // size 0x4, address 0x0
+static void (* Callback)(unsigned long); // size: 0x4, address: 0x4
+static void (* ResetCoverCallback)(unsigned long); // size: 0x4, address: 0x8
+static volatile long long LastResetEnd; // size: 0x8, address: 0x10
+static volatile unsigned long ResetOccurred; // size: 0x4, address: 0x18
+static int WaitingCoverClose; // size: 0x4, address: 0x1C
+static volatile int Breaking; // size: 0x4, address: 0x20
 
 void __DVDInterruptHandler(short unused, struct OSContext * context) {
     struct OSContext exceptionContext;
@@ -102,6 +103,7 @@ int DVDLowSeek(unsigned long offset, void (* callback)(unsigned long)) {
 int DVDLowWaitCoverClose(void (* callback)(unsigned long)) {
     Callback = callback;
     WaitingCoverClose = 1;
+    StopAtNextInt = FALSE;
     __DIRegs[1] = 2;
     return 1;
 }

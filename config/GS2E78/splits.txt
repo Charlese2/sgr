@@ -325,6 +325,7 @@ SoundSystem.cpp:
 	extabindex  start:0x8001354C end:0x80013684
 	.text       start:0x8017D9EC end:0x80180778
 	.ctors      start:0x801EEA38 end:0x801EEA40
+	.bss        start:0x80410320 end:0x8041F160
 	.sdata2     start:0x8047A758 end:0x8047A79C
 
 snd.cpp:
@@ -347,6 +348,11 @@ MusicSystem.cpp:
 
 dolphin/base/PPCArch.c:
 	.text       start:0x8018A788 end:0x8018A7F4
+
+dolphin/db/db.c:
+	.text       start:0x8018A824 end:0x8018A910
+	.data       start:0x80211288 end:0x802112A0
+	.sbss       start:0x80475C18 end:0x80475C20
 
 dolphin/os/OS.c:
 	.text       start:0x8018A910 end:0x8018B258
@@ -430,14 +436,19 @@ dolphin/os/OSTime.c:
 	.text       start:0x80190E34 end:0x801912B0
 	.data       start:0x80212AF0 end:0x80212B50
 
-axqueue.c:
+dolphin/axart/axart.c:
 	.text       start:0x80191B84 end:0x80191D00
+	.sbss       start:0x80475CE0 end:0x80475CE8
+	.sdata2     start:0x8047A930 end:0x8047A938
 
 dolphin/mtx/mtx.c:
 	.text       start:0x80192414 end:0x801927A4
 
 dolphin/mtx/mtx44.c:
 	.text       start:0x801927A4 end:0x8019290C
+
+dolphin/mtx/vec.c:
+	.text       start:0x8019290C end:0x801929F0
 
 dolphin/dvd/dvdlow.c:
 	.text       start:0x80192F7C end:0x80193A9C
@@ -446,21 +457,32 @@ dolphin/dvd/dvdlow.c:
 	.sbss       start:0x80475CF0 end:0x80475D38
 
 dolphin/dvd/dvdfs.c:
-	.text       start:0x80193A9C end:0x80194378
-	.data       start:0x80213800 end:0x80213934
+	.text       start:0x80193A9C end:0x80194494
+	.data       start:0x80213800 end:0x80213BF0
 	.sdata      start:0x804741F0 end:0x804741F8
 	.sbss       start:0x80475D38 end:0x80475D58
 
 dolphin/dvd/dvd.c:
-	.text       start:0x80194494 end:0x80196C30
-	.data       start:0x80213BF0 end:0x80213CD0
+	.text       start:0x80194494 end:0x80196E30
+	.data       start:0x80213BF0 end:0x80213D08
 	.bss        start:0x80452B60 end:0x80452C38
 	.sdata      start:0x804741F8 end:0x804741FC
 	.sbss       start:0x80475D58 end:0x80475DA8
 
+dolphin/dvd/dvdqueue.c:
+	.text       start:0x80196E30 end:0x80197028
+	.bss        start:0x80452C38 end:0x80452C58
+
 dolphin/dvd/dvderror.c:
 	.text       start:0x80197028 end:0x801971C0
 	.data       start:0x80213D08 end:0x80213D50
+
+dolphin/dvd/fstload.c:
+	.text       start:0x801971C0 end:0x80197400
+	.data       start:0x80213D50 end:0x80213DC0
+	.bss        start:0x80452C58 end:0x80452CC8
+	.sdata      start:0x80474200 end:0x80474210
+	.sbss       start:0x80475DA8 end:0x80475DB8
 
 dolphin/vi/vi.c:
 	.text       start:0x80197400 end:0x80198E3C
@@ -475,14 +497,15 @@ dolphin/pad/Pad.c:
 	.sbss       start:0x80475E04 end:0x80475E30
 
 dolphin/ai/ai.c:
-	.text       start:0x8019A800 end:0x8019B154
+	.text       start:0x8019A800 end:0x8019B110
+	.sbss       start:0x80475E30 end:0x80475E70
 
 dolphin/ar/ar.c:
-	.text       start:0x8019B154 end:0x8019BD68
+	.text       start:0x8019B110 end:0x8019BD68
 	.sbss       start:0x80475E70 end:0x80475E90
 
 dolphin/ar/arq.c:
-	.text       start:0x8019BD68 end:0x8019C0FC
+	.text       start:0x8019BD68 end:0x8019C20C
 	.sbss       start:0x80475E90 end:0x80475EC0
 
 dolphin/ax/AX.c:
@@ -520,7 +543,7 @@ dolphin/ax/AXVPB.c:
 	.sdata2     start:0x8047A9B0 end:0x8047A9B4
 
 dolphin/mix/mix.c:
-	.text       start:0x8019F0DC end:0x801A1148
+	.text       start:0x8019EF48 end:0x801A1148
 	.data       start:0x80217AE0 end:0x802186A0
 	.bss        start:0x8046BEC0 end:0x8046D7E0
 	.sbss       start:0x80475F80 end:0x80475F88
@@ -609,9 +632,10 @@ Cranky/CrankyInput.cpp:
 	.text       start:0x801C9894 end:0x801CA0C0
 
 Cranky/CrankyFileManager.cpp:
-	extab       start:0x8000B400 end:0x8000B468
-	extabindex  start:0x80013C24 end:0x80013CC0
+	extab       start:0x8000B400 end:0x8000B520
+	extabindex  start:0x80013C24 end:0x80013DD4
 	.text       start:0x801CA0C0 end:0x801CA934
+	.text       start:0x801CA934 end:0x801CB878
 
 Cranky/CrankyMemcard.cpp:
 	extab       start:0x8000B6D4 end:0x8000B784
