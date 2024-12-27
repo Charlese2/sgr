@@ -183,6 +183,7 @@ public:
     void Reinitialize(bool state);
     void AddSound(int index);
     void LoadUncachedSoundFromDisk();
+    static void ProcessAXARTSounds();
 
     /* 0x00 */ char field0_0x0[60];
     /* 0x3c */ char* field1_0x3c;
@@ -223,8 +224,6 @@ public:
     /* 0x10ff0 */ float field36_0x10ff0[2560];
     /* 0x137f0 */ char field37_0x137f0[24192];
 };  // Size: 0x19670
-
-void ProcessAXARTSounds();
 
 typedef struct struct_5_1 {
     undefined field0_0x0;

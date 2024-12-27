@@ -437,9 +437,25 @@ dolphin/os/OSTime.c:
 	.data       start:0x80212AF0 end:0x80212B50
 
 dolphin/axart/axart.c:
-	.text       start:0x80191B84 end:0x80191D00
+	.text       start:0x80191B84 end:0x80191D30
 	.sbss       start:0x80475CE0 end:0x80475CE8
 	.sdata2     start:0x8047A930 end:0x8047A938
+
+dolphin/axart/axartsound.c:
+	.text       start:0x80191D30 end:0x80192018
+
+dolphin/axart/axartcents.c:
+	.text       start:0x80192018 end:0x80192114
+
+dolphin/axart/axartenv.c:
+	.text       start:0x80192114 end:0x801921CC
+
+dolphin/axart/axartlfo.c:
+	.text       start:0x801921CC end:0x80192280
+
+dolphin/axart/axart3d.c:
+	.text       start:0x80192280 end:0x80192414
+	.sbss       start:0x80475CE8 end:0x80475CF0
 
 dolphin/mtx/mtx.c:
 	.text       start:0x80192414 end:0x801927A4

@@ -9,7 +9,7 @@ extern int DiskStatusStuff(int, int);
 extern AXARTSound* AXVPBQueue;
 
 
-SoundSystem SoundSystem;
+SoundSystem __SoundSystem;
 
 void SoundSystem::LoadNewSoundsFromDisk() {
 
@@ -70,12 +70,12 @@ void SoundSystem::LoadUncachedSoundFromDisk() {
 
 }
 
-void ProcessAXARTSounds() {
-    if (!SoundSystem.deativated){
+void SoundSystem::ProcessAXARTSounds() {
+    if (!__SoundSystem.deativated){
         MIXUpdateSettings();
         AXARTServiceSounds();
-        if (SoundSystem.in_use == FALSE){
-            SoundSystem.processing_queue = TRUE;
+        if (__SoundSystem.in_use == FALSE){
+            __SoundSystem.processing_queue = TRUE;
         }
         
     }

@@ -1,19 +1,17 @@
 #include "dolphin/axart.h"
 #include "dolphin/mix.h"
-#include "dolphin/os.h"
-#include "dolphin/types.h"
 
-static AXARTSound * AXVPBQueue;
+static AXARTSound * __AXARTSoundList;
 
 void AXARTServiceSounds() {
-    AXARTSound * p;
-    for (p = AXVPBQueue; p != NULL; p = p->next) {
-        AXARTServiceSound(p);
+    AXARTSound * sound;
+    for (sound = __AXARTSoundList; sound != NULL; sound = sound->next) {
+        AXARTServiceSound(sound);
     }
 }
 
 void AXARTInitSound(AXARTSound* sound, AXVPB* axvpb, float sampleRate) {
-    sound->unk10 = NULL;
+    sound->articulators = NULL;
     sound->axvpb = axvpb;
     sound->sampleRate = sampleRate;
 }
@@ -25,14 +23,14 @@ void AXARTAddSound(AXARTSound * sound) {
     MIXInitChannel(sound->axvpb, 0, -0x388, -0x388, -0x388, 64, 64, 0);
     enabled = OSDisableInterrupts();
 
-    if (AXVPBQueue) {
-        AXVPBQueue->prev = sound;
-        sound->next = AXVPBQueue;
+    if (__AXARTSoundList) {
+        __AXARTSoundList->prev = sound;
+        sound->next = __AXARTSoundList;
     } else {
         sound->next = NULL;
     }
     sound->prev = NULL;
-    AXVPBQueue = sound;
+    __AXARTSoundList = sound;
     OSRestoreInterrupts(enabled);
 }
 
@@ -41,10 +39,10 @@ void AXARTRemoveSound(AXARTSound* sound) {
     AXVPB *next, *prev;
 
     enabled = OSDisableInterrupts();
-    if (sound == (void*)AXVPBQueue) {
-        AXVPBQueue = sound->next;
-        if (AXVPBQueue != NULL) {
-            AXVPBQueue->prev = NULL;
+    if (sound == (void*)__AXARTSoundList) {
+        __AXARTSoundList = sound->next;
+        if (__AXARTSoundList != NULL) {
+            __AXARTSoundList->prev = NULL;
         }
     } else {
         next = sound->next;
