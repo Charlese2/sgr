@@ -3,11 +3,11 @@
 static f32 __AXART3DDopplerScale;
 static f32 __AXART3DDistanceScale;
 
-void AXARTSet3DDopplerScale(f64 scale) {
+void AXARTSet3DDopplerScale(f32 scale) {
     __AXART3DDopplerScale = scale;
 }
 
-void AXARTSet3DDistanceScale(f64 scale) {
+void AXARTSet3DDistanceScale(f32 scale) {
     __AXART3DDistanceScale = scale;
 }
 

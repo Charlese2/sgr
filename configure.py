@@ -374,6 +374,18 @@ config.libs = [
             Object(Matching, "PowerPC_EABI_Support/Runtime/global_destructor_chain.c"),
             Object(Matching, "PowerPC_EABI_Support/Runtime/__init_cpp_exceptions.cpp"),
             Object(Matching, "PowerPC_EABI_Support/Runtime/__mem.c"),
+            Object(Matching, "PowerPC_EABI_Support/Runtime/CPlusLibPPC.cp"),
+            Object(NonMatching, "PowerPC_EABI_Support/Runtime/runtime.c"),
+            Object(Matching, "PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.cp"),
+        ],
+    },
+    {
+        "lib": "MSL",
+        "mw_version": config.linker_version,
+        "cflags": cflags_runtime,
+        "progress_category": "sdk",  # str | List[str]
+        "objects": [
+            Object(Matching, "PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/abort_exit.c"),
         ],
     },
     DolphinLib(
@@ -404,6 +416,7 @@ config.libs = [
             Object(NonMatching, "dolphin/os/OSTimer.c"),
             Object(NonMatching, "dolphin/os/OSUartExi.c"),
             Object(NonMatching, "dolphin/os/time.dolphin.c"),
+            Object(Matching, "dolphin/os/__ppc_eabi_init.c"),
         ],
     ),
     DolphinLib(

@@ -34,8 +34,9 @@ typedef struct {
 
 
 // axart.c
+void AXARTInit();
 void AXARTServiceSounds();
-void AXARTInitSound(AXARTSound * sound, AXVPB* p, float unk2);
+void AXARTInitSound(AXARTSound * sound, AXVPB* p, u32 unk2);
 void AXARTAddSound(AXARTSound * sound);
 void AXARTRemoveSound(AXARTSound* sound);
 
@@ -54,8 +55,8 @@ void AXARTVolumeEnv(void * unk);
 void AXARTLfo( void * unk);
 
 // axart3d.c
-void AXARTSet3DDopplerScale(f64 scale);
-void AXARTSet3DDistanceScale(f64 scale);
+void AXARTSet3DDopplerScale(f32 scale);
+void AXARTSet3DDistanceScale(f32 scale);
 AXART_3DSound AXART3DSound(AXART_3DSound * unk);
 
 #endif // _DOLPHIN_AXQUEUE_H_

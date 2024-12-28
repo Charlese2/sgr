@@ -72,9 +72,10 @@ gamesound.cpp:
 	.text       start:0x8005EA4C end:0x8005ED8C
 
 character_instance.cpp:
-	extab       start:0x800067EC end:0x800067F4
-	extabindex  start:0x8000D138 end:0x8000D144
-	.text       start:0x80063674 end:0x800638EC
+	extab       start:0x800067EC end:0x800067FC
+	extabindex  start:0x8000D138 end:0x8000D150
+	.text       start:0x80063674 end:0x8006392C
+	.ctors      start:0x801EE8AC end:0x801EE8B0
 
 skeleton.cpp:
 	extab       start:0x8000688C end:0x80006894
@@ -238,8 +239,8 @@ debug.cpp:
 	.text       start:0x80150BBC end:0x80150D18
 	.rodata     start:0x801FD910 end:0x801FD940
 
-PowerPC_EABI_Support/Runtime/__mem.c:
-	.init       start:0x80005434 end:0x8000556C
+dolphin/os/__start.c:
+	.init       start:0x80003140 end:0x80003354
 
 FileSystem.cpp:
 	extab       start:0x8000A25C end:0x8000A274
@@ -436,10 +437,14 @@ dolphin/os/OSTime.c:
 	.text       start:0x80190E34 end:0x801912B0
 	.data       start:0x80212AF0 end:0x80212B50
 
+dolphin/os/__ppc_eabi_init.c:
+	.init       start:0x80003354 end:0x800033A8
+	.text       start:0x801912B0 end:0x80191344
+
 dolphin/axart/axart.c:
-	.text       start:0x80191B84 end:0x80191D30
+	.text       start:0x80191B50 end:0x80191D30
 	.sbss       start:0x80475CE0 end:0x80475CE8
-	.sdata2     start:0x8047A930 end:0x8047A938
+	.sdata2     start:0x8047A928 end:0x8047A938
 
 dolphin/axart/axartsound.c:
 	.text       start:0x80191D30 end:0x80192018
@@ -619,14 +624,33 @@ PowerPC_EABI_Support/Runtime/global_destructor_chain.c:
 	.dtors      start:0x801EEA68 end:0x801EEA6C
 	.sbss       start:0x80476028 end:0x80476030
 
+PowerPC_EABI_Support/Runtime/CPlusLibPPC.cp:
+	.text       start:0x801B773C end:0x801B776C
+
+PowerPC_EABI_Support/Runtime/__mem.c:
+	.init       start:0x80005434 end:0x8000556C
+
+PowerPC_EABI_Support/Runtime/runtime.c:
+	.text       start:0x801B7E28 end:0x801B8504
+	.rodata     start:0x80202728 end:0x80202740
+
 PowerPC_EABI_Support/Runtime/__init_cpp_exceptions.cpp:
 	.text       start:0x801B8504 end:0x801B8580
 	.ctors      start:0x801EE840 end:0x801EE844
 	.dtors      start:0x801EEA60 end:0x801EEA68
 	.sdata      start:0x804742B8 end:0x804742BC
 
+PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.cp:
+	.text       start:0x801B9B58 end:0x801B9BC0
+	.bss        start:0x80472160 end:0x80472170
+
 GCN_Mem_Alloc.c:
 	.text       start:0x801B9BCC end:0x801B9C84
+
+PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/abort_exit.c:
+	.text       start:0x801B9C84 end:0x801B9D50
+	.bss        start:0x80472170 end:0x80472270
+	.sbss       start:0x80476030 end:0x80476040
 
 dolphin/odenotstub/odenotstub.c:
 	.text       start:0x801C5AE8 end:0x801C5AF0

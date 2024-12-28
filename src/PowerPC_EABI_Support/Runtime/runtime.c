@@ -1,4 +1,4 @@
-#include "PowerPC_EABI_Support/Runtime/Inc/runtime.h"
+#include "PowerPC_EABI_Support/Runtime/runtime.h"
 
 #ifdef __cplusplus
 extern "C" {

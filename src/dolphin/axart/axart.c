@@ -3,6 +3,12 @@
 
 static AXARTSound * __AXARTSoundList;
 
+void AXARTInit() {
+    __AXARTSoundList = NULL;
+    AXARTSet3DDistanceScale(40.0f);
+    AXARTSet3DDopplerScale(20.0);
+}
+
 void AXARTServiceSounds() {
     AXARTSound * sound;
     for (sound = __AXARTSoundList; sound != NULL; sound = sound->next) {
@@ -10,7 +16,7 @@ void AXARTServiceSounds() {
     }
 }
 
-void AXARTInitSound(AXARTSound* sound, AXVPB* axvpb, float sampleRate) {
+void AXARTInitSound(AXARTSound* sound, AXVPB* axvpb, u32 sampleRate) {
     sound->articulators = NULL;
     sound->axvpb = axvpb;
     sound->sampleRate = sampleRate;
