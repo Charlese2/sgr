@@ -70,6 +70,10 @@ void SoundSystem::LoadUncachedSoundFromDisk() {
 
 }
 
+void SoundSystem::Initialize() {
+
+}
+
 void SoundSystem::ProcessAXARTSounds() {
     if (!__SoundSystem.deativated){
         MIXUpdateSettings();

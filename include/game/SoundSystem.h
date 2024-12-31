@@ -179,6 +179,7 @@ public:
     SoundSystem();
     ~SoundSystem();
     void LoadNewSoundsFromDisk();
+    void Initialize();
     void InitializeAudio();
     void Reinitialize(bool state);
     void AddSound(int index);
