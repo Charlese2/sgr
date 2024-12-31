@@ -37,7 +37,7 @@ void SoundSystem::InitializeAudio() {
     }
 }
 
-void SoundSystem::Reinitialize(bool unk) {
+void SoundSystem::ReinitializeAudio(bool unk) {
     BOOL lastInUseState = in_use;
 
     while (processing_queue) {}

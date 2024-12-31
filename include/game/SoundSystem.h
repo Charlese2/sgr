@@ -181,7 +181,7 @@ public:
     void LoadNewSoundsFromDisk();
     void Initialize();
     void InitializeAudio();
-    void Reinitialize(bool state);
+    void ReinitializeAudio(bool state);
     void AddSound(int index);
     void LoadUncachedSoundFromDisk();
     static void ProcessAXARTSounds();
