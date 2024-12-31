@@ -88,9 +88,9 @@ vif_particles.cpp:
 	.text       start:0x80070DF8 end:0x8007107C
 
 objects.cpp:
-	extab       start:0x80006BEC end:0x80006BF4
-	extabindex  start:0x8000D720 end:0x8000D72C
-	.text       start:0x80075D24 end:0x80075E64
+	extab       start:0x80006BD4 end:0x80006BF4
+	extabindex  start:0x8000D6FC end:0x8000D72C
+	.text       start:0x800752C4 end:0x80075E64
 
 items.cpp:
 	extab       start:0x80006C0C end:0x80006CBC
@@ -157,6 +157,8 @@ living_entity.cpp:
 	extabindex  start:0x8000E974 end:0x8000EBD8
 	.text       start:0x800B1AF4 end:0x800BBB60
 	.ctors      start:0x801EE918 end:0x801EE91C
+	.data       start:0x8020DA90 end:0x8020DA9C
+	.bss        start:0x803355F0 end:0x80335BF0
 
 pathfinding.cpp:
 	extab       start:0x80007EF0 end:0x80007F18
