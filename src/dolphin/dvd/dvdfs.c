@@ -453,15 +453,15 @@ long DVDGetFileInfoStatus(struct DVDFileInfo * fileInfo) {
 
 int DVDOpenDir(char * dirName, DVDDir * dir) {
     long entry;
-#if DEBUG
     char currentDir[128];
-#endif
 
     ASSERTMSGLINE(0x401, dirName, "DVDOpendir(): null pointer is specified to directory name  ");
     entry = DVDConvertPathToEntrynum(dirName);
     ASSERTMSG2LINE(0x409, entry >= 0, "DVDOpendir(): directory '%s' is not found under %s  ", dirName, (DVDGetCurrentDir(currentDir, 128), currentDir));
     ASSERTMSG1LINE(0x40E, entryIsDir(entry), "DVDOpendir(): file '%s' is specified as a directory name  ", dirName);
     if (entry < 0 || !entryIsDir(entry)) {
+        DVDGetCurrentDir(currentDir, 128);
+        OSReport("Warning: DVDOpenDir(): file '%s' was not found under %s.\n", dirName, currentDir);
         return 0;
     }
     dir->entryNum = entry;

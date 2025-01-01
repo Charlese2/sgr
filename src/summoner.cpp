@@ -4,19 +4,8 @@
 
 void MainLoop();
 
-extern void fn_801535b4();
 extern void StatusStuff(u32, u32, double, double);
-extern int fn_801508F8();
-extern void fn_80150900();
-extern void * fn_801b7a64(void *, void*, void*, u32, u32);
-extern void fn_80014a5c();
-extern void* fn_800baf7c(void*);
-extern void* fn_800baf10(void*, void*);
 extern void SoundStuff();
-extern void fn_80180e38(BOOL, BOOL);
-extern void fn_801848c4();
-extern void fn_80183350();
-extern void fn_80182e70();
 
 extern volatile BOOL AllocatingMemory;
 extern void* lbl_80474f74;
