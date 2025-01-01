@@ -126,39 +126,16 @@ void main()
 
     MainLoop();
     SoundStuff();
-    fn_80180e38(TRUE,TRUE);
-    fn_801848c4();
-    fn_80183350();
-    fn_80182e70();
 }
 
 void MainLoop() 
 {
     void * allocated_memory_address;
 
-    fn_801535b4();
     StatusStuff(0,0, status1, status2);
 
-    int someValue = fn_801508F8();
-    fn_80150900();
     AllocatingMemory = TRUE;
-    allocated_memory_address = SomeMemoryFunction(0x9c50, file_string, 796);
-    lbl_80474f74 = fn_801b7a64(allocated_memory_address, (void*)fn_80014a5c, NULL, 40, 1000);
-    lbl_80474b70 = SomeMemoryFunction(0x27f28, file_string, 797);
-    lbl_804743f0 = (void *)SomeMemoryFunction(0x32000, file_string, 798);
-    lbl_80475640 = SomeMemoryFunction(0x20000, file_string, 799);
-    lbl_8047545c = SomeMemoryFunction(0x32000, file_string, 800);
-    lbl_80475464 = SomeMemoryFunction(0x2000, file_string, 801);
-    allocated_memory_address = SomeMemoryFunction(0x42730, file_string, 802);
-    lbl_80474ef8 = fn_801b7a64(allocated_memory_address, (void*)fn_800baf7c, (void*)fn_800baf10, 0x5e8, 180);
-    lbl_80474b7c = SomeMemoryFunction(0x45d30, file_string, 803);
-    lbl_80474b58 = SomeMemoryFunction(0x1fa18, file_string, 805);
-    lbl_80474b4c = SomeMemoryFunction(0x1d800, file_string, 804);
-    lbl_80473e40 = SomeMemoryFunction(0x23280, file_string, 806);
-    lbl_80473e44 = SomeMemoryFunction(0x23280, file_string, 807);
-    void * test = SomeMemoryFunction(0x1000, __FILE__, 800);
-    allocated_memory_address = SomeMemoryFunction(0x32000, file_string, 808);
-    lbl_804745e8 = fn_801b7a64(allocated_memory_address, (void*)fn_80014a5c, NULL, 40, 1000);
+
     AllocatingMemory = FALSE;
 
 

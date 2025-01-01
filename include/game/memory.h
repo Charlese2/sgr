@@ -1,9 +1,15 @@
+#include "dolphin/os/OSException.h"
 #include "dolphin/types.h"
-#include "dolphin/os/OSAlloc.h"
+extern "C" {
+    #include "dolphin/os/OSAlloc.h"
+}
+
 
 extern BOOL lbl_8047558c;
 volatile extern OSHeapHandle __OSCurrHeap;
 char stringbuf [132];
 
-template<typename T>
-void * SomeMemoryFunction(int amount, T file, int line);
+void operator delete(void * address) throw();
+void operator delete[](void * memoryAddress) throw ();
+
+void* operator new(size_t amount, char* file, int line);
