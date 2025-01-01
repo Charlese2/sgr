@@ -8,19 +8,6 @@ extern void StatusStuff(u32, u32, double, double);
 extern void SoundStuff();
 
 extern volatile BOOL AllocatingMemory;
-extern void* lbl_80474f74;
-extern void* lbl_80474b70;
-extern void* lbl_804743f0;
-extern void* lbl_80475640;
-extern void* lbl_8047545c;
-extern void* lbl_80475464;
-extern void* lbl_80474ef8;
-extern void* lbl_80474b7c;
-extern void* lbl_80474b58;
-extern void* lbl_80474b4c;
-extern void* lbl_80473e40;
-extern void* lbl_80473e44;
-extern void* lbl_804745e8;
 
 double status1;
 double status2;
