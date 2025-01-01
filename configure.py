@@ -217,8 +217,11 @@ cflags_runtime = [
     "-gccinc",
     "-common off",
     "-inline auto",
+    "-Cpp_exceptions on",
     "-i include/PowerPC_EABI_Support/Runtime",
     "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+    "-i include/stl",
+
 ]
 
 cflags_sdk = [
@@ -226,11 +229,11 @@ cflags_sdk = [
     "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
-    "-DTEST"
 ]
 
 cflags_game = [
     *cflags_base,
+    "-Cpp_exceptions on",
     "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
@@ -371,12 +374,12 @@ config.libs = [
         "cflags": cflags_runtime,
         "progress_category": "sdk",  # str | List[str]
         "objects": [
-            Object(Matching, "PowerPC_EABI_Support/Runtime/global_destructor_chain.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/Runtime/global_destructor_chain.c"),
             Object(Matching, "PowerPC_EABI_Support/Runtime/__init_cpp_exceptions.cpp"),
-            Object(Matching, "PowerPC_EABI_Support/Runtime/__mem.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/Runtime/__mem.c"),
             Object(Matching, "PowerPC_EABI_Support/Runtime/CPlusLibPPC.cp"),
             Object(NonMatching, "PowerPC_EABI_Support/Runtime/runtime.c"),
-            Object(Matching, "PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.cp"),
+            Object(NonMatching, "PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.cp"),
         ],
     },
     {
@@ -385,7 +388,7 @@ config.libs = [
         "cflags": cflags_runtime,
         "progress_category": "sdk",  # str | List[str]
         "objects": [
-            Object(Matching, "PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/abort_exit.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/abort_exit.c"),
         ],
     },
     DolphinLib(

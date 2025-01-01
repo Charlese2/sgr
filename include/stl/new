@@ -1,0 +1,22 @@
+#ifndef _NEW
+#define _NEW
+
+#include <exception>
+#include <cstddef>
+
+namespace std{
+    class bad_alloc : public exception {
+    public:
+        virtual ~bad_alloc(){}
+        virtual const char* what() const{
+            return "bad_alloc";
+        }
+    };
+
+    struct nothrow_t {};
+    extern const nothrow_t nothrow;
+}
+
+inline void* operator new(size_t size, void* ptr) { return ptr; }
+
+#endif
