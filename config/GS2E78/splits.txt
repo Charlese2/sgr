@@ -20,6 +20,9 @@ summoner.cpp:
 	.rodata     start:0x801EEA80 end:0x801EED40
 	.bss        start:0x80228F80 end:0x80228F94
 
+dolphin/os/__start.c:
+	.init       start:0x80003100 end:0x80003354
+
 effects.cpp:
 	extab       start:0x800056A0 end:0x80005920
 	extabindex  start:0x8000B860 end:0x8000BC08
@@ -240,9 +243,6 @@ debug.cpp:
 	extabindex  start:0x80012340 end:0x8001234C
 	.text       start:0x80150BBC end:0x80150D18
 	.rodata     start:0x801FD910 end:0x801FD940
-
-dolphin/os/__start.c:
-	.init       start:0x80003140 end:0x80003354
 
 FileSystem.cpp:
 	extab       start:0x8000A25C end:0x8000A274

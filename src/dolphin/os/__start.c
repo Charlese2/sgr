@@ -41,6 +41,13 @@ static void __init_registers(void);
 static void __init_data(void);
 
 __declspec(section ".init")
+void __check_pad3(void) {
+    if ((*(u16*)0x800030E4 & 0xEEF) == 0xEEF) {
+        OSResetSystem(0, 0, 0);
+    }
+}
+
+__declspec(section ".init")
 __declspec(weak) asm void __start(void) {
   // clang-format off
 	nofralloc
@@ -61,8 +68,19 @@ __declspec(weak) asm void __start(void) {
 
 _check_TRK:
 	cmplwi r6, 0
-	beq _goto_main
+	beq _unk
 	lwz r7, OS_BI2_DEBUGFLAG_OFFSET(r6)
+	b _check_debug_flag
+
+_unk:
+	lis r5, ARENAHI_ADDR@ha
+	addi r5, r5, ARENAHI_ADDR@l
+	lwz r5, 0x0(r5)
+	cmplwi r5, 0x0
+	beq _goto_main
+	lis r7, DEBUGFLAG_ADDR@ha
+	addi r7, r7, DEBUGFLAG_ADDR@l
+	lwz r7, 0x0(r7)
 	
 _check_debug_flag:
 	li r5, 0
@@ -113,6 +131,17 @@ _no_args:
 _end_of_parseargs:
 	bl DBInit
 	bl OSInit
+	lis r4, 0x8000
+    addi r4, r4, 0x30E6
+    lhz r3, 0(r4)
+    andi. r5, r3, 0x8000
+    beq _check_pad
+    andi. r3, r3, 0x7fff
+    cmplwi r3, 1
+    bne _goto_skip_init_bba
+
+_check_pad:
+	bl __check_pad3
 
 _goto_skip_init_bba:
 	bl __init_user
