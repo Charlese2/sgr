@@ -410,8 +410,14 @@ dolphin/os/OSInterrupt.c:
 dolphin/os/OSLink.c:
 	.text       start:0x8018E858 end:0x8018E870
 
+dolphin/os/OSMemory.c:
+	.text       start:0x8018E870 end:0x8018EA30
+
 dolphin/os/OSMutex.c:
-	.text       start:0x8018EB50 end:0x8018EC00
+	.text       start:0x8018EB50 end:0x8018EBC0
+
+dolphin/os/OSReboot.c:
+	.text       start:0x8018EBC0 end:0x8018EBEC
 
 dolphin/os/OSReset.c:
 	.text       start:0x8018EDCC end:0x8018F1B0
@@ -568,21 +574,35 @@ dolphin/ax/AXVPB.c:
 dolphin/mix/mix.c:
 	.text       start:0x8019EF48 end:0x801A1148
 	.data       start:0x80217AE0 end:0x802186A0
-	.bss        start:0x8046BEC0 end:0x8046D7E0
+	.bss        start:0x8046BEC0 end:0x8046D6C0
 	.sbss       start:0x80475F80 end:0x80475F88
 
 dolphin/dsp/dsp.c:
-	.text       start:0x801A1168 end:0x801A12C4
+	.text       start:0x801A1168 end:0x801A138C
 	.data       start:0x802186A0 end:0x80218818
-	.sbss       start:0x80475F90 end:0x80475F98
+	.sbss       start:0x80475F90 end:0x80475FB0
+
+dolphin/dsp/dsp_debug.c:
+	.text       start:0x801A138C end:0x801A13DC
+
+dolphin/dsp/dsp_task.c:
+	.text       start:0x801A13DC end:0x801A1C60
+
+dolphin/dtk/dtk.c:
+	.text       start:0x801A1C60 end:0x801A2660
+	.bss        start:0x8046D6C0 end:0x8046D7E0
+	.sbss       start:0x80475FB0 end:0x80475FE0
 
 dolphin/card/CARDBios.c:
 	.text       start:0x801A2660 end:0x801A392C
 	.data       start:0x80218818 end:0x80218828
 	.bss        start:0x8046D7E0 end:0x8046DA20
 
+dolphin/card/CARDUnlock.c:
+	.text       start:0x801A392C end:0x801A4B8C
+
 dolphin/card/CARDBlock.c:
-	.text       start:0x801A4FB0 end:0x801A5210
+	.text       start:0x801A4E0C end:0x801A5210
 
 dolphin/card/CARDDir.c:
 	.text       start:0x801A5210 end:0x801A5474
@@ -597,8 +617,27 @@ dolphin/card/CARDMount.c:
 dolphin/card/CARDFormat.c:
 	.text       start:0x801A6E6C end:0x801A7650
 
+dolphin/card/CARDOpen.c:
+	.text       start:0x801A7650 end:0x801A7AA4
+
 dolphin/card/CARDCreate.c:
 	.text       start:0x801A7AA4 end:0x801A7E3C
+
+dolphin/card/CARDRead.c:
+	.text       start:0x801A7E3C end:0x801A82B4
+
+dolphin/card/CARDWrite.c:
+	.text       start:0x801A82B4 end:0x801A85E8
+
+dolphin/card/CARDDelete.c:
+	.text       start:0x801A85E8 end:0x801A87E4
+
+dolphin/card/CARDStat.c:
+	.text       start:0x801A87E4 end:0x801A8CC4
+
+dolphin/gx/GXInit.c:
+	.text       start:0x801A8CC4 end:0x801A9DB4
+	.sdata      start:0x80474250 end:0x80474258
 
 dolphin/gx/GXFifo.c:
 	.text       start:0x801A9DB4 end:0x801AA554
@@ -614,6 +653,9 @@ dolphin/gx/GXMisc.c:
 
 dolphin/gx/GXGeometry.c:
 	.text       start:0x801ABE18 end:0x801AC23C
+
+dolphin/gx/GXFrameBuf.c:
+	.text       start:0x801AC23C end:0x801AD028
 
 dolphin/gx/GXDisplayList.c:
 	.text       start:0x801AF7F8 end:0x801AF868

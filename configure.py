@@ -407,7 +407,9 @@ config.libs = [
             Object(NonMatching, "dolphin/os/OSFont.c"),
             Object(Matching, "dolphin/os/OSInterrupt.c"),
             Object(Matching, "dolphin/os/OSLink.c"),
+            Object(NonMatching, "dolphin/os/OSMemory.c"),
             Object(NonMatching, "dolphin/os/OSMutex.c"),
+            Object(NonMatching, "dolphin/os/OSReboot.c"),
             Object(NonMatching, "dolphin/os/OSReset.c"),
             Object(NonMatching, "dolphin/os/OSResetSW.c"),
             Object(NonMatching, "dolphin/os/OSRtc.c"),
@@ -469,6 +471,14 @@ config.libs = [
         "dsp",
         [
             Object(NonMatching, "dolphin/dsp/dsp.c"),
+            Object(NonMatching, "dolphin/dsp/dsp_debug.c"),
+            Object(NonMatching, "dolphin/dsp/dsp_task.c"),
+        ]
+    ),
+    DolphinLib(
+        "dtk",
+        [
+            Object(Matching, "dolphin/dtk/dtk.c"),
         ]
     ),
     DolphinLib(
@@ -481,9 +491,11 @@ config.libs = [
     DolphinLib(
         "gx",
         [
+            Object(NonMatching, "dolphin/gx/GXInit.c"),
             Object(NonMatching, "dolphin/gx/GXTexture.c"),
             Object(NonMatching, "dolphin/gx/GXMisc.c"),
             Object(NonMatching, "dolphin/gx/GXGeometry.c"),
+            Object(NonMatching, "dolphin/gx/GXFrameBuf.c"),
             Object(NonMatching, "dolphin/gx/GXDisplayList.c"),
             Object(NonMatching, "dolphin/gx/GXFifo.c"),
             Object(NonMatching, "dolphin/gx/GXAttr.c"),
@@ -497,6 +509,7 @@ config.libs = [
             Object(NonMatching, "dolphin/card/CARDBlock.c"),
             Object(NonMatching, "dolphin/card/CARDCheck.c"),
             Object(NonMatching, "dolphin/card/CARDCreate.c"),
+            Object(NonMatching, "dolphin/card/CARDDelete.c"),
             Object(NonMatching, "dolphin/card/CARDDir.c"),
             Object(NonMatching, "dolphin/card/CARDFormat.c"),
             Object(NonMatching, "dolphin/card/CARDMount.c"),

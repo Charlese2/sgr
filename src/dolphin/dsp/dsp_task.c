@@ -3,7 +3,7 @@
 #include <dolphin.h>
 #include <dolphin/hw_regs.h>
 
-#include "__dsp.h"
+#include "dsp/__dsp.h"
 
 static u32 t0, t1, t2;  // unused
 
