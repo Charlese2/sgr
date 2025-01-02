@@ -350,7 +350,7 @@ MusicSystem.cpp:
 	.ctors      start:0x801EEA48 end:0x801EEA4C
 
 dolphin/base/PPCArch.c:
-	.text       start:0x8018A788 end:0x8018A7F4
+	.text       start:0x8018A788 end:0x8018A824
 
 dolphin/db/db.c:
 	.text       start:0x8018A824 end:0x8018A910
@@ -358,7 +358,7 @@ dolphin/db/db.c:
 	.sbss       start:0x80475C18 end:0x80475C20
 
 dolphin/os/OS.c:
-	.text       start:0x8018A910 end:0x8018B258
+	.text       start:0x8018A910 end:0x8018B26C
 	.data       start:0x802112A0 end:0x8021145C
 	.bss        start:0x80451FA0 end:0x80451FD0
 	.sbss       start:0x80475C20 end:0x80475C50
@@ -411,13 +411,16 @@ dolphin/os/OSLink.c:
 	.text       start:0x8018E858 end:0x8018E870
 
 dolphin/os/OSMemory.c:
-	.text       start:0x8018E870 end:0x8018EA30
+	.text       start:0x8018E870 end:0x8018EB50
 
 dolphin/os/OSMutex.c:
 	.text       start:0x8018EB50 end:0x8018EBC0
 
+dolphin/os/OSExec.c:
+	.text       start:0x8018EBC0 end:0x8018EC00
+
 dolphin/os/OSReboot.c:
-	.text       start:0x8018EBC0 end:0x8018EBEC
+	.text       start:0x8018EC0C end:0x8018EDCC
 
 dolphin/os/OSReset.c:
 	.text       start:0x8018EDCC end:0x8018F1B0
@@ -474,13 +477,17 @@ dolphin/mtx/mtx.c:
 	.text       start:0x80192414 end:0x801927A4
 
 dolphin/mtx/mtx44.c:
-	.text       start:0x801927A4 end:0x8019290C
+	.text       start:0x801927A4 end:0x80192950
 
 dolphin/mtx/vec.c:
-	.text       start:0x8019290C end:0x801929F0
+	.text       start:0x80192950 end:0x801929F0
+	.sdata2     start:0x8047A988 end:0x8047A990
+
+dolphin/mtx/quat.c:
+	.text       start:0x801929F0 end:0x80192C48
 
 dolphin/dvd/dvdlow.c:
-	.text       start:0x80192F7C end:0x80193A9C
+	.text       start:0x80192C48 end:0x80193A9C
 	.bss        start:0x80452A80 end:0x80452B10
 	.sdata      start:0x804741E8 end:0x804741F0
 	.sbss       start:0x80475CF0 end:0x80475D38
@@ -551,7 +558,7 @@ dolphin/ax/AXAux.c:
 	.sbss       start:0x80475EC8 end:0x80475F00
 
 dolphin/ax/AXCL.c:
-	.text       start:0x8019CB74 end:0x8019D28C
+	.text       start:0x8019CB74 end:0x8019D2A8
 	.bss        start:0x80455C60 end:0x80456260
 	.sbss       start:0x80475F00 end:0x80475F18
 
@@ -571,6 +578,13 @@ dolphin/ax/AXVPB.c:
 	.sbss       start:0x80475F60 end:0x80475F70
 	.sdata2     start:0x8047A9B0 end:0x8047A9B4
 
+dolphin/ax/AXProf.c:
+	.text       start:0x8019EEA4 end:0x8019EEEC
+	.sbss       start:0x80475F70 end:0x80475F80
+
+dolphin/axfx/axfx.c:
+	.text       start:0x8019EEEC end:0x8019EF48
+
 dolphin/mix/mix.c:
 	.text       start:0x8019EF48 end:0x801A1148
 	.data       start:0x80217AE0 end:0x802186A0
@@ -578,7 +592,7 @@ dolphin/mix/mix.c:
 	.sbss       start:0x80475F80 end:0x80475F88
 
 dolphin/dsp/dsp.c:
-	.text       start:0x801A1168 end:0x801A138C
+	.text       start:0x801A1148 end:0x801A138C
 	.data       start:0x802186A0 end:0x80218818
 	.sbss       start:0x80475F90 end:0x80475FB0
 
@@ -600,6 +614,9 @@ dolphin/card/CARDBios.c:
 
 dolphin/card/CARDUnlock.c:
 	.text       start:0x801A392C end:0x801A4B8C
+
+dolphin/card/CARDRdwr.c:
+	.text       start:0x801A4B8C end:0x801A4E0C
 
 dolphin/card/CARDBlock.c:
 	.text       start:0x801A4E0C end:0x801A5210
@@ -657,8 +674,32 @@ dolphin/gx/GXGeometry.c:
 dolphin/gx/GXFrameBuf.c:
 	.text       start:0x801AC23C end:0x801AD028
 
+dolphin/gx/GXLight.c:
+	.text       start:0x801AD028 end:0x801AD528
+
+dolphin/gx/GXTexture.c:
+	.text       start:0x801AD528 end:0x801AE388
+	.data       start:0x80218B98 end:0x80218D7C
+	.sdata      start:0x80474268 end:0x804742A0
+
+dolphin/gx/GXBump.c:
+	.text       start:0x801AE388 end:0x801AE75C
+
+dolphin/gx/GXTev.c:
+	.text       start:0x801AE75C end:0x801AF0AC
+	.data       start:0x80218DB8 end:0x80218DE0
+
+dolphin/gx/GXPixel.c:
+	.text       start:0x801AF0AC end:0x801AF7F4
+
+dolphin/gx/GXStubs.c:
+	.text       start:0x801AF7F4 end:0x801AF7F8
+
 dolphin/gx/GXDisplayList.c:
 	.text       start:0x801AF7F8 end:0x801AF868
+
+dolphin/gx/GXTransform.c:
+	.text       start:0x801AF868 end:0x801AFFD4
 
 dolphin/gx/GXPerf.c:
 	.text       start:0x801AFFD4 end:0x801B08D0

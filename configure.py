@@ -227,6 +227,7 @@ cflags_runtime = [
 cflags_sdk = [
     *cflags_base,
     "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common_Embedded/Math/Include/",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
@@ -403,6 +404,7 @@ config.libs = [
             Object(Matching, "dolphin/os/OSCache.c"),
             Object(Matching, "dolphin/os/OSContext.c"),
             Object(Matching, "dolphin/os/OSError.c"),
+            Object(NonMatching, "dolphin/os/OSExec.c"),
             Object(NonMatching, "dolphin/os/OSExi.c"),
             Object(NonMatching, "dolphin/os/OSFont.c"),
             Object(Matching, "dolphin/os/OSInterrupt.c"),
@@ -437,25 +439,26 @@ config.libs = [
             Object(Matching, "dolphin/ar/arq.c"),
         ]
     ),
-    {
-        "lib": "ax",
-        "mw_version": "GC/1.2.5n",
-        "cflags": cflags_sdk,
-        "progress_category": "sdk",
-        "host": True,
-        "objects": [
+    DolphinLib(
+        "ax",
+        [
             Object(Matching, "dolphin/ax/AX.c"),
             Object(Matching, "dolphin/ax/AXAlloc.c"),
             Object(NonMatching, "dolphin/ax/AXAux.c"),
             Object(NonMatching, "dolphin/ax/AXCL.c"),
             Object(NonMatching, "dolphin/ax/AXOut.c"),
-            Object(NonMatching, "dolphin/ax/AXProf.c"),
+            Object(Matching, "dolphin/ax/AXProf.c"),
             Object(NonMatching, "dolphin/ax/AXSPB.c"),
             Object(NonMatching, "dolphin/ax/AXVPB.c"),
             Object(NonMatching, "dolphin/ax/DSPCode.c"),
-            
         ]
-    },
+    ),
+    DolphinLib(
+        "axfx",
+        [
+            Object(NonMatching, "dolphin/axfx/axfx.c"),
+        ]
+    ),
     DolphinLib(
         "dvd",
         [
@@ -484,7 +487,7 @@ config.libs = [
     DolphinLib(
         "PPCArch",
         [
-            Object(Matching, "dolphin/base/PPCArch.c"),
+            Object(NonMatching, "dolphin/base/PPCArch.c"),
 
         ]
     ),
@@ -497,9 +500,15 @@ config.libs = [
             Object(NonMatching, "dolphin/gx/GXGeometry.c"),
             Object(NonMatching, "dolphin/gx/GXFrameBuf.c"),
             Object(NonMatching, "dolphin/gx/GXDisplayList.c"),
+            Object(NonMatching, "dolphin/gx/GXLight.c"),
+            Object(NonMatching, "dolphin/gx/GXTransform.c"),
             Object(NonMatching, "dolphin/gx/GXFifo.c"),
             Object(NonMatching, "dolphin/gx/GXAttr.c"),
             Object(NonMatching, "dolphin/gx/GXPerf.c"),
+            Object(NonMatching, "dolphin/gx/GXTev.c"),
+            Object(NonMatching, "dolphin/gx/GXPixel.c"),
+            Object(NonMatching, "dolphin/gx/GXBump.c"),
+            Object(Matching, "dolphin/gx/GXStubs.c"),
         ]
     ),
     DolphinLib(
@@ -540,6 +549,7 @@ config.libs = [
             Object(NonMatching, "dolphin/mtx/mtx.c"),
             Object(NonMatching, "dolphin/mtx/mtx44.c"),
             Object(NonMatching, "dolphin/mtx/vec.c"),
+            Object(NonMatching, "dolphin/mtx/quat.c"),
         ]
     ),
     DolphinLib(
