@@ -99,6 +99,7 @@ u32 ARInit(u32 * stack_index_addr, u32 num_entries) {
     if (__AR_init_flag == 1) {
         return 0x4000;
     }
+
     old = OSDisableInterrupts();
     __AR_Callback = NULL;
     __OSSetInterruptHandler(6, __ARHandler);
@@ -106,9 +107,10 @@ u32 ARInit(u32 * stack_index_addr, u32 num_entries) {
     __AR_StackPointer = 0x4000;
     __AR_FreeBlocks = num_entries;
     __AR_BlockLength = stack_index_addr;
-    refresh = 196.0f * (OS_BUS_CLOCK / 202500000.0f);
-    ASSERTMSGLINE(0x227, (refresh <= 196.0f), "ARInit(): ILLEGAL SDRAM REFRESH VALUE\n");
-    __DSPRegs[13] = (__DSPRegs[13] & 0xFF00) | ((u8)refresh & ~0xFF00);
+
+    refresh = (u16)(__DSPRegs[13] & 0xff);
+    
+    __DSPRegs[13] = (__DSPRegs[13] & ~0xff) | (refresh & 0xff);
     __ARChecksize();
     __AR_init_flag = 1;
     OSRestoreInterrupts(old);

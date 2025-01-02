@@ -249,13 +249,17 @@ VIRetraceCallback VISetPostRetraceCallback(VIRetraceCallback cb)
 static VITiming *getTiming(VITVMode mode)
 {
     switch (mode) {
-    case VI_TVMODE_NTSC_INT:  return &timing[0];
-    case VI_TVMODE_NTSC_DS:   return &timing[1];
-    case VI_TVMODE_PAL_INT:   return &timing[2];
-    case VI_TVMODE_PAL_DS:    return &timing[3];
-    case VI_TVMODE_MPAL_INT:  return &timing[4];
-    case VI_TVMODE_MPAL_DS:   return &timing[5];
-    case VI_TVMODE_NTSC_PROG: return &timing[6];
+    case VI_TVMODE_NTSC_INT:        return &timing[0];
+    case VI_TVMODE_NTSC_DS:         return &timing[1];
+    case VI_TVMODE_PAL_INT:         return &timing[2];
+    case VI_TVMODE_PAL_DS:          return &timing[3];
+    case VI_TVMODE_EURGB60_INT:     return &timing[0];
+    case VI_TVMODE_EURGB60_DS:      return &timing[2];
+    case VI_TVMODE_MPAL_INT:        return &timing[4];
+    case VI_TVMODE_MPAL_DS:         return &timing[5];
+    case VI_TVMODE_NTSC_PROG:       return &timing[6];
+    case VI_TVMODE_DEBUG_INT:       return &timing[6];
+    case VI_TVMODE_DEBUG_PAL_INT:   return &timing[7];
     default: return NULL;
     }
 }
