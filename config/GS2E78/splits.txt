@@ -766,9 +766,42 @@ PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/ansi_fp.c:
 PowerPC_EABI_Support/MSL_C/MSL_Common/arith.c:
 	.text       start:0x801BC0B4 end:0x801BC0C4
 
+PowerPC_EABI_Support/MSL_C/MSL_Common/buffer_io.c:
+	.text       start:0x801BC1B0 end:0x801BC2A8
+
 PowerPC_EABI_Support/MSL_C/MSL_Common/ctype.c:
 	.text       start:0x801BC2A8 end:0x801BC2CC
 	.data       start:0x802194E0 end:0x802195E0
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/direct_io.c:
+	.text       start:0x801BC2CC end:0x801BC5F8
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/file_io.c:
+	.text       start:0x801BC5F8 end:0x801BC7F0
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/FILE_POS.c:
+	.text       start:0x801BC7F0 end:0x801BCABC
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/mbstring.c:
+	.text       start:0x801BCABC end:0x801BCC00
+	.sdata2     start:0x8047AA88 end:0x8047AA90
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/mem.c:
+	.text       start:0x801BCE2C end:0x801BCF9C
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/mem_funcs.c:
+	.text       start:0x801BCF9C end:0x801BD27C
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/misc_io.c:
+	.text       start:0x801BD27C end:0x801BD28C
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/printf.c:
+	.text       start:0x801BD28C end:0x801BF23C
+	.rodata     start:0x80202950 end:0x80202978
+	.sdata2     start:0x8047AA90 end:0x8047AA98
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/scanf.c:
+	.text       start:0x801BF23C end:0x801BF3AC
 
 dolphin/amcstubs/AmcExi2Stubs.c:
 	.text       start:0x801C5AB8 end:0x801C5AE8
