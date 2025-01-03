@@ -219,7 +219,7 @@ cflags_runtime = [
     "-inline auto",
     "-i include/PowerPC_EABI_Support/Runtime",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
-    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include/",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include",
     "-i include/stl",
     "-i include",
 ]
@@ -233,7 +233,7 @@ cflags_msl = [
     "-inline auto",
     "-i include/PowerPC_EABI_Support/Runtime",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
-    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include/",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include",
     "-i include/stl",
     "-i include",
 ]
@@ -241,7 +241,7 @@ cflags_msl = [
 cflags_sdk = [
     *cflags_base,
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
-    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include/",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
