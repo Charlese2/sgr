@@ -256,7 +256,7 @@ cflags_game = [
 
 cflags_lib = [
     *cflags_base,
-    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
@@ -407,8 +407,8 @@ config.libs = [
         "objects": [
             Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/abort_exit.c"),
             Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/alloc.c", extra_cflags = ["-inline noauto"]),
+            Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common/errno.c"),
             Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/ansi_files.c"),
-            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/ansi_fp.c"),
             Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common/ctype.c"),
             Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common/arith.c"),
             Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/buffer_io.c"),
@@ -420,7 +420,16 @@ config.libs = [
             Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/mem_funcs.c"),
             Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common/misc_io.c"),
             Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/printf.c"),
-            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/scanf.c"),
+            Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common/scanf.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/string.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/strtoul.c"),
+            Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common/wchar_io.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/ansi_fp.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/uart_console_io.c"),
+            Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_copysign.c"),
+            Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_frexp.c"),
+            Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_ldexp.c"),
+
         ],
     },
     DolphinLib(

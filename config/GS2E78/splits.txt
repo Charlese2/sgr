@@ -752,6 +752,9 @@ PowerPC_EABI_Support/MSL_C/MSL_Common/alloc.c:
 	.bss        start:0x80472270 end:0x804722A8
 	.sbss       start:0x80476040 end:0x80476048
 
+PowerPC_EABI_Support/MSL_C/MSL_Common/errno.c:
+	.sbss       start:0x80476048 end:0x80476050
+
 PowerPC_EABI_Support/MSL_C/MSL_Common/ansi_files.c:
 	.text       start:0x801BA340 end:0x801BA448
 	.data       start:0x80219138 end:0x80219278
@@ -801,7 +804,31 @@ PowerPC_EABI_Support/MSL_C/MSL_Common/printf.c:
 	.sdata2     start:0x8047AA90 end:0x8047AA98
 
 PowerPC_EABI_Support/MSL_C/MSL_Common/scanf.c:
-	.text       start:0x801BF23C end:0x801BF3AC
+	.text       start:0x801BF490 end:0x801BF520
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/string.c:
+	.text       start:0x801C0738 end:0x801C0A5C
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/strtoul.c:
+	.text       start:0x801C1BB4 end:0x801C2428
+
+PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/uart_console_io.c:
+	.text       start:0x801C2428 end:0x801C24EC
+	.sbss       start:0x80476050 end:0x80476058
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/wchar_io.c:
+	.text       start:0x801C24EC end:0x801C2574
+
+PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_copysign.c:
+	.text       start:0x801C5100 end:0x801C5128
+
+PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_frexp.c:
+	.text       start:0x801C5344 end:0x801C53D0
+	.sdata2     start:0x8047AF58 end:0x8047AF60
+
+PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Double_precision/s_ldexp.c:
+	.text       start:0x801C53D0 end:0x801C5594
+	.sdata2     start:0x8047AF60 end:0x8047AF88
 
 dolphin/amcstubs/AmcExi2Stubs.c:
 	.text       start:0x801C5AB8 end:0x801C5AE8
