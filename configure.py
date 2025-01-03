@@ -405,7 +405,6 @@ config.libs = [
             Object(Matching, "dolphin/os/OSContext.c"),
             Object(Matching, "dolphin/os/OSError.c"),
             Object(NonMatching, "dolphin/os/OSExec.c"),
-            Object(NonMatching, "dolphin/os/OSExi.c"),
             Object(NonMatching, "dolphin/os/OSFont.c"),
             Object(Matching, "dolphin/os/OSInterrupt.c"),
             Object(Matching, "dolphin/os/OSLink.c"),
@@ -416,12 +415,10 @@ config.libs = [
             Object(NonMatching, "dolphin/os/OSResetSW.c"),
             Object(NonMatching, "dolphin/os/OSRtc.c"),
             Object(NonMatching, "dolphin/os/OSPad.c"),
-            Object(NonMatching, "dolphin/os/OSSerial.c"),
             Object(Matching, "dolphin/os/OSSync.c"),
             Object(Matching, "dolphin/os/OSThread.c"),
             Object(Matching, "dolphin/os/OSTime.c"),
             Object(NonMatching, "dolphin/os/OSTimer.c"),
-            Object(NonMatching, "dolphin/os/OSUartExi.c"),
             Object(NonMatching, "dolphin/os/time.dolphin.c"),
             Object(Matching, "dolphin/os/__ppc_eabi_init.c"),
         ],
@@ -538,9 +535,29 @@ config.libs = [
         ]
     ),
     DolphinLib(
+        "exi",
+        [
+            Object(NonMatching, "dolphin/exi/EXIBios.c"),
+            Object(NonMatching, "dolphin/exi/EXIUart.c"),
+        ]
+    ),
+    DolphinLib(
+        "si",
+        [
+            Object(NonMatching, "dolphin/si/SIBios.c"),
+            Object(NonMatching, "SISamplingRate.c"),
+        ]
+    ),
+    DolphinLib(
         "odenotstub",
         [
             Object(Matching, "dolphin/odenotstub/odenotstub.c"),
+        ]
+    ),
+    DolphinLib(
+        "amcstubs",
+        [
+            Object(Matching, "dolphin/amcstubs/AmcExi2Stubs.c"),
         ]
     ),
     DolphinLib(
