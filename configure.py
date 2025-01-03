@@ -217,17 +217,31 @@ cflags_runtime = [
     "-gccinc",
     "-common off",
     "-inline auto",
-    "-Cpp_exceptions on",
     "-i include/PowerPC_EABI_Support/Runtime",
-    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include/",
     "-i include/stl",
+    "-i include",
+]
 
+cflags_msl = [
+    *cflags_base,
+    "-use_lmw_stmw on",
+    "-str reuse,pool,readonly",
+    "-gccinc",
+    "-common off",
+    "-inline noauto",
+    "-i include/PowerPC_EABI_Support/Runtime",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include/",
+    "-i include/stl",
+    "-i include",
 ]
 
 cflags_sdk = [
     *cflags_base,
-    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
-    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common_Embedded/Math/Include/",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include/",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
@@ -235,7 +249,7 @@ cflags_sdk = [
 cflags_game = [
     *cflags_base,
     "-Cpp_exceptions on",
-    "-i include/PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
@@ -380,16 +394,23 @@ config.libs = [
             Object(NonMatching, "PowerPC_EABI_Support/Runtime/__mem.c"),
             Object(Matching, "PowerPC_EABI_Support/Runtime/CPlusLibPPC.cp"),
             Object(NonMatching, "PowerPC_EABI_Support/Runtime/runtime.c"),
-            Object(NonMatching, "PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.cp"),
+            Object(NonMatching, "PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.cp", extra_cflags = ["-Cpp_exceptions on"]),
+            Object(NonMatching, "PowerPC_EABI_Support/Runtime/NMWException.cp", extra_cflags = ["-Cpp_exceptions on"]),
+            Object(NonMatching, "PowerPC_EABI_Support/Runtime/GCN_mem_alloc.c"),
         ],
     },
     {
         "lib": "MSL",
         "mw_version": config.linker_version,
-        "cflags": cflags_runtime,
+        "cflags": cflags_msl,
         "progress_category": "sdk",  # str | List[str]
         "objects": [
-            Object(NonMatching, "PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/abort_exit.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/abort_exit.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/alloc.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/ansi_files.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/ansi_fp.c"),
+            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/ctype.c"),
+            Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common/arith.c"),
         ],
     },
     DolphinLib(
@@ -545,7 +566,7 @@ config.libs = [
         "si",
         [
             Object(NonMatching, "dolphin/si/SIBios.c"),
-            Object(NonMatching, "SISamplingRate.c"),
+            Object(NonMatching, "dolphin/si/SISamplingRate.c"),
         ]
     ),
     DolphinLib(

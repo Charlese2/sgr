@@ -715,6 +715,12 @@ PowerPC_EABI_Support/Runtime/CPlusLibPPC.cp:
 PowerPC_EABI_Support/Runtime/__mem.c:
 	.init       start:0x80005434 end:0x8000556C
 
+PowerPC_EABI_Support/Runtime/NMWException.cp:
+	extab       start:0x8000B2E4 end:0x8000B34C
+	extabindex  start:0x80013B04 end:0x80013B70
+	.text       start:0x801B77C0 end:0x801B7E28
+	.sdata      start:0x804742B0 end:0x804742B8
+
 PowerPC_EABI_Support/Runtime/runtime.c:
 	.text       start:0x801B7E28 end:0x801B8504
 	.rodata     start:0x80202728 end:0x80202740
@@ -732,13 +738,37 @@ PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.cp:
 	.data       start:0x80219040 end:0x80219138
 	.bss        start:0x80472160 end:0x80472170
 
-GCN_Mem_Alloc.c:
+PowerPC_EABI_Support/Runtime/GCN_mem_alloc.c:
 	.text       start:0x801B9BCC end:0x801B9C84
 
-PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/abort_exit.c:
+PowerPC_EABI_Support/MSL_C/MSL_Common/abort_exit.c:
 	.text       start:0x801B9C84 end:0x801B9D50
 	.bss        start:0x80472170 end:0x80472270
 	.sbss       start:0x80476030 end:0x80476040
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/alloc.c:
+	.text       start:0x801B9DD8 end:0x801BA340
+	.rodata     start:0x80202850 end:0x80202868
+	.bss        start:0x80472270 end:0x804722A8
+	.sbss       start:0x80476040 end:0x80476048
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/ansi_files.c:
+	.text       start:0x801BA340 end:0x801BA448
+	.data       start:0x80219138 end:0x80219278
+	.bss        start:0x804722A8 end:0x804725A8
+
+PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/ansi_fp.c:
+	.text       start:0x801BAD9C end:0x801BC0B4
+	.rodata     start:0x80202868 end:0x80202948
+	.data       start:0x802192B8 end:0x802193E0
+	.sdata2     start:0x8047AA58 end:0x8047AA60
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/arith.c:
+	.text       start:0x801BC0B4 end:0x801BC0C4
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/ctype.c:
+	.text       start:0x801BC2A8 end:0x801BC2CC
+	.data       start:0x802194E0 end:0x802195E0
 
 dolphin/amcstubs/AmcExi2Stubs.c:
 	.text       start:0x801C5AB8 end:0x801C5AE8
