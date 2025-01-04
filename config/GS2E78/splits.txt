@@ -298,10 +298,11 @@ S3dConvert.cpp:
 	extabindex  start:0x800128D4 end:0x800128E0
 	.text       start:0x80158F78 end:0x80159354
 
-am.c:
-	extab       start:0x8000A5E4 end:0x8000A5EC
-	extabindex  start:0x800128EC end:0x800128F8
-	.text       start:0x80159550 end:0x80159784
+Cranky/am/am.c:
+	extab       start:0x8000A5DC end:0x8000A5FC
+	extabindex  start:0x800128E0 end:0x80012910
+	.text       start:0x8015935C end:0x80159968
+	.bss        start:0x803E4D50 end:0x803ED150
 
 lore.cpp:
 	extab       start:0x8000A814 end:0x8000A834

@@ -250,7 +250,7 @@ cflags_game = [
     *cflags_base,
     "-Cpp_exceptions on",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
-    "-i src/dolphin",
+    "-i src/Cranky",
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
 
@@ -374,6 +374,7 @@ config.libs = [
             Object(NonMatching, "RenderSystem.cpp"),
             Object(NonMatching, "gr_ngc.cpp"),
             Object(NonMatching, "S3dConvert.cpp"),
+            Object(NonMatching, "Cranky/am/am.c"),
             Object(NonMatching, "lore.cpp"),
             Object(NonMatching, "quests.cpp"),
             Object(NonMatching, "new_help.cpp"),
