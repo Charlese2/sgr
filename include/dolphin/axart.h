@@ -59,4 +59,4 @@ void AXARTSet3DDopplerScale(f32 scale);
 void AXARTSet3DDistanceScale(f32 scale);
 AXART_3DSound AXART3DSound(AXART_3DSound * unk);
 
-#endif // _DOLPHIN_AXQUEUE_H_
+#endif // _DOLPHIN_AXART_H_
