@@ -8,6 +8,7 @@ extern char * __OSExceptionNames[15]; // D ONLY
 
 unsigned long __OSIsDebuggerPresent(void);
 void __OSPSInit(void);
+u32 __OSGetDIConfig(void);
 
 // OSAlloc.c
 extern volatile int __OSCurrHeap;

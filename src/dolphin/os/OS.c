@@ -143,8 +143,8 @@ static void ClearArena(void) {
         memset(OSGetArenaLo(), 0U, *(u32*)&__OSSavedRegionStart - (u32)OSGetArenaLo());
 
         if ((u32)OSGetArenaHi() > *(u32*)&__OSSavedRegionEnd) {
-            memset(&__OSSavedRegionEnd, 0,
-                   (u32)OSGetArenaHi() - *(u32*)&__OSSavedRegionEnd);
+            memset(__OSSavedRegionEnd, 0,
+                   (u32)OSGetArenaHi() - (u32)__OSSavedRegionEnd);
         }
     }
 }
@@ -166,7 +166,7 @@ static u8 DriveBlock[48];
 
 void OSInit() {
     BI2Debug* DebugInfo = NULL;
-    unsigned long consoleType;
+    u32 consoleType;
     void * bi2StartAddr;
     u32 hid2;
 
@@ -184,6 +184,9 @@ void OSInit() {
         BootInfo = (struct OSBootInfo_s *)OSPhysicalToCached(0);
 
         __DVDLongFileNameFlag = 0;
+        
+        DebugInfo = (BI2Debug*)*(u32*)OS_BI2_DEBUG_ADDRESS;
+
 
         if (DebugInfo != NULL) {
             BI2DebugFlag = &DebugInfo->debugFlag;
@@ -196,7 +199,8 @@ void OSInit() {
             BI2DebugFlag = (u32*)&BI2DebugFlagHolder;
             __PADSpec = (u32) * ((u8*)OS_DEBUG_ADDRESS_2);
         }
-        __DVDLongFileNameFlag = BootInfo->FSTMaxLength;
+
+        __DVDLongFileNameFlag = 1;
         OSSetArenaLo((!BootInfo->arenaLo) ? &__ArenaLo : BootInfo->arenaLo);
         if ((!BootInfo->arenaLo) && (BI2DebugFlag) && (*(u32*)BI2DebugFlag < 2)) {
             OSSetArenaLo((void*)(((u32)(char*)&_stack_addr + 0x1F) & 0xFFFFFFE0));
@@ -371,13 +375,13 @@ static void OSExceptionInit(void) {
         // Modify opcodes at __DBVECTOR if necessary
         if (__DBIsExceptionMarked(exception)) {
             DBPrintf(">>> OSINIT: exception %d vectored to debugger\n", exception);
-            memcpy((void*)__DBVECTOR, (void*)__OSDBJUMPSTART, (u32)__OSDBJUMPEND - (u32)__OSDBJUMPSTART);
+            memcpy((void*)__DBVECTOR, (void*)__OSDBINTEND, (u32)__OSDBJUMPEND - (u32)__OSDBINTEND);
         } else {
             // make sure the opcodes are still nop
             u32* ops = (u32*)__DBVECTOR;
             int cb;
             
-            for (cb = 0; cb < (u32)__OSDBJUMPEND - (u32)__OSDBJUMPSTART; cb += sizeof(u32)) {
+            for (cb = 0; cb < (u32)__OSDBJUMPEND - (u32)__OSDBINTEND; cb += sizeof(u32)) {
                 *ops++ = NOP;
             }
         }
@@ -538,7 +542,7 @@ asm void OSDefaultExceptionHandler(register __OSException exception, register OS
     OS_EXCEPTION_SAVE_GPRS(context)
     mfdsisr r5
     mfdar   r6
-
+    stwu r1, -0x8(r1)
     b       __OSUnhandledException
     /* clang-foramt on */
 }
@@ -555,4 +559,8 @@ void __OSPSInit(void)
         mtspr   GQR0, r3
     }
   // clang-format on
+}
+
+u32 __OSGetDIConfig() {
+    return __DIRegs[9] & 0xFF;
 }
