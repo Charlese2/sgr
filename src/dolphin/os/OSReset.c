@@ -127,6 +127,13 @@ L_00000208:
     b L_000001A0
 }
 
+void __OSDoHotReset(u32 resetCode) {
+    OSDisableInterrupts();
+    __VIRegs[1] = 0;
+    ICFlashInvalidate();
+    Reset(resetCode << 3);
+}
+
 void OSResetSystem(int reset, unsigned long resetCode, int forceMenu) {
     int rc;
     int enabled;
@@ -154,5 +161,11 @@ void OSResetSystem(int reset, unsigned long resetCode, int forceMenu) {
 }
 
 unsigned long OSGetResetCode() {
-    return (__PIRegs[9] & 0xFFFFFFF8) / 8;
+    if (__PIRegs[1]) {
+        return 0x80000000;
+    }
+    else {
+        return (__PIRegs[9] & 0xFFFFFFF8) / 8;
+    }
+    
 }

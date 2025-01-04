@@ -417,11 +417,10 @@ dolphin/os/OSMemory.c:
 dolphin/os/OSMutex.c:
 	.text       start:0x8018EB50 end:0x8018EBC0
 
-dolphin/os/OSExec.c:
-	.text       start:0x8018EBC0 end:0x8018EC00
-
 dolphin/os/OSReboot.c:
-	.text       start:0x8018EC0C end:0x8018EDCC
+	.text       start:0x8018EBC0 end:0x8018EDCC
+	.bss        start:0x80452020 end:0x80452040
+	.sbss       start:0x80475C98 end:0x80475CA8
 
 dolphin/os/OSReset.c:
 	.text       start:0x8018EDCC end:0x8018F1B0

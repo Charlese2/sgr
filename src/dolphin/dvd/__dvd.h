@@ -22,6 +22,7 @@ struct DVDCommandBlock * __DVDPopWaitingQueue();
 int __DVDCheckWaitingQueue();
 int __DVDDequeueWaitingQueue(struct DVDCommandBlock * block);
 int __DVDIsBlockInWaitingQueue(struct DVDCommandBlock * block);
+void __DVDPrepareResetAsync(DVDCBCallback);
 
 // fstload.c
 void __fstLoad();
