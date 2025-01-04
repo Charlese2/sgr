@@ -9,13 +9,11 @@ static void * SaveEnd;
 
 static volatile int Prepared;
 
+#define OS_BOOTROM_ADDR         0x81300000
 
 extern void * unk AT_ADDRESS(0x817ffff8);
 extern u32 OS_RESET_CODE AT_ADDRESS(0x817ffffc);
-extern void * OS_SAVE_START AT_ADDRESS(0x817ffff0);
-extern void * OS_SAVE_END AT_ADDRESS(0x817fffec);
 extern u8 OS_REBOOT_BOOL AT_ADDRESS(0x800030E2);
-extern void * APPLOADER AT_ADDRESS(0x81300000);
 
 static asm void Run(void * entryPoint) {
     nofralloc
@@ -44,10 +42,9 @@ static void ReadApploader(void * addr, s32 length, s32 offset) {
     while (TRUE) {
         switch (block.state) {
         case 0:
-            break;
+            return;
         case 1:
-        default:
-            continue;
+            break;
         case -1:
         case 2:
         case 3:
@@ -61,8 +58,9 @@ static void ReadApploader(void * addr, s32 length, s32 offset) {
         case 11:
             __OSDoHotReset(OS_RESET_CODE);
             continue;
+        default:
+            break;
         }
-        break;
     }
 }
 
@@ -76,11 +74,11 @@ void __OSReboot(u32 resetCode, int forceMenu) {
     OSContext exceptionContext;
 
     OSDisableInterrupts();
+    OS_RESET_CODE = 0;
     unk = 0;
-    __PIRegs[1] = TRUE;
-    OS_SAVE_START = SaveStart;
-    OS_SAVE_END = SaveEnd;
-    OS_RESET_CODE = resetCode;
+    OS_REBOOT_BOOL = TRUE;
+    BOOT_REGION_START = (u32)SaveStart;
+    BOOT_REGION_END = (u32)SaveEnd;
 
     OSClearContext(&exceptionContext);
     OSSetCurrentContext(&exceptionContext);
@@ -95,11 +93,11 @@ void __OSReboot(u32 resetCode, int forceMenu) {
     OSEnableInterrupts();
     
     ReadApploader(&Header, 0x20, 0);
-    length = Header.rebootSize + 32;
     offset = Header.size + 32;
-    ReadApploader(APPLOADER, length, offset);
-    ICInvalidateRange(APPLOADER, length);
-    Run(APPLOADER);
+    length = OSRoundUp32B(Header.rebootSize);
+    ReadApploader((void *)OS_BOOTROM_ADDR, length, offset);
+    ICInvalidateRange((void *)OS_BOOTROM_ADDR, length);
+    Run((void *)OS_BOOTROM_ADDR);
 }
 
 void OSSetSaveRegion(void * start, void * end) {
