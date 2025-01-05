@@ -27,18 +27,18 @@ static asm char* GetR2() {
 }
 /* clang-format on */
 
-void __fini_cpp_exceptions(void) {
-    if (fragmentID != -2) {
-        __unregister_fragment(fragmentID);
-        fragmentID = -2;
-    }
-}
-
 void __init_cpp_exceptions(void) {
     char* R2;
     if (fragmentID == -2) {
         R2 = GetR2();
         fragmentID = __register_fragment(_eti_init_info, R2);
+    }
+}
+
+void __fini_cpp_exceptions(void) {
+    if (fragmentID != -2) {
+        __unregister_fragment(fragmentID);
+        fragmentID = -2;
     }
 }
 
