@@ -586,7 +586,7 @@ dolphin/mix/mix.c:
 	.text       start:0x8019EF48 end:0x801A1148
 	.data       start:0x80217AE0 end:0x802186A0
 	.bss        start:0x8046BEC0 end:0x8046D6C0
-	.sbss       start:0x80475F80 end:0x80475F88
+	.sbss       start:0x80475F80 end:0x80475F90
 
 dolphin/dsp/dsp.c:
 	.text       start:0x801A1148 end:0x801A138C

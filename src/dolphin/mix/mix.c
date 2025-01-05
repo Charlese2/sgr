@@ -1,5 +1,8 @@
+#include "macros.h"
 #include <dolphin.h>
 #include <dolphin/mix.h>
+
+#define MIX_CHANNELS 64
 
 u16 __MIXVolumeTable[965] = {
     0,      1,      1,      1,      1,      1,      1,      1,
@@ -125,266 +128,109 @@ u16 __MIXVolumeTable[965] = {
     62438,  63161,  63892,  64632,  65380
 };
 
-int __MIXPanTableL[128] = {
-    0x00000000,
-    0x00000000,
-    0xFFFFFFFF,
-    0xFFFFFFFF,
-    0xFFFFFFFF,
-    0xFFFFFFFE,
-    0xFFFFFFFE,
-    0xFFFFFFFE,
-    0xFFFFFFFD,
-    0xFFFFFFFD,
-    0xFFFFFFFC,
-    0xFFFFFFFC,
-    0xFFFFFFFC,
-    0xFFFFFFFB,
-    0xFFFFFFFB,
-    0xFFFFFFFB,
-    0xFFFFFFFA,
-    0xFFFFFFFA,
-    0xFFFFFFF9,
-    0xFFFFFFF9,
-    0xFFFFFFF9,
-    0xFFFFFFF8,
-    0xFFFFFFF8,
-    0xFFFFFFF7,
-    0xFFFFFFF7,
-    0xFFFFFFF6,
-    0xFFFFFFF6,
-    0xFFFFFFF6,
-    0xFFFFFFF5,
-    0xFFFFFFF5,
-    0xFFFFFFF4,
-    0xFFFFFFF4,
-    0xFFFFFFF3,
-    0xFFFFFFF3,
-    0xFFFFFFF2,
-    0xFFFFFFF2,
-    0xFFFFFFF2,
-    0xFFFFFFF1,
-    0xFFFFFFF1,
-    0xFFFFFFF0,
-    0xFFFFFFF0,
-    0xFFFFFFEF,
-    0xFFFFFFEF,
-    0xFFFFFFEE,
-    0xFFFFFFEE,
-    0xFFFFFFED,
-    0xFFFFFFEC,
-    0xFFFFFFEC,
-    0xFFFFFFEB,
-    0xFFFFFFEB,
-    0xFFFFFFEA,
-    0xFFFFFFEA,
-    0xFFFFFFE9,
-    0xFFFFFFE9,
-    0xFFFFFFE8,
-    0xFFFFFFE7,
-    0xFFFFFFE7,
-    0xFFFFFFE6,
-    0xFFFFFFE6,
-    0xFFFFFFE5,
-    0xFFFFFFE4,
-    0xFFFFFFE4,
-    0xFFFFFFE3,
-    0xFFFFFFE2,
-    0xFFFFFFE2,
-    0xFFFFFFE1,
-    0xFFFFFFE0,
-    0xFFFFFFDF,
-    0xFFFFFFDF,
-    0xFFFFFFDE,
-    0xFFFFFFDD,
-    0xFFFFFFDC,
-    0xFFFFFFDC,
-    0xFFFFFFDB,
-    0xFFFFFFDA,
-    0xFFFFFFD9,
-    0xFFFFFFD8,
-    0xFFFFFFD8,
-    0xFFFFFFD7,
-    0xFFFFFFD6,
-    0xFFFFFFD5,
-    0xFFFFFFD4,
-    0xFFFFFFD3,
-    0xFFFFFFD2,
-    0xFFFFFFD1,
-    0xFFFFFFD0,
-    0xFFFFFFCF,
-    0xFFFFFFCE,
-    0xFFFFFFCD,
-    0xFFFFFFCC,
-    0xFFFFFFCA,
-    0xFFFFFFC9,
-    0xFFFFFFC8,
-    0xFFFFFFC7,
-    0xFFFFFFC5,
-    0xFFFFFFC4,
-    0xFFFFFFC3,
-    0xFFFFFFC1,
-    0xFFFFFFC0,
-    0xFFFFFFBE,
-    0xFFFFFFBD,
-    0xFFFFFFBB,
-    0xFFFFFFB9,
-    0xFFFFFFB8,
-    0xFFFFFFB6,
-    0xFFFFFFB4,
-    0xFFFFFFB2,
-    0xFFFFFFB0,
-    0xFFFFFFAD,
-    0xFFFFFFAB,
-    0xFFFFFFA9,
-    0xFFFFFFA6,
-    0xFFFFFFA3,
-    0xFFFFFFA0,
-    0xFFFFFF9D,
-    0xFFFFFF9A,
-    0xFFFFFF96,
-    0xFFFFFF92,
-    0xFFFFFF8D,
-    0xFFFFFF88,
-    0xFFFFFF82,
-    0xFFFFFF7B,
-    0xFFFFFF74,
-    0xFFFFFF6A,
-    0xFFFFFF5D,
-    0xFFFFFF4C,
-    0xFFFFFF2E,
-    0xFFFFFC78
+int __MIXPanTable[128] = {
+    0x00000000,    0x00000000,    0xFFFFFFFF,    0xFFFFFFFF,
+    0xFFFFFFFF,    0xFFFFFFFE,    0xFFFFFFFE,    0xFFFFFFFE,
+    0xFFFFFFFD,    0xFFFFFFFD,    0xFFFFFFFC,    0xFFFFFFFC,
+    0xFFFFFFFC,    0xFFFFFFFB,    0xFFFFFFFB,    0xFFFFFFFB,
+    0xFFFFFFFA,    0xFFFFFFFA,    0xFFFFFFF9,    0xFFFFFFF9,
+    0xFFFFFFF9,    0xFFFFFFF8,    0xFFFFFFF8,    0xFFFFFFF7,
+    0xFFFFFFF7,    0xFFFFFFF6,    0xFFFFFFF6,    0xFFFFFFF6,
+    0xFFFFFFF5,    0xFFFFFFF5,    0xFFFFFFF4,    0xFFFFFFF4,
+    0xFFFFFFF3,    0xFFFFFFF3,    0xFFFFFFF2,    0xFFFFFFF2,
+    0xFFFFFFF2,    0xFFFFFFF1,    0xFFFFFFF1,    0xFFFFFFF0,
+    0xFFFFFFF0,    0xFFFFFFEF,    0xFFFFFFEF,    0xFFFFFFEE,
+    0xFFFFFFEE,    0xFFFFFFED,    0xFFFFFFEC,    0xFFFFFFEC,
+    0xFFFFFFEB,    0xFFFFFFEB,    0xFFFFFFEA,    0xFFFFFFEA,
+    0xFFFFFFE9,    0xFFFFFFE9,    0xFFFFFFE8,    0xFFFFFFE7,
+    0xFFFFFFE7,    0xFFFFFFE6,    0xFFFFFFE6,    0xFFFFFFE5,
+    0xFFFFFFE4,    0xFFFFFFE4,    0xFFFFFFE3,    0xFFFFFFE2,
+    0xFFFFFFE2,    0xFFFFFFE1,    0xFFFFFFE0,    0xFFFFFFDF,
+    0xFFFFFFDF,    0xFFFFFFDE,    0xFFFFFFDD,    0xFFFFFFDC,
+    0xFFFFFFDC,    0xFFFFFFDB,    0xFFFFFFDA,    0xFFFFFFD9,
+    0xFFFFFFD8,    0xFFFFFFD8,    0xFFFFFFD7,    0xFFFFFFD6,
+    0xFFFFFFD5,    0xFFFFFFD4,    0xFFFFFFD3,    0xFFFFFFD2,
+    0xFFFFFFD1,    0xFFFFFFD0,    0xFFFFFFCF,    0xFFFFFFCE,
+    0xFFFFFFCD,    0xFFFFFFCC,    0xFFFFFFCA,    0xFFFFFFC9,
+    0xFFFFFFC8,    0xFFFFFFC7,    0xFFFFFFC5,    0xFFFFFFC4,
+    0xFFFFFFC3,    0xFFFFFFC1,    0xFFFFFFC0,    0xFFFFFFBE,
+    0xFFFFFFBD,    0xFFFFFFBB,    0xFFFFFFB9,    0xFFFFFFB8,
+    0xFFFFFFB6,    0xFFFFFFB4,    0xFFFFFFB2,    0xFFFFFFB0,
+    0xFFFFFFAD,    0xFFFFFFAB,    0xFFFFFFA9,    0xFFFFFFA6,
+    0xFFFFFFA3,    0xFFFFFFA0,    0xFFFFFF9D,    0xFFFFFF9A,
+    0xFFFFFF96,    0xFFFFFF92,    0xFFFFFF8D,    0xFFFFFF88,
+    0xFFFFFF82,    0xFFFFFF7B,    0xFFFFFF74,    0xFFFFFF6A,
+    0xFFFFFF5D,    0xFFFFFF4C,    0xFFFFFF2E,    0xFFFFFC78
 };
 
-int __MIXPanTableR[128] = {
-    0xFFFFFC78,
-    0xFFFFFF2E,
-    0xFFFFFF4C,
-    0xFFFFFF5D,
-    0xFFFFFF6A,
-    0xFFFFFF74,
-    0xFFFFFF7B,
-    0xFFFFFF82,
-    0xFFFFFF88,
-    0xFFFFFF8D,
-    0xFFFFFF92,
-    0xFFFFFF96,
-    0xFFFFFF9A,
-    0xFFFFFF9D,
-    0xFFFFFFA0,
-    0xFFFFFFA3,
-    0xFFFFFFA6,
-    0xFFFFFFA9,
-    0xFFFFFFAB,
-    0xFFFFFFAD,
-    0xFFFFFFB0,
-    0xFFFFFFB2,
-    0xFFFFFFB4,
-    0xFFFFFFB6,
-    0xFFFFFFB8,
-    0xFFFFFFB9,
-    0xFFFFFFBB,
-    0xFFFFFFBD,
-    0xFFFFFFBE,
-    0xFFFFFFC0,
-    0xFFFFFFC1,
-    0xFFFFFFC3,
-    0xFFFFFFC4,
-    0xFFFFFFC5,
-    0xFFFFFFC7,
-    0xFFFFFFC8,
-    0xFFFFFFC9,
-    0xFFFFFFCA,
-    0xFFFFFFCC,
-    0xFFFFFFCD,
-    0xFFFFFFCE,
-    0xFFFFFFCF,
-    0xFFFFFFD0,
-    0xFFFFFFD1,
-    0xFFFFFFD2,
-    0xFFFFFFD3,
-    0xFFFFFFD4,
-    0xFFFFFFD5,
-    0xFFFFFFD6,
-    0xFFFFFFD7,
-    0xFFFFFFD8,
-    0xFFFFFFD8,
-    0xFFFFFFD9,
-    0xFFFFFFDA,
-    0xFFFFFFDB,
-    0xFFFFFFDC,
-    0xFFFFFFDC,
-    0xFFFFFFDD,
-    0xFFFFFFDE,
-    0xFFFFFFDF,
-    0xFFFFFFDF,
-    0xFFFFFFE0,
-    0xFFFFFFE1,
-    0xFFFFFFE2,
-    0xFFFFFFE2,
-    0xFFFFFFE3,
-    0xFFFFFFE4,
-    0xFFFFFFE4,
-    0xFFFFFFE5,
-    0xFFFFFFE6,
-    0xFFFFFFE6,
-    0xFFFFFFE7,
-    0xFFFFFFE7,
-    0xFFFFFFE8,
-    0xFFFFFFE9,
-    0xFFFFFFE9,
-    0xFFFFFFEA,
-    0xFFFFFFEA,
-    0xFFFFFFEB,
-    0xFFFFFFEB,
-    0xFFFFFFEC,
-    0xFFFFFFEC,
-    0xFFFFFFED,
-    0xFFFFFFEE,
-    0xFFFFFFEE,
-    0xFFFFFFEF,
-    0xFFFFFFEF,
-    0xFFFFFFF0,
-    0xFFFFFFF0,
-    0xFFFFFFF1,
-    0xFFFFFFF1,
-    0xFFFFFFF2,
-    0xFFFFFFF2,
-    0xFFFFFFF2,
-    0xFFFFFFF3,
-    0xFFFFFFF3,
-    0xFFFFFFF4,
-    0xFFFFFFF4,
-    0xFFFFFFF5,
-    0xFFFFFFF5,
-    0xFFFFFFF6,
-    0xFFFFFFF6,
-    0xFFFFFFF6,
-    0xFFFFFFF7,
-    0xFFFFFFF7,
-    0xFFFFFFF8,
-    0xFFFFFFF8,
-    0xFFFFFFF9,
-    0xFFFFFFF9,
-    0xFFFFFFF9,
-    0xFFFFFFFA,
-    0xFFFFFFFA,
-    0xFFFFFFFB,
-    0xFFFFFFFB,
-    0xFFFFFFFB,
-    0xFFFFFFFC,
-    0xFFFFFFFC,
-    0xFFFFFFFC,
-    0xFFFFFFFD,
-    0xFFFFFFFD,
-    0xFFFFFFFE,
-    0xFFFFFFFE,
-    0xFFFFFFFE,
-    0xFFFFFFFF,
-    0xFFFFFFFF,
-    0xFFFFFFFF,
-    0x00000000,
-    0x00000000
+s16 __MIX_DPL2_front[128] = {
+    0x0000,  0x0000,  0x0000,  0x0000,
+    0x0000,  0x0000,  0x0000,  0x0000,
+    0x0000,  0x0000,  0x0000,  0x0000,
+    0x0000,  0xFFFF,  0xFFFF,  0xFFFF,
+    0xFFFF,  0xFFFF,  0xFFFE,  0xFFFE,
+    0xFFFE,  0xFFFE,  0xFFFD,  0xFFFD,
+    0xFFFD,  0xFFFC,  0xFFFC,  0xFFFC,
+    0xFFFB,  0xFFFB,  0xFFFA,  0xFFFA,
+    0xFFFA,  0xFFF9,  0xFFF9,  0xFFF8,
+    0xFFF8,  0xFFF7,  0xFFF7,  0xFFF6,
+    0xFFF5,  0xFFF5,  0xFFF4,  0xFFF4,
+    0xFFF3,  0xFFF2,  0xFFF2,  0xFFF1,
+    0xFFF0,  0xFFEF,  0xFFEF,  0xFFEE,
+    0xFFED,  0xFFEC,  0xFFEB,  0xFFEB,
+    0xFFEA,  0xFFE9,  0xFFE8,  0xFFE7,
+    0xFFE6,  0xFFE5,  0xFFE4,  0xFFE3,
+    0xFFE2,  0xFFE1,  0xFFE0,  0xFFDE,
+    0xFFDD,  0xFFDC,  0xFFDB,  0xFFDA,
+    0xFFD8,  0xFFD7,  0xFFD6,  0xFFD4,
+    0xFFD3,  0xFFD1,  0xFFD0,  0xFFCE,
+    0xFFCC,  0xFFCB,  0xFFC9,  0xFFC7,
+    0xFFC6,  0xFFC4,  0xFFC2,  0xFFC0,
+    0xFFBE,  0xFFBC,  0xFFBA,  0xFFB7,
+    0xFFB5,  0xFFB3,  0xFFB0,  0xFFAE,
+    0xFFAB,  0xFFA8,  0xFFA6,  0xFFA3,
+    0xFFA0,  0xFF9C,  0xFF99,  0xFF96,
+    0xFF92,  0xFF8E,  0xFF8A,  0xFF86,
+    0xFF82,  0xFF7D,  0xFF78,  0xFF73,
+    0xFF6E,  0xFF68,  0xFF61,  0xFF5A,
+    0xFF53,  0xFF4B,  0xFF42,  0xFF37,
+    0xFF2C,  0xFF1F,  0xFF0F,  0xFEFB,
+    0xFEE2,  0xFEBF,  0xFE83,  0xFC40
+};
+
+s16 __MIX_DPL2_rear[128] = {
+    0xFFC3,  0xFFC3,  0xFFC4,  0xFFC5,
+    0xFFC5,  0xFFC6,  0xFFC6,  0xFFC7,
+    0xFFC8,  0xFFC8,  0xFFC9,  0xFFC9,
+    0xFFCA,  0xFFCB,  0xFFCB,  0xFFCC,
+    0xFFCC,  0xFFCD,  0xFFCE,  0xFFCE,
+    0xFFCF,  0xFFCF,  0xFFD0,  0xFFD0,
+    0xFFD1,  0xFFD1,  0xFFD2,  0xFFD2,
+    0xFFD3,  0xFFD3,  0xFFD4,  0xFFD4,
+    0xFFD5,  0xFFD5,  0xFFD6,  0xFFD6,
+    0xFFD7,  0xFFD7,  0xFFD8,  0xFFD8,
+    0xFFD9,  0xFFD9,  0xFFDA,  0xFFDA,
+    0xFFDA,  0xFFDB,  0xFFDB,  0xFFDC,
+    0xFFDC,  0xFFDD,  0xFFDD,  0xFFDD,
+    0xFFDE,  0xFFDE,  0xFFDF,  0xFFDF,
+    0xFFE0,  0xFFE0,  0xFFE0,  0xFFE1,
+    0xFFE1,  0xFFE1,  0xFFE2,  0xFFE2,
+    0xFFE3,  0xFFE3,  0xFFE3,  0xFFE4,
+    0xFFE4,  0xFFE4,  0xFFE5,  0xFFE5,
+    0xFFE5,  0xFFE6,  0xFFE6,  0xFFE6,
+    0xFFE7,  0xFFE7,  0xFFE7,  0xFFE8,
+    0xFFE8,  0xFFE8,  0xFFE9,  0xFFE9,
+    0xFFE9,  0xFFEA,  0xFFEA,  0xFFEA,
+    0xFFEB,  0xFFEB,  0xFFEB,  0xFFEC,
+    0xFFEC,  0xFFEC,  0xFFEC,  0xFFED,
+    0xFFED,  0xFFED,  0xFFEE,  0xFFEE,
+    0xFFEE,  0xFFEE,  0xFFEF,  0xFFEF,
+    0xFFEF,  0xFFEF,  0xFFF0,  0xFFF0,
+    0xFFF0,  0xFFF0,  0xFFF1,  0xFFF1,
+    0xFFF1,  0xFFF1,  0xFFF2,  0xFFF2,
+    0xFFF2,  0xFFF2,  0xFFF3,  0xFFF3,
+    0xFFF3,  0xFFF3,  0xFFF3,  0xFFF4,
+    0xFFF4,  0xFFF4,  0xFFF4,  0xFFF5
 };
 
 u8 __MIXAIVolumeTable[50] = {
@@ -403,15 +249,17 @@ u8 __MIXAIVolumeTable[50] = {
     0xE3, 0xFF
 };
 
-static struct MIXChannel __MIXChannel[64];
+#pragma inline_depth(1)
+
+static struct MIXChannel __MIXChannel[MIX_CHANNELS];
 
 static int __MIXDvdStreamAttenCurrent;
 static int __MIXDvdStreamAttenUser;
+static u32 __MIXSoundMode;
 
 // functions
 static u16 __MIXGetVolume(int db);
-static int __MIXGetPanL(int pan);
-static int __MIXGetPanR(int pan);
+static void __MIXSetPan(struct MIXChannel * channel);
 static void __MIXResetChannel(struct MIXChannel * channel);
 static void __MIXSetPan(struct MIXChannel * channel);
 static int __MIXClampPan(int pan);
@@ -426,14 +274,33 @@ static u16 __MIXGetVolume(int db) {
     return __MIXVolumeTable[db + 0x388];
 }
 
-static int __MIXGetPanL(int pan) {
-    ASSERTLINE(0xE8, (pan < 128) && (pan >= 0));
-    return __MIXPanTableL[pan];
-}
+static void __MIXSetPan(struct MIXChannel * channel) {
+    int pan;
+    int span;
+    int ipan;
+    int ispan;
 
-static int __MIXGetPanR(int pan) {
-    ASSERTLINE(0xFC, (pan < 128) && (pan >= 0));
-    return __MIXPanTableR[pan];
+    ASSERTLINE(0x119, (channel->pan <= 127) && (channel->pan >= 0));
+    ASSERTLINE(0x11a, (channel->span <= 127) && (channel->span >= 0));
+
+    pan = channel->pan;
+    span = channel->span;
+    ipan = 127 - channel->pan;
+    ispan = 127 - channel->span;
+
+    if (__MIXSoundMode == 3){
+        channel->l  = __MIX_DPL2_front[pan];
+        channel->r  = __MIX_DPL2_front[ipan];
+        channel->f  = __MIX_DPL2_front[ipan];
+        channel->b  = __MIX_DPL2_front[span];
+        channel->l1 = __MIX_DPL2_rear[ipan];
+        channel->r1 = __MIX_DPL2_rear[pan];
+    } else {
+        channel->l = __MIXPanTable[pan];
+        channel->r = __MIXPanTable[ipan];
+        channel->f = __MIXPanTable[ispan];
+        channel->b = __MIXPanTable[span];    
+    }
 }
 
 static void __MIXResetChannel(struct MIXChannel * channel) {
@@ -441,22 +308,12 @@ static void __MIXResetChannel(struct MIXChannel * channel) {
     channel->input = 0;
     channel->auxA = -0x3C0;
     channel->auxB = -0x3C0;
-    channel->l = __MIXGetPanL(0x40);
-    channel->r = __MIXGetPanR(0x40);
-    channel->f = __MIXGetPanR(0);
-    channel->b = __MIXGetPanL(0);
     channel->fader = 0;
     channel->pan = 0x40;
     channel->span = 0x7F;
     channel->v   = channel->vL  = channel->vR  = channel->vS  = channel->vAL = 
     channel->vAR = channel->vAS = channel->vBL = channel->vBR = channel->vBS = 0;
-}
-
-static void __MIXSetPan(struct MIXChannel * channel) {
-    channel->l = __MIXGetPanL(channel->pan);
-    channel->r = __MIXGetPanR(channel->pan);
-    channel->f = __MIXGetPanR(channel->span);
-    channel->b = __MIXGetPanL(channel->span);    
+    __MIXSetPan(channel);
 }
 
 static int __MIXClampPan(int pan) {
@@ -472,15 +329,24 @@ static int __MIXClampPan(int pan) {
 void MIXInit(void) {
     int i;
 
-    for(i = 0; i < 64; i++) {
+    for(i = 0; i < MIX_CHANNELS; i++) {
         __MIXResetChannel(&__MIXChannel[i]);
     }
     __MIXDvdStreamAttenCurrent = 0;
     __MIXDvdStreamAttenUser = 0;
+    __MIXSoundMode = 1;
 }
 
 void MIXQuit(void) {
     
+}
+
+void MIXSetSoundMode(u32 mode) {
+    __MIXSoundMode = mode;
+}
+
+u32 MIXGetSoundMode(void) {
+    return __MIXSoundMode;
 }
 
 void MIXInitChannel(AXVPB * axvpb, u32 mode, int input, int auxA, int auxB, int pan, int span, int fader) {
@@ -673,9 +539,11 @@ int MIXAuxBIsPostFader(AXVPB * p) {
 void MIXSetAuxB(AXVPB * p, int dB) {
     struct MIXChannel * channel;
 
-    channel = &__MIXChannel[p->index];
-    channel->auxB = dB;
-    channel->mode |= 0x40000000;
+    if (__MIXSoundMode != 3) {
+        channel = &__MIXChannel[p->index];
+        channel->auxB = dB;
+        channel->mode |= 0x40000000;
+    }
 }
 
 void MIXAdjustAuxB(AXVPB * p, int dB) {
@@ -817,7 +685,7 @@ void MIXUpdateSettings(void) {
     u16 mixerCtrl;
     u16 * p;
 
-    for(i = 0; i < 64; i++) {
+    for(i = 0; i < MIX_CHANNELS; i++) {
         setNewInputLevel = 0;
         setNewMixLevel = 0;
         c = &__MIXChannel[i];
