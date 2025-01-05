@@ -1,4 +1,6 @@
 #include "game/SoundSystem.h"
+#include "game/debug.h"
+#include "dolphin/axfx.h"
 #include "dolphin/ai.h"
 #include "dolphin/ar.h"
 #include "dolphin/ax.h"
@@ -9,23 +11,28 @@
 #include "dolphin/types.h"
 
 extern int DiskStatusStuff(int, int);
-extern AXARTSound* AXVPBQueue;
 
+SoundSystem soundSystem;
+bool lbl_80228FA8;
 
-SoundSystem __SoundSystem;
-
-void SoundSystem::ProcessAXARTSounds() {
-    if (!__SoundSystem.deativated){
+void SoundSystem::ProcessAXARTSounds(void) {
+    if (!soundSystem.deativated){
         MIXUpdateSettings();
         AXARTServiceSounds();
-        if (__SoundSystem.in_use == FALSE){
-            __SoundSystem.processing_queue = TRUE;
+        if (soundSystem.in_use == FALSE){
+            soundSystem.processing_queue = TRUE;
         }
         
     }
 }
 
 void SoundSystem::Initialize() {
+    bool previously_in_use = in_use;
+    deativated = false;
+    field22_0xee36 = false;
+    field23_0xee37 = false;
+    field20_0xee34 = true;
+    ARInit((u32*)stack_index_addr, 3);
     AXInit();
     ARQInit();
     AIInit((u8*)NULL);
@@ -33,12 +40,32 @@ void SoundSystem::Initialize() {
     DTKInit();
     MIXInit();
     AXARTInit();
-    OSGetSoundMode();
-    AXSetMode(1);
-    
+    if (OSGetSoundMode()) {
+        lbl_80228FA8 = true;
+        AXSetMode(0);
+        MIXSetSoundMode(1);
+    } else {
+        lbl_80228FA8 = false;
+        AXSetMode(0);
+        MIXSetSoundMode(0);
+    }
+    InitializeAudio();
+    AXRegisterCallback(ProcessAXARTSounds);
+    AXFXSetHooks(AllocateReverbMemoryNotImplemented, FreeReverbMemoryNotImplemented);
+    AXSetCompressor(1);
+    in_use = previously_in_use;
 }
 
-void SoundSystem::LoadUncachedSoundFromDisk() {
+void SoundSystem::FreeReverbMemoryNotImplemented(void * address) {
+    DebugError("SoundSystem.cpp", 199, "Reverb memory freeing not implemented.  Get Geoff!");
+}
+
+void * SoundSystem::AllocateReverbMemoryNotImplemented(u32 unk ) {
+    DebugError("SoundSystem.cpp", 206, "Reverb memory allocation not implemented.  Get Geoff!");
+    return NULL;
+}
+
+void SoundSystem::LoadUncachedSoundFromDisk(void) {
 
 }
 
@@ -71,7 +98,7 @@ void SoundSystem::ReinitializeAudio(bool unk) {
     }
 }
 
-void SoundSystem::InitializeAudio() {
+void SoundSystem::InitializeAudio(void) {
     BOOL previouslyInUse;
 
     previouslyInUse = in_use;

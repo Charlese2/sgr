@@ -3,6 +3,9 @@
 
 #include "dolphin/ax.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct {
     void * next;
@@ -148,5 +151,9 @@ void AXARTLfo(AXART_Lfo * lfo);
 void AXARTSet3DDopplerScale(f32 scale);
 void AXARTSet3DDistanceScale(f32 scale);
 AXART_3DSound AXART3DSound(AXART_3DSound * articulator);
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif // _DOLPHIN_AXART_H_

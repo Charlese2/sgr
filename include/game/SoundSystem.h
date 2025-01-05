@@ -178,13 +178,15 @@ class SoundSystem {
 public:
     SoundSystem();
     ~SoundSystem();
-    void LoadNewSoundsFromDisk();
-    void Initialize();
-    void InitializeAudio();
-    void ReinitializeAudio(bool state);
+    static void ProcessAXARTSounds(void);
+    void Initialize(void);
+    static void * AllocateReverbMemoryNotImplemented(u32 unk);
+    static void FreeReverbMemoryNotImplemented(void *);
+    void LoadUncachedSoundFromDisk(void);
     void AddSound(int index);
-    void LoadUncachedSoundFromDisk();
-    static void ProcessAXARTSounds();
+    void ReinitializeAudio(bool state);
+    void InitializeAudio(void);
+    void LoadNewSoundsFromDisk(void);
 
     /* 0x00 */ char field0_0x0[60];
     /* 0x3c */ char* field1_0x3c;
@@ -192,7 +194,7 @@ public:
     /* 0x44 */ s32 next_index;
     /* 0x48 */ char field4_0x48[340];
     /* 0x19c */ s32 field5_0x19c;
-    /* 0x1a0 */ char field6_0x1a0[12];
+    /* 0x1a0 */ u32 * stack_index_addr[3];
     /* 0x1ac */ s32 field7_0x1ac;
     /* 0x1b0 */ s32 field8_0x1b0;
     /* 0x1b4 */ char field9_0x1b4[12];

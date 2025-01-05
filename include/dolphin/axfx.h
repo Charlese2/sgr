@@ -1,6 +1,10 @@
 #ifndef _DOLPHIN_AXFX_H_
 #define _DOLPHIN_AXFX_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct AXFX_REVSTD_DELAYLINE {
     /* 0x00 */ long inPoint;
     /* 0x04 */ long outPoint;
@@ -121,6 +125,9 @@ struct AXFX_CHORUS {
     /* 0x98 */ u32 period;
 };
 
+typedef void * (*AXFXAlloc)(u32);
+typedef void (*AXFXFree)(void *);
+
 // chorus.c
 int AXFXChorusInit(struct AXFX_CHORUS * c);
 int AXFXChorusShutdown(struct AXFX_CHORUS * c);
@@ -145,5 +152,12 @@ int AXFXReverbStdInit(struct AXFX_REVERBSTD * rev);
 int AXFXReverbStdShutdown(struct AXFX_REVERBSTD * rev);
 int AXFXReverbStdSettings(struct AXFX_REVERBSTD * rev);
 void AXFXReverbStdCallback(struct AXFX_BUFFERUPDATE * bufferUpdate, struct AXFX_REVERBSTD * reverb);
+
+// axfx.c
+void AXFXSetHooks(AXFXAlloc, AXFXFree);
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif // _DOLPHIN_AXFX_H_

@@ -4,6 +4,10 @@
 #include <dolphin/types.h>
 #include "dolphin/dsp.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct _AXPBMIX {
     /* 0x00 */ u16 vL;
     /* 0x02 */ u16 vDeltaL;
@@ -253,6 +257,7 @@ void AXRegisterAuxBCallback(void (* callback)(void *, void *), void * context);
 // AXCL.c
 void AXSetMode(u32 mode);
 u32 AXGetMode(void);
+void AXSetCompressor(u32 i);
 
 // AXOut.c
 extern AXPROFILE __AXLocalProfile;
@@ -294,5 +299,9 @@ u32 AXGetDspCycles(void);
 // DSPCode.c
 extern u16 axDspSlaveLength;
 extern u16 axDspSlave[AX_DSP_SLAVE_LENGTH];
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif // _DOLPHIN_AX_H_

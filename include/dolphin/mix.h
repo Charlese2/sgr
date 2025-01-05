@@ -3,6 +3,10 @@
 
 #include <dolphin/ax.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct MIXChannel {
     /* 0x00 */ AXVPB * axvpb;
     /* 0x04 */ u32 mode;
@@ -78,5 +82,9 @@ int MIXGetFader(AXVPB * p);
 void MIXSetDvdStreamFader(int dB);
 int MIXGetDvdStreamFader(void);
 void MIXUpdateSettings(void);
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif // _DOLPHIN_MIX_H_

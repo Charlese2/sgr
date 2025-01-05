@@ -1,5 +1,4 @@
-#include "dolphin.h"
-
+#include "dolphin/types.h"
 
 const char format[32] = "Error: %s\nFile: %s - Line: %d\n\n";
 const char file[10] = "debug.cpp";
