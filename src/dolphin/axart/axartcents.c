@@ -1,5 +1,5 @@
 #include "dolphin/axart.h"
 
-f64 AXARTCents(int unk) {
+f32 AXARTCents(s32 cents) {
 
 }

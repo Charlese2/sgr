@@ -1,5 +1,5 @@
 #include "dolphin/axart.h"
 
-void AXARTLfo(void *unk) {
+void AXARTLfo(AXART_Lfo * lfo) {
 
 }

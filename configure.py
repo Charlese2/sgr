@@ -613,7 +613,7 @@ config.libs = [
     DolphinLib(
         "axart",
         [
-            Object(NonMatching, "dolphin/axart/axart.c"),
+            Object(Matching, "dolphin/axart/axart.c"),
             Object(NonMatching, "dolphin/axart/axartsound.c"),
             Object(NonMatching, "dolphin/axart/axartcents.c"),
             Object(NonMatching, "dolphin/axart/axartenv.c"),
