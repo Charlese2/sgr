@@ -183,6 +183,7 @@ public:
     static void * AllocateReverbMemoryNotImplemented(u32 unk);
     static void FreeReverbMemoryNotImplemented(void *);
     void LoadUncachedSoundFromDisk(void);
+    void CopySoundFileToCache();
     void AddSound(int index);
     void ReinitializeAudio(bool state);
     void InitializeAudio(void);
