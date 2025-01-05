@@ -165,14 +165,14 @@ struct OSSramEx * __OSLockSramEx(void) {
     return (struct OSSramEx *)LockSram(0x14);
 }
 
-static int UnlockSram(int commit, unsigned long offset) {
+static int UnlockSram(int commit, u32 offset) {
     unsigned short * p;
 
     ASSERTLINE(0x162, Scb.locked);
     if (commit != 0) {
         if (offset == 0) {
             struct OSSram * sram  = (struct OSSram *)&Scb.sram[0];
-            if ((sram->flags & 3) > 2) {
+            if ((u32)(sram->flags & 3) > 2) {
                 sram->flags = sram->flags & (char)0xfc;
             }
             sram->checkSum = sram->checkSumInv = 0;
@@ -376,4 +376,24 @@ void __OSSetBootMode(unsigned char ntd) {
     sram->ntd &= 0xFFFFFF7F;
     sram->ntd |= ntd;
     __OSUnlockSram(1);
+}
+
+u32 OSGetWirelessID(s32 chan){
+    struct OSSramEx * sramEx = __OSLockSramEx();
+    u32 wirelessPadId;
+
+    wirelessPadId = sramEx->wirelessPadID[chan];
+    __OSUnlockSramEx(0);
+    return wirelessPadId;
+}
+
+void OSSetWirelessID(s32 chan, u16 id){
+    struct OSSramEx * sramEx = __OSLockSramEx();
+
+    if (sramEx->wirelessPadID[chan] != id) {
+        sramEx->wirelessPadID[chan] = id;
+        __OSUnlockSramEx(1);
+        return;
+    }
+    __OSUnlockSramEx(0);
 }

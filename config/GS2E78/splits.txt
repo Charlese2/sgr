@@ -430,11 +430,8 @@ dolphin/os/OSResetSW.c:
 	.text       start:0x8018F1B0 end:0x8018F53C
 
 dolphin/os/OSRtc.c:
-	.text       start:0x8018F53C end:0x8018FE48
+	.text       start:0x8018F53C end:0x8018FF78
 	.bss        start:0x80452040 end:0x80452098
-
-dolphin/os/OSPad.c:
-	.text       start:0x8018FE48 end:0x8018FF78
 
 dolphin/os/OSSync.c:
 	.text       start:0x8018FF78 end:0x8018FFFC

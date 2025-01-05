@@ -1,6 +1,7 @@
 #ifndef _DOLPHIN_OSRTC_H_
 #define _DOLPHIN_OSRTC_H_
 
+#include "dolphin/types.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -43,6 +44,8 @@ typedef struct OSSramEx {
     unsigned char flashIDCheckSum[2];
     unsigned char _padding1[4];
 } OSSramEx;
+
+static int UnlockSram(int commit, u32 offset);
 
 unsigned long OSGetSoundMode();
 void OSSetSoundMode(unsigned long mode);
