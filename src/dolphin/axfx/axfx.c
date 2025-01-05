@@ -13,7 +13,7 @@ static void __AXFXFreeFunction(void * p) {
 }
 
 void * (* __AXFXAlloc)(u32);
-void (* )
+void (* __AXFXFree)(void *);
 
 void AXFXSetHooks(AXFXAlloc, AXFXFree) {
     

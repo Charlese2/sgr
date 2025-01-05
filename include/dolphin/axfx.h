@@ -1,6 +1,7 @@
 #ifndef _DOLPHIN_AXFX_H_
 #define _DOLPHIN_AXFX_H_
 
+#include "dolphin/types.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
