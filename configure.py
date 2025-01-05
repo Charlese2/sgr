@@ -235,6 +235,7 @@ cflags_sdk = [
 cflags_game = [
     *cflags_base,
     "-Cpp_exceptions on",
+    "-inline auto,deferred",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
     "-i src/Cranky",
     "-i include/PowerPC_EABI_Support/Runtime",

@@ -1,6 +1,9 @@
 #include "game/SoundSystem.h"
+#include "dolphin/ai.h"
 #include "dolphin/ar.h"
+#include "dolphin/ax.h"
 #include "dolphin/axart.h"
+#include "dolphin/dtk.h"
 #include "dolphin/mix.h"
 #include "dolphin/os.h"
 #include "dolphin/types.h"
@@ -11,30 +14,36 @@ extern AXARTSound* AXVPBQueue;
 
 SoundSystem __SoundSystem;
 
-void SoundSystem::LoadNewSoundsFromDisk() {
+void SoundSystem::ProcessAXARTSounds() {
+    if (!__SoundSystem.deativated){
+        MIXUpdateSettings();
+        AXARTServiceSounds();
+        if (__SoundSystem.in_use == FALSE){
+            __SoundSystem.processing_queue = TRUE;
+        }
+        
+    }
+}
+
+void SoundSystem::Initialize() {
+    AXInit();
+    ARQInit();
+    AIInit((u8*)NULL);
+    AXInit();
+    DTKInit();
+    MIXInit();
+    AXARTInit();
+    OSGetSoundMode();
+    AXSetMode(1);
+    
+}
+
+void SoundSystem::LoadUncachedSoundFromDisk() {
 
 }
 
-void SoundSystem::InitializeAudio() {
-    BOOL previouslyInUse;
+void SoundSystem::AddSound(int index) {
 
-    previouslyInUse = in_use;
-    in_use = TRUE;
-
-    ARAlloc(0xc00000);
-    memset(&axVoice, 0, 0x1980);
-    memset(unkcb34, 0, 0x1100);
-
-    next_index = -1;
-    number_in_queue_of_sounds_not_preloaded = 0;
-
-    memset(audio_cache, 0, 0xdc34);
-
-    for (int i = 0; i < 26; i++) {
-        audio_cache[i].field0_0x0 = 0;
-        audio_cache[i].field1_0x4 = 0;
-        audio_cache[i].field2_0x8[0] = 0;
-    }
 }
 
 void SoundSystem::ReinitializeAudio(bool unk) {
@@ -62,25 +71,28 @@ void SoundSystem::ReinitializeAudio(bool unk) {
     }
 }
 
-void SoundSystem::AddSound(int index) {
+void SoundSystem::InitializeAudio() {
+    BOOL previouslyInUse;
 
-}
+    previouslyInUse = in_use;
+    in_use = TRUE;
 
-void SoundSystem::LoadUncachedSoundFromDisk() {
+    ARAlloc(0xc00000);
+    memset(&axVoice, 0, 0x1980);
+    memset(unkcb34, 0, 0x1100);
 
-}
+    next_index = -1;
+    number_in_queue_of_sounds_not_preloaded = 0;
 
-void SoundSystem::Initialize() {
+    memset(audio_cache, 0, 0xdc34);
 
-}
-
-void SoundSystem::ProcessAXARTSounds() {
-    if (!__SoundSystem.deativated){
-        MIXUpdateSettings();
-        AXARTServiceSounds();
-        if (__SoundSystem.in_use == FALSE){
-            __SoundSystem.processing_queue = TRUE;
-        }
-        
+    for (int i = 0; i < 26; i++) {
+        audio_cache[i].field0_0x0 = 0;
+        audio_cache[i].field1_0x4 = 0;
+        audio_cache[i].field2_0x8[0] = 0;
     }
+}
+
+void SoundSystem::LoadNewSoundsFromDisk() {
+
 }
