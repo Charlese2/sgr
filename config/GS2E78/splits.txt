@@ -237,6 +237,8 @@ memory.cpp:
 	extab       start:0x8000A124 end:0x8000A194
 	extabindex  start:0x800122F8 end:0x80012340
 	.text       start:0x80150814 end:0x80150BBC
+	.rodata     start:0x801FD8A0 end:0x801FD910
+	.sbss       start:0x8047558C end:0x80475590
 
 debug.cpp:
 	extab       start:0x8000A194 end:0x8000A19C

@@ -4,7 +4,7 @@
 
 void DebugError(char * File, u32 Line, const char * Error) {
 char charBuffer [1052];
-    sprintf(charBuffer, format, Error, File, Line);
+    sprintf(charBuffer, "Error: %s\nFile: %s - Line: %d\n\n", Error, File, Line);
     printf(charBuffer);
-    OSPanic(file, 0x33, charBuffer);
+    OSPanic("debug.cpp", 0x33, charBuffer);
 }
