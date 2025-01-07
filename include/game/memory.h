@@ -5,33 +5,36 @@ extern "C" {
     #include "dolphin/os/OSAlloc.h"
 }
 
+#define COMMON_BLOCK_SIZE 72800
+
 volatile extern OSHeapHandle __OSCurrHeap;
 
-class Memory {
-    public:
 
-    typedef struct MemoryStruct {
-        char * unk0;
-        u32 unk4;
-        u32 offset;
-        u8 remaining;
-        char name[19];
-        u32 * unk20;
-    } _MemoryStruct;
+typedef struct Memory {
+    char * destination;
+    u32 size;
+    u32 offset;
+    u8 stride;
+    char name[19];
+    u32 * unk20;
+} _Memory;
 
-    void * operator new(size_t amount, const char * file, int line);
-    void * operator new[](size_t amount, const char * file, int line);
+void * Allocate(size_t amount, const char* file, int line);
 
-    void operator delete(void * memoryAddress) throw();
-    void operator delete[](void * memoryAddress) throw ();
+void * operator new(size_t amount, const char * file, int line);
+void * operator new[](size_t amount, const char * file, int line);
 
-    static void SetSomethingMemory(MemoryStruct * unk);
-    static MemoryStruct * GetSomethingMemory(void);
+void operator delete(void * memoryAddress) throw();
+void operator delete[](void * memoryAddress) throw ();
 
-    void * AllocateInCommonBlock(u32 amount);
+void copy(char *destination, u32 size, char * name, u8 stride);
+void * getOffset(u32 unk);
 
-    private:
+BOOL isFinished();
 
-    static void * Allocate(size_t amount, const char* file, int line);
+void SetSomethingMemory(Memory * memory);
+Memory * GetSomethingMemory(void);
 
-};
+u32 getCommonBlockSpaceFree();
+void * AllocateInCommonBlock(u32 amount);
+void setSomethingCommonBlock(u32 amount);

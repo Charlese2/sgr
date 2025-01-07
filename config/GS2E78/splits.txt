@@ -231,14 +231,16 @@ flipbook.cpp:
 gamemem.cpp:
 	extab       start:0x8000A11C end:0x8000A124
 	extabindex  start:0x800122EC end:0x800122F8
-	.text       start:0x8015057C end:0x801507D8
+	.text       start:0x8015057C end:0x801507DC
+	.ctors      start:0x801EE9B0 end:0x801EE9B4
 
 memory.cpp:
 	extab       start:0x8000A124 end:0x8000A194
 	extabindex  start:0x800122F8 end:0x80012340
-	.text       start:0x80150814 end:0x80150BBC
-	.rodata     start:0x801FD8A0 end:0x801FD910
-	.sbss       start:0x8047558C end:0x80475590
+	.text       start:0x801507DC end:0x80150BBC
+	.rodata     start:0x801FC900 end:0x801FD910
+	.bss        start:0x803AFA60 end:0x803C16C0
+	.sbss       start:0x8047558C end:0x80475598
 
 debug.cpp:
 	extab       start:0x8000A194 end:0x8000A19C
@@ -269,6 +271,8 @@ MemSystem.cpp:
 	extabindex  start:0x800125E0 end:0x80012604
 	.text       start:0x801547B0 end:0x801548E4
 	.ctors      start:0x801EE9BC end:0x801EE9C0
+	.rodata     start:0x801FDDA0 end:0x801FDDB0
+	.sdata      start:0x804740F0 end:0x804740F8
 
 InputSystem.cpp:
 	extab       start:0x8000A384 end:0x8000A3CC
