@@ -4,8 +4,8 @@ Sommoner: A Goddess Reborn
 
 [Build Status]: https://github.com/Charlese2/sgr/actions/workflows/build.yml/badge.svg
 [actions]: https://github.com/Charlese2/sgr/actions/workflows/build.yml
-![Code Progress]: https://decomp.dev/Charlese2/sgr.svg?mode=shield&measure=code&label=Code
-[Progress]: https://decomp.dev/Charlese2/sgr
+[Code Progress]: https://decomp.dev/Charlese2/sgr.svg?mode=shield&measure=code&label=Code
+[progress]: https://decomp.dev/Charlese2/sgr
 
 A work-in-progress decompilation of Sommoner: A Goddess Reborn.
 
