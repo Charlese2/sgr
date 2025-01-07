@@ -1,17 +1,11 @@
 Sommoner: A Goddess Reborn 
+[![Build Status]][actions] [![Code Progress]][progress]
 =============
 
-<!--
-Replace with your repository's URL.
--->
 [Build Status]: https://github.com/Charlese2/sgr/actions/workflows/build.yml/badge.svg
 [actions]: https://github.com/Charlese2/sgr/actions/workflows/build.yml
-<!---
-Code progress URL:
-https://progress.decomp.club/data/[project]/[version]/all/?mode=shield&measure=code
-URL encoded then appended to: https://img.shields.io/endpoint?label=Code&url=
--->
-<!-- [Progress]: https://img.shields.io/endpoint?label=Code&url=https%3A%2F%2Fprogress.decomp.club%2Fdata%2Fsgr%2FGS2E78%2Fall%2F%3Fmode%3Dshield%26measure%3Dcode -->
+![Code Progress]: https://decomp.dev/Charlese2/sgr.svg?mode=shield&measure=code&label=Code
+[Progress]: https://decomp.dev/Charlese2/sgr
 
 A work-in-progress decompilation of Sommoner: A Goddess Reborn.
 
