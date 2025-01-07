@@ -708,6 +708,78 @@ dolphin/gx/GXTransform.c:
 dolphin/gx/GXPerf.c:
 	.text       start:0x801AFFD4 end:0x801B08D0
 
+MetroTRK/Portable/mainloop.c:
+	.text       start:0x801B08D0 end:0x801B09C8
+
+MetroTRK/Portable/nubevent.c:
+	.text       start:0x801B09C8 end:0x801B0BF0
+
+MetroTRK/Portable/nubinit.c:
+	.text       start:0x801B0BF0 end:0x801B0D70
+
+MetroTRK/Portable/msg.c:
+	.text       start:0x801B0D70 end:0x801B0F4C
+
+MetroTRK/Portable/msgbuffer.c:
+	.text       start:0x801B0F4C end:0x801B1978
+
+MetroTRK/Portable/serpoll.c:
+	.text       start:0x801B1978 end:0x801B1D44
+
+MetroTRK/Os/dolphin/usr_put.c:
+	.text       start:0x801B1D44 end:0x801B1DD0
+
+MetroTRK/Portable/dispatch.c:
+	.text       start:0x801B1DD0 end:0x801B1E6C
+
+MetroTRK/Portable/msghndlr.c:
+	.text       start:0x801B1E6C end:0x801B46CC
+
+MetroTRK/Portable/support.c:
+	.text       start:0x801B46CC end:0x801B4F8C
+
+MetroTRK/Portable/mutex_TRK.c:
+	.text       start:0x801B4F8C end:0x801B4FA4
+
+MetroTRK/Portable/notify.c:
+	.text       start:0x801B4FA4 end:0x801B507C
+
+MetroTRK/Processor/ppc/Generic/flush_cache.c:
+	.text       start:0x801B507C end:0x801B50B4
+
+MetroTRK/Portable/mem_TRK.cpp:
+	.text       start:0x801B50B4 end:0x801B5170
+
+MetroTRK/Processor/ppc/Generic/targimpl.c:
+	.text       start:0x801B5170 end:0x801B6A00
+
+MetroTRK/Processor/ppc/Export/targsupp.c:
+	.text       start:0x801B6A00 end:0x801B6A20
+
+MetroTRK/Os/dolphin/dolphin_trk.c:
+	.text       start:0x801B6A20 end:0x801B6B60
+
+MetroTRK/Processor/ppc/Generic/mpc_7xx_603e.c:
+	.text       start:0x801B6B60 end:0x801B6ED8
+
+MetroTRK/Portable/main_TRK.c:
+	.text       start:0x801B6ED8 end:0x801B6F1C
+
+MetroTRK/Os/dolphin/dolphin_trk_glue.c:
+	.text       start:0x801B6F1C end:0x801B73C8
+
+MetroTRK/Os/dolphin/targcont.c:
+	.text       start:0x801B73C8 end:0x801B73FC
+
+MetroTRK/Os/dolphin/target_options.c:
+	.text       start:0x801B73FC end:0x801B7418
+
+MetroTRK/Export/mslsupp.c:
+	.text       start:0x801B7418 end:0x801B7614
+
+PowerPC_EABI_Support/Runtime/__va_arg.c:
+	.text       start:0x801B7614 end:0x801B76DC
+
 PowerPC_EABI_Support/Runtime/global_destructor_chain.c:
 	.text       start:0x801B76DC end:0x801B773C
 	.dtors      start:0x801EEA68 end:0x801EEA6C
