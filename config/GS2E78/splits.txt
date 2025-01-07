@@ -352,9 +352,9 @@ SoundConvert.cpp:
 	.ctors      start:0x801EEA44 end:0x801EEA48
 
 MusicSystem.cpp:
-	extab       start:0x8000B11C end:0x8000B164
-	extabindex  start:0x800138B8 end:0x80013924
-	.text       start:0x80183E08 end:0x80184838
+	extab       start:0x8000B104 end:0x8000B164
+	extabindex  start:0x80013894 end:0x80013924
+	.text       start:0x801834B0 end:0x80184838
 	.ctors      start:0x801EEA48 end:0x801EEA4C
 
 dolphin/base/PPCArch.c:
