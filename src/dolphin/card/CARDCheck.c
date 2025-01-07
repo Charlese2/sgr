@@ -1,8 +1,8 @@
 #include <dolphin.h>
 #include <dolphin/card.h>
 
-#include "os/__os.h"
-#include "card/__card.h"
+#include "__os.h"
+#include "__card.h"
 
 static s32 VerifyID(CARDControl *card);
 static s32 VerifyDir(CARDControl *card, int *outCurrent);

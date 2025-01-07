@@ -4,7 +4,7 @@
 #include <dolphin/hw_regs.h>
 #include <macros.h>
 
-#include "gx/__gx.h"
+#include "../gx/__gx.h"
 
 static AISCallback __AIS_Callback;
 static AIDCallback __AID_Callback;

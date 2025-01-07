@@ -4,7 +4,7 @@
 #include <dolphin/os.h>
 #include <macros.h>
 
-#include "gx/__gx.h"
+#include "__gx.h"
 
 static struct __GXFifoObj DisplayListFifo;
 static volatile struct __GXFifoObj *OldCPUFifo;

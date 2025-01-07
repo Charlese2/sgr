@@ -1,6 +1,6 @@
 #include "dolphin/axfx.h"
 #include "dolphin/types.h"
-#include "axfx/__axfx.h"
+#include "__axfx.h"
 
 int __OSCurrHeap;
 

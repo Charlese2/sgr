@@ -5,7 +5,7 @@
 // internal include
 #include "dolphin/os/OSInterrupt.h"
 #include "dolphin/os/OSThread.h"
-#include "os/__os.h"
+#include "__os.h"
 
 extern OSErrorHandler OSErrorTable[15];
 OSErrorHandler OSErrorTable[15];

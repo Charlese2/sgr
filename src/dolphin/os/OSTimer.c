@@ -1,7 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/os.h>
 
-#include "os/__os.h"
+#include "__os.h"
 
 struct Timer {
     void (* callback)();

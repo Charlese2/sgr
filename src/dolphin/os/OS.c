@@ -10,7 +10,7 @@
 void EnableMetroTRKInterrupts(void);
 
 // internal headers
-#include "os/__os.h"
+#include "__os.h"
 
 #define OS_BI2_DEBUG_ADDRESS 0x800000F4
 #define DEBUGFLAG_ADDR 0x800030E8

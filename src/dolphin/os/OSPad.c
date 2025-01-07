@@ -1,4 +1,4 @@
-#include "os/__os.h"
+#include "__os.h"
 #include <dolphin/exi.h>
 #include <dolphin/os.h>
 #include <macros.h>

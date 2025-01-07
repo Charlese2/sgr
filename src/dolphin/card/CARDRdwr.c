@@ -1,7 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/card.h>
 
-#include "card/__card.h"
+#include "__card.h"
 
 // functions
 static void BlockReadCallback(long chan, long result);

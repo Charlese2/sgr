@@ -2,7 +2,7 @@
 #include <dolphin.h>
 #include <dolphin/hw_regs.h>
 
-#include "dsp/__dsp.h"
+#include "__dsp.h"
 
 #define BUILD_DATE "May 22 2001"
 #if DEBUG

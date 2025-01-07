@@ -1,8 +1,8 @@
 #include "dolphin.h"
 #include "dolphin/os.h"
 #include "dolphin/os/OSReboot.h"
-#include "dvd/__dvd.h"
-#include "os/__os.h"
+#include "../dvd/__dvd.h"
+#include "__os.h"
 
 static void * SaveStart;
 static void * SaveEnd;

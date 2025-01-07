@@ -2,7 +2,7 @@
 #include <dolphin/os.h>
 
 // internal header
-#include "os/__os.h"
+#include "__os.h"
 
 #define EXCEPTIONMASK_ADDR 0x80000044
 #define BOOTINFO2_ADDR 0x800000F4

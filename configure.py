@@ -228,7 +228,7 @@ cflags_sdk = [
     *cflags_base,
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include",
-    "-i src/dolphin",
+    "-ir src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
 

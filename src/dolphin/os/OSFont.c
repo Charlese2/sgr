@@ -1,7 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/os.h>
 
-#include "os/__os.h"
+#include "__os.h"
 
 static OSFontHeader* FontData; // type unsure
 static u8* SheetImage;         // type unsure

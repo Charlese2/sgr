@@ -1,7 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/os.h>
 
-#include "os/__os.h"
+#include "__os.h"
 
 #define ENQUEUE_THREAD(thread, queue, link)       \
     do {                                          \

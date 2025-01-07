@@ -2,7 +2,7 @@
 #include <dolphin/ar.h>
 #include "fake_tgmath.h"
 
-#include "ar/__ar.h"
+#include "__ar.h"
 
 static void (* __AR_Callback)();
 static u32 __AR_Size;

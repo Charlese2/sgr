@@ -2,7 +2,7 @@
 #include <dolphin/os.h>
 #include <string.h>
 
-#include "os/__os.h"
+#include "__os.h"
 
 static u8 DSPInitCode[128] = {
     // clang-format off

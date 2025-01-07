@@ -2,8 +2,8 @@
 #include <dolphin/os.h>
 #include <dolphin/dvd.h>
 
-#include "os/__os.h"
-#include "dvd/__dvd.h"
+#include "../os/__os.h"
+#include "__dvd.h"
 
 static unsigned char * tmpBuffer[32] ATTRIBUTE_ALIGN(32);
 static struct DVDCommandBlock DummyCommandBlock;

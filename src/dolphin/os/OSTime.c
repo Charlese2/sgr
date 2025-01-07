@@ -2,7 +2,7 @@
 #include <dolphin/os.h>
 #include <macros.h>
 
-#include "os/__os.h"
+#include "__os.h"
 
 // End of each month in standard year
 static int YearDays[MONTH_MAX] = {0,   31,  59,  90,  120, 151,

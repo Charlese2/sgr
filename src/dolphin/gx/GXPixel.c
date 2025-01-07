@@ -3,7 +3,7 @@
 #include <dolphin/os.h>
 #include <macros.h>
 
-#include "gx/__gx.h"
+#include "__gx.h"
 
 void GXSetFog(GXFogType type, f32 startz, f32 endz, f32 nearz, f32 farz, GXColor color)
 {

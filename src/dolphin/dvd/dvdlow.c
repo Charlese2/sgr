@@ -1,8 +1,8 @@
 #include <dolphin.h>
 #include <dolphin/dvd.h>
 
-#include "dvd/__dvd.h"
-#include "os/__os.h"
+#include "__dvd.h"
+#include "../os/__os.h"
 
 // .sbss
 static BOOL StopAtNextInt; // size 0x4, address 0x0

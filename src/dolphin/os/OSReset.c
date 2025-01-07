@@ -1,7 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/os.h>
 
-#include "os/__os.h"
+#include "__os.h"
 
 // These macros are copied from OSThread.c. Or ARE they the same
 // macros? They dont seem to be in the SDK headers.

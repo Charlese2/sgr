@@ -3,7 +3,7 @@
 
 // internal header
 #include "dolphin/os/OSContext.h"
-#include "os/__os.h"
+#include "__os.h"
 
 struct OSAlarmQueue {
     struct OSAlarm * head;

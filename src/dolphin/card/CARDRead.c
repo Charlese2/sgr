@@ -2,7 +2,7 @@
 #include <dolphin/os.h>
 #include <dolphin/card.h>
 
-#include "card/__card.h"
+#include "__card.h"
 
 #define TRUNC(n, a) (((u32)(n)) & ~((a)-1))
 

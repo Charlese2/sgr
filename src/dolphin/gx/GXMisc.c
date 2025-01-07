@@ -4,7 +4,7 @@
 #include <dolphin/os.h>
 #include <macros.h>
 
-#include "gx/__gx.h"
+#include "__gx.h"
 
 static GXDrawSyncCallback TokenCB;
 static GXDrawDoneCallback DrawDoneCB;

@@ -1,7 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/card.h>
 
-#include "card/__card.h"
+#include "__card.h"
 
 long __CARDGetStatusEx(long chan, long fileNo, struct CARDDir * dirent) {
     ASSERTLINE(0x45, 0 <= chan && chan < 2);

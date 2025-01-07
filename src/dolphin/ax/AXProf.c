@@ -1,7 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/ax.h>
 
-#include "ax/__ax.h"
+#include "__ax.h"
 
 // .sbss
 static AXPROFILE * __AXProfile;

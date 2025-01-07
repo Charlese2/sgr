@@ -2,7 +2,7 @@
 #include <dolphin/os.h>
 #include <macros.h>
 
-#include "gx/__gx.h"
+#include "__gx.h"
 
 void GXSetGPMetric(GXPerf0 perf0, GXPerf1 perf1)
 {

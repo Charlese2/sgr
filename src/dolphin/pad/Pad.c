@@ -2,7 +2,7 @@
 #include <dolphin/pad.h>
 #include <dolphin/si.h>
 
-#include "os/__os.h"
+#include "../os/__os.h"
 
 #define LATENCY 8
 

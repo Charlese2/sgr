@@ -2,7 +2,7 @@
 #include <dolphin/dvd.h>
 
 #include "dolphin/os.h"
-#include "dvd/__dvd.h"
+#include "__dvd.h"
 
 static struct {
     /* 0x00 */ struct DVDCommandBlock * next;

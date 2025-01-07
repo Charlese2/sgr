@@ -2,8 +2,8 @@
 #include <dolphin/card.h>
 #include <dolphin/exi.h>
 
-#include "os/__os.h"
-#include "card/__card.h"
+#include "__os.h"
+#include "__card.h"
 
 typedef void (*EXICallback)(s32 chan, OSContext *context);
 

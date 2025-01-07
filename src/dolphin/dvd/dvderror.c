@@ -1,6 +1,6 @@
 #include "dolphin/os/OSRtc.h"
 #include "dolphin/types.h"
-#include "os/__os.h"
+#include "../os/__os.h"
 
 static u8 ErrorCode2Num(u32 errorCode);
 void __DVDStoreErrorCode();

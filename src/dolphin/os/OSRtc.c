@@ -3,7 +3,7 @@
 #include <macros.h>
 
 // internal include
-#include "os/__os.h"
+#include "__os.h"
 
 static struct SramControl Scb ATTRIBUTE_ALIGN(32);
 

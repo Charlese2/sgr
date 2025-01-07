@@ -1,7 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/os.h>
 
-#include "os/__os.h"
+#include "__os.h"
 
 static asm void ExternalInterruptHandler(register __OSException exception,
                                          register OSContext* context);

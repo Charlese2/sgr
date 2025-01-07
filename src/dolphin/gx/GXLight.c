@@ -3,7 +3,7 @@
 #include <dolphin/os.h>
 #include <macros.h>
 
-#include "gx/__gx.h"
+#include "__gx.h"
 
 // GXLightObj private data
 struct __GXLightObjInt_struct {
