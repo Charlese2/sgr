@@ -90,15 +90,15 @@ void copy(Memory * memoryStruct,  char * destination, u32 size, char * name, u8 
     memoryStruct->stride = stride;
 }
 
-void * getOffset(Memory * memoryStruct, u32 unk) {
-    u32 offset;
+void * getOffset(Memory * memoryStruct, u32 amount) {
     int stride;
+    u32 offset;
     u32 newOffset;
     char * destination;
     offset = memoryStruct->offset;
     stride = memoryStruct->stride - 1;
 
-    newOffset = offset + (~stride & unk + stride);
+    newOffset = offset + (~stride & amount + stride);
     if (newOffset > memoryStruct->size) {
         return 0;
     }
@@ -106,7 +106,7 @@ void * getOffset(Memory * memoryStruct, u32 unk) {
     destination = memoryStruct->destination;
 
     memoryStruct->offset = newOffset;
-    return (destination + offset);
+    return destination + offset;
 }
 
 void SetSomethingMemory(Memory * unk) {
@@ -133,7 +133,6 @@ void * AllocateInCommonBlock(u32 amount) {
     if (lbl_804740F0[somethingCommonBlock] != -1) {
         DebugError("memory.cpp", 449, "Common block is already locked.");
     }
-
     if (alignedAmount > getCommonBlockSpaceFree()) {
         DebugError( "memory.cpp", 452, "Not enough space in common block.\n");
     }
