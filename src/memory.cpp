@@ -8,7 +8,7 @@ Memory * globalMemoryStruct;
 u32 somethingCommonBlock; 
 u32 commonBlockSpaceUsed; 
 char CommonBlock[COMMON_BLOCK_SIZE];
-const char empty[0xfa0] = "";
+const char empty[4000] = "";
 extern s32 lbl_804740F0[2];
 
 void * Allocate(size_t amount, const char* file, int line) {
@@ -23,10 +23,10 @@ void * Allocate(size_t amount, const char* file, int line) {
     return ptrToAllocatedMemory;
 }
 
-void * operator new(size_t amount, const char* file, int line) {
+void * operator new(size_t amount, const char * file, int line) {
     void * memAddressToUse;
-    u32 offset;
     int stride;
+    u32 offset;
     u32 newOffset;
     char * destination;
     if (isFinished()) {
@@ -48,13 +48,13 @@ void * operator new(size_t amount, const char* file, int line) {
     return memAddressToUse;
 }
 
-void * operator new[](size_t amount, const char* file, int line) {
+void * operator new[](size_t amount, const char * file, int line) {
     void * memAddressToUse;
-    u32 offset;
     int stride;
+    u32 offset;
     u32 newOffset;
-    char * somePointer;
-    if (globalMemoryStruct != NULL) {
+    char * destination;
+    if (isFinished()) {
         stride = globalMemoryStruct->stride - 1;
         offset = globalMemoryStruct->offset;
 
@@ -63,9 +63,9 @@ void * operator new[](size_t amount, const char* file, int line) {
         if (newOffset > globalMemoryStruct->size) {
             memAddressToUse = NULL;
         } else {
-            somePointer = globalMemoryStruct->destination;
+            destination = globalMemoryStruct->destination;
             globalMemoryStruct->offset = newOffset;
-            return somePointer + offset;
+            return destination + offset;
         }
     } else {
         memAddressToUse = Allocate(amount, file, line);
@@ -145,11 +145,11 @@ void * AllocateInCommonBlock(u32 amount) {
 }
 
 void setSomethingCommonBlock(u32 amount) {
-    int test;
+    int unk;
     if (amount != 0) {
         somethingCommonBlock--;
-        test = lbl_804740F0[somethingCommonBlock];
+        unk = lbl_804740F0[somethingCommonBlock];
         lbl_804740F0[somethingCommonBlock] = -1;
-        commonBlockSpaceUsed = commonBlockSpaceUsed - test;
+        commonBlockSpaceUsed = commonBlockSpaceUsed - unk;
     }
 }
