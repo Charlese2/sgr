@@ -463,19 +463,26 @@ dolphin/axart/axart.c:
 
 dolphin/axart/axartsound.c:
 	.text       start:0x80191D30 end:0x80192018
+	.data       start:0x80212B50 end:0x80212B98
+	.sdata2     start:0x8047A938 end:0x8047A948
 
 dolphin/axart/axartcents.c:
 	.text       start:0x80192018 end:0x80192114
+	.data       start:0x80212B98 end:0x80212F88
+	.sdata2     start:0x8047A948 end:0x8047A950
 
 dolphin/axart/axartenv.c:
 	.text       start:0x80192114 end:0x801921CC
 
 dolphin/axart/axartlfo.c:
 	.text       start:0x801921CC end:0x80192280
+	.sdata2     start:0x8047A950 end:0x8047A958
 
 dolphin/axart/axart3d.c:
 	.text       start:0x80192280 end:0x80192414
+	.data       start:0x80212F88 end:0x80213800
 	.sbss       start:0x80475CE8 end:0x80475CF0
+	.sdata2     start:0x8047A958 end:0x8047A968
 
 dolphin/mtx/mtx.c:
 	.text       start:0x80192414 end:0x801927A4

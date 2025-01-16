@@ -2,7 +2,7 @@
 #include "dolphin/mix.h"
 #include "dolphin/os.h"
 
-static AXARTSound * __AXARTSoundList;
+static AXART_SOUND * __AXARTSoundList;
 
 void AXARTInit() {
     __AXARTSoundList = NULL;
@@ -12,7 +12,7 @@ void AXARTInit() {
 
 void AXARTQuit() {
     int enabled;
-    AXARTSound * sound;
+    AXART_SOUND * sound;
 
     enabled = OSDisableInterrupts();
 
@@ -25,19 +25,19 @@ void AXARTQuit() {
 }
 
 void AXARTServiceSounds() {
-    AXARTSound * sound;
+    AXART_SOUND * sound;
     for (sound = __AXARTSoundList; sound != NULL; sound = sound->next) {
         AXARTServiceSound(sound);
     }
 }
 
-void AXARTInitSound(AXARTSound * sound, AXVPB * voice, u32 sampleRate) {
+void AXARTInitSound(AXART_SOUND * sound, AXVPB * voice, u32 sampleRate) {
     sound->articulators = NULL;
     sound->axvpb = voice;
     sound->sampleRate = sampleRate;
 }
 
-void AXARTAddSound(AXARTSound * sound) {
+void AXARTAddSound(AXART_SOUND * sound) {
     BOOL enabled;
 
     AXSetVoiceItdOn(sound->axvpb);
@@ -55,7 +55,7 @@ void AXARTAddSound(AXARTSound * sound) {
     OSRestoreInterrupts(enabled);
 }
 
-void AXARTRemoveSound(AXARTSound * sound) {
+void AXARTRemoveSound(AXART_SOUND * sound) {
     BOOL enabled;
     AXVPB *next, *prev;
 
@@ -77,13 +77,13 @@ void AXARTRemoveSound(AXARTSound * sound) {
     MIXReleaseChannel(sound->axvpb);
 }
 
-void AXARTInitArtPanning(AXART_Pan * articulator) {
+void AXARTInitArtPanning(AXART_PANNING * articulator) {
     articulator->art.type = 2;
     articulator->pan = 0x40;
     articulator->span = 0x7f;
 }
 
-void AXARTInitArtVolume(AXART_Volume * articulator) {
+void AXARTInitArtVolume(AXART_VOLUME * articulator) {
     articulator->art.type = 8;
     articulator->attenuation = 0;
 }

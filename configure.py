@@ -194,7 +194,6 @@ cflags_base = [
     "-maxerrors 1",
     "-nosyspath",
     "-RTTI off",
-    "-fp_contract on",
     "-str reuse",
     "-multibyte",  # For Wii compilers, replace with `-enc SJIS`
     "-i include",
@@ -217,6 +216,7 @@ cflags_runtime = [
     "-gccinc",
     "-common off",
     "-inline auto,deferred",
+    "-fp_contract on",
     "-i include/PowerPC_EABI_Support/Runtime",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include",
@@ -617,11 +617,11 @@ config.libs = [
         "axart",
         [
             Object(Matching, "dolphin/axart/axart.c"),
-            Object(NonMatching, "dolphin/axart/axartsound.c"),
-            Object(NonMatching, "dolphin/axart/axartcents.c"),
-            Object(NonMatching, "dolphin/axart/axartenv.c"),
-            Object(NonMatching, "dolphin/axart/axartlfo.c"),
-            Object(NonMatching, "dolphin/axart/axart3d.c"),
+            Object(Matching, "dolphin/axart/axartsound.c"),
+            Object(Matching, "dolphin/axart/axartcents.c"),
+            Object(Matching, "dolphin/axart/axartenv.c"),
+            Object(Matching, "dolphin/axart/axartlfo.c"),
+            Object(Matching, "dolphin/axart/axart3d.c"),
         ]
     ),
     DolphinLib(

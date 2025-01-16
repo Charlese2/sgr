@@ -8,6 +8,9 @@
 extern "C" {
 #endif
 
+#include <dolphin/types.h>
+#include <dolphin/dsp.h>
+
 typedef struct _AXPBMIX {
     /* 0x00 */ u16 vL;
     /* 0x02 */ u16 vDeltaL;

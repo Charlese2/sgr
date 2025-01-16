@@ -23,7 +23,7 @@ struct astruct_23 {
     undefined field2_0x5;
     undefined field3_0x6;
     undefined field4_0x7;
-    AXARTSound sound;
+    AXART_SOUND sound;
     undefined field6_0x10;
     undefined field7_0x11;
     undefined field8_0x12;
@@ -149,7 +149,7 @@ struct astruct_19 {
 typedef struct astruct_9 {
     AXVPB *field0_0x0;
     unk *field1_0x4;
-    AXARTSound field2_0x8;
+    AXART_SOUND field2_0x8;
     astruct_19 *field3_0x1c;
     undefined field4_0x20;
     undefined field5_0x21;
