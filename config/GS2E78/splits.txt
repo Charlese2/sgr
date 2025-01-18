@@ -331,13 +331,18 @@ new_tutorial.cpp:
 	.text       start:0x8017742C end:0x80177CA4
 
 SoundSystem.cpp:
-	extab       start:0x8000AEAC end:0x8000AF94
-	extabindex  start:0x8001354C end:0x80013684
-	.text       start:0x8017D9EC end:0x80180778
-	.ctors      start:0x801EEA38 end:0x801EEA40
-	.rodata     start:0x80201664 end:0x802016AC
-	.bss        start:0x80410320 end:0x8041FAE0
+	extab       start:0x8000AEAC end:0x8000AF64
+	extabindex  start:0x8001354C end:0x80013660
+	.text       start:0x8017D9EC end:0x80180438
+	.ctors      start:0x801EEA38 end:0x801EEA3C
+	.rodata     start:0x80201664 end:0x802016E0
+	.bss        start:0x80410320 end:0x8041F960
 	.sdata2     start:0x8047A758 end:0x8047A79C
+
+music.cpp:
+	extab       start:0x8000AF64 end:0x8000AF8C
+	extabindex  start:0x80013660 end:0x80013678
+	.text       start:0x80180438 end:0x80180724
 
 snd.cpp:
 	extab       start:0x8000AF94 end:0x8000B034

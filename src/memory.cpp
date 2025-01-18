@@ -2,84 +2,43 @@
 #include "game/debug.h"
 #include "dolphin/os.h"
 
-#define RoundUpToAlignment(value, alignment) (~alignment & value + alignment)
-
 Memory * Pool;
-u32 somethingCommonBlock; 
-u32 commonBlockSpaceUsed; 
-char CommonBlock[COMMON_BLOCK_SIZE];
+u32 Common_block_index; 
+u32 Bytes_used; 
+char COMMON_BLOCK[COMMON_BLOCK_SIZE];
 const char empty[4000] = "";
-extern s32 lbl_804740F0[2];
+extern s32 Common_block_allocation_amount[2];
+volatile extern OSHeapHandle __OSCurrHeap;
+volatile bool gHeapAlloc;
 
-void * Allocate(size_t amount, const char* file, int line) {
-    void * ptrToAllocatedMemory;
-    char stringbuf[122];
-    ptrToAllocatedMemory = OSAllocFromHeap(__OSCurrHeap, amount);
-    if (ptrToAllocatedMemory == NULL) {
-        sprintf(stringbuf, "Failed to allocate %d bytes\n", amount);
-        DebugError("memory.cpp", 108, stringbuf);
-        ptrToAllocatedMemory = NULL;
-    }
-    return ptrToAllocatedMemory;
-}
-
-void * operator new(size_t amount, const char * file, int line) {
+void * Allocate(size_t size, const char * file, int line) {
     void * memAddressToUse;
-    int alignment;
-    u32 offset;
-    u32 newOffset;
-    char * destination;
-    if (isFinished()) {
-        alignment = Pool->alignment - 1;
-        offset = Pool->offset;
-
-        newOffset = offset + RoundUpToAlignment(amount, alignment);
-        
-        if (newOffset > Pool->size) {
-            memAddressToUse = NULL;
-        } else {
-            destination = Pool->destination;
-            Pool->offset = newOffset;
-            return destination + offset;
-        }
+    char stringbuf[128];
+    if (Pool) {
+        memAddressToUse = allocateInPool(Pool, size);
     } else {
-        memAddressToUse = Allocate(amount, file, line);
-    }
-    return memAddressToUse;
-}
-
-void * operator new[](size_t amount, const char * file, int line) {
-    void * memAddressToUse;
-    int alignment;
-    u32 offset;
-    u32 newOffset;
-    char * destination;
-    if (isFinished()) {
-        alignment = Pool->alignment - 1;
-        offset = Pool->offset;
-
-        newOffset = offset + RoundUpToAlignment(amount, alignment);
-        
-        if (newOffset > Pool->size) {
+        memAddressToUse = OSAllocFromHeap(__OSCurrHeap, size);
+        if (memAddressToUse == NULL) {
+            sprintf(stringbuf, "Failed to allocate %d bytes\n", size);
+            DebugError("memory.cpp", 108, stringbuf);
             memAddressToUse = NULL;
-        } else {
-            destination = Pool->destination;
-            Pool->offset = newOffset;
-            return destination + offset;
         }
-    } else {
-        memAddressToUse = Allocate(amount, file, line);
+    
     }
-    return memAddressToUse;
+return memAddressToUse;
 }
 
-void operator delete(void * memoryAddress) throw () {
-    OSFreeToHeap(__OSCurrHeap, memoryAddress);
+void * AllocateArray(size_t size, const char * file, int line) {
+    return Allocate(size, file, line);
+}
+
+void Free(void * p) throw () {
+    OSFreeToHeap(__OSCurrHeap, p);
 }
 
 
-void operator delete[](void * memoryAddress) throw () {
-    OSFreeToHeap(__OSCurrHeap, memoryAddress);
+void FreeArray(void * p) throw () {
+    Free(p);
 }
 
 void copy(Memory * mem_pool,  char * destination, u32 size, char * name, u8 alignment) {
@@ -88,6 +47,19 @@ void copy(Memory * mem_pool,  char * destination, u32 size, char * name, u8 alig
     mem_pool->size = size;
     mem_pool->offset = 0;
     mem_pool->alignment = alignment;
+}
+
+void* allocateInPool(Memory* pool, u32 size) {
+    u32 offset;
+    u32 poolSpaceLeft;
+    u32 alignedSize;
+    alignedSize = ~(pool->alignment -1) & size + (pool->alignment - 1);
+    if (pool->size > pool->offset + alignedSize) {
+        return NULL;
+    }
+    offset = pool->offset;
+    pool->offset = pool->offset + alignedSize;
+    return pool->destination + offset;
 }
 
 void * getOffset(Memory * memoryStruct, u32 amount) {
@@ -122,34 +94,36 @@ BOOL isFinished() {
 }
 
 u32 getCommonBlockSpaceFree() {
-    return COMMON_BLOCK_SIZE - commonBlockSpaceUsed;
+    return COMMON_BLOCK_SIZE - Bytes_used;
 }
 
-void * AllocateInCommonBlock(u32 amount) {
+void * AllocateInCommonBlock(u32 size) {
     u32 alignedAmount;
-    char * allocatedAddress;
+    char* allocatedAddress;
+    volatile s32* CurrentAllocation;
 
-    alignedAmount = OSRoundUp32B(amount);
-    if (lbl_804740F0[somethingCommonBlock] != -1) {
+    alignedAmount = OSRoundUp32B(size);
+    if (Common_block_allocation_amount[Common_block_index] != -1) {
         DebugError("memory.cpp", 449, "Common block is already locked.");
     }
-    if (alignedAmount > getCommonBlockSpaceFree()) {
+    if (alignedAmount > 72800 - Bytes_used) {
         DebugError( "memory.cpp", 452, "Not enough space in common block.\n");
     }
     
-    allocatedAddress = CommonBlock + commonBlockSpaceUsed;
-    lbl_804740F0[somethingCommonBlock] = alignedAmount;
-    commonBlockSpaceUsed += alignedAmount;
-    somethingCommonBlock = somethingCommonBlock + 1;
+    CurrentAllocation = Common_block_allocation_amount + Common_block_index;
+    Common_block_index = Common_block_index + 1;
+    allocatedAddress = COMMON_BLOCK + Bytes_used;
+    *CurrentAllocation = alignedAmount;
+    Bytes_used = Bytes_used + alignedAmount;
     return allocatedAddress;
 }
 
 void setSomethingCommonBlock(u32 amount) {
     int unk;
     if (amount != 0) {
-        somethingCommonBlock--;
-        unk = lbl_804740F0[somethingCommonBlock];
-        lbl_804740F0[somethingCommonBlock] = -1;
-        commonBlockSpaceUsed = commonBlockSpaceUsed - unk;
+        Common_block_index--;
+        unk = Common_block_allocation_amount[Common_block_index];
+        Common_block_allocation_amount[Common_block_index] = -1;
+        Bytes_used = Bytes_used - unk;
     }
 }

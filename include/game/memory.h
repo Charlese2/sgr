@@ -1,4 +1,3 @@
-#include "dolphin/os/OSException.h"
 #include "dolphin/types.h"
 
 extern "C" {
@@ -7,28 +6,24 @@ extern "C" {
 
 #define COMMON_BLOCK_SIZE 72800
 
-volatile extern OSHeapHandle __OSCurrHeap;
-
-
-typedef struct Memory {
+typedef struct {
     char * destination;
     u32 size;
     u32 offset;
     u8 alignment;
     char pool_name[19];
     u32 * unk20;
-} _Memory;
+} Memory;
 
-void * Allocate(size_t amount, const char* file, int line);
+void* Allocate(size_t amount, const char * file, int line);
+void* AllocateArray(size_t amount, const char * file, int line);
 
-void * operator new(size_t amount, const char * file, int line);
-void * operator new[](size_t amount, const char * file, int line);
-
-void operator delete(void * memoryAddress) throw();
-void operator delete[](void * memoryAddress) throw ();
+void Free(void * memoryAddress) throw();
+void FreeArray(void * memoryAddress) throw ();
 
 void copy(char *destination, u32 size, char * name, u8 alignment);
-void * getOffset(u32 unk);
+void* allocateInPool(Memory* pool, u32 size);
+void* getOffset(u32 unk);
 
 BOOL isFinished();
 

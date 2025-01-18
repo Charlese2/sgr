@@ -5,7 +5,7 @@
 extern void StatusStuff(u32, u32, double, double);
 extern void SoundStuff();
 
-extern volatile BOOL AllocatingMemory;
+extern volatile bool gHeapAlloc;
 
 double status1;
 double status2;
@@ -37,17 +37,20 @@ const char game_startup_time_string[36] = "**** Game startup time: %.3f ****\n";
 
 short main_parameters[10];
 
+void Initialize() {
+    Memory* memPool;
+    void* address;
+    memPool = GetCurrentMempool();
+    SetCurrentMempool(0);
+    gHeapAlloc = true;
 
+    SetCurrentMempool(memPool);
+}
 
 void MainLoop() 
 {
-    void * allocated_memory_address;
 
-    StatusStuff(0,0, status1, status2);
-
-    AllocatingMemory = TRUE;
-
-    AllocatingMemory = FALSE;
+    Initialize();
 
 
     
