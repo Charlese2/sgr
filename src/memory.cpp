@@ -2,9 +2,9 @@
 #include "game/debug.h"
 #include "dolphin/os.h"
 
-#define RoundUpToStride(value, stride) (~stride & value + stride)
+#define RoundUpToAlignment(value, alignment) (~alignment & value + alignment)
 
-Memory * globalMemoryStruct;
+Memory * Pool;
 u32 somethingCommonBlock; 
 u32 commonBlockSpaceUsed; 
 char CommonBlock[COMMON_BLOCK_SIZE];
@@ -25,21 +25,21 @@ void * Allocate(size_t amount, const char* file, int line) {
 
 void * operator new(size_t amount, const char * file, int line) {
     void * memAddressToUse;
-    int stride;
+    int alignment;
     u32 offset;
     u32 newOffset;
     char * destination;
     if (isFinished()) {
-        stride = globalMemoryStruct->stride - 1;
-        offset = globalMemoryStruct->offset;
+        alignment = Pool->alignment - 1;
+        offset = Pool->offset;
 
-        newOffset = offset + RoundUpToStride(amount, stride);
+        newOffset = offset + RoundUpToAlignment(amount, alignment);
         
-        if (newOffset > globalMemoryStruct->size) {
+        if (newOffset > Pool->size) {
             memAddressToUse = NULL;
         } else {
-            destination = globalMemoryStruct->destination;
-            globalMemoryStruct->offset = newOffset;
+            destination = Pool->destination;
+            Pool->offset = newOffset;
             return destination + offset;
         }
     } else {
@@ -50,21 +50,21 @@ void * operator new(size_t amount, const char * file, int line) {
 
 void * operator new[](size_t amount, const char * file, int line) {
     void * memAddressToUse;
-    int stride;
+    int alignment;
     u32 offset;
     u32 newOffset;
     char * destination;
     if (isFinished()) {
-        stride = globalMemoryStruct->stride - 1;
-        offset = globalMemoryStruct->offset;
+        alignment = Pool->alignment - 1;
+        offset = Pool->offset;
 
-        newOffset = offset + RoundUpToStride(amount, stride);
+        newOffset = offset + RoundUpToAlignment(amount, alignment);
         
-        if (newOffset > globalMemoryStruct->size) {
+        if (newOffset > Pool->size) {
             memAddressToUse = NULL;
         } else {
-            destination = globalMemoryStruct->destination;
-            globalMemoryStruct->offset = newOffset;
+            destination = Pool->destination;
+            Pool->offset = newOffset;
             return destination + offset;
         }
     } else {
@@ -82,23 +82,23 @@ void operator delete[](void * memoryAddress) throw () {
     OSFreeToHeap(__OSCurrHeap, memoryAddress);
 }
 
-void copy(Memory * memoryStruct,  char * destination, u32 size, char * name, u8 stride) {
-    strcpy(memoryStruct->name, name);
-    memoryStruct->destination = destination;
-    memoryStruct->size = size;
-    memoryStruct->offset = 0;
-    memoryStruct->stride = stride;
+void copy(Memory * mem_pool,  char * destination, u32 size, char * name, u8 alignment) {
+    strcpy(mem_pool->pool_name, name);
+    mem_pool->destination = destination;
+    mem_pool->size = size;
+    mem_pool->offset = 0;
+    mem_pool->alignment = alignment;
 }
 
 void * getOffset(Memory * memoryStruct, u32 amount) {
-    int stride;
+    int alignment;
     u32 offset;
     u32 newOffset;
     char * destination;
     offset = memoryStruct->offset;
-    stride = memoryStruct->stride - 1;
+    alignment = memoryStruct->alignment - 1;
 
-    newOffset = offset + (~stride & amount + stride);
+    newOffset = offset + (~alignment & amount + alignment);
     if (newOffset > memoryStruct->size) {
         return 0;
     }
@@ -109,16 +109,16 @@ void * getOffset(Memory * memoryStruct, u32 amount) {
     return destination + offset;
 }
 
-void SetSomethingMemory(Memory * unk) {
-    globalMemoryStruct = unk;
+void SetCurrentMempool(Memory * pool) {
+    Pool = pool;
 }
 
-Memory * GetSomethingMemory(void) {
-    return globalMemoryStruct;
+Memory * GetCurrentMempool(void) {
+    return Pool;
 }
 
 BOOL isFinished() {
-    return globalMemoryStruct != 0;
+    return Pool != 0;
 }
 
 u32 getCommonBlockSpaceFree() {
