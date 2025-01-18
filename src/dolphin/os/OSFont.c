@@ -194,16 +194,25 @@ static u16 Zenkaku2Code[]
         0x317, 0x318, 0x319, 0x31A, 0x31B, 0x000 
     };
 
+static BOOL IsSjisTrailByte(u8 ch) {
+    return (0x40 <= ch && ch <= 0xFC) && (ch != 0x7F);
+}
+
 static int GetFontCode(unsigned short code) {
     if (OSGetFontEncode() == OS_FONT_ENCODE_SJIS) {
         if (code >= 0x20 && code <= 0xDF) {
             return HankakuToCode[code - 0x20];
         }
 
-        if (code > 0x889E) {
+        if (code > 0x889E && code <= 0x9872) {
             int i = ((code >> 8) - 0x88) * 188;
-            int j = (code & 0xFF) - 0x40;
+            int j = code & 0xFF;
 
+            if(!IsSjisTrailByte(j)) {
+                return 0;
+            }
+
+            j -= 0x40;
             if (j >= 0x40) {
                 j--;
             }
@@ -211,10 +220,15 @@ static int GetFontCode(unsigned short code) {
             return (i + j + 0x2BE);
         }
 
-        if (code < 0x879E) {
+        if (0x8140 <= code && code < 0x879E) {
             int i  = ((code >> 8) - 0x81) * 188;
             int j = (code & 0xFF) - 0x40;
 
+            if(!IsSjisTrailByte(j)) {
+                return 0;
+            }
+
+            j -= 0x40;
             if (j >= 0x40) {
                 j--;
             }
@@ -226,7 +240,6 @@ static int GetFontCode(unsigned short code) {
     } else {
         return 0;
     }
-    return 0;
 }
 
 static void Decode(unsigned char * s, unsigned char * d) {
