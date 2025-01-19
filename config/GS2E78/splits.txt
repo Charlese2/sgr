@@ -24,9 +24,9 @@ dolphin/os/__start.c:
 	.init       start:0x80003100 end:0x80003354
 
 effects.cpp:
-	extab       start:0x800056A0 end:0x80005920
-	extabindex  start:0x8000B860 end:0x8000BC08
-	.text       start:0x80016A68 end:0x80021684
+	extab       start:0x800056A0 end:0x80005928
+	extabindex  start:0x8000B860 end:0x8000BC14
+	.text       start:0x80016A68 end:0x800216BC
 	.ctors      start:0x801EE848 end:0x801EE84C
 
 gr.cpp:
@@ -38,6 +38,11 @@ gr_font.cpp:
 	extab       start:0x800059B8 end:0x800059D8
 	extabindex  start:0x8000BCEC end:0x8000BCF8
 	.text       start:0x80023B2C end:0x80023F04
+
+frametime.cpp:
+	extab       start:0x80005A80 end:0x80005A90
+	extabindex  start:0x8000BDF4 end:0x8000BE0C
+	.text       start:0x80027178 end:0x800274BC
 
 levels.cpp:
 	extab       start:0x80005B50 end:0x80005B80
