@@ -14,9 +14,9 @@ Sections:
 	.sbss2      type:bss align:32
 
 summoner.cpp:
-	extab       start:0x80005620 end:0x80005630
-	extabindex  start:0x8000B7A0 end:0x8000B7B8
-	.text       start:0x80014180 end:0x80014A58
+	extab       start:0x80005620 end:0x80005650
+	extabindex  start:0x8000B7A0 end:0x8000B7E8
+	.text       start:0x80014180 end:0x80015208
 	.rodata     start:0x801EEA80 end:0x801EED40
 	.bss        start:0x80228F80 end:0x80228F94
 
