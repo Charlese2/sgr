@@ -3,8 +3,6 @@
 bool gamemem_active;
 bool lbl_80475560;
 
-static GameMem gGameMem;
-
 void GameMem::activateGamemem(void) {
     gamemem_active = true;
     allocateMempools();
@@ -48,7 +46,7 @@ void GameMem::allocateMempools(void) {
     gGameMem.cutscene_mempool_active = false;
     gGameMem.summon_mempool_active = false;
     gGameMem.spellslot_mempool_active = false;
-    
+
     SetCurrentMempool(0);
     gHeapAlloc = false;
 }
