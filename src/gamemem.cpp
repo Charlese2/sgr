@@ -15,35 +15,36 @@ void GameMem::allocateMempools(void) {
 
     SetCurrentMempool(0);
 
-    persistantMempool.data = AllocateArray(0x363800, "gamemem.cpp", 168);
-    copy(&persistantMempool, persistantMempool.data, 0x363800, "persistant", 32);
+    gGameMem.persistantMempool.data = AllocateArray(0x363800, "gamemem.cpp", 168);
+    copy(&gGameMem.persistantMempool, gGameMem.persistantMempool.data, 0x363800, "persistant", 32);
     resetOffset(&persistantMempool);
 
-    soundMempool.data = AllocateArray(0x10000, "gamemem.cpp", 174);
-    copy(&soundMempool, soundMempool.data, 0x10000, "sound", 16);
-    resetOffset(&soundMempool);
+    gGameMem.soundMempool.data = AllocateArray(0x10000, "gamemem.cpp", 174);
+    copy(&gGameMem.soundMempool, gGameMem.soundMempool.data, 0x10000, "sound", 16);
+    resetOffset(&gGameMem.soundMempool);
 
     size = 0; // Not the real size
+    printf("Allocating %.2f KB for the perlevel mempool\n", (float)size * 0.0009765625);
 
-    perlevelMempool.data = AllocateArray(size, "gamemem.cpp", 181);
-    copy(&perlevelMempool, perlevelMempool.data, size, "perlevel", 16);
-    resetOffset(&perlevelMempool);
-    SetCurrentMempool(&perlevelMempool);
+    gGameMem.perlevelMempool.data = AllocateArray(size, "gamemem.cpp", 181);
+    copy(&gGameMem.perlevelMempool, gGameMem.perlevelMempool.data, size, "perlevel", 16);
+    resetOffset(&gGameMem.perlevelMempool);
+    SetCurrentMempool(&gGameMem.perlevelMempool);
 
-    cutsceneMempool.data = AllocateArray(0x234000, "gamemem.cpp", 191);
-    copy(&cutsceneMempool, cutsceneMempool.data, 0x234000, "cutscene", 16);
-    resetOffset(&cutsceneMempool);
-    SetCurrentMempool(&cutsceneMempool);
+    gGameMem.cutsceneMempool.data = AllocateArray(0x234000, "gamemem.cpp", 191);
+    copy(&gGameMem.cutsceneMempool, gGameMem.cutsceneMempool.data, 0x234000, "cutscene", 16);
+    resetOffset(&gGameMem.cutsceneMempool);
+    SetCurrentMempool(&gGameMem.cutsceneMempool);
 
-    summonMempool.data = AllocateArray(0xf0000, "gamemem.cpp", 108);
-    copy(&summonMempool, summonMempool.data, 0xf0000, "summon", 32);
+    gGameMem.summonMempool.data = AllocateArray(0xf0000, "gamemem.cpp", 198);
+    copy(&gGameMem.summonMempool, gGameMem.summonMempool.data, 0xf0000, "summon", 32);
 
-    spellslotMempool.data = AllocateArray(0x144000, "gamemem.cpp", 202);
-    copy(&spellslotMempool, spellslotMempool.data, 0x144000, "spellslot", 16);
-    perlevel_mempool_active = false;
-    cutscene_mempool_active = false;
-    summon_mempool_active = false;
-    spellslot_mempool_active = false;
+    gGameMem.spellslotMempool.data = AllocateArray(0x144000, "gamemem.cpp", 202);
+    copy(&gGameMem.spellslotMempool, gGameMem.spellslotMempool.data, 0x144000, "spellslot", 16);
+    gGameMem.perlevel_mempool_active = false;
+    gGameMem.cutscene_mempool_active = false;
+    gGameMem.summon_mempool_active = false;
+    gGameMem.spellslot_mempool_active = false;
     SetCurrentMempool(0);
     gHeapAlloc = false;
 }

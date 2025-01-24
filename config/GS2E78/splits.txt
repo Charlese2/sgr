@@ -240,6 +240,8 @@ gamemem.cpp:
 	.ctors      start:0x801EE9B0 end:0x801EE9B4
 	.rodata     start:0x801FC890 end:0x801FC900
 	.bss        start:0x803AF970 end:0x803AFA60
+	.sbss       start:0x80475560 end:0x80475568
+	.sdata2     start:0x80479B58 end:0x80479B78
 
 memory.cpp:
 	extab       start:0x8000A124 end:0x8000A194
