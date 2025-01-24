@@ -3,6 +3,8 @@
 bool gamemem_active;
 bool lbl_80475560;
 
+static GameMem gGameMem;
+
 void GameMem::activateGamemem(void) {
     gamemem_active = true;
     allocateMempools();
@@ -17,7 +19,7 @@ void GameMem::allocateMempools(void) {
 
     gGameMem.persistantMempool.data = AllocateArray(0x363800, "gamemem.cpp", 168);
     copy(&gGameMem.persistantMempool, gGameMem.persistantMempool.data, 0x363800, "persistant", 32);
-    resetOffset(&persistantMempool);
+    resetOffset(&gGameMem.persistantMempool);
 
     gGameMem.soundMempool.data = AllocateArray(0x10000, "gamemem.cpp", 174);
     copy(&gGameMem.soundMempool, gGameMem.soundMempool.data, 0x10000, "sound", 16);
@@ -41,10 +43,12 @@ void GameMem::allocateMempools(void) {
 
     gGameMem.spellslotMempool.data = AllocateArray(0x144000, "gamemem.cpp", 202);
     copy(&gGameMem.spellslotMempool, gGameMem.spellslotMempool.data, 0x144000, "spellslot", 16);
+
     gGameMem.perlevel_mempool_active = false;
     gGameMem.cutscene_mempool_active = false;
     gGameMem.summon_mempool_active = false;
     gGameMem.spellslot_mempool_active = false;
+    
     SetCurrentMempool(0);
     gHeapAlloc = false;
 }

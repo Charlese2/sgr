@@ -44,8 +44,6 @@ class GameMem {
     Memory * getSoundMempool(void);
 };
 
-static GameMem gGameMem;
-
 void resetOffset(Memory * mempool) {
     mempool->offset = 0;
 }
