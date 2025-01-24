@@ -1,7 +1,7 @@
 #include "game/summoner.h"
 #include "dolphin/types.h"
 #include "string.h"
-#include "game/memory.h"
+#include "game/gamemem.h"
 #include <stdlib.h>
 
 extern void StatusStuff(u32, u32, double, double);
@@ -34,11 +34,9 @@ void MainLoop()
 
     Initialize();
 
-
-
-    do {
-        
-    } while (true);
+    gGameMem.activateGamemem();
+    gGameMem.activatePerlevelMempool();
+    gGameMem.activatePersistantMempool();
 
     printf("**** Game startup time: %.3f ***");
 }

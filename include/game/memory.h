@@ -12,18 +12,17 @@ typedef struct {
     u32 offset;
     u8 alignment;
     char pool_name[19];
-    u32 * unk20;
+    char * data;
 } Memory;
 
-void* Allocate(size_t amount, const char * file, int line);
-void* AllocateArray(size_t amount, const char * file, int line);
+char* Allocate(size_t amount, const char * file, int line);
+char* AllocateArray(size_t amount, const char * file, int line);
 
 void Free(void * memoryAddress) throw();
 void FreeArray(void * memoryAddress) throw ();
 
-void copy(char *destination, u32 size, char * name, u8 alignment);
-void* allocateInPool(Memory* pool, u32 size);
-void* getOffset(u32 unk);
+void copy(Memory * mem_pool, char *destination, u32 size, char * name, u8 alignment);
+char* allocateInPool(Memory* pool, u32 size);
 
 BOOL isFinished();
 

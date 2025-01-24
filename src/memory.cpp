@@ -11,24 +11,24 @@ extern s32 Common_block_allocation_amount[2];
 volatile extern OSHeapHandle __OSCurrHeap;
 volatile bool gHeapAlloc;
 
-void * Allocate(size_t size, const char * file, int line) {
-    void * memAddressToUse;
+char * Allocate(size_t size, const char * file, int line) {
+    char * memAddressToUse;
     char stringbuf[128];
     if (Pool) {
         memAddressToUse = allocateInPool(Pool, size);
     } else {
-        memAddressToUse = OSAllocFromHeap(__OSCurrHeap, size);
+        memAddressToUse = (char*)OSAllocFromHeap(__OSCurrHeap, size);
         if (memAddressToUse == NULL) {
             sprintf(stringbuf, "Failed to allocate %d bytes\n", size);
             DebugError("memory.cpp", 108, stringbuf);
-            memAddressToUse = NULL;
+            memAddressToUse = 0;
         }
     
     }
 return memAddressToUse;
 }
 
-void * AllocateArray(size_t size, const char * file, int line) {
+char * AllocateArray(size_t size, const char * file, int line) {
     return Allocate(size, file, line);
 }
 
@@ -49,35 +49,21 @@ void copy(Memory * mem_pool,  char * destination, u32 size, char * name, u8 alig
     mem_pool->alignment = alignment;
 }
 
-void* allocateInPool(Memory* pool, u32 size) {
+char* allocateInPool(Memory* pool, u32 size) {
     u32 offset;
     u32 poolSpaceLeft;
     u32 alignedSize;
-    alignedSize = ~(pool->alignment -1) & size + (pool->alignment - 1);
-    if (pool->size > pool->offset + alignedSize) {
-        return NULL;
-    }
-    offset = pool->offset;
-    pool->offset = pool->offset + alignedSize;
-    return pool->destination + offset;
-}
-
-void * getOffset(Memory * memoryStruct, u32 amount) {
-    int alignment;
-    u32 offset;
-    u32 newOffset;
     char * destination;
-    offset = memoryStruct->offset;
-    alignment = memoryStruct->alignment - 1;
 
-    newOffset = offset + (~alignment & amount + alignment);
-    if (newOffset > memoryStruct->size) {
+    alignedSize = ~(pool->alignment -1) & size + (pool->alignment - 1);
+    if (pool->offset + alignedSize > pool->size) {
         return 0;
     }
 
-    destination = memoryStruct->destination;
 
-    memoryStruct->offset = newOffset;
+    destination = pool->destination;
+    offset = pool->offset;
+    pool->offset = pool->offset + alignedSize;
     return destination + offset;
 }
 

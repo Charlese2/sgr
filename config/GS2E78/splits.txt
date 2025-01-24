@@ -238,6 +238,8 @@ gamemem.cpp:
 	extabindex  start:0x800122D4 end:0x800122F8
 	.text       start:0x80150444 end:0x801507DC
 	.ctors      start:0x801EE9B0 end:0x801EE9B4
+	.rodata     start:0x801FC890 end:0x801FC900
+	.bss        start:0x803AF970 end:0x803AFA60
 
 memory.cpp:
 	extab       start:0x8000A124 end:0x8000A194
