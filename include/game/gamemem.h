@@ -44,12 +44,10 @@ class GameMem {
     Memory * getSoundMempool(void);
 };
 
+u32 getFreeSize(Memory* pool);
+
 static GameMem gGameMem;
 
 void resetOffset(Memory * mempool) {
     mempool->offset = 0;
-}
-
-u32 getPoolSize(Memory * pool) {
-    return pool->size;
 }
