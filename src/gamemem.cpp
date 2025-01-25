@@ -1,17 +1,19 @@
 #include "game/gamemem.h"
+#include "dolphin/os/OSAlloc.h"
 
 bool gamemem_active;
-bool lbl_80475560;
+extern Memory gMemSystem;
 
-void GameMem::activateGamemem(void) {
+int GameMem::activateGamemem(void) {
     gamemem_active = true;
     allocateMempools();
+    return 0;
 }
 
 void GameMem::allocateMempools(void) {
-    lbl_80475560 = true;
     gHeapAlloc = true;
     u32 size;
+    int heap;
 
     SetCurrentMempool(0);
 
@@ -23,8 +25,9 @@ void GameMem::allocateMempools(void) {
     copy(&gGameMem.soundMempool, gGameMem.soundMempool.data, 0x10000, "sound", 16);
     resetOffset(&gGameMem.soundMempool);
 
-    size = 0; // Not the real size
-    printf("Allocating %.2f KB for the perlevel mempool\n", (float)size * 0.0009765625);
+    heap = getPoolSize(&gMemSystem);
+    size = OSCheckHeap(heap) - 0x1dc500;
+    printf("Allocating %.2f KB for the perlevel mempool\n", size - (float)4503599627370496.0 * 0.0009765625f);
 
     gGameMem.perlevelMempool.data = AllocateArray(size, "gamemem.cpp", 181);
     copy(&gGameMem.perlevelMempool, gGameMem.perlevelMempool.data, size, "perlevel", 16);
