@@ -2,7 +2,7 @@
 #include "dolphin/os/OSAlloc.h"
 
 bool gamemem_active;
-extern Memory* gMemSystem;
+extern MemSystem gMemSystem;
 
 int GameMem::activateGamemem(void) {
     gamemem_active = true;
@@ -25,7 +25,7 @@ void GameMem::allocateMempools(void) {
     copy(&gGameMem.soundMempool, gGameMem.soundMempool.data, 0x10000, "sound", 16);
     resetOffset(&gGameMem.soundMempool);
 
-    heap = getFreeSize(gMemSystem);
+    heap = getFreeSize(&gMemSystem);
     size = OSCheckHeap(heap) - 0x1dc500;
     printf("Allocating %.2f KB for the perlevel mempool\n", size / 1024.0f );
 
@@ -141,6 +141,6 @@ Memory * GameMem::getSoundMempool(void) {
     return &soundMempool;
 }
 
-u32 getFreeSize(Memory * memory) {
-    return memory->size;
+u32 getFreeSize(MemSystem * memSystem) {
+    return memSystem->heapHandle;
 }

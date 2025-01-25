@@ -7,7 +7,7 @@
 extern void StatusStuff(u32, u32, double, double);
 extern void SoundStuff();
 
-extern volatile bool gHeapAlloc;
+extern bool gHeapAlloc;
 
 double status1;
 double status2;

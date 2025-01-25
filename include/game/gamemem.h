@@ -1,8 +1,7 @@
 #include "game/memory.h"
+#include "game/MemSystem.h"
 
-extern volatile bool gHeapAlloc;
-
-
+extern bool gHeapAlloc;
 
 class GameMem {
     public:
@@ -44,9 +43,9 @@ class GameMem {
     Memory * getSoundMempool(void);
 };
 
-u32 getFreeSize(Memory* pool);
+u32 getFreeSize(MemSystem * memSystem);
 
-static GameMem gGameMem;
+GameMem gGameMem;
 
 void resetOffset(Memory * mempool) {
     mempool->offset = 0;
