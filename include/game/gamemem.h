@@ -43,7 +43,7 @@ class GameMem {
     Memory * getSoundMempool(void);
 };
 
-u32 getFreeSize(MemSystem * memSystem);
+u32 getHeapHandle(MemSystem * memSystem);
 
 GameMem gGameMem;
 
