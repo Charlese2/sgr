@@ -1,10 +1,18 @@
 #include "game/debug.h"
+#include "game/gr.h"
 #include "dolphin/os.h"
 #include <stdio.h>
 
+void DebugPrint(char * buffer) {
+    bool gr_initalized;
+    if (getGrInitialized()) {
+        printf(buffer);
+    }
+    OSPanic("debug.cpp", 51, buffer);
+}
+
 void DebugError(char * File, u32 Line, char * Error) {
-char charBuffer [1052];
+    char charBuffer [1052];
     sprintf(charBuffer, "Error: %s\nFile: %s - Line: %d\n\n", Error, File, Line);
-    printf(charBuffer);
-    OSPanic("debug.cpp", 0x33, charBuffer);
+    DebugPrint(charBuffer);
 }
