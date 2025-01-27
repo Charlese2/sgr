@@ -1,8 +1,11 @@
 #include "game/gamemem.h"
 #include "dolphin/os/OSAlloc.h"
+#include <stdio.h>
 
 bool gamemem_active;
 extern MemSystem gMemSystem;
+
+GameMem::GameMem() {}
 
 int GameMem::activateGamemem(void) {
     gamemem_active = true;

@@ -17,6 +17,8 @@ class GameMem {
     bool spellslot_mempool_active;
     bool persistant_mempool_active;
 
+    GameMem();
+
     void toggleShowGameMemPrints(void);
     bool toggleShowMempoolUsage(void);
     int activateGamemem(void);
