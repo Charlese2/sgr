@@ -4,7 +4,6 @@
 #include <stdio.h>
 
 void DebugPrint(char * buffer) {
-    bool gr_initalized;
     if (getGrInitialized()) {
         printf(buffer);
     }
