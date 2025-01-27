@@ -30,9 +30,11 @@ effects.cpp:
 	.ctors      start:0x801EE848 end:0x801EE84C
 
 gr.cpp:
-	extab       start:0x80005980 end:0x80005988
-	extabindex  start:0x8000BC98 end:0x8000BCA4
-	.text       start:0x80022CA4 end:0x8002324C
+	extab       start:0x80005928 end:0x800059A0
+	extabindex  start:0x8000BC14 end:0x8000BCC8
+	.text       start:0x800216BC end:0x80023574
+	.ctors      start:0x801EE84C end:0x801EE850
+	.sbss       start:0x80474430 end:0x804744B0
 
 gr_font.cpp:
 	extab       start:0x800059B8 end:0x800059D8
