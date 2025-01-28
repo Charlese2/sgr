@@ -34,17 +34,30 @@ gr.cpp:
 	extabindex  start:0x8000BC14 end:0x8000BCC8
 	.text       start:0x800216BC end:0x80023574
 	.ctors      start:0x801EE84C end:0x801EE850
+	.rodata     start:0x801EF0A8 end:0x801EF0B8
+	.bss        start:0x8024B864 end:0x8024C078
 	.sbss       start:0x80474430 end:0x804744B0
 
 gr_font.cpp:
-	extab       start:0x800059B8 end:0x800059D8
-	extabindex  start:0x8000BCEC end:0x8000BCF8
-	.text       start:0x80023B2C end:0x80023F04
+	extab       start:0x800059A0 end:0x800059D8
+	extabindex  start:0x8000BCC8 end:0x8000BCF8
+	.text       start:0x80023574 end:0x80023F04
+
+gr_poly.cpp:
+	extab       start:0x800059F8 end:0x80005A18
+	extabindex  start:0x8000BD28 end:0x8000BD58
+	.text       start:0x80024A90 end:0x8002523C
+	.ctors      start:0x801EE850 end:0x801EE854
 
 frametime.cpp:
 	extab       start:0x80005A80 end:0x80005A90
 	extabindex  start:0x8000BDF4 end:0x8000BE0C
 	.text       start:0x80027178 end:0x800274BC
+
+gameplay.cpp:
+	extab       start:0x80005AB0 end:0x80005AC0
+	extabindex  start:0x8000BE3C end:0x8000BE54
+	.text       start:0x8002783C end:0x80027E90
 
 levels.cpp:
 	extab       start:0x80005B50 end:0x80005B80
