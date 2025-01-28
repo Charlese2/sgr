@@ -20,9 +20,6 @@ summoner.cpp:
 	.rodata     start:0x801EEA80 end:0x801EED40
 	.bss        start:0x80228F80 end:0x80228F94
 
-dolphin/os/__start.c:
-	.init       start:0x80003100 end:0x80003354
-
 effects.cpp:
 	extab       start:0x800056A0 end:0x80005928
 	extabindex  start:0x8000B860 end:0x8000BC14
@@ -481,6 +478,9 @@ dolphin/os/OSTime.c:
 	.text       start:0x80190E34 end:0x801912B0
 	.data       start:0x80212AF0 end:0x80212B50
 
+dolphin/os/__start.c:
+	.init       start:0x80003100 end:0x80003354
+
 dolphin/os/__ppc_eabi_init.c:
 	.init       start:0x80003354 end:0x800033A8
 	.text       start:0x801912B0 end:0x80191344
@@ -824,9 +824,6 @@ PowerPC_EABI_Support/Runtime/global_destructor_chain.c:
 PowerPC_EABI_Support/Runtime/CPlusLibPPC.cp:
 	.text       start:0x801B773C end:0x801B776C
 
-PowerPC_EABI_Support/Runtime/__mem.c:
-	.init       start:0x80005434 end:0x8000556C
-
 PowerPC_EABI_Support/Runtime/NMWException.cp:
 	extab       start:0x8000B2E4 end:0x8000B34C
 	extabindex  start:0x80013B04 end:0x80013B70
@@ -1087,3 +1084,6 @@ Cranky/CrankyMemcard.cpp:
 	extab       start:0x8000B6D4 end:0x8000B784
 	extabindex  start:0x80014044 end:0x8001414C
 	.text       start:0x801ED6D0 end:0x801EE834
+
+PowerPC_EABI_Support/Runtime/__mem.c:
+	.init       start:0x80005434 end:0x8000556C
