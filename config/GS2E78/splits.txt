@@ -515,6 +515,8 @@ dolphin/axart/axart3d.c:
 
 dolphin/mtx/mtx.c:
 	.text       start:0x80192414 end:0x801927A4
+	.sdata      start:0x804741E0 end:0x804741E8
+	.sdata2     start:0x8047A968 end:0x8047A970
 
 dolphin/mtx/mtx44.c:
 	.text       start:0x801927A4 end:0x80192950
