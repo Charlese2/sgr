@@ -296,12 +296,12 @@ static f32 __AXART3DDopplerScale = 0;
 static f32 __AXART3DDistanceScale = 0;
 
 void AXARTSet3DDopplerScale(f32 scale) {
-    ASSERTLINE(272, scale > 0);
+    ASSERTLINE(323, scale > 0);
     __AXART3DDopplerScale = scale;
 }
 
 void AXARTSet3DDistanceScale(f32 scale) {
-    ASSERTLINE(289, scale > 0);
+    ASSERTLINE(340, scale > 0);
     __AXART3DDistanceScale = scale;
 }
 
@@ -328,7 +328,7 @@ void AXART3DSound(AXART_3D* articulator) {
             vAngle = 0;
         }
 
-        ASSERTLINE(328, vAngle <= 360);
+        ASSERTLINE(379, vAngle <= 360);
 
 
         articulator->update = 0;

@@ -93,7 +93,7 @@ void AXARTServiceSound(AXART_SOUND* sound) {
                 break;
             default:
 #ifdef DEBUG
-                OSPanic(__FILE__, 181, "unknown articulator type!\n");
+                OSPanic(__FILE__, 190, "unknown articulator type!\n");
 #endif
                 break;
         }
@@ -112,8 +112,8 @@ void AXARTServiceSound(AXART_SOUND* sound) {
 }
 
 void AXARTAddArticulator(AXART_SOUND* sound, AXART_ART* articulator) {
-    ASSERTLINE(217, sound);
-    ASSERTLINE(218, articulator);
+    ASSERTLINE(226, sound);
+    ASSERTLINE(227, articulator);
 
     articulator->next = sound->articulators;
     sound->articulators = articulator;
