@@ -4,6 +4,7 @@
 
 extern "C" {
     #include "dolphin/axart.h"
+    #include "dolphin/sp.h"
 }
 
 typedef unsigned char    byte;
@@ -34,7 +35,7 @@ typedef struct {
     float unk10;
 } sound_slot;
 
-typedef struct audio_file_names {
+typedef struct audio_file {
     char file_name[20];
     u32 field1_0x14;
     u32 field2_0x18;
@@ -42,67 +43,21 @@ typedef struct audio_file_names {
     u32 field4_0x20;
     u32 field5_0x24;
     u32 field6_0x28;
-} audio_file_names;
+} audio_file;
 
-struct astruct_23 {
-    AXVPB *field0_0x0;
-    undefined field1_0x4;
-    undefined field2_0x5;
-    undefined field3_0x6;
-    undefined field4_0x7;
+struct soundEffect {
+    AXVPB* axvpb;
+    table* table;
     AXART_SOUND sound;
-    undefined field6_0x10;
-    undefined field7_0x11;
-    undefined field8_0x12;
-    undefined field9_0x13;
-    undefined field10_0x14;
-    undefined field11_0x15;
-    undefined field12_0x16;
-    undefined field13_0x17;
-    undefined field14_0x18;
-    undefined field15_0x19;
-    undefined field16_0x1a;
-    undefined field17_0x1b;
-    undefined field18_0x1c;
-    undefined field19_0x1d;
-    undefined field20_0x1e;
-    undefined field21_0x1f;
-    undefined field22_0x20;
-    undefined field23_0x21;
-    undefined field24_0x22;
-    undefined field25_0x23;
-    undefined field26_0x24;
-    undefined field27_0x25;
-    undefined field28_0x26;
-    undefined field29_0x27;
-    undefined field30_0x28;
-    undefined field31_0x29;
-    undefined field32_0x2a;
-    undefined field33_0x2b;
-    undefined field34_0x2c;
-    undefined field35_0x2d;
-    undefined field36_0x2e;
-    undefined field37_0x2f;
-    undefined field38_0x30;
-    undefined field39_0x31;
-    undefined field40_0x32;
-    undefined field41_0x33;
-    undefined field42_0x34;
-    undefined field43_0x35;
-    undefined field44_0x36;
-    undefined field45_0x37;
-    undefined field46_0x38;
-    undefined field47_0x39;
-    undefined field48_0x3a;
-    undefined field49_0x3b;
-    undefined field50_0x3c;
-    undefined field51_0x3d;
-    undefined field52_0x3e;
-    undefined field53_0x3f;
-    undefined field54_0x40;
+    AXART_VOLUME volume;
+    AXART_PANNING panning;
+    undefined4 field6_0x34;
+    undefined4 field7_0x38;
+    s32 attenuation;
+    u8 pan;
     bool sound_finished_playing;
-    undefined field56_0x42;
-    undefined field57_0x43;
+    undefined field11_0x42;
+    undefined field12_0x43;
 };
 
 typedef struct audio2 {
@@ -127,8 +82,8 @@ typedef struct audio2 {
     int field18_0x34;
     undefined4 field19_0x38;
     byte field20_0x3c;
-    BOOL field21_0x3d;
-    BOOL field22_0x3e;
+    bool field21_0x3d;
+    bool field22_0x3e;
     undefined field23_0x3f;
     undefined *field24_0x40;
 } audio2;
@@ -138,7 +93,7 @@ typedef struct new_struct {
     int field1_0x4;
     undefined4 field2_0x8;
     float field3_0xc;
-    struct astruct_23 *field4_0x10;
+    struct soundEffect *field4_0x10;
     struct SomeSFXStruct *field5_0x14;
     struct astruct_7 *field6_0x18;
     undefined4 field7_0x1c;
@@ -164,43 +119,6 @@ struct unk {
     undefined4 field1_0x4;
 };
 
-struct astruct_19 {
-    undefined field0_0x0;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    undefined4 field4_0x4;
-    undefined4 field5_0x8;
-};
-
-typedef struct astruct_9 {
-    AXVPB *field0_0x0;
-    unk *field1_0x4;
-    AXART_SOUND field2_0x8;
-    astruct_19 *field3_0x1c;
-    undefined field4_0x20;
-    undefined field5_0x21;
-    undefined field6_0x22;
-    undefined field7_0x23;
-    int field8_0x24;
-    int field9_0x28;
-    undefined field10_0x2c;
-    undefined field11_0x2d;
-    undefined field12_0x2e;
-    undefined field13_0x2f;
-    undefined field14_0x30;
-    undefined field15_0x31;
-    undefined field16_0x32;
-    undefined field17_0x33;
-    int field18_0x34;
-    int field19_0x38;
-    int field20_0x3c;
-    byte field21_0x40;
-    undefined field22_0x41;
-    undefined field23_0x42;
-    undefined field24_0x43;
-} astruct_9;
-
 class SoundSystem {
 public:
     void InitializeGlobal(void);
@@ -211,6 +129,7 @@ public:
     void LoadUncachedSoundFromDisk(void);
     void CopySoundFileToCache();
     void AddSound(int index);
+    void CleanupPlayedSound(int index);
     void ReinitializeAudio(bool state);
     void InitializeAudio(void);
     sound_slot* getFreeSoundSlot(void);
@@ -230,11 +149,11 @@ public:
     /* 0x1a0 */ u32 * stack_index_addr[3];
     /* 0x1ac */ s32 m_curEntry;
     /* 0x1b0 */ u32 m_lastPersist;
-    /* 0x1b4 */ audio_file_names m_audio_file_names[1024];
+    /* 0x1b4 */ audio_file m_audio_file[1024];
     /* 0xb1b4 */ AXVPB *m_axVoice;
     /* 0xb1b8 */ audio2 m_SomeAudio[6];
     /* 0xb350 */ char field14_0xb350[6116];
-    /* 0xcb7c */ struct astruct_23 m_AXART_Stuff[64];
+    /* 0xcb34 */ struct soundEffect m_soundEffect[64];
     /* 0xdc34 */ AudioCache m_Audio_cache[32];
     /* 0xe434 */ sound_slot m_sound_slots[128];
     /* 0xee34 */ bool field20_0xee34;

@@ -47,7 +47,7 @@ class GameMem {
 
 u32 getHeapHandle(MemSystem * memSystem);
 
-GameMem gGameMem;
+extern GameMem gGameMem;
 
 void resetOffset(Memory * mempool) {
     mempool->offset = 0;

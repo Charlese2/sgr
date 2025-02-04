@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 bool gamemem_active;
+GameMem gGameMem;
 extern MemSystem gMemSystem;
 
 GameMem::GameMem() {}
