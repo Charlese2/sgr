@@ -631,6 +631,12 @@ config.libs = [
         ]
     ),
     DolphinLib(
+        "sp",
+        [
+            Object(NonMatching, "dolphin/sp/sp.c"),
+        ]
+    ),
+    DolphinLib(
         "axart",
         [
             Object(Matching, "dolphin/axart/axart.c"),

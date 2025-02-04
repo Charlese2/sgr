@@ -485,6 +485,10 @@ dolphin/os/__ppc_eabi_init.c:
 	.init       start:0x80003354 end:0x800033A8
 	.text       start:0x801912B0 end:0x80191344
 
+dolphin/sp/sp.c:
+	.text       start:0x80191344 end:0x80191B50
+	.sdata2     start:0x8047A918 end:0x8047A928
+
 dolphin/axart/axart.c:
 	.text       start:0x80191B50 end:0x80191D30
 	.sbss       start:0x80475CE0 end:0x80475CE8
