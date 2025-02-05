@@ -51,13 +51,14 @@ void __OSDBJUMPEND(void);
 #define NOP 0x60000000
 
 static struct OSBootInfo_s * BootInfo;
-static unsigned long * BI2DebugFlag;
+static u32 * BI2DebugFlag;
+static u32* BI2DebugFlagHolder;
+static BOOL __OSIsGcam;
 static double ZeroF;
 static int AreWeInitialized;
 static void (* * OSExceptionTable)(unsigned char, struct OSContext *);
 OSTime __OSStartTime;
 BOOL __OSInIPL;
-BOOL __OSIsGcam;
 
 // functions
 static asm void __OSInitFPRs(void);
@@ -114,8 +115,6 @@ unsigned long OSGetConsoleType() {
     return BootInfo->consoleType;
 }
 
-extern DVDDriveInfo DriveInfo;
-
 void* __OSSavedRegionStart;
 void* __OSSavedRegionEnd;
 
@@ -149,7 +148,7 @@ static void ClearArena(void) {
     }
 }
 
-static u32* BI2DebugFlagHolder;
+static DVDDriveInfo DriveInfo;
 
 static void InquiryCallback(s32 result, DVDCommandBlock* block) {
     switch (block->state) {
@@ -167,8 +166,6 @@ static u8 DriveBlock[48];
 void OSInit() {
     BI2Debug* DebugInfo = NULL;
     u32 consoleType;
-    void * bi2StartAddr;
-    u32 hid2;
 
     if (AreWeInitialized == 0) {
         AreWeInitialized = 1;
@@ -219,8 +216,7 @@ void OSInit() {
         __OSInitSram();
         __OSThreadInit();
         __OSInitAudioSystem();
-        hid2 = PPCMfhid2();
-        PPCMthid2(hid2 & 0xbfffffff);
+        PPCMthid2(PPCMfhid2() & 0xbfffffff);
         ASSERTLINE(0x252, BootInfo); // oh sure, assert NOW, you've already dereferenced it a bunch of times.
         if ((BootInfo->consoleType & OS_CONSOLE_DEVELOPMENT) != 0) {
             BootInfo->consoleType = OS_CONSOLE_DEVHW1;
