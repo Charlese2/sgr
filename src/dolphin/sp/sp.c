@@ -9,20 +9,20 @@ void SPInitSoundTable(table* table, u32 aramBase, u32 zeroBase) {
     u32 aramBase4;
     u32 aramBase8;
     u32 aramBase16;
-    u32 zeroBase4;
     u32 zeroBase8;
+    u32 zeroBase4;
     u32 zeroBase16;
 
     ASSERTLINE(34, table);
 
     aramBase4 = aramBase * 2;
-    aramBase8 = aramBase * 2 + 2;
-    aramBase16 = aramBase >> 1;
-    zeroBase4 = zeroBase * 2;
     zeroBase8 = zeroBase * 2 + 2;
+    aramBase8 = aramBase;
+    zeroBase4 = zeroBase;
+    aramBase16 = aramBase >> 1;
     zeroBase16 = zeroBase >> 1;
     sound = table->sound;
-    adpcm = table->sound->adpcm;
+    adpcm = (ADPCM*)&table->sound[table->entries];
 
     for (i = 0; i < table->entries; i++) {
         switch (sound->type) {
@@ -55,16 +55,16 @@ void SPInitSoundTable(table* table, u32 aramBase, u32 zeroBase) {
                 sound->currentAddr = aramBase16 + sound->currentAddr;
                 break;
             case 4:
-                sound->loopAddr = zeroBase;
+                sound->loopAddr = zeroBase4;
                 sound->loopEndAddr = 0;
-                sound->endAddr = aramBase + sound->endAddr;
-                sound->currentAddr = aramBase + sound->currentAddr;
+                sound->endAddr = aramBase8 + sound->endAddr;
+                sound->currentAddr = aramBase8 + sound->currentAddr;
                 break;
             case 5:
-                sound->loopAddr = aramBase + sound->loopAddr;
-                sound->loopEndAddr = aramBase + sound->loopEndAddr;
-                sound->endAddr = aramBase + sound->endAddr;
-                sound->currentAddr = aramBase + sound->currentAddr;
+                sound->loopAddr = aramBase8 + sound->loopAddr;
+                sound->loopEndAddr = aramBase8 + sound->loopEndAddr;
+                sound->endAddr = aramBase8 + sound->endAddr;
+                sound->currentAddr = aramBase8 + sound->currentAddr;
                 break;
         }
         sound++;
@@ -75,7 +75,7 @@ SOUND_ENTRY * SPGetSoundEntry(table* table, u32 index) {
     ASSERTLINE(123, table);
 
     if (table->entries > index) {
-        return table->sound + index;
+        return &table->sound[index];
     }
     
     return 0;
@@ -83,8 +83,12 @@ SOUND_ENTRY * SPGetSoundEntry(table* table, u32 index) {
 
 void SPPrepareSound(SOUND_ENTRY* sound, AXVPB * axvpb, u32 sampleRate) {
     int old;
-    u32 srcBits, loopAddr, endAddr, currentAddr;
-    u16* p, p1;
+    u32 srcBits;
+    u32 loopAddr;
+    u32 endAddr;
+    u32 currentAddr;
+    u16* p;
+    u16* p1;
 
     ASSERTLINE(140, sound);
     ASSERTLINE(141, axvpb);
@@ -96,7 +100,7 @@ void SPPrepareSound(SOUND_ENTRY* sound, AXVPB * axvpb, u32 sampleRate) {
             loopAddr = sound->loopAddr;
             endAddr = sound->endAddr;
             currentAddr = sound->currentAddr;
-            p = axvpb->updateWrite;
+            p = (u16*)axvpb;
             old = OSDisableInterrupts();
             axvpb->pb.addr.loopFlag = 0;
             axvpb->pb.addr.format = 0;
@@ -106,26 +110,26 @@ void SPPrepareSound(SOUND_ENTRY* sound, AXVPB * axvpb, u32 sampleRate) {
             axvpb->pb.addr.endAddressLo = endAddr;
             axvpb->pb.addr.currentAddressHi = currentAddr >> 16;
             axvpb->pb.addr.currentAddressLo = currentAddr;
-            axvpb->pb.adpcm.a[0][0] = (sound->adpcm->adpcm).a[0][0];
-            axvpb->pb.adpcm.a[0][1] = (sound->adpcm->adpcm).a[0][1];
-            axvpb->pb.adpcm.a[1][0] = (sound->adpcm->adpcm).a[1][0];
-            axvpb->pb.adpcm.a[1][1] = (sound->adpcm->adpcm).a[1][1];
-            axvpb->pb.adpcm.a[2][0] = (sound->adpcm->adpcm).a[2][0];
-            axvpb->pb.adpcm.a[2][1] = (sound->adpcm->adpcm).a[2][1];
-            axvpb->pb.adpcm.a[3][0] = (sound->adpcm->adpcm).a[3][0];
-            axvpb->pb.adpcm.a[3][1] = (sound->adpcm->adpcm).a[3][1];
-            axvpb->pb.adpcm.a[4][0] = (sound->adpcm->adpcm).a[4][0];
-            axvpb->pb.adpcm.a[4][1] = (sound->adpcm->adpcm).a[4][1];
-            axvpb->pb.adpcm.a[5][0] = (sound->adpcm->adpcm).a[5][0];
-            axvpb->pb.adpcm.a[5][1] = (sound->adpcm->adpcm).a[5][1];
-            axvpb->pb.adpcm.a[6][0] = (sound->adpcm->adpcm).a[6][0];
-            axvpb->pb.adpcm.a[6][1] = (sound->adpcm->adpcm).a[6][1];
-            axvpb->pb.adpcm.a[7][0] = (sound->adpcm->adpcm).a[7][0];
-            axvpb->pb.adpcm.a[7][1] = (sound->adpcm->adpcm).a[7][1];
-            axvpb->pb.adpcm.gain = (sound->adpcm->adpcm).gain;
-            axvpb->pb.adpcm.pred_scale = (sound->adpcm->adpcm).pred_scale;
-            axvpb->pb.adpcm.yn1 = (sound->adpcm->adpcm).yn1;
-            axvpb->pb.adpcm.yn2 = (sound->adpcm->adpcm).yn2;
+            axvpb->pb.adpcm.a[0][0] = sound->adpcm->adpcm.a[0][0];
+            axvpb->pb.adpcm.a[0][1] = sound->adpcm->adpcm.a[0][1];
+            axvpb->pb.adpcm.a[1][0] = sound->adpcm->adpcm.a[1][0];
+            axvpb->pb.adpcm.a[1][1] = sound->adpcm->adpcm.a[1][1];
+            axvpb->pb.adpcm.a[2][0] = sound->adpcm->adpcm.a[2][0];
+            axvpb->pb.adpcm.a[2][1] = sound->adpcm->adpcm.a[2][1];
+            axvpb->pb.adpcm.a[3][0] = sound->adpcm->adpcm.a[3][0];
+            axvpb->pb.adpcm.a[3][1] = sound->adpcm->adpcm.a[3][1];
+            axvpb->pb.adpcm.a[4][0] = sound->adpcm->adpcm.a[4][0];
+            axvpb->pb.adpcm.a[4][1] = sound->adpcm->adpcm.a[4][1];
+            axvpb->pb.adpcm.a[5][0] = sound->adpcm->adpcm.a[5][0];
+            axvpb->pb.adpcm.a[5][1] = sound->adpcm->adpcm.a[5][1];
+            axvpb->pb.adpcm.a[6][0] = sound->adpcm->adpcm.a[6][0];
+            axvpb->pb.adpcm.a[6][1] = sound->adpcm->adpcm.a[6][1];
+            axvpb->pb.adpcm.a[7][0] = sound->adpcm->adpcm.a[7][0];
+            axvpb->pb.adpcm.a[7][1] = sound->adpcm->adpcm.a[7][1];
+            axvpb->pb.adpcm.gain = sound->adpcm->adpcm.gain;
+            axvpb->pb.adpcm.pred_scale = sound->adpcm->adpcm.pred_scale;
+            axvpb->pb.adpcm.yn1 = sound->adpcm->adpcm.yn1;
+            axvpb->pb.adpcm.yn2 = sound->adpcm->adpcm.yn2;
             axvpb->pb.src.ratioHi = srcBits >> 16;
             axvpb->pb.src.ratioLo = srcBits;
             axvpb->pb.src.currentAddressFrac = 0;
@@ -149,26 +153,26 @@ void SPPrepareSound(SOUND_ENTRY* sound, AXVPB * axvpb, u32 sampleRate) {
             axvpb->pb.addr.endAddressLo = endAddr;
             axvpb->pb.addr.currentAddressHi = currentAddr >> 16;
             axvpb->pb.addr.currentAddressLo = currentAddr;
-            axvpb->pb.adpcm.a[0][0] = (sound->adpcm->adpcm).a[0][0];
-            axvpb->pb.adpcm.a[0][1] = (sound->adpcm->adpcm).a[0][1];
-            axvpb->pb.adpcm.a[1][0] = (sound->adpcm->adpcm).a[1][0];
-            axvpb->pb.adpcm.a[1][1] = (sound->adpcm->adpcm).a[1][1];
-            axvpb->pb.adpcm.a[2][0] = (sound->adpcm->adpcm).a[2][0];
-            axvpb->pb.adpcm.a[2][1] = (sound->adpcm->adpcm).a[2][1];
-            axvpb->pb.adpcm.a[3][0] = (sound->adpcm->adpcm).a[3][0];
-            axvpb->pb.adpcm.a[3][1] = (sound->adpcm->adpcm).a[3][1];
-            axvpb->pb.adpcm.a[4][0] = (sound->adpcm->adpcm).a[4][0];
-            axvpb->pb.adpcm.a[4][1] = (sound->adpcm->adpcm).a[4][1];
-            axvpb->pb.adpcm.a[5][0] = (sound->adpcm->adpcm).a[5][0];
-            axvpb->pb.adpcm.a[5][1] = (sound->adpcm->adpcm).a[5][1];
-            axvpb->pb.adpcm.a[6][0] = (sound->adpcm->adpcm).a[6][0];
-            axvpb->pb.adpcm.a[6][1] = (sound->adpcm->adpcm).a[6][1];
-            axvpb->pb.adpcm.a[7][0] = (sound->adpcm->adpcm).a[7][0];
-            axvpb->pb.adpcm.a[7][1] = (sound->adpcm->adpcm).a[7][1];
-            axvpb->pb.adpcm.gain = (sound->adpcm->adpcm).gain;
-            axvpb->pb.adpcm.pred_scale = (sound->adpcm->adpcm).pred_scale;
-            axvpb->pb.adpcm.yn1 = (sound->adpcm->adpcm).yn1;
-            axvpb->pb.adpcm.yn2 = (sound->adpcm->adpcm).yn2;
+            axvpb->pb.adpcm.a[0][0] = sound->adpcm->adpcm.a[0][0];
+            axvpb->pb.adpcm.a[0][1] = sound->adpcm->adpcm.a[0][1];
+            axvpb->pb.adpcm.a[1][0] = sound->adpcm->adpcm.a[1][0];
+            axvpb->pb.adpcm.a[1][1] = sound->adpcm->adpcm.a[1][1];
+            axvpb->pb.adpcm.a[2][0] = sound->adpcm->adpcm.a[2][0];
+            axvpb->pb.adpcm.a[2][1] = sound->adpcm->adpcm.a[2][1];
+            axvpb->pb.adpcm.a[3][0] = sound->adpcm->adpcm.a[3][0];
+            axvpb->pb.adpcm.a[3][1] = sound->adpcm->adpcm.a[3][1];
+            axvpb->pb.adpcm.a[4][0] = sound->adpcm->adpcm.a[4][0];
+            axvpb->pb.adpcm.a[4][1] = sound->adpcm->adpcm.a[4][1];
+            axvpb->pb.adpcm.a[5][0] = sound->adpcm->adpcm.a[5][0];
+            axvpb->pb.adpcm.a[5][1] = sound->adpcm->adpcm.a[5][1];
+            axvpb->pb.adpcm.a[6][0] = sound->adpcm->adpcm.a[6][0];
+            axvpb->pb.adpcm.a[6][1] = sound->adpcm->adpcm.a[6][1];
+            axvpb->pb.adpcm.a[7][0] = sound->adpcm->adpcm.a[7][0];
+            axvpb->pb.adpcm.a[7][1] = sound->adpcm->adpcm.a[7][1];
+            axvpb->pb.adpcm.gain = sound->adpcm->adpcm.gain;
+            axvpb->pb.adpcm.pred_scale = sound->adpcm->adpcm.pred_scale;
+            axvpb->pb.adpcm.yn1 = sound->adpcm->adpcm.yn1;
+            axvpb->pb.adpcm.yn2 = sound->adpcm->adpcm.yn2;
             axvpb->pb.src.ratioHi = srcBits >> 16;
             axvpb->pb.src.ratioLo = srcBits;
             axvpb->pb.src.currentAddressFrac = 0;
@@ -176,9 +180,9 @@ void SPPrepareSound(SOUND_ENTRY* sound, AXVPB * axvpb, u32 sampleRate) {
             axvpb->pb.src.last_samples[1] = 0;
             axvpb->pb.src.last_samples[2] = 0;
             axvpb->pb.src.last_samples[3] = 0;
-            axvpb->pb.adpcmLoop.loop_pred_scale = (sound->adpcm->adpcmloop).loop_pred_scale;
-            axvpb->pb.adpcmLoop.loop_yn1 = (sound->adpcm->adpcmloop).loop_yn1;
-            axvpb->pb.adpcmLoop.loop_yn2 = (sound->adpcm->adpcmloop).loop_yn2;
+            axvpb->pb.adpcmLoop.loop_pred_scale = sound->adpcm->adpcmloop.loop_pred_scale;
+            axvpb->pb.adpcmLoop.loop_yn1 = sound->adpcm->adpcmloop.loop_yn1;
+            axvpb->pb.adpcmLoop.loop_yn2 = sound->adpcm->adpcmloop.loop_yn2;
             axvpb->sync = axvpb->sync | AX_SYNC_FLAG_COPYADDR | AX_SYNC_FLAG_COPYADPCM | AX_SYNC_FLAG_COPYSRC | AX_SYNC_FLAG_COPYADPCMLOOP;
             OSRestoreInterrupts(old);
             break;
