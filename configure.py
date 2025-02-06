@@ -234,6 +234,7 @@ cflags_sdk = [
 
 cflags_game = [
     *cflags_base,
+    "-RTTI on",
     "-Cpp_exceptions on",
     "-inline auto,deferred",
     "-str reuse,readonly",
@@ -371,6 +372,7 @@ config.libs = [
             Object(NonMatching, "snd.cpp"),
             Object(NonMatching, "SoundConvert.cpp"),
             Object(NonMatching, "MusicSystem.cpp"),
+            Object(NonMatching, "console.cpp"),
         ],
     },
     {

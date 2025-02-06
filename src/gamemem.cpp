@@ -1,4 +1,5 @@
 #include "game/gamemem.h"
+#include "game/console.h"
 #include "dolphin/os/OSAlloc.h"
 #include <stdio.h>
 
@@ -6,7 +7,13 @@ bool gamemem_active;
 GameMem gGameMem;
 extern MemSystem gMemSystem;
 
-GameMem::GameMem() {}
+static console_command show_game_mem_prints;
+
+GameMem::GameMem() {
+#ifdef DEBUG
+    register_command(&show_game_mem_prints, "show_game_mem_prints", "Toggles Show_game_mem_prints", TOGGLE, GameMem::toggleShowGameMemPrints);
+#endif
+}
 
 int GameMem::activateGamemem(void) {
     gamemem_active = true;

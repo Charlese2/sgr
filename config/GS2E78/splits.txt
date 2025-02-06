@@ -383,6 +383,14 @@ MusicSystem.cpp:
 	.text       start:0x801834B0 end:0x80184838
 	.ctors      start:0x801EEA48 end:0x801EEA4C
 
+console.cpp:
+	extab       start:0x8000B224 end:0x8000B2AC
+	extabindex  start:0x80013A08 end:0x80013AB0
+	.text       start:0x801855B0 end:0x8018929C
+	.ctors      start:0x801EEA50 end:0x801EEA54
+	.bss        start:0x804385F0 end:0x80438C30
+	.sbss       start:0x80475BB4 end:0x80475BB8
+
 dolphin/base/PPCArch.c:
 	.text       start:0x8018A788 end:0x8018A824
 
