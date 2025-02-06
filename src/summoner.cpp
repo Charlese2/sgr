@@ -34,9 +34,9 @@ void MainLoop()
 
     Initialize();
 
-    gGameMem.ActivateGamemem();
-    gGameMem.ActivatePerlevelMempool();
-    gGameMem.ActivatePersistantMempool();
+    Gamemem_info.ActivateGamemem();
+    Gamemem_info.ActivatePerlevelMempool();
+    Gamemem_info.ActivatePersistantMempool();
 
     printf("**** Game startup time: %.3f ***");
 }

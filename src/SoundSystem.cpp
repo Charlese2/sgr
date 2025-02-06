@@ -168,8 +168,8 @@ void SoundSystem::InitializeAudio(void) {
     previously_in_use = m_InUse;
     m_InUse = TRUE;
 
-    soundMempool = gGameMem.getSoundMempool();
-    resetOffset(soundMempool);
+    soundMempool = Gamemem_info.GetSoundMempool();
+    ResetOffset(soundMempool);
 
     aramBase = ARAlloc(0xc00000);
     AMInit(aramBase, 0xc00000);

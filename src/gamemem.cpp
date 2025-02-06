@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 bool gamemem_active;
-GameMem gGameMem;
+GameMem Gamemem_info;
 extern MemSystem gMemSystem;
 
 static console_command show_game_mem_prints;
@@ -28,38 +28,38 @@ void GameMem::AllocateMempools(void) {
 
     SetCurrentMempool(0);
 
-    gGameMem.persistantMempool.data = AllocateArray(0x363800, "gamemem.cpp", 168);
-    Copy(&gGameMem.persistantMempool, gGameMem.persistantMempool.data, 0x363800, "persistant", 32);
-    ResetOffset(&gGameMem.persistantMempool);
+    Gamemem_info.persistantMempool.data = AllocateArray(0x363800, "gamemem.cpp", 168);
+    Copy(&Gamemem_info.persistantMempool, Gamemem_info.persistantMempool.data, 0x363800, "persistant", 32);
+    ResetOffset(&Gamemem_info.persistantMempool);
 
-    gGameMem.soundMempool.data = AllocateArray(0x10000, "gamemem.cpp", 174);
-    Copy(&gGameMem.soundMempool, gGameMem.soundMempool.data, 0x10000, "sound", 16);
-    ResetOffset(&gGameMem.soundMempool);
+    Gamemem_info.soundMempool.data = AllocateArray(0x10000, "gamemem.cpp", 174);
+    Copy(&Gamemem_info.soundMempool, Gamemem_info.soundMempool.data, 0x10000, "sound", 16);
+    ResetOffset(&Gamemem_info.soundMempool);
 
     heap = GetHeapHandle(&gMemSystem);
     size = OSCheckHeap(heap) - 0x1dc500;
     printf("Allocating %.2f KB for the perlevel mempool\n", size / 1024.0f );
 
-    gGameMem.perlevelMempool.data = AllocateArray(size, "gamemem.cpp", 181);
-    Copy(&gGameMem.perlevelMempool, gGameMem.perlevelMempool.data, size, "perlevel", 16);
-    ResetOffset(&gGameMem.perlevelMempool);
-    SetCurrentMempool(&gGameMem.perlevelMempool);
+    Gamemem_info.perlevelMempool.data = AllocateArray(size, "gamemem.cpp", 181);
+    Copy(&Gamemem_info.perlevelMempool, Gamemem_info.perlevelMempool.data, size, "perlevel", 16);
+    ResetOffset(&Gamemem_info.perlevelMempool);
+    SetCurrentMempool(&Gamemem_info.perlevelMempool);
 
-    gGameMem.cutsceneMempool.data = AllocateArray(0x234000, "gamemem.cpp", 191);
-    Copy(&gGameMem.cutsceneMempool, gGameMem.cutsceneMempool.data, 0x234000, "cutscene", 16);
-    ResetOffset(&gGameMem.cutsceneMempool);
-    SetCurrentMempool(&gGameMem.cutsceneMempool);
+    Gamemem_info.cutsceneMempool.data = AllocateArray(0x234000, "gamemem.cpp", 191);
+    Copy(&Gamemem_info.cutsceneMempool, Gamemem_info.cutsceneMempool.data, 0x234000, "cutscene", 16);
+    ResetOffset(&Gamemem_info.cutsceneMempool);
+    SetCurrentMempool(&Gamemem_info.cutsceneMempool);
 
-    gGameMem.summonMempool.data = AllocateArray(0xf0000, "gamemem.cpp", 198);
-    Copy(&gGameMem.summonMempool, gGameMem.summonMempool.data, 0xf0000, "summon", 32);
+    Gamemem_info.summonMempool.data = AllocateArray(0xf0000, "gamemem.cpp", 198);
+    Copy(&Gamemem_info.summonMempool, Gamemem_info.summonMempool.data, 0xf0000, "summon", 32);
 
-    gGameMem.spellslotMempool.data = AllocateArray(0x144000, "gamemem.cpp", 202);
-    Copy(&gGameMem.spellslotMempool, gGameMem.spellslotMempool.data, 0x144000, "spellslot", 16);
+    Gamemem_info.spellslotMempool.data = AllocateArray(0x144000, "gamemem.cpp", 202);
+    Copy(&Gamemem_info.spellslotMempool, Gamemem_info.spellslotMempool.data, 0x144000, "spellslot", 16);
 
-    gGameMem.perlevel_mempool_active = false;
-    gGameMem.cutscene_mempool_active = false;
-    gGameMem.summon_mempool_active = false;
-    gGameMem.spellslot_mempool_active = false;
+    Gamemem_info.perlevel_mempool_active = false;
+    Gamemem_info.cutscene_mempool_active = false;
+    Gamemem_info.summon_mempool_active = false;
+    Gamemem_info.spellslot_mempool_active = false;
 
     SetCurrentMempool(0);
     gHeapAlloc = false;
