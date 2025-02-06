@@ -19,36 +19,36 @@ class GameMem {
 
     GameMem();
 
-    static void toggleShowGameMemPrints(void);
-    static bool toggleShowMempoolUsage(void);
-    int activateGamemem(void);
-    void allocateMempools(void);
-    void activateSummonMempool(void);
-    void deactivateSummonMempool(void);
-    bool getSummonMempoolActive(void);
-    Memory * getSummonMempool(void);
-    void activateCutsceneMempool(void);
-    void deactivateCutsceneMempool(void);
-    bool getCutsceneMempoolActive(void);
-    Memory * getCutsceneMempool(void);
-    void activateSpellslotMempool(void);
-    void deactivateSpellslotMempool(void);
-    bool getSpellslotMempoolActive(void);
-    Memory * getSpellslotMempool(void);
-    void activatePerlevelMempool(void);
-    void deactivatePerlevelMempool(void);
-    bool getPerlevelMempoolActive(void);
-    Memory * getPerlevelMempool(void);
-    void clearPerlevelMempool(void);
-    void activatePersistantMempool(void);
-    GameMem * getGameMem(void);
-    Memory * getSoundMempool(void);
+    static void ToggleShowGameMemPrints(void);
+    static bool ToggleShowMempoolUsage(void);
+    int ActivateGamemem(void);
+    void AllocateMempools(void);
+    void ActivateSummonMempool(void);
+    void DeactivateSummonMempool(void);
+    bool GetSummonMempoolActive(void);
+    Memory * GetSummonMempool(void);
+    void ActivateCutsceneMempool(void);
+    void DeactivateCutsceneMempool(void);
+    bool GetCutsceneMempoolActive(void);
+    Memory * GetCutsceneMempool(void);
+    void ActivateSpellslotMempool(void);
+    void DeactivateSpellslotMempool(void);
+    bool GetSpellslotMempoolActive(void);
+    Memory * GetSpellslotMempool(void);
+    void ActivatePerlevelMempool(void);
+    void DeactivatePerlevelMempool(void);
+    bool GetPerlevelMempoolActive(void);
+    Memory * GetPerlevelMempool(void);
+    void ClearPerlevelMempool(void);
+    void ActivatePersistantMempool(void);
+    GameMem * GetGameMem(void);
+    Memory * GetSoundMempool(void);
 };
 
-u32 getHeapHandle(MemSystem * memSystem);
+u32 GetHeapHandle(MemSystem * memSystem);
 
 extern GameMem gGameMem;
 
-void resetOffset(Memory * mempool) {
+void ResetOffset(Memory * mempool) {
     mempool->offset = 0;
 }

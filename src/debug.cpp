@@ -10,8 +10,12 @@ void DebugPrint(char * buffer) {
     OSPanic("debug.cpp", 51, buffer);
 }
 
-void DebugError(char * File, u32 Line, char * Error) {
+void DebugError(char* File, u32 Line, char* Error) {
     char charBuffer [1052];
     sprintf(charBuffer, "Error: %s\nFile: %s - Line: %d\n\n", Error, File, Line);
     DebugPrint(charBuffer);
+}
+
+int DebugAssert(char* File, u32 Line, char*) {
+    
 }

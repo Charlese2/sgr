@@ -15,13 +15,13 @@ GameMem::GameMem() {
 #endif
 }
 
-int GameMem::activateGamemem(void) {
+int GameMem::ActivateGamemem(void) {
     gamemem_active = true;
-    allocateMempools();
+    AllocateMempools();
     return 0;
 }
 
-void GameMem::allocateMempools(void) {
+void GameMem::AllocateMempools(void) {
     gHeapAlloc = true;
     u32 size;
     int heap;
@@ -29,32 +29,32 @@ void GameMem::allocateMempools(void) {
     SetCurrentMempool(0);
 
     gGameMem.persistantMempool.data = AllocateArray(0x363800, "gamemem.cpp", 168);
-    copy(&gGameMem.persistantMempool, gGameMem.persistantMempool.data, 0x363800, "persistant", 32);
-    resetOffset(&gGameMem.persistantMempool);
+    Copy(&gGameMem.persistantMempool, gGameMem.persistantMempool.data, 0x363800, "persistant", 32);
+    ResetOffset(&gGameMem.persistantMempool);
 
     gGameMem.soundMempool.data = AllocateArray(0x10000, "gamemem.cpp", 174);
-    copy(&gGameMem.soundMempool, gGameMem.soundMempool.data, 0x10000, "sound", 16);
-    resetOffset(&gGameMem.soundMempool);
+    Copy(&gGameMem.soundMempool, gGameMem.soundMempool.data, 0x10000, "sound", 16);
+    ResetOffset(&gGameMem.soundMempool);
 
-    heap = getHeapHandle(&gMemSystem);
+    heap = GetHeapHandle(&gMemSystem);
     size = OSCheckHeap(heap) - 0x1dc500;
     printf("Allocating %.2f KB for the perlevel mempool\n", size / 1024.0f );
 
     gGameMem.perlevelMempool.data = AllocateArray(size, "gamemem.cpp", 181);
-    copy(&gGameMem.perlevelMempool, gGameMem.perlevelMempool.data, size, "perlevel", 16);
-    resetOffset(&gGameMem.perlevelMempool);
+    Copy(&gGameMem.perlevelMempool, gGameMem.perlevelMempool.data, size, "perlevel", 16);
+    ResetOffset(&gGameMem.perlevelMempool);
     SetCurrentMempool(&gGameMem.perlevelMempool);
 
     gGameMem.cutsceneMempool.data = AllocateArray(0x234000, "gamemem.cpp", 191);
-    copy(&gGameMem.cutsceneMempool, gGameMem.cutsceneMempool.data, 0x234000, "cutscene", 16);
-    resetOffset(&gGameMem.cutsceneMempool);
+    Copy(&gGameMem.cutsceneMempool, gGameMem.cutsceneMempool.data, 0x234000, "cutscene", 16);
+    ResetOffset(&gGameMem.cutsceneMempool);
     SetCurrentMempool(&gGameMem.cutsceneMempool);
 
     gGameMem.summonMempool.data = AllocateArray(0xf0000, "gamemem.cpp", 198);
-    copy(&gGameMem.summonMempool, gGameMem.summonMempool.data, 0xf0000, "summon", 32);
+    Copy(&gGameMem.summonMempool, gGameMem.summonMempool.data, 0xf0000, "summon", 32);
 
     gGameMem.spellslotMempool.data = AllocateArray(0x144000, "gamemem.cpp", 202);
-    copy(&gGameMem.spellslotMempool, gGameMem.spellslotMempool.data, 0x144000, "spellslot", 16);
+    Copy(&gGameMem.spellslotMempool, gGameMem.spellslotMempool.data, 0x144000, "spellslot", 16);
 
     gGameMem.perlevel_mempool_active = false;
     gGameMem.cutscene_mempool_active = false;
@@ -65,93 +65,93 @@ void GameMem::allocateMempools(void) {
     gHeapAlloc = false;
 }
 
-void GameMem::activateSummonMempool(void) {
+void GameMem::ActivateSummonMempool(void) {
     summon_mempool_active = true;
-    resetOffset(&summonMempool);
+    ResetOffset(&summonMempool);
 }
 
-void GameMem::deactivateSummonMempool(void) {
+void GameMem::DeactivateSummonMempool(void) {
     summon_mempool_active = false;
 }
 
-bool GameMem::getSummonMempoolActive(void) {
+bool GameMem::GetSummonMempoolActive(void) {
     return summon_mempool_active;
 }
 
-Memory * GameMem::getSummonMempool(void) {
+Memory * GameMem::GetSummonMempool(void) {
     return &summonMempool;
 }
 
-void GameMem::activateCutsceneMempool(void) {
+void GameMem::ActivateCutsceneMempool(void) {
     cutscene_mempool_active = true;
-    resetOffset(&cutsceneMempool);
+    ResetOffset(&cutsceneMempool);
 }
 
-void GameMem::deactivateCutsceneMempool(void) {
+void GameMem::DeactivateCutsceneMempool(void) {
     cutscene_mempool_active = false;
 }
 
-bool GameMem::getCutsceneMempoolActive(void) {
+bool GameMem::GetCutsceneMempoolActive(void) {
     return cutscene_mempool_active;
 }
 
-Memory * GameMem::getCutsceneMempool(void) {
+Memory * GameMem::GetCutsceneMempool(void) {
     return &cutsceneMempool;
 }
 
-void GameMem::activateSpellslotMempool(void) {
+void GameMem::ActivateSpellslotMempool(void) {
     spellslot_mempool_active = true;
-    resetOffset(&spellslotMempool);
+    ResetOffset(&spellslotMempool);
 }
 
-void GameMem::deactivateSpellslotMempool(void) {
+void GameMem::DeactivateSpellslotMempool(void) {
     spellslot_mempool_active = false;
 }
 
-bool GameMem::getSpellslotMempoolActive(void) {
+bool GameMem::GetSpellslotMempoolActive(void) {
     return spellslot_mempool_active;
 }
 
-Memory * GameMem::getSpellslotMempool(void) {
+Memory * GameMem::GetSpellslotMempool(void) {
     return &spellslotMempool;
 }
 
-void GameMem::activatePerlevelMempool(void) {
+void GameMem::ActivatePerlevelMempool(void) {
     perlevel_mempool_active = true;
-    resetOffset(&perlevelMempool);
-    allocateInPool(&perlevelMempool, 0x234000);
+    ResetOffset(&perlevelMempool);
+    AllocateInPool(&perlevelMempool, 0x234000);
 }
 
-void GameMem::deactivatePerlevelMempool(void) {
+void GameMem::DeactivatePerlevelMempool(void) {
     perlevel_mempool_active = false;
 }
 
-bool GameMem::getPerlevelMempoolActive(void) {
+bool GameMem::GetPerlevelMempoolActive(void) {
     return perlevel_mempool_active;
 }
 
-Memory * GameMem::getPerlevelMempool(void) {
+Memory * GameMem::GetPerlevelMempool(void) {
     return &perlevelMempool;
 }
 
-void GameMem::clearPerlevelMempool(void) {
-    resetOffset(&perlevelMempool);
-    allocateInPool(&perlevelMempool, 0x234000);
+void GameMem::ClearPerlevelMempool(void) {
+    ResetOffset(&perlevelMempool);
+    AllocateInPool(&perlevelMempool, 0x234000);
 }
 
-void GameMem::activatePersistantMempool(void) {
+void GameMem::ActivatePersistantMempool(void) {
     persistant_mempool_active = true;
-    resetOffset(&persistantMempool);
+    ResetOffset(&persistantMempool);
 }
 
-GameMem * GameMem::getGameMem(void) {
+GameMem * GameMem::GetGameMem(void) {
     return this;
 }
 
-Memory * GameMem::getSoundMempool(void) {
+Memory * GameMem::GetSoundMempool(void) {
     return &soundMempool;
 }
 
-u32 getHeapHandle(MemSystem * memSystem) {
+u32 GetHeapHandle(MemSystem * memSystem) {
     return memSystem->heapHandle;
 }

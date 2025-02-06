@@ -1,6 +1,7 @@
 #include "game/memory.h"
 #include "game/debug.h"
 #include "dolphin/os.h"
+#include "game/macros.h"
 
 Memory * Pool;
 u32 Common_block_index; 
@@ -9,27 +10,31 @@ char COMMON_BLOCK[COMMON_BLOCK_SIZE];
 const char empty[4000] = "";
 extern s32 Common_block_allocation_amount[2];
 volatile extern OSHeapHandle __OSCurrHeap;
-volatile bool gHeapAlloc;
+bool gHeapAlloc;
 
-char * Allocate(size_t size, const char * file, int line) {
-    char * memAddressToUse;
+char* Allocate(size_t size) {
+    char* t;
     char stringbuf[128];
     if (Pool) {
-        memAddressToUse = allocateInPool(Pool, size);
+        t = AllocateInPool(Pool, size);
     } else {
-        memAddressToUse = (char*)OSAllocFromHeap(__OSCurrHeap, size);
-        if (memAddressToUse == NULL) {
+        DEBUGASSERTLINE(100, gHeapAlloc == true);
+        DEBUGASSERTLINE(102, size > 0);
+        
+        t = (char*)OSAllocFromHeap(__OSCurrHeap, size);
+        if (t == 0) {
             sprintf(stringbuf, "Failed to allocate %d bytes\n", size);
             DebugError("memory.cpp", 108, stringbuf);
-            memAddressToUse = 0;
+            t = 0;
+        } else {
+            DEBUGASSERTLINE(114, (t & 15) == 0);
         }
-    
     }
-return memAddressToUse;
+    return t;
 }
 
-char * AllocateArray(size_t size, const char * file, int line) {
-    return Allocate(size, file, line);
+char* AllocateArray(size_t size, const char * file, int line) {
+    return Allocate(size);
 }
 
 void Free(void * p) throw () {
@@ -41,7 +46,7 @@ void FreeArray(void * p) throw () {
     Free(p);
 }
 
-void copy(Memory * mem_pool,  char * destination, u32 size, char * name, u8 alignment) {
+void copy(Memory* mem_pool,  char* destination, u32 size, char* name, u8 alignment) {
     strcpy(mem_pool->pool_name, name);
     mem_pool->destination = destination;
     mem_pool->size = size;
@@ -49,11 +54,11 @@ void copy(Memory * mem_pool,  char * destination, u32 size, char * name, u8 alig
     mem_pool->alignment = alignment;
 }
 
-char* allocateInPool(Memory* pool, u32 size) {
+char* AllocateInPool(Memory* pool, u32 size) {
     u32 offset;
     u32 poolSpaceLeft;
     u32 alignedSize;
-    char * destination;
+    char* destination;
 
     alignedSize = ~(pool->alignment -1) & size + (pool->alignment - 1);
     if (pool->offset + alignedSize > pool->size) {
