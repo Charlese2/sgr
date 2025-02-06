@@ -74,7 +74,7 @@ void GameMem::DeactivateSummonMempool(void) {
     summon_mempool_active = false;
 }
 
-bool GameMem::GetSummonMempoolActive(void) {
+bool GameMem::summon_mempool_is_active(void) {
     return summon_mempool_active;
 }
 
@@ -91,7 +91,7 @@ void GameMem::DeactivateCutsceneMempool(void) {
     cutscene_mempool_active = false;
 }
 
-bool GameMem::GetCutsceneMempoolActive(void) {
+bool GameMem::cutscene_mempool_is_active(void) {
     return cutscene_mempool_active;
 }
 
@@ -108,7 +108,7 @@ void GameMem::DeactivateSpellslotMempool(void) {
     spellslot_mempool_active = false;
 }
 
-bool GameMem::GetSpellslotMempoolActive(void) {
+bool GameMem::spellslot_mempool_is_active(void) {
     return spellslot_mempool_active;
 }
 
@@ -126,7 +126,7 @@ void GameMem::DeactivatePerlevelMempool(void) {
     perlevel_mempool_active = false;
 }
 
-bool GameMem::GetPerlevelMempoolActive(void) {
+bool GameMem::perlevel_mempool_is_active(void) {
     return perlevel_mempool_active;
 }
 
