@@ -269,6 +269,11 @@ debug.cpp:
 	.text       start:0x80150BBC end:0x80150D18
 	.rodata     start:0x801FD910 end:0x801FD940
 
+plainstring.cpp:
+	extab       start:0x8000A19C end:0x8000A1CC
+	extabindex  start:0x8001234C end:0x80012394
+	.text       start:0x80150D18 end:0x801511CC
+
 FileSystem.cpp:
 	extab       start:0x8000A25C end:0x8000A274
 	extabindex  start:0x8001246C end:0x80012490
