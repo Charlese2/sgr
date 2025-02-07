@@ -76,6 +76,11 @@ stringpool.cpp:
 	extabindex  start:0x8000C16C end:0x8000C190
 	.text       start:0x8002FB74 end:0x8002FE88
 
+new_interface.cpp:
+	extab       start:0x80005D48 end:0x80005E50
+	extabindex  start:0x8000C1A8 end:0x8000C334
+	.text       start:0x80030030 end:0x80036178
+
 gamewide.cpp:
 	extab       start:0x800064B8 end:0x800064D0
 	extabindex  start:0x8000CCAC end:0x8000CCD0
@@ -387,6 +392,11 @@ MusicSystem.cpp:
 	extabindex  start:0x80013894 end:0x80013924
 	.text       start:0x801834B0 end:0x80184838
 	.ctors      start:0x801EEA48 end:0x801EEA4C
+
+memcard.cpp:
+	extab       start:0x8000B19C end:0x8000B1D4
+	extabindex  start:0x80013978 end:0x800139B4
+	.text       start:0x801849B4 end:0x80184FD8
 
 console.cpp:
 	extab       start:0x8000B204 end:0x8000B2AC
