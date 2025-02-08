@@ -375,7 +375,7 @@ music.cpp:
 	extabindex  start:0x80013660 end:0x80013678
 	.text       start:0x80180438 end:0x80180724
 
-snd.cpp:
+sound_3d.cpp:
 	extab       start:0x8000AF94 end:0x8000B034
 	extabindex  start:0x80013684 end:0x80013774
 	.text       start:0x80180778 end:0x801829B4
