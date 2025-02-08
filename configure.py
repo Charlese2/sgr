@@ -369,7 +369,6 @@ config.libs = [
             Object(NonMatching, "new_help.cpp"),
             Object(NonMatching, "new_tutorial.cpp"),
             Object(NonMatching, "SoundSystem.cpp"),
-            Object(NonMatching, "snd.cpp"),
             Object(NonMatching, "SoundConvert.cpp"),
             Object(NonMatching, "MusicSystem.cpp"),
             Object(NonMatching, "console.cpp"),
