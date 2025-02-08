@@ -46,7 +46,7 @@ void FreeArray(void * p) throw () {
     Free(p);
 }
 
-void copy(Memory* mem_pool,  char* destination, u32 size, char* name, u8 alignment) {
+void Copy(Memory* mem_pool,  char* destination, u32 size, char* name, u8 alignment) {
     strcpy(mem_pool->pool_name, name);
     mem_pool->destination = destination;
     mem_pool->size = size;
@@ -80,11 +80,11 @@ Memory * GetCurrentMempool(void) {
     return Pool;
 }
 
-BOOL isFinished() {
+BOOL IsFinished() {
     return Pool != 0;
 }
 
-u32 getCommonBlockSpaceFree() {
+u32 GetCommonBlockSpaceFree() {
     return COMMON_BLOCK_SIZE - Bytes_used;
 }
 
@@ -109,7 +109,7 @@ void * AllocateInCommonBlock(u32 size) {
     return allocatedAddress;
 }
 
-void setSomethingCommonBlock(u32 amount) {
+void SetSomethingCommonBlock(u32 amount) {
     int unk;
     if (amount != 0) {
         Common_block_index--;
