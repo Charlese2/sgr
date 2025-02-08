@@ -8,11 +8,21 @@ GameMem Gamemem_info;
 extern MemSystem gMemSystem;
 
 static console_command show_game_mem_prints;
+static console_command show_mempool_usage;
 
 GameMem::GameMem() {
 #ifdef DEBUG
-    register_command(&show_game_mem_prints, "show_game_mem_prints", "Toggles Show_game_mem_prints", TOGGLE, GameMem::toggleShowGameMemPrints);
+    register_command(&show_game_mem_prints, "show_game_mem_prints", "Toggles Show_game_mem_prints", TOGGLE, Gamemem_info.ToggleShowGameMemPrints);
+    register_command(&show_mempool_usage, "show_mempool_usage", "Toggles bShowMempoolUsage", TOGGLE, Gamemem_info.ToggleShowMempoolUsage);
 #endif
+}
+
+bool GameMem::ToggleShowGameMemPrints(void) {
+
+}
+
+bool GameMem::ToggleShowMempoolUsage(void) {
+
 }
 
 int GameMem::ActivateGamemem(void) {

@@ -34,8 +34,8 @@ void SoundSystem::ProcessSoundsEffects(void) {
     if (!gSoundSystem.m_deativated){
         MIXUpdateSettings();
         AXARTServiceSounds();
-        if (gSoundSystem.getInUse() == FALSE){
-            gSoundSystem.setProcessingQueue(true);
+        if (gSoundSystem.GetInUse() == FALSE){
+            gSoundSystem.SetProcessingQueue(true);
             for (i = 0; i < 96; i++) {
                 
             }
@@ -202,7 +202,7 @@ void SoundSystem::InitializeAudio(void) {
     m_InUse = previously_in_use;
 }
 
-sound_slot * SoundSystem::getFreeSoundSlot(void) {
+sound_slot * SoundSystem::GetFreeSoundSlot(void) {
     bool previously_in_use;
     previously_in_use = m_InUse;
     for (int i = 0; i < 128; i++) {
@@ -226,11 +226,11 @@ void SoundSystem::InitializeAudioCache(AudioCache* cache) {
     cache->m_fileName[0] = (char)0;
 }
 
-void SoundSystem::setProcessingQueue(bool processing) {
+void SoundSystem::SetProcessingQueue(bool processing) {
     m_processing_queue = processing;
 }
 
-bool SoundSystem::getInUse(void) {
+bool SoundSystem::GetInUse(void) {
     return m_InUse;
 }
 
@@ -240,6 +240,6 @@ void SoundSystem::InitializeSoundSlot(sound_slot* slot) {
     slot->unk8 = 0.0f;
 }
 
-char* SoundSystem::getBuffer(void) {
+char* SoundSystem::GetBuffer(void) {
     return m_buffer;
 }

@@ -1,4 +1,4 @@
-typedef void (*Command)(void);
+typedef bool (*Command)(void);
 
 enum command_type {
     TOGGLE,

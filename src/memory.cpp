@@ -13,24 +13,24 @@ volatile extern OSHeapHandle __OSCurrHeap;
 bool gHeapAlloc;
 
 char* Allocate(size_t size) {
-    char* t;
+    int t;
     char stringbuf[128];
     if (Pool) {
-        t = AllocateInPool(Pool, size);
+        t = (int)AllocateInPool(Pool, size);
     } else {
         DEBUGASSERTLINE(100, gHeapAlloc == true);
         DEBUGASSERTLINE(102, size > 0);
         
-        t = (char*)OSAllocFromHeap(__OSCurrHeap, size);
-        if (t == 0) {
+        t = (int)OSAllocFromHeap(__OSCurrHeap, size);
+        if ((void*)t == NULL) {
             sprintf(stringbuf, "Failed to allocate %d bytes\n", size);
-            DebugError("memory.cpp", 108, stringbuf);
+            DEBUGERRORLINE(108, stringbuf);
             t = 0;
         } else {
             DEBUGASSERTLINE(114, (t & 15) == 0);
         }
     }
-    return t;
+    return (char*)t;
 }
 
 char* AllocateArray(size_t size, const char * file, int line) {
@@ -94,6 +94,9 @@ void * AllocateInCommonBlock(u32 size) {
     volatile s32* CurrentAllocation;
 
     alignedAmount = OSRoundUp32B(size);
+
+    DEBUGASSERTLINE(446, Common_block_index < 2);
+
     if (Common_block_allocation_amount[Common_block_index] != -1) {
         DebugError("memory.cpp", 449, "Common block is already locked.");
     }

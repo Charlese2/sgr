@@ -132,13 +132,13 @@ public:
     void CleanupPlayedSound(int index);
     void ReinitializeAudio(bool state);
     void InitializeAudio(void);
-    sound_slot* getFreeSoundSlot(void);
+    sound_slot* GetFreeSoundSlot(void);
     void LoadNewSoundsFromDisk(void);
     void InitializeAudioCache(AudioCache* cache);
-    void setProcessingQueue(bool processing);
-    bool getInUse(void);
+    void SetProcessingQueue(bool processing);
+    bool GetInUse(void);
     void InitializeSoundSlot(sound_slot* slot);
-    char* getBuffer(void);
+    char* GetBuffer(void);
 
     /* 0x00 */ DVDFileInfo mFileHandle;
     /* 0x3c */ char* m_buffer;
