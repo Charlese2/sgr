@@ -100,15 +100,15 @@ void * AllocateInCommonBlock(u32 size) {
     if (Common_block_allocation_amount[Common_block_index] != -1) {
         DebugError("memory.cpp", 449, "Common block is already locked.");
     }
-    if (alignedAmount > 72800 - Bytes_used) {
+    if (alignedAmount > COMMON_BLOCK_SIZE - Bytes_used) {
         DebugError( "memory.cpp", 452, "Not enough space in common block.\n");
     }
     
     CurrentAllocation = Common_block_allocation_amount + Common_block_index;
-    Common_block_index = Common_block_index + 1;
+    Common_block_index += 1;
     allocatedAddress = COMMON_BLOCK + Bytes_used;
     *CurrentAllocation = alignedAmount;
-    Bytes_used = Bytes_used + alignedAmount;
+    Bytes_used += alignedAmount;
     return allocatedAddress;
 }
 
