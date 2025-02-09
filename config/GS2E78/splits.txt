@@ -14,9 +14,10 @@ Sections:
 	.sbss2      type:bss align:32
 
 summoner.cpp:
-	extab       start:0x80005620 end:0x80005650
-	extabindex  start:0x8000B7A0 end:0x8000B7E8
-	.text       start:0x80014180 end:0x80015208
+	extab       start:0x80005620 end:0x80005658
+	extabindex  start:0x8000B7A0 end:0x8000B7F4
+	.text       start:0x80014180 end:0x80015274
+	.ctors      start:0x801EE844 end:0x801EE848
 	.rodata     start:0x801EEA80 end:0x801EED40
 	.bss        start:0x80228F80 end:0x80228F94
 
@@ -46,30 +47,41 @@ gr_poly.cpp:
 	.text       start:0x80024A90 end:0x8002523C
 	.ctors      start:0x801EE850 end:0x801EE854
 
+gr_3d.cpp:
+	extab       start:0x80005A78 end:0x80005A80
+	extabindex  start:0x8000BDE8 end:0x8000BDF4
+	.text       start:0x80027034 end:0x8002714C
+	.ctors      start:0x801EE854 end:0x801EE858
+
 frametime.cpp:
 	extab       start:0x80005A80 end:0x80005A90
 	extabindex  start:0x8000BDF4 end:0x8000BE0C
-	.text       start:0x80027178 end:0x800274BC
+	.text       start:0x80027178 end:0x800274D0
+	.ctors      start:0x801EE858 end:0x801EE85C
 
 gameplay.cpp:
-	extab       start:0x80005AB0 end:0x80005AC0
-	extabindex  start:0x8000BE3C end:0x8000BE54
-	.text       start:0x8002783C end:0x80027E90
+	extab       start:0x80005AB0 end:0x80005AD0
+	extabindex  start:0x8000BE3C end:0x8000BE6C
+	.text       start:0x8002783C end:0x80028090
+	.ctors      start:0x801EE85C end:0x801EE860
 
 levels.cpp:
-	extab       start:0x80005B50 end:0x80005B80
-	extabindex  start:0x8000BF2C end:0x8000BF5C
-	.text       start:0x80028F38 end:0x80029C24
+	extab       start:0x80005B48 end:0x80005B90
+	extabindex  start:0x8000BF20 end:0x8000BF74
+	.text       start:0x80028C28 end:0x80029E38
+	.ctors      start:0x801EE860 end:0x801EE864
 
 effect_mem.cpp:
-	extab       start:0x80005BC0 end:0x80005BF0
-	extabindex  start:0x8000BFBC end:0x8000BFE0
-	.text       start:0x8002ADC8 end:0x8002B568
+	extab       start:0x80005BC0 end:0x80005C48
+	extabindex  start:0x8000BFBC end:0x8000C028
+	.text       start:0x8002ADC8 end:0x8002C574
+	.ctors      start:0x801EE864 end:0x801EE868
 
 matrix.cpp:
-	extab       start:0x80005CB8 end:0x80005CC0
-	extabindex  start:0x8000C0D0 end:0x8000C0DC
-	.text       start:0x8002DF10 end:0x8002E2AC
+	extab       start:0x80005CB8 end:0x80005CF0
+	extabindex  start:0x8000C0D0 end:0x8000C124
+	.text       start:0x8002DF10 end:0x8002E9B0
+	.ctors      start:0x801EE868 end:0x801EE86C
 
 stringpool.cpp:
 	extab       start:0x80005D20 end:0x80005D38
@@ -81,10 +93,17 @@ new_interface.cpp:
 	extabindex  start:0x8000C1A8 end:0x8000C334
 	.text       start:0x80030030 end:0x80036178
 
+dialogue.cpp:
+	extab       start:0x80005E88 end:0x80005F18
+	extabindex  start:0x8000C388 end:0x8000C460
+	.text       start:0x8003770C end:0x80039B04
+	.ctors      start:0x801EE874 end:0x801EE878
+
 gamewide.cpp:
-	extab       start:0x800064B8 end:0x800064D0
-	extabindex  start:0x8000CCAC end:0x8000CCD0
-	.text       start:0x80059D6C end:0x8005A5E8
+	extab       start:0x800064B8 end:0x80006528
+	extabindex  start:0x8000CCAC end:0x8000CD54
+	.text       start:0x80059D6C end:0x8005ACC8
+	.ctors      start:0x801EE8A4 end:0x801EE8A8
 
 parse.cpp:
 	extab       start:0x800065D0 end:0x800065D8
@@ -92,9 +111,9 @@ parse.cpp:
 	.text       start:0x8005CDD4 end:0x8005D01C
 
 gamesound.cpp:
-	extab       start:0x800066A0 end:0x800066C0
-	extabindex  start:0x8000CF88 end:0x8000CF94
-	.text       start:0x8005EA4C end:0x8005ED8C
+	extab       start:0x80006698 end:0x800066C0
+	extabindex  start:0x8000CF7C end:0x8000CF94
+	.text       start:0x8005EA08 end:0x8005ED8C
 
 character_instance.cpp:
 	extab       start:0x800067EC end:0x800067FC
@@ -108,29 +127,34 @@ skeleton.cpp:
 	.text       start:0x80064C24 end:0x80064CC0
 
 vif_particles.cpp:
-	extab       start:0x80006AC4 end:0x80006ACC
-	extabindex  start:0x8000D564 end:0x8000D570
-	.text       start:0x80070DF8 end:0x8007107C
+	extab       start:0x80006AC4 end:0x80006B04
+	extabindex  start:0x8000D564 end:0x8000D5C4
+	.text       start:0x80070DF8 end:0x8007285C
+	.ctors      start:0x801EE8C4 end:0x801EE8C8
 
 objects.cpp:
-	extab       start:0x80006BD4 end:0x80006BF4
-	extabindex  start:0x8000D6FC end:0x8000D72C
-	.text       start:0x800752C4 end:0x80075E64
+	extab       start:0x80006BD4 end:0x80006BFC
+	extabindex  start:0x8000D6FC end:0x8000D738
+	.text       start:0x800752C4 end:0x80075EB4
+	.ctors      start:0x801EE8C8 end:0x801EE8CC
 
 items.cpp:
-	extab       start:0x80006C0C end:0x80006CBC
-	extabindex  start:0x8000D750 end:0x8000D840
-	.text       start:0x80076218 end:0x80079A00
+	extab       start:0x80006C0C end:0x80006CC4
+	extabindex  start:0x8000D750 end:0x8000D84C
+	.text       start:0x80076218 end:0x80079A7C
+	.ctors      start:0x801EE8CC end:0x801EE8D0
 
 spells_queue.cpp:
-	extab       start:0x80006CC4 end:0x80006D14
-	extabindex  start:0x8000D84C end:0x8000D8AC
-	.text       start:0x80079AF4 end:0x8007AD90
+	extab       start:0x80006CC4 end:0x80006D34
+	extabindex  start:0x8000D84C end:0x8000D8DC
+	.text       start:0x80079AF4 end:0x8007B460
+	.ctors      start:0x801EE8D0 end:0x801EE8D4
 
 skills.cpp:
-	extab       start:0x80006E9C end:0x80006EC4
-	extabindex  start:0x8000DA5C end:0x8000DA80
-	.text       start:0x8007FC80 end:0x8008021C
+	extab       start:0x80006E9C end:0x80006EDC
+	extabindex  start:0x8000DA5C end:0x8000DAA4
+	.text       start:0x8007FC80 end:0x80081140
+	.ctors      start:0x801EE8D8 end:0x801EE8DC
 
 norlsallocpool.cpp:
 	extab       start:0x80006EDC end:0x80006EE4
@@ -138,14 +162,16 @@ norlsallocpool.cpp:
 	.text       start:0x80081158 end:0x800812AC
 
 characterinfo.cpp:
-	extab       start:0x80006F44 end:0x80007084
-	extabindex  start:0x8000DB1C end:0x8000DC60
-	.text       start:0x80081F04 end:0x800873B0
+	extab       start:0x80006F44 end:0x80007094
+	extabindex  start:0x8000DB1C end:0x8000DC78
+	.text       start:0x80081F04 end:0x80087670
+	.ctors      start:0x801EE8DC end:0x801EE8E0
 
 player.cpp:
-	extab       start:0x80007114 end:0x8000711C
-	extabindex  start:0x8000DD38 end:0x8000DD44
-	.text       start:0x80089260 end:0x80089338
+	extab       start:0x80007114 end:0x8000712C
+	extabindex  start:0x8000DD38 end:0x8000DD5C
+	.text       start:0x80089260 end:0x800894AC
+	.ctors      start:0x801EE8E0 end:0x801EE8E4
 
 footsteps.cpp:
 	extab       start:0x8000718C end:0x800071A4
@@ -160,22 +186,32 @@ boss_ai.cpp:
 dc_menu.cpp:
 	extab       start:0x800072DC end:0x800072FC
 	extabindex  start:0x8000DF90 end:0x8000DF9C
-	.text       start:0x8008DC3C end:0x8008E46C
+	.text       start:0x8008DC3C end:0x8008E470
+	.ctors      start:0x801EE8E8 end:0x801EE8EC
 
 level_unseen.cpp:
-	extab       start:0x800073F4 end:0x800073FC
-	extabindex  start:0x8000E110 end:0x8000E11C
-	.text       start:0x80091AFC end:0x80091C18
+	extab       start:0x800073F4 end:0x80007414
+	extabindex  start:0x8000E110 end:0x8000E140
+	.text       start:0x80091AFC end:0x800920B4
+	.ctors      start:0x801EE8FC end:0x801EE900
 
 level_arena.cpp:
-	extab       start:0x8000744C end:0x80007454
-	extabindex  start:0x8000E194 end:0x8000E1A0
-	.text       start:0x80093278 end:0x800935A8
+	extab       start:0x8000744C end:0x8000754C
+	extabindex  start:0x8000E194 end:0x8000E314
+	.text       start:0x80093278 end:0x80099E30
+	.ctors      start:0x801EE900 end:0x801EE904
+
+level_halassar.cpp:
+	extab       start:0x8000761C end:0x8000762C
+	extabindex  start:0x8000E44C end:0x8000E464
+	.text       start:0x8009D6DC end:0x8009D7B0
+	.ctors      start:0x801EE908 end:0x801EE90C
 
 objectrender.cpp:
-	extab       start:0x80007744 end:0x800077EC
-	extabindex  start:0x8000E608 end:0x8000E704
-	.text       start:0x800A36BC end:0x800A87C4
+	extab       start:0x80007744 end:0x800077FC
+	extabindex  start:0x8000E608 end:0x8000E71C
+	.text       start:0x800A36BC end:0x800A89A8
+	.ctors      start:0x801EE914 end:0x801EE918
 
 living_entity.cpp:
 	extab       start:0x8000798C end:0x80007B78
@@ -196,9 +232,10 @@ combat_skills.cpp:
 	.text       start:0x800D03CC end:0x800D139C
 
 level_save.cpp:
-	extab       start:0x80008330 end:0x80008358
-	extabindex  start:0x8000F724 end:0x8000F760
-	.text       start:0x800DF094 end:0x800E01DC
+	extab       start:0x80008330 end:0x80008490
+	extabindex  start:0x8000F724 end:0x8000F8EC
+	.text       start:0x800DF094 end:0x800E7118
+	.ctors      start:0x801EE938 end:0x801EE93C
 
 gameload.cpp:
 	extab       start:0x800088B0 end:0x800088B8
@@ -206,34 +243,52 @@ gameload.cpp:
 	.text       start:0x800F8074 end:0x800F82A4
 
 level_scripts.cpp:
-	extab       start:0x80008958 end:0x800089F0
-	extabindex  start:0x8000FFF4 end:0x800100D8
-	.text       start:0x800FC094 end:0x800FE160
+	extab       start:0x80008958 end:0x80008A10
+	extabindex  start:0x8000FFF4 end:0x80010108
+	.text       start:0x800FC094 end:0x800FE7E8
+	.ctors      start:0x801EE960 end:0x801EE964
+
+new_hud.cpp:
+	extab       start:0x80008D6C end:0x80008D94
+	extabindex  start:0x800105F4 end:0x80010630
+	.text       start:0x801125EC end:0x80112888
+	.ctors      start:0x801EE974 end:0x801EE978
 
 new_fullscreen.cpp:
-	extab       start:0x80008DAC end:0x80008DB4
-	extabindex  start:0x80010654 end:0x80010660
-	.text       start:0x80112A6C end:0x80112DDC
+	extab       start:0x80008DAC end:0x80008F8C
+	extabindex  start:0x80010654 end:0x80010924
+	.text       start:0x80112A6C end:0x8011A314
+	.ctors      start:0x801EE978 end:0x801EE97C
 
 cutscene.cpp:
-	extab       start:0x80009184 end:0x800091D4
-	extabindex  start:0x80010C18 end:0x80010C48
-	.text       start:0x80124058 end:0x80124E6C
+	extab       start:0x80009184 end:0x800091DC
+	extabindex  start:0x80010C18 end:0x80010C54
+	.text       start:0x80124058 end:0x80124ED4
+	.ctors      start:0x801EE990 end:0x801EE994
 
 level_sequences.cpp:
-	extab       start:0x800094BC end:0x800094C4
-	extabindex  start:0x800110A4 end:0x800110B0
-	.text       start:0x8012BC1C end:0x8012BD80
+	extab       start:0x800094BC end:0x8000991C
+	extabindex  start:0x800110A4 end:0x80011734
+	.text       start:0x8012BC1C end:0x801370D0
+	.ctors      start:0x801EE994 end:0x801EE998
 
 water_ripples.cpp:
-	extab       start:0x8000999C end:0x800099A4
-	extabindex  start:0x800117F4 end:0x80011800
-	.text       start:0x801396F8 end:0x80139970
+	extab       start:0x8000999C end:0x800099BC
+	extabindex  start:0x800117F4 end:0x80011824
+	.text       start:0x801396F8 end:0x8013A4D4
+	.ctors      start:0x801EE99C end:0x801EE9A0
 
 rain.cpp:
-	extab       start:0x80009A14 end:0x80009A1C
-	extabindex  start:0x800118A8 end:0x800118B4
-	.text       start:0x8013BBB4 end:0x8013BE38
+	extab       start:0x80009A14 end:0x80009A24
+	extabindex  start:0x800118A8 end:0x800118C0
+	.text       start:0x8013BBB4 end:0x8013BEAC
+	.ctors      start:0x801EE9A4 end:0x801EE9A8
+
+pathfinding_debug.cpp:
+	extab       start:0x80009A94 end:0x80009AB4
+	extabindex  start:0x80011968 end:0x80011998
+	.text       start:0x8013CA54 end:0x8013D028
+	.ctors      start:0x801EE9AC end:0x801EE9B0
 
 level_scripts_loadsave.cpp:
 	extab       start:0x80009AB4 end:0x80009B3C
@@ -342,24 +397,34 @@ Cranky/am/am.c:
 	.bss        start:0x803E4D50 end:0x803ED150
 
 lore.cpp:
-	extab       start:0x8000A814 end:0x8000A834
-	extabindex  start:0x80012C34 end:0x80012C40
-	.text       start:0x801627A8 end:0x80162B08
+	extab       start:0x8000A814 end:0x8000A844
+	extabindex  start:0x80012C34 end:0x80012C58
+	.text       start:0x801627A8 end:0x80162B90
+	.ctors      start:0x801EE9E8 end:0x801EE9EC
 
 quests.cpp:
-	extab       start:0x8000A84C end:0x8000A86C
-	extabindex  start:0x80012C64 end:0x80012C70
-	.text       start:0x80162D74 end:0x801630C8
+	extab       start:0x8000A84C end:0x8000A874
+	extabindex  start:0x80012C64 end:0x80012C7C
+	.text       start:0x80162D74 end:0x80163118
+	.ctors      start:0x801EE9EC end:0x801EE9F0
+
+new_extras.cpp:
+	extab       start:0x8000AAE4 end:0x8000AB1C
+	extabindex  start:0x80012FE8 end:0x8001303C
+	.text       start:0x8016A4F8 end:0x8016B550
+	.ctors      start:0x801EEA0C end:0x801EEA10
 
 new_help.cpp:
-	extab       start:0x8000AB7C end:0x8000AB9C
-	extabindex  start:0x800130CC end:0x800130D8
-	.text       start:0x8016CD6C end:0x8016D068
+	extab       start:0x8000AB7C end:0x8000ABA4
+	extabindex  start:0x800130CC end:0x800130E4
+	.text       start:0x8016CD6C end:0x8016D0B8
+	.ctors      start:0x801EEA10 end:0x801EEA14
 
 new_tutorial.cpp:
-	extab       start:0x8000AD9C end:0x8000ADDC
-	extabindex  start:0x800133D8 end:0x80013414
-	.text       start:0x8017742C end:0x80177CA4
+	extab       start:0x8000AD9C end:0x8000ADEC
+	extabindex  start:0x800133D8 end:0x8001342C
+	.text       start:0x8017742C end:0x80178438
+	.ctors      start:0x801EEA28 end:0x801EEA2C
 
 SoundSystem.cpp:
 	extab       start:0x8000AEAC end:0x8000AF64
@@ -371,9 +436,10 @@ SoundSystem.cpp:
 	.sdata2     start:0x8047A758 end:0x8047A79C
 
 music.cpp:
-	extab       start:0x8000AF64 end:0x8000AF8C
-	extabindex  start:0x80013660 end:0x80013678
-	.text       start:0x80180438 end:0x80180724
+	extab       start:0x8000AF64 end:0x8000AF94
+	extabindex  start:0x80013660 end:0x80013684
+	.text       start:0x80180438 end:0x80180778
+	.ctors      start:0x801EEA3C end:0x801EEA40
 
 sound_3d.cpp:
 	extab       start:0x8000AF94 end:0x8000B034
@@ -394,9 +460,10 @@ MusicSystem.cpp:
 	.ctors      start:0x801EEA48 end:0x801EEA4C
 
 memcard.cpp:
-	extab       start:0x8000B19C end:0x8000B1D4
-	extabindex  start:0x80013978 end:0x800139B4
-	.text       start:0x801849B4 end:0x80184FD8
+	extab       start:0x8000B19C end:0x8000B204
+	extabindex  start:0x80013978 end:0x800139FC
+	.text       start:0x801849B4 end:0x8018532C
+	.ctors      start:0x801EEA4C end:0x801EEA50
 
 console.cpp:
 	extab       start:0x8000B204 end:0x8000B2AC
