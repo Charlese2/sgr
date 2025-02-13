@@ -82,7 +82,7 @@ SOUND_ENTRY * SPGetSoundEntry(table* table, u32 index) {
     return 0;
 }
 
-void SPPrepareSound(SOUND_ENTRY* sound, AXVPB * axvpb, u32 sampleRate) {
+void SPPrepareSound(SOUND_ENTRY* sound, AXVPB* axvpb, u32 sampleRate) {
     int old;
     u32 srcBits;
     u32 loopAddr;
@@ -192,7 +192,7 @@ void SPPrepareSound(SOUND_ENTRY* sound, AXVPB * axvpb, u32 sampleRate) {
             break;
         case 2:
             loopAddr = sound->loopAddr;
-            endAddr = sound->loopEndAddr;
+            endAddr = sound->endAddr;
             currentAddr = sound->currentAddr;
             p = (u16*)&axvpb->pb.addr;
             p1 = (u16*)sound->adpcm;
@@ -282,7 +282,7 @@ void SPPrepareSound(SOUND_ENTRY* sound, AXVPB * axvpb, u32 sampleRate) {
             break;
         case 4:
             loopAddr = sound->loopAddr;
-            endAddr = sound->loopEndAddr;
+            endAddr = sound->endAddr;
             currentAddr = sound->currentAddr;
             p = (u16*)&axvpb->pb.addr;
             p1 = (u16*)sound->adpcm;
