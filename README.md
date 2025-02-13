@@ -63,7 +63,7 @@ Building
 - Clone the repository:
 
   ```sh
-  git clone https://github.com/my/repo.git
+  git clone https://github.com/Charlese2/sgr.git
   ```
 
 - Copy your game's disc image to `orig/GS2E78`.
