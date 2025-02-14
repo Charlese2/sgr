@@ -5,6 +5,7 @@ extern "C" {
 }
 
 #define COMMON_BLOCK_SIZE 72800
+#define MAX_POOL_NAME_LENGTH 16
 
 typedef struct {
     char* destination;

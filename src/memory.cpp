@@ -46,8 +46,9 @@ void FreeArray(void * p) throw () {
     Free(p);
 }
 
-void Copy(Memory* mem_pool,  char* destination, u32 size, char* name, u8 alignment) {
-    strcpy(mem_pool->pool_name, name);
+void Copy(Memory* mem_pool,  char* destination, u32 size, char* _name, u8 alignment) {
+    DEBUGASSERTLINE(353, strlen(_name) < MAX_POOL_NAME_LENGTH);
+    strcpy(mem_pool->pool_name, _name);
     mem_pool->destination = destination;
     mem_pool->size = size;
     mem_pool->offset = 0;
