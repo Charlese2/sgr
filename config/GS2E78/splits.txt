@@ -351,9 +351,9 @@ footsteps.cpp:
 	.text       start:0x8008AC28 end:0x8008B26C
 
 boss_ai.cpp:
-	extab       start:0x8000725C end:0x8000728C
-	extabindex  start:0x8000DF0C end:0x8000DF18
-	.text       start:0x8008CC84 end:0x8008CFC4
+	extab       start:0x800071A4 end:0x800072DC
+	extabindex  start:0x8000DDF8 end:0x8000DF90
+	.text       start:0x8008B26C end:0x8008DC3C
 
 dc_menu.cpp:
 	extab       start:0x800072DC end:0x800072FC
@@ -361,53 +361,192 @@ dc_menu.cpp:
 	.text       start:0x8008DC3C end:0x8008E470
 	.ctors      start:0x801EE8E8 end:0x801EE8EC
 
+level_pirate_base.cpp:
+	extab       start:0x800072FC end:0x80007334
+	extabindex  start:0x8000DF9C end:0x8000DFF0
+	.text       start:0x8008E470 end:0x8008F5CC
+	.ctors      start:0x801EE8EC end:0x801EE8F0
+
+level_sepulchre.cpp:
+	extab       start:0x80007334 end:0x8000735C
+	extabindex  start:0x8000DFF0 end:0x8000E02C
+	.text       start:0x8008F5CC end:0x8008FDC0
+	.ctors      start:0x801EE8F0 end:0x801EE8F4
+
+level_sharangir_cave.cpp:
+	extab       start:0x8000735C end:0x800073CC
+	extabindex  start:0x8000E02C end:0x8000E0D4
+	.text       start:0x8008FDFC end:0x800918E4
+	.ctors      start:0x801EE8F4 end:0x801EE8F8
+
+level_test.cpp:
+	extab       start:0x800073CC end:0x800073DC
+	extabindex  start:0x8000E0D4 end:0x8000E0EC
+	.text       start:0x800918E4 end:0x80091988
+	.ctors      start:0x801EE8F8 end:0x801EE8FC
+
 level_unseen.cpp:
-	extab       start:0x800073F4 end:0x80007414
-	extabindex  start:0x8000E110 end:0x8000E140
-	.text       start:0x80091AFC end:0x800920B4
+	extab       start:0x800073DC end:0x80007414
+	extabindex  start:0x8000E0EC end:0x8000E140
+	.text       start:0x8009199C end:0x800920B4
 	.ctors      start:0x801EE8FC end:0x801EE900
 
+level_unseen_boss.cpp:
+	extab       start:0x80007414 end:0x8000742C
+	extabindex  start:0x8000E140 end:0x8000E164
+	.text       start:0x800920B4 end:0x80092318
+
 level_arena.cpp:
-	extab       start:0x8000744C end:0x8000754C
-	extabindex  start:0x8000E194 end:0x8000E314
-	.text       start:0x80093278 end:0x80099E30
+	extab       start:0x8000742C end:0x8000754C
+	extabindex  start:0x8000E164 end:0x8000E314
+	.text       start:0x80092318 end:0x80099E30
 	.ctors      start:0x801EE900 end:0x801EE904
 
+level_city_of_glass.cpp:
+	extab       start:0x8000754C end:0x8000755C
+	extabindex  start:0x8000E314 end:0x8000E32C
+	.text       start:0x80099E30 end:0x80099E90
+
+level_cm4_ruins.cpp:
+	extab       start:0x8000755C end:0x8000758C
+	extabindex  start:0x8000E32C end:0x8000E374
+	.text       start:0x80099E90 end:0x8009A55C
+	.ctors      start:0x801EE904 end:0x801EE908
+
+level_eleh_ext.cpp:
+	extab       start:0x8000758C end:0x800075B4
+	extabindex  start:0x8000E374 end:0x8000E3B0
+	.text       start:0x8009A55C end:0x8009A634
+
 level_halassar.cpp:
-	extab       start:0x8000761C end:0x8000762C
-	extabindex  start:0x8000E44C end:0x8000E464
-	.text       start:0x8009D6DC end:0x8009D7B0
+	extab       start:0x800075B4 end:0x8000762C
+	extabindex  start:0x8000E3B0 end:0x8000E464
+	.text       start:0x8009A634 end:0x8009D7B0
 	.ctors      start:0x801EE908 end:0x801EE90C
 
+level_highwater.cpp:
+	extab       start:0x80007634 end:0x8000768C
+	extabindex  start:0x8000E470 end:0x8000E4F4
+	.text       start:0x8009D944 end:0x8009F3D8
+	.ctors      start:0x801EE90C end:0x801EE910
+
+level_munari_city2.cpp:
+	extab       start:0x8000768C end:0x800076B4
+	extabindex  start:0x8000E4F4 end:0x8000E530
+	.text       start:0x8009F3D8 end:0x8009F8AC
+
+minimap.cpp:
+	extab       start:0x800076B4 end:0x800076FC
+	extabindex  start:0x8000E530 end:0x8000E59C
+	.text       start:0x8009F8AC end:0x800A2C94
+	.ctors      start:0x801EE910 end:0x801EE914
+
 objectrender.cpp:
-	extab       start:0x80007744 end:0x800077FC
-	extabindex  start:0x8000E608 end:0x8000E71C
-	.text       start:0x800A36BC end:0x800A89A8
+	extab       start:0x800076FC end:0x800077FC
+	extabindex  start:0x8000E59C end:0x8000E71C
+	.text       start:0x800A2C94 end:0x800A89A8
 	.ctors      start:0x801EE914 end:0x801EE918
 
 living_entity.cpp:
-	extab       start:0x8000798C end:0x80007B78
-	extabindex  start:0x8000E974 end:0x8000EBD8
-	.text       start:0x800B1AF4 end:0x800BBB60
+	extab       start:0x800077FC end:0x80007B78
+	extabindex  start:0x8000E71C end:0x8000EBD8
+	.text       start:0x800A89B8 end:0x800BBB60
 	.ctors      start:0x801EE918 end:0x801EE91C
 	.data       start:0x8020DA90 end:0x8020DA9C
 	.bss        start:0x803355F0 end:0x80335BF0
 
+party_controller.cpp:
+	extab       start:0x80007B78 end:0x80007BD0
+	extabindex  start:0x8000EBD8 end:0x8000EC5C
+	.text       start:0x800BBB7C end:0x800BDA6C
+	.ctors      start:0x801EE91C end:0x801EE920
+
+text_effects.cpp:
+	extab       start:0x80007BD0 end:0x80007BF0
+	extabindex  start:0x8000EC5C end:0x8000EC8C
+	.text       start:0x800BDA6C end:0x800BE614
+
+vector.cpp:
+	extab       start:0x80007BF0 end:0x80007C48
+	extabindex  start:0x8000EC8C end:0x8000ED10
+	.text       start:0x800BE614 end:0x800BFFE0
+	.ctors      start:0x801EE920 end:0x801EE924
+
+ai.cpp:
+	extab       start:0x80007C48 end:0x80007E00
+	extabindex  start:0x8000ED10 end:0x8000EFA4
+	.text       start:0x800BFFE0 end:0x800C4724
+	.ctors      start:0x801EE924 end:0x801EE928
+
+ai_task.cpp:
+	extab       start:0x80007E00 end:0x80007E50
+	extabindex  start:0x8000EFA4 end:0x8000F01C
+	.text       start:0x800C4724 end:0x800C603C
+
 pathfinding.cpp:
-	extab       start:0x80007EF0 end:0x80007F18
-	extabindex  start:0x8000F10C end:0x8000F118
-	.text       start:0x800C98B8 end:0x800CAAFC
+	extab       start:0x80007E58 end:0x80007F18
+	extabindex  start:0x8000F028 end:0x8000F118
+	.text       start:0x800C62DC end:0x800CAAFC
+
+ai_summon.cpp:
+	extab       start:0x80007F28 end:0x80007F98
+	extabindex  start:0x8000F130 end:0x8000F1D8
+	.text       start:0x800CABFC end:0x800CCA3C
+	.ctors      start:0x801EE928 end:0x801EE92C
+
+combat_behavior.cpp:
+	extab       start:0x80007F98 end:0x80008040
+	extabindex  start:0x8000F1D8 end:0x8000F2D4
+	.text       start:0x800CCA3C end:0x800CF278
 
 combat_skills.cpp:
-	extab       start:0x80008050 end:0x80008058
-	extabindex  start:0x8000F2EC end:0x8000F2F8
-	.text       start:0x800D03CC end:0x800D139C
+	extab       start:0x80008040 end:0x80008058
+	extabindex  start:0x8000F2D4 end:0x8000F2F8
+	.text       start:0x800CF278 end:0x800D139C
+
+action_combat.cpp:
+	extab       start:0x80008060 end:0x80008180
+	extabindex  start:0x8000F304 end:0x8000F4B4
+	.text       start:0x800D15B0 end:0x800D9968
+	.ctors      start:0x801EE92C end:0x801EE930
+
+combat_internal.cpp:
+	extab       start:0x80008180 end:0x800081B8
+	extabindex  start:0x8000F4B4 end:0x8000F508
+	.text       start:0x800D9968 end:0x800DA4F4
+
+weapon_trails.cpp:
+	extab       start:0x800081D0 end:0x80008208
+	extabindex  start:0x8000F52C end:0x8000F580
+	.text       start:0x800DAC98 end:0x800DB464
+	.ctors      start:0x801EE930 end:0x801EE934
+
+experiencetable.cpp:
+	extab       start:0x80008208 end:0x80008228
+	extabindex  start:0x8000F580 end:0x8000F598
+	.text       start:0x800DB464 end:0x800DB6A0
+
+combat_moves.cpp:
+	extab       start:0x80008228 end:0x80008298
+	extabindex  start:0x8000F598 end:0x8000F640
+	.text       start:0x800DB6A0 end:0x800DCF58
+
+unseen_miniboss.cpp:
+	extab       start:0x80008298 end:0x800082F8
+	extabindex  start:0x8000F640 end:0x8000F6D0
+	.text       start:0x800DCF58 end:0x800DE748
+	.ctors      start:0x801EE934 end:0x801EE938
 
 level_save.cpp:
-	extab       start:0x80008330 end:0x80008490
-	extabindex  start:0x8000F724 end:0x8000F8EC
-	.text       start:0x800DF094 end:0x800E7118
+	extab       start:0x800082F8 end:0x80008490
+	extabindex  start:0x8000F6D0 end:0x8000F8EC
+	.text       start:0x800DE748 end:0x800E7118
 	.ctors      start:0x801EE938 end:0x801EE93C
+
+pathfinding_support.cpp:
+	extab       start:0x80008490 end:0x80008500
+	extabindex  start:0x8000F8EC end:0x8000F994
+	.text       start:0x800E7118 end:0x800E905C
 
 gameload.cpp:
 	extab       start:0x800088B0 end:0x800088B8
