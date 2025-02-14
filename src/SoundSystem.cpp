@@ -93,28 +93,28 @@ void SoundSystem::LoadUncachedSoundFromDisk(void) {
 
 void SoundSystem::AddSound(int index) {
     bool lastInUseState = m_InUse;
-    soundEffect* soundEffect;
+    soundEffect* pSoundEffect;
     SOUND_ENTRY* pSound;
     AXVPB* pVoice;
 
     m_InUse = true;
-    soundEffect = &m_soundEffect[index];
-    if (!soundEffect->sound_finished_playing) {
-        pSound = SPGetSoundEntry(soundEffect->table, index);
+    pSoundEffect = &m_soundEffect[index];
+    if (!pSoundEffect->sound_finished_playing) {
+        pSound = SPGetSoundEntry(pSoundEffect->table, index);
         pVoice = AXAcquireVoice(15, 0, 0);
         AXSetVoicePriority(pVoice, 5);
         SPPrepareSound(pSound, pVoice, pSound->sampleRate);
-        AXARTInitSound(&soundEffect->sound, soundEffect->axvpb, pSound->sampleRate);
-        AXARTInitArtVolume(&soundEffect->volume);
-        soundEffect->volume.attenuation = soundEffect->attenuation;
-        AXARTAddArticulator(&soundEffect->sound, (AXART_ART*)&soundEffect->volume);
-        AXARTInitArtPanning(&soundEffect->panning);
-        soundEffect->panning.pan = soundEffect->pan;
-        soundEffect->panning.span = 127;
-        AXARTAddArticulator(&soundEffect->sound, (AXART_ART*)&soundEffect->panning);
-        AXARTAddSound(&soundEffect->sound);
+        AXARTInitSound(&pSoundEffect->sound, pSoundEffect->axvpb, pSound->sampleRate);
+        AXARTInitArtVolume(&pSoundEffect->volume);
+        pSoundEffect->volume.attenuation = pSoundEffect->attenuation;
+        AXARTAddArticulator(&pSoundEffect->sound, (AXART_ART*)&pSoundEffect->volume);
+        AXARTInitArtPanning(&pSoundEffect->panning);
+        pSoundEffect->panning.pan = pSoundEffect->pan;
+        pSoundEffect->panning.span = 127;
+        AXARTAddArticulator(&pSoundEffect->sound, (AXART_ART*)&pSoundEffect->panning);
+        AXARTAddSound(&pSoundEffect->sound);
         AXSetVoicePriority(pVoice, 1);
-        soundEffect->sound_finished_playing = true;
+        pSoundEffect->sound_finished_playing = true;
     }
     m_InUse = lastInUseState;
 }
@@ -122,14 +122,14 @@ void SoundSystem::AddSound(int index) {
 void SoundSystem::CleanupPlayedSound(int index) {
     bool lastInUseState = m_InUse;
     m_InUse = true;
-    soundEffect* soundEffect = &m_soundEffect[index];
-    if (soundEffect->sound_finished_playing) {
-        AXARTRemoveSound(&soundEffect->sound);
-        if (soundEffect->axvpb && soundEffect->axvpb->priority) {
-            AXFreeVoice(soundEffect->axvpb);
-            soundEffect->axvpb = 0;
+    soundEffect* pSoundEffect = &m_soundEffect[index];
+    if (pSoundEffect->sound_finished_playing) {
+        AXARTRemoveSound(&pSoundEffect->sound);
+        if (pSoundEffect->axvpb && pSoundEffect->axvpb->priority) {
+            AXFreeVoice(pSoundEffect->axvpb);
+            pSoundEffect->axvpb = 0;
         }
-        soundEffect->sound_finished_playing = false;
+        pSoundEffect->sound_finished_playing = false;
     }
     m_InUse = lastInUseState;
 }
