@@ -1,19 +1,23 @@
 #include "game/gamemem.h"
 #include "game/console.h"
 #include "dolphin/os/OSAlloc.h"
+#include "dolphin/os.h"
+#include "macros.h"
 #include <stdio.h>
 
 bool gamemem_active;
+bool show_game_mem_prints;
+bool show_mempool_usage;
 GameMem Gamemem_info;
 extern MemSystem gMemSystem;
 
-static console_command show_game_mem_prints;
-static console_command show_mempool_usage;
+static console_command toggle_show_game_mem_prints;
+static console_command toggle_show_mempool_usage;
 
 GameMem::GameMem() {
 #ifdef DEBUG
-    register_command(&show_game_mem_prints, "show_game_mem_prints", "Toggles Show_game_mem_prints", TOGGLE, Gamemem_info.ToggleShowGameMemPrints);
-    register_command(&show_mempool_usage, "show_mempool_usage", "Toggles bShowMempoolUsage", TOGGLE, Gamemem_info.ToggleShowMempoolUsage);
+    register_command(&toggle_show_game_mem_prints, "show_game_mem_prints", "Toggles Show_game_mem_prints", TOGGLE, Gamemem_info.ToggleShowGameMemPrints);
+    register_command(&toggle_show_mempool_usage, "show_mempool_usage", "Toggles bShowMempoolUsage", TOGGLE, Gamemem_info.ToggleShowMempoolUsage);
 #endif
 }
 
@@ -26,6 +30,12 @@ bool GameMem::ToggleShowMempoolUsage(void) {
 }
 
 int GameMem::ActivateGamemem(void) {
+    ASSERTLINE(144, !gamemem_active);
+#ifdef DEBUG
+    if (!show_game_mem_prints) {
+        printf("GAME_MEM: init\n");
+    }
+#endif
     gamemem_active = true;
     AllocateMempools();
     return 0;
