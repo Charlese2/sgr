@@ -6,11 +6,17 @@ extern bool gHeapAlloc;
 class GameMem {
     public:
     Memory persistantMempool;
+    char* persistant_data;
     Memory soundMempool;
+    char* sound_data;
     Memory perlevelMempool;
+    char* perlevel_data;
     Memory cutsceneMempool;
+    char* cutscene_data;
     Memory spellslotMempool;
+    char* spellslot_data;
     Memory summonMempool;
+    char* summon_data;
     bool perlevel_mempool_active;
     bool cutscene_mempool_active;
     bool summon_mempool_active;

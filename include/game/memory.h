@@ -13,7 +13,6 @@ typedef struct {
     u32 offset;
     u8 alignment;
     char pool_name[19];
-    char * data;
 } Memory;
 
 char* Allocate(size_t amount, const char * file, int line);

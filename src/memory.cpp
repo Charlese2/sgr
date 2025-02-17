@@ -12,7 +12,7 @@ extern s32 Common_block_allocation_amount[2];
 volatile extern OSHeapHandle __OSCurrHeap;
 bool gHeapAlloc;
 
-char* Allocate(size_t size) {
+char* Allocate(size_t size, char* file, int line) {
     int t;
     char stringbuf[128];
     if (Pool) {
@@ -33,8 +33,8 @@ char* Allocate(size_t size) {
     return (char*)t;
 }
 
-char* AllocateArray(size_t size, const char * file, int line) {
-    return Allocate(size);
+char* AllocateArray(size_t size, char* file, int line) {
+    return Allocate(size, file, line);
 }
 
 void Free(void * p) throw () {
@@ -53,6 +53,7 @@ void Copy(Memory* mem_pool,  char* destination, u32 size, char* _name, u8 alignm
     mem_pool->size = size;
     mem_pool->offset = 0;
     mem_pool->alignment = alignment;
+    DEBUGASSERTLINE(359, (alignment == 4) || (alignment == 16) || (alignment == 32));
 }
 
 char* AllocateInPool(Memory* pool, u32 size) {
