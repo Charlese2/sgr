@@ -74,15 +74,15 @@ char* AllocateInPool(Memory* pool, u32 size) {
     return destination + offset;
 }
 
-void SetCurrentMempool(Memory * pool) {
+void set_current_mempool(Memory * pool) {
     Pool = pool;
 }
 
-Memory * GetCurrentMempool(void) {
+Memory * get_current_mempool(void) {
     return Pool;
 }
 
-BOOL IsFinished() {
+BOOL is_mempool_active() {
     return Pool != 0;
 }
 

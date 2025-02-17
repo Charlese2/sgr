@@ -22,11 +22,11 @@ void Cleanup(int status) {
 void Initialize() {
     Memory* memPool;
     void* address;
-    memPool = GetCurrentMempool();
-    SetCurrentMempool(0);
+    memPool = get_current_mempool();
+    set_current_mempool(0);
     gHeapAlloc = true;
 
-    SetCurrentMempool(memPool);
+    set_current_mempool(memPool);
 }
 
 void MainLoop() 

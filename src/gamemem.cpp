@@ -46,7 +46,7 @@ void GameMem::AllocateMempools(void) {
     u32 size;
     int heap;
 
-    SetCurrentMempool(0);
+    set_current_mempool(0);
 
     Gamemem_info.persistant_data = AllocateArray(0x363800, "gamemem.cpp", 168);
     Copy(&Gamemem_info.persistantMempool, Gamemem_info.persistant_data, 0x363800, "persistant", 32);
@@ -63,12 +63,12 @@ void GameMem::AllocateMempools(void) {
     Gamemem_info.perlevel_data = AllocateArray(size, "gamemem.cpp", 181);
     Copy(&Gamemem_info.perlevelMempool, Gamemem_info.perlevel_data, size, "perlevel", 16);
     ResetOffset(&Gamemem_info.perlevelMempool);
-    SetCurrentMempool(&Gamemem_info.perlevelMempool);
+    set_current_mempool(&Gamemem_info.perlevelMempool);
 
     Gamemem_info.cutscene_data = AllocateArray(0x234000, "gamemem.cpp", 191);
     Copy(&Gamemem_info.cutsceneMempool, Gamemem_info.cutscene_data, 0x234000, "cutscene", 16);
     ResetOffset(&Gamemem_info.cutsceneMempool);
-    SetCurrentMempool(&Gamemem_info.cutsceneMempool);
+    set_current_mempool(&Gamemem_info.cutsceneMempool);
 
     Gamemem_info.summon_data = AllocateArray(0xf0000, "gamemem.cpp", 198);
     Copy(&Gamemem_info.summonMempool, Gamemem_info.summon_data, 0xf0000, "summon", 32);
@@ -81,7 +81,7 @@ void GameMem::AllocateMempools(void) {
     Gamemem_info.summon_mempool_active = false;
     Gamemem_info.spellslot_mempool_active = false;
 
-    SetCurrentMempool(0);
+    set_current_mempool(0);
     gHeapAlloc = false;
 }
 

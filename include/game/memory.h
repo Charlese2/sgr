@@ -24,10 +24,10 @@ void FreeArray(void * memoryAddress) throw ();
 void Copy(Memory * mem_pool, char *destination, u32 size, char * name, u8 alignment);
 char* AllocateInPool(Memory* pool, u32 size);
 
-BOOL IsFinished();
+void set_current_mempool(Memory * memory);
+Memory* get_current_mempool(void);
 
-void SetCurrentMempool(Memory * memory);
-Memory* GetCurrentMempool(void);
+BOOL is_mempool_active();
 
 u32 GetCommonBlockSpaceFree();
 void* AllocateInCommonBlock(u32 amount);
