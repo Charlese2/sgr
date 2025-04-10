@@ -15,8 +15,8 @@ typedef struct {
     char pool_name[19];
 } Memory;
 
-char* Allocate(size_t amount, const char * file, int line);
-char* AllocateArray(size_t amount, const char * file, int line);
+char* Allocate(size_t amount, char * file, int line);
+char* AllocateArray(size_t amount, char * file, int line);
 
 void Free(void * memoryAddress) throw();
 void FreeArray(void * memoryAddress) throw ();
