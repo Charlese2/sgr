@@ -548,16 +548,92 @@ pathfinding_support.cpp:
 	extabindex  start:0x8000F8EC end:0x8000F994
 	.text       start:0x800E7118 end:0x800E905C
 
+ezuran.cpp:
+	extab       start:0x80008500 end:0x80008588
+	extabindex  start:0x8000F994 end:0x8000FA60
+	.text       start:0x800E90AC end:0x800EB020
+	.ctors      start:0x801EE93C end:0x801EE940
+
+azraman.cpp:
+	extab       start:0x80008588 end:0x800085E0
+	extabindex  start:0x8000FA60 end:0x8000FAE4
+	.text       start:0x800EB020 end:0x800EC53C
+	.ctors      start:0x801EE940 end:0x801EE944
+
+imarbeth_galdyr.cpp:
+	extab       start:0x800085E0 end:0x80008630
+	extabindex  start:0x8000FAE4 end:0x8000FB5C
+	.text       start:0x800EC53C end:0x800ED438
+	.ctors      start:0x801EE944 end:0x801EE948
+
+judges.cpp:
+	extab       start:0x80008630 end:0x80008678
+	extabindex  start:0x8000FB5C end:0x8000FBC8
+	.text       start:0x800ED438 end:0x800EE1D0
+	.ctors      start:0x801EE948 end:0x801EE94C
+
+imarbeth_demon.cpp:
+	extab       start:0x80008678 end:0x800086C8
+	extabindex  start:0x8000FBC8 end:0x8000FC40
+	.text       start:0x800EE1D0 end:0x800EF49C
+	.ctors      start:0x801EE94C end:0x801EE950
+
+ushandul.cpp:
+	extab       start:0x800086C8 end:0x80008700
+	extabindex  start:0x8000FC40 end:0x8000FC94
+	.text       start:0x800EF49C end:0x800F03E0
+	.ctors      start:0x801EE950 end:0x801EE954
+
+sharangir.cpp:
+	extab       start:0x80008700 end:0x80008758
+	extabindex  start:0x8000FC94 end:0x8000FD18
+	.text       start:0x800F03E0 end:0x800F11B0
+	.ctors      start:0x801EE954 end:0x801EE958
+
+gametarget.cpp:
+	extab       start:0x80008758 end:0x800087A0
+	extabindex  start:0x8000FD18 end:0x8000FD84
+	.text       start:0x800F11B0 end:0x800F25E8
+	.ctors      start:0x801EE958 end:0x801EE95C
+
+inv.cpp:
+	extab       start:0x800087A0 end:0x80008808
+	extabindex  start:0x8000FD84 end:0x8000FE20
+	.text       start:0x800F25E8 end:0x800F5CEC
+
+objectshadow.cpp:
+	extab       start:0x80008828 end:0x800088A0
+	extabindex  start:0x8000FE50 end:0x8000FEE0
+	.text       start:0x800F6900 end:0x800F78B0
+
 gameload.cpp:
-	extab       start:0x800088B0 end:0x800088B8
-	extabindex  start:0x8000FEF8 end:0x8000FF04
-	.text       start:0x800F8074 end:0x800F82A4
+	extab       start:0x800088A0 end:0x800088B8
+	extabindex  start:0x8000FEE0 end:0x8000FF04
+	.text       start:0x800F78B0 end:0x800F82A4
+
+new_use.cpp:
+	extab       start:0x800088C8 end:0x80008958
+	extabindex  start:0x8000FF1C end:0x8000FFF4
+	.text       start:0x800F8518 end:0x800FC094
+	.ctors      start:0x801EE95C end:0x801EE960
 
 level_scripts.cpp:
 	extab       start:0x80008958 end:0x80008A10
 	extabindex  start:0x8000FFF4 end:0x80010108
 	.text       start:0x800FC094 end:0x800FE7E8
 	.ctors      start:0x801EE960 end:0x801EE964
+
+camera.cpp:
+	extab       start:0x80008A10 end:0x80008AC8
+	extabindex  start:0x80010108 end:0x8001021C
+	.text       start:0x800FE7F0 end:0x80101964
+	.ctors      start:0x801EE964 end:0x801EE968
+
+camera_script.cpp:
+	extab       start:0x80008AC8 end:0x80008B10
+	extabindex  start:0x8001021C end:0x80010288
+	.text       start:0x80101964 end:0x801034E8
+	.ctors      start:0x801EE968 end:0x801EE96C
 
 new_hud.cpp:
 	extab       start:0x80008D6C end:0x80008D94
