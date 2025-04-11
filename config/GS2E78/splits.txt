@@ -680,29 +680,93 @@ ac_hud.cpp:
 	.text       start:0x8011A314 end:0x8011C5C0
 	.ctors      start:0x801EE97C end:0x801EE980
 
+gr_3d_clipper.cpp:
+	extab       start:0x80009024 end:0x8000903C
+	extabindex  start:0x80010A08 end:0x80010A2C
+	.text       start:0x8011C5C0 end:0x8011CA18
+	.ctors      start:0x801EE980 end:0x801EE984
+
+bbox.cpp:
+	.text       start:0x8011CA18 end:0x8011CD3C
+
+new_buysell.cpp:
+	extab       start:0x8000903C end:0x800090CC
+	extabindex  start:0x80010A2C end:0x80010B04
+	.text       start:0x8011CD3C end:0x80120768
+	.ctors      start:0x801EE984 end:0x801EE988
+
+unknown4.cpp:
+	extab       start:0x800090CC end:0x800090EC
+	extabindex  start:0x80010B04 end:0x80010B34
+	.text       start:0x80120768 end:0x80120A58
+	.ctors      start:0x801EE988 end:0x801EE98C
+
+new_shooting_game.cpp:
+	extab       start:0x80009114 end:0x80009134
+	extabindex  start:0x80010B70 end:0x80010BA0
+	.text       start:0x80122E80 end:0x80123598
+	.ctors      start:0x801EE98C end:0x801EE990
+
 cutscene.cpp:
-	extab       start:0x80009184 end:0x800091DC
-	extabindex  start:0x80010C18 end:0x80010C54
-	.text       start:0x80124058 end:0x80124ED4
+	extab       start:0x80009134 end:0x800091E4
+	extabindex  start:0x80010BA0 end:0x80010C60
+	.text       start:0x80123598 end:0x801251C8
 	.ctors      start:0x801EE990 end:0x801EE994
 
 level_sequences.cpp:
-	extab       start:0x800094BC end:0x8000991C
-	extabindex  start:0x800110A4 end:0x80011734
-	.text       start:0x8012BC1C end:0x801370D0
+	extab       start:0x800091E4 end:0x8000991C
+	extabindex  start:0x80010C60 end:0x80011734
+	.text       start:0x801251C8 end:0x801370E8
 	.ctors      start:0x801EE994 end:0x801EE998
 
+unknown5.cpp:
+	extab       start:0x8000991C end:0x8000995C
+	extabindex  start:0x80011734 end:0x80011794
+	.text       start:0x801370E8 end:0x80138884
+
 water_ripples.cpp:
-	extab       start:0x8000999C end:0x800099BC
-	extabindex  start:0x800117F4 end:0x80011824
-	.text       start:0x801396F8 end:0x8013A4D4
-	.ctors      start:0x801EE99C end:0x801EE9A0
+	extab       start:0x80009964 end:0x800099BC
+	extabindex  start:0x800117A0 end:0x80011824
+	.text       start:0x80138BBC end:0x8013A4D4
+	.ctors      start:0x801EE998 end:0x801EE9A0
+
+birds.cpp:
+	extab       start:0x800099BC end:0x800099E4
+	extabindex  start:0x80011824 end:0x80011860
+	.text       start:0x8013A4D4 end:0x8013B23C
+	.ctors      start:0x801EE9A0 end:0x801EE9A4
 
 rain.cpp:
-	extab       start:0x80009A14 end:0x80009A24
-	extabindex  start:0x800118A8 end:0x800118C0
-	.text       start:0x8013BBB4 end:0x8013BEAC
+	extab       start:0x800099E4 end:0x80009A24
+	extabindex  start:0x80011860 end:0x800118C0
+	.text       start:0x8013B23C end:0x8013BEAC
 	.ctors      start:0x801EE9A4 end:0x801EE9A8
+
+trees.cpp:
+	extab       start:0x80009A24 end:0x80009A3C
+	extabindex  start:0x800118C0 end:0x800118E4
+	.text       start:0x8013BEAC end:0x8013C404
+
+unknown6.cpp:
+	extab       start:0x80009A3C end:0x80009A4C
+	extabindex  start:0x800118E4 end:0x800118FC
+	.text       start:0x8013C404 end:0x8013C634
+	.ctors      start:0x801EE9A8 end:0x801EE9AC
+
+unknown7.cpp:
+	extab       start:0x80009A4C end:0x80009A54
+	extabindex  start:0x800118FC end:0x80011908
+	.text       start:0x8013C634 end:0x8013C778
+
+mainmenu.cpp:
+	extab       start:0x80009A54 end:0x80009A84
+	extabindex  start:0x80011908 end:0x80011950
+	.text       start:0x8013C778 end:0x8013C9FC
+
+unknown8.cpp:
+	extab       start:0x80009A84 end:0x80009A94
+	extabindex  start:0x80011950 end:0x80011968
+	.text       start:0x8013C9FC end:0x8013CA54
 
 pathfinding_debug.cpp:
 	extab       start:0x80009A94 end:0x80009AB4
@@ -714,6 +778,11 @@ level_scripts_loadsave.cpp:
 	extab       start:0x80009AB4 end:0x80009B3C
 	extabindex  start:0x80011998 end:0x80011A1C
 	.text       start:0x8013D028 end:0x80140998
+
+ai_combat.cpp:
+	extab       start:0x80009B64 end:0x80009BC4
+	extabindex  start:0x80011A58 end:0x80011AE8
+	.text       start:0x80142278 end:0x80144984
 
 level_sequences_loadsave.cpp:
 	extab       start:0x80009BCC end:0x8000A0DC
@@ -753,6 +822,11 @@ plainstring.cpp:
 	extab       start:0x8000A19C end:0x8000A1CC
 	extabindex  start:0x8001234C end:0x80012394
 	.text       start:0x80150D18 end:0x801511CC
+
+unknown9.cpp:
+	extab       start:0x8000A1CC end:0x8000A1F4
+	extabindex  start:0x80012394 end:0x800123D0
+	.text       start:0x801511CC end:0x8015152C
 
 FileSystem.cpp:
 	extab       start:0x8000A25C end:0x8000A274
