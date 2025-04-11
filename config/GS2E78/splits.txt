@@ -829,9 +829,9 @@ unknown9.cpp:
 	.text       start:0x801511CC end:0x8015152C
 
 FileSystem.cpp:
-	extab       start:0x8000A25C end:0x8000A274
-	extabindex  start:0x8001246C end:0x80012490
-	.text       start:0x80151CE8 end:0x80151F14
+	extab       start:0x8000A1F4 end:0x8000A274
+	extabindex  start:0x800123D0 end:0x80012490
+	.text       start:0x8015152C end:0x80151F14
 	.ctors      start:0x801EE9B4 end:0x801EE9B8
 
 PackFileSystem.cpp:
@@ -841,10 +841,20 @@ PackFileSystem.cpp:
 	.ctors      start:0x801EE9B8 end:0x801EE9BC
 	.bss        start:0x803C16CC end:0x803C16F0
 
+LFile.cpp:
+	extab       start:0x8000A2D4 end:0x8000A2FC
+	extabindex  start:0x800124FC end:0x80012538
+	.text       start:0x80152AA0 end:0x80152D80
+
+file_or_buffer.cpp:
+	extab       start:0x8000A2FC end:0x8000A334
+	extabindex  start:0x80012538 end:0x8001258C
+	.text       start:0x80152D80 end:0x80153414
+
 NGCSystem.cpp:
-	extab       start:0x8000A344 end:0x8000A364
-	extabindex  start:0x800125A4 end:0x800125D4
-	.text       start:0x801535B4 end:0x8015461C
+	extab       start:0x8000A334 end:0x8000A35C
+	extabindex  start:0x8001258C end:0x800125C8
+	.text       start:0x80153464 end:0x801540C4
 
 MemSystem.cpp:
 	extab       start:0x8000A36C end:0x8000A384
@@ -869,26 +879,57 @@ LevelManager.cpp:
 	.sbss       start:0x804755C8 end:0x804755D0
 
 RenderSystem.cpp:
-	extab       start:0x8000A414 end:0x8000A4E4
-	extabindex  start:0x800126B8 end:0x800127F0
-	.text       start:0x80155AE0 end:0x80157A88
+	extab       start:0x8000A40C end:0x8000A4E4
+	extabindex  start:0x800126AC end:0x800127F0
+	.text       start:0x801558B8 end:0x80157A88
 	.ctors      start:0x801EE9C8 end:0x801EE9CC
 
 gr_ngc.cpp:
-	extab       start:0x8000A4E4 end:0x8000A534
-	extabindex  start:0x800127F0 end:0x80012838
-	.text       start:0x80157A88 end:0x801580F4
+	extab       start:0x8000A4E4 end:0x8000A5D4
+	extabindex  start:0x800127F0 end:0x800128D4
+	.text       start:0x80157A88 end:0x80158F54
 
 S3dConvert.cpp:
 	extab       start:0x8000A5D4 end:0x8000A5DC
 	extabindex  start:0x800128D4 end:0x800128E0
-	.text       start:0x80158F78 end:0x80159354
+	.text       start:0x80158F54 end:0x8015935C
 
 Cranky/am/am.c:
 	extab       start:0x8000A5DC end:0x8000A5FC
 	extabindex  start:0x800128E0 end:0x80012910
 	.text       start:0x8015935C end:0x80159968
 	.bss        start:0x803E4D50 end:0x803ED150
+
+s3d.cpp:
+	extab       start:0x8000A5FC end:0x8000A6A4
+	extabindex  start:0x80012910 end:0x80012A0C
+	.text       start:0x80159968 end:0x8015BA28
+
+S3dCollide.cpp:
+	extab       start:0x8000A6A4 end:0x8000A6CC
+	extabindex  start:0x80012A0C end:0x80012A48
+	.text       start:0x8015BA28 end:0x8015C9B8
+	.ctors      start:0x801EE9CC end:0x801EE9D0
+
+spline.cpp:
+	extab       start:0x8000A6D4 end:0x8000A6DC
+	extabindex  start:0x80012A54 end:0x80012A60
+	.text       start:0x8015CC64 end:0x8015D144
+
+bitarray.cpp:
+	.text       start:0x8015D144 end:0x8015D170
+
+elder_priestess.cpp:
+	extab       start:0x8000A6DC end:0x8000A704
+	extabindex  start:0x80012A60 end:0x80012A9C
+	.text       start:0x8015D170 end:0x8015E09C
+	.ctors      start:0x801EE9D0 end:0x801EE9D4
+
+mud_god.cpp:
+	extab       start:0x8000A704 end:0x8000A724
+	extabindex  start:0x80012A9C end:0x80012ACC
+	.text       start:0x8015E09C end:0x8015E9CC
+	.ctors      start:0x801EE9D4 end:0x801EE9D8
 
 lore.cpp:
 	extab       start:0x8000A814 end:0x8000A844
