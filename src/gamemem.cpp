@@ -5,14 +5,14 @@
 #include "macros.h"
 #include <stdio.h>
 
-bool gamemem_active;
+GameMem Gamemem_info;
 bool show_game_mem_prints;
 bool show_mempool_usage;
-GameMem Gamemem_info;
+bool gamemem_active;
 extern MemSystem gMemSystem;
 
-static console_command toggle_show_game_mem_prints;
-static console_command toggle_show_mempool_usage;
+console_command toggle_show_game_mem_prints;
+console_command toggle_show_mempool_usage;
 
 GameMem::GameMem() {
 #ifdef DEBUG
@@ -162,6 +162,10 @@ void GameMem::ClearPerlevelMempool(void) {
 void GameMem::ActivatePersistantMempool(void) {
     persistant_mempool_active = true;
     ResetOffset(&persistantMempool);
+}
+
+GameMem * GameMem::GetGameMem(void){
+    return this;
 }
 
 Memory * GameMem::GetSoundMempool(void) {

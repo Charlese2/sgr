@@ -38,6 +38,8 @@ char* AllocateArray(size_t size, char* file, int line) {
 }
 
 void Free(void * p) throw () {
+    DEBUGASSERTLINE(193, p != NULL);
+    DEBUGASSERTLINE(194, Pool == NULL);
     OSFreeToHeap(__OSCurrHeap, p);
 }
 

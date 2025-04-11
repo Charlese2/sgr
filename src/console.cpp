@@ -1,5 +1,7 @@
 #include "game/console.h"
 
+static console_command console_commands[100];
+
 void print_commands_to_file() {
 
 }
