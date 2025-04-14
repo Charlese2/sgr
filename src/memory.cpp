@@ -12,40 +12,40 @@ extern s32 Common_block_allocation_amount[2];
 volatile extern OSHeapHandle __OSCurrHeap;
 bool gHeapAlloc;
 
-char* Allocate(size_t size, char* file, int line) {
-    int t;
+void * operator new(size_t size, char* file, int line) {
+    void * t;
     char stringbuf[128];
     if (Pool) {
-        t = (int)AllocateInPool(Pool, size);
+        t = AllocateInPool(Pool, size);
     } else {
         DEBUGASSERTLINE(100, gHeapAlloc == true);
         DEBUGASSERTLINE(102, size > 0);
         
-        t = (int)OSAllocFromHeap(__OSCurrHeap, size);
-        if ((void*)t == NULL) {
+        t = OSAllocFromHeap(__OSCurrHeap, size);
+        if (t == NULL) {
             sprintf(stringbuf, "Failed to allocate %d bytes\n", size);
             DEBUGERRORLINE(108, stringbuf);
-            t = 0;
+            t = NULL;
         } else {
             DEBUGASSERTLINE(114, (t & 15) == 0);
         }
     }
-    return (char*)t;
+    return t;
 }
 
-char* AllocateArray(size_t size, char* file, int line) {
-    return Allocate(size, file, line);
+void* operator new [](size_t size, char* file, int line) {
+    return ::operator new(size, file, line);
 }
 
-void Free(void * p) throw () {
+void operator delete(void * p) throw () {
     DEBUGASSERTLINE(193, p != NULL);
     DEBUGASSERTLINE(194, Pool == NULL);
     OSFreeToHeap(__OSCurrHeap, p);
 }
 
 
-void FreeArray(void * p) throw () {
-    Free(p);
+void operator delete[](void * p) throw () {
+    ::operator delete (p);
 }
 
 void Copy(Memory* mem_pool,  char* destination, u32 size, char* _name, u8 alignment) {
