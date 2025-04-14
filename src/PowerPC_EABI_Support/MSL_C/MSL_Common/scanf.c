@@ -1,4 +1,11 @@
 #include "scanf.h"
+#include <cstdarg>
+
+static int __sformatter(int (*ReadProc)(void *, int, int), void * ReadProcArg,
+                                            const char * format_str, va_list arg, int is_secure)
+{
+
+}
 
 int __StringRead(void* pPtr, int ch, int act) {
     char ret;
@@ -30,4 +37,24 @@ int __StringRead(void* pPtr, int ch, int act) {
     }
 
     return 0;
+}
+
+inline int vsscanf(const char *s, const char *format, va_list arg) {
+    __InStrCtrl isc;
+    isc.NextChar = (char*)s;
+
+    if ((s == 0) || (*isc.NextChar == '\0')) {
+        return -1;
+    }
+
+    isc.NullCharDetected = 0;
+    return __sformatter(&__StringRead, (void*)&isc, format, arg, 0);
+}
+
+int sscanf(const char* str, const char* format, ...) {
+    va_list args;
+    int done;
+
+    va_start (args, format);
+    return vsscanf(str, format, args);
 }

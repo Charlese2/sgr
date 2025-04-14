@@ -1666,10 +1666,14 @@ PowerPC_EABI_Support/Runtime/__init_cpp_exceptions.cpp:
 	.dtors      start:0x801EEA60 end:0x801EEA68
 	.sdata      start:0x804742B8 end:0x804742BC
 
+PowerPC_EABI_Support/Runtime/setjmp.cpp:
+	.text       start:0x801B8580 end:0x801B8794
+
 PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.cp:
 	extab       start:0x8000B34C end:0x8000B3C0
 	extabindex  start:0x80013B70 end:0x80013BC4
-	.text       start:0x801B8580 end:0x801B9BC0
+	.text       start:0x801B8794 end:0x801B9BCC
+	.rodata     start:0x80202740 end:0x802027D8
 	.data       start:0x80219040 end:0x80219138
 	.bss        start:0x80472160 end:0x80472170
 
@@ -1740,10 +1744,13 @@ PowerPC_EABI_Support/MSL_C/MSL_Common/printf.c:
 	.sdata2     start:0x8047AA90 end:0x8047AA98
 
 PowerPC_EABI_Support/MSL_C/MSL_Common/scanf.c:
-	.text       start:0x801BF490 end:0x801BF520
+	.text       start:0x801BF3CC end:0x801C0414
+
+PowerPC_EABI_Support/MSL_C/MSL_Common/signal.c:
+	.text       start:0x801C0414 end:0x801C04C4
 
 PowerPC_EABI_Support/MSL_C/MSL_Common/string.c:
-	.text       start:0x801C0738 end:0x801C0A5C
+	.text       start:0x801C04C4 end:0x801C0A5C
 
 PowerPC_EABI_Support/MSL_C/MSL_Common/strtoul.c:
 	.text       start:0x801C1BB4 end:0x801C2428
