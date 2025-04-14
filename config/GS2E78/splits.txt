@@ -1076,9 +1076,9 @@ new_extras.cpp:
 	.ctors      start:0x801EEA0C end:0x801EEA10
 
 new_help.cpp:
-	extab       start:0x8000AB7C end:0x8000ABA4
-	extabindex  start:0x800130CC end:0x800130E4
-	.text       start:0x8016CD6C end:0x8016D0B8
+	extab       start:0x8000AB1C end:0x8000ABA4
+	extabindex  start:0x8001303C end:0x800130E4
+	.text       start:0x8016B550 end:0x8016D0B8
 	.ctors      start:0x801EEA10 end:0x801EEA14
 
 new_gem_minigame.cpp:
@@ -1167,9 +1167,9 @@ sound_3d.cpp:
 	.ctors      start:0x801EEA40 end:0x801EEA44
 
 SoundConvert.cpp:
-	extab       start:0x8000B0AC end:0x8000B104
-	extabindex  start:0x80013828 end:0x80013894
-	.text       start:0x80183104 end:0x80183498
+	extab       start:0x8000B034 end:0x8000B104
+	extabindex  start:0x80013774 end:0x80013894
+	.text       start:0x801829B4 end:0x80183498
 	.ctors      start:0x801EEA44 end:0x801EEA48
 
 MusicSystem.cpp:
