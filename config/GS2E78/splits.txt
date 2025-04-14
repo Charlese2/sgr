@@ -931,17 +931,143 @@ mud_god.cpp:
 	.text       start:0x8015E09C end:0x8015E9CC
 	.ctors      start:0x801EE9D4 end:0x801EE9D8
 
+khargathalan_int.cpp:
+	extab       start:0x8000A724 end:0x8000A75C
+	extabindex  start:0x80012ACC end:0x80012B20
+	.text       start:0x8015E9CC end:0x8015F8E0
+	.ctors      start:0x801EE9D8 end:0x801EE9DC
+
+khargathalan_tower.cpp:
+	extab       start:0x8000A75C end:0x8000A77C
+	extabindex  start:0x80012B20 end:0x80012B50
+	.text       start:0x8015F8E0 end:0x8015FECC
+	.ctors      start:0x801EE9DC end:0x801EE9E0
+
+tempest_ros.cpp:
+	extab       start:0x8000A77C end:0x8000A7D4
+	extabindex  start:0x80012B50 end:0x80012BD4
+	.text       start:0x8015FECC end:0x80161BB0
+	.ctors      start:0x801EE9E0 end:0x801EE9E4
+
+unknown10.cpp:
+	extab       start:0x8000A7D4 end:0x8000A804
+	extabindex  start:0x80012BD4 end:0x80012C1C
+	.text       start:0x80161BB0 end:0x801624B8
+	.ctors      start:0x801EE9E4 end:0x801EE9E8
+
 lore.cpp:
-	extab       start:0x8000A814 end:0x8000A844
-	extabindex  start:0x80012C34 end:0x80012C58
-	.text       start:0x801627A8 end:0x80162B90
+	extab       start:0x8000A804 end:0x8000A844
+	extabindex  start:0x80012C1C end:0x80012C58
+	.text       start:0x801624B8 end:0x80162B90
 	.ctors      start:0x801EE9E8 end:0x801EE9EC
 
 quests.cpp:
-	extab       start:0x8000A84C end:0x8000A874
-	extabindex  start:0x80012C64 end:0x80012C7C
-	.text       start:0x80162D74 end:0x80163118
+	extab       start:0x8000A844 end:0x8000A874
+	extabindex  start:0x80012C58 end:0x80012C7C
+	.text       start:0x80162B90 end:0x80163118
 	.ctors      start:0x801EE9EC end:0x801EE9F0
+
+level_coral_grotto_boss.cpp:
+	extab       start:0x8000A874 end:0x8000A89C
+	extabindex  start:0x80012C7C end:0x80012CB8
+	.text       start:0x80163118 end:0x80163318
+
+level_coral_grotto.cpp:
+	extab       start:0x8000A89C end:0x8000A8A4
+	extabindex  start:0x80012CB8 end:0x80012CC4
+	.text       start:0x80163318 end:0x801633B8
+
+level_eleh2.cpp:
+	extab       start:0x8000A8A4 end:0x8000A8D4
+	extabindex  start:0x80012CC4 end:0x80012D0C
+	.text       start:0x801633B8 end:0x80163B8C
+
+level_endgame_boss.cpp:
+	extab       start:0x8000A8D4 end:0x8000A8DC
+	extabindex  start:0x80012D0C end:0x80012D18
+	.text       start:0x80163B8C end:0x80163C0C
+
+level_endgame.cpp:
+	extab       start:0x8000A8DC end:0x8000A904
+	extabindex  start:0x80012D18 end:0x80012D54
+	.text       start:0x80163C0C end:0x801643A4
+	.ctors      start:0x801EE9F0 end:0x801EE9F4
+
+level_galdyr_pass.cpp:
+	extab       start:0x8000A904 end:0x8000A934
+	extabindex  start:0x80012D54 end:0x80012D9C
+	.text       start:0x801643A4 end:0x80165468
+	.ctors      start:0x801EE9F4 end:0x801EE9F8
+
+level_khargathalan.cpp:
+	extab       start:0x8000A934 end:0x8000A93C
+	extabindex  start:0x80012D9C end:0x80012DA8
+	.text       start:0x80165468 end:0x801654D0
+
+level_mud_god.cpp:
+	extab       start:0x8000A93C end:0x8000A94C
+	extabindex  start:0x80012DA8 end:0x80012DC0
+	.text       start:0x801654D0 end:0x801656B4
+
+level_mud_god_boss.cpp:
+	extab       start:0x8000A94C end:0x8000A964
+	extabindex  start:0x80012DC0 end:0x80012DE4
+	.text       start:0x801656B4 end:0x80165968
+
+level_munari_city.cpp:
+	extab       start:0x8000A964 end:0x8000A994
+	extabindex  start:0x80012DE4 end:0x80012E2C
+	.text       start:0x80165968 end:0x801660D0
+	.ctors      start:0x801EE9F8 end:0x801EE9FC
+
+level_indubal.cpp:
+	extab       start:0x8000A994 end:0x8000A99C
+	extabindex  start:0x80012E2C end:0x80012E38
+	.text       start:0x801660D0 end:0x8016629C
+
+level_nhuvasarim.cpp:
+	extab       start:0x8000A99C end:0x8000A9E4
+	extabindex  start:0x80012E38 end:0x80012EA4
+	.text       start:0x8016629C end:0x80167A20
+	.ctors      start:0x801EE9FC end:0x801EEA00
+
+level_pirate_base_int.cpp:
+	extab       start:0x8000A9E4 end:0x8000A9EC
+	extabindex  start:0x80012EA4 end:0x80012EB0
+	.text       start:0x80167A20 end:0x80167A54
+
+level_sharangir.cpp:
+	extab       start:0x8000A9EC end:0x8000A9FC
+	extabindex  start:0x80012EB0 end:0x80012EC8
+	.text       start:0x80167A54 end:0x80167CD0
+	.ctors      start:0x801EEA00 end:0x801EEA04
+
+level_tamirath_citadel.cpp:
+	extab       start:0x8000A9FC end:0x8000AA34
+	extabindex  start:0x80012EC8 end:0x80012F1C
+	.text       start:0x80167CD0 end:0x80168284
+	.ctors      start:0x801EEA04 end:0x801EEA08
+
+loading.cpp:
+	extab       start:0x8000AA34 end:0x8000AA54
+	extabindex  start:0x80012F1C end:0x80012F4C
+	.text       start:0x80168284 end:0x80168524
+
+new_assess.cpp:
+	extab       start:0x8000AA5C end:0x8000AA74
+	extabindex  start:0x80012F58 end:0x80012F7C
+	.text       start:0x8016874C end:0x801693D0
+
+new_cutscene.cpp:
+	extab       start:0x8000AA74 end:0x8000AA84
+	extabindex  start:0x80012F7C end:0x80012F94
+	.text       start:0x801693D0 end:0x801695B0
+
+new_credits.cpp:
+	extab       start:0x8000AA84 end:0x8000AAE4
+	extabindex  start:0x80012F94 end:0x80012FE8
+	.text       start:0x801695B0 end:0x8016A4F8
+	.ctors      start:0x801EEA08 end:0x801EEA0C
 
 new_extras.cpp:
 	extab       start:0x8000AAE4 end:0x8000AB1C
@@ -955,16 +1081,74 @@ new_help.cpp:
 	.text       start:0x8016CD6C end:0x8016D0B8
 	.ctors      start:0x801EEA10 end:0x801EEA14
 
+new_gem_minigame.cpp:
+	extab       start:0x8000ABA4 end:0x8000ABD4
+	extabindex  start:0x800130E4 end:0x8001312C
+	.text       start:0x8016D0B8 end:0x8016E934
+	.ctors      start:0x801EEA14 end:0x801EEA18
+
+new_loadsave.cpp:
+	extab       start:0x8000ABD4 end:0x8000AC74
+	extabindex  start:0x8001312C end:0x8001321C
+	.text       start:0x8016E934 end:0x801714C4
+	.ctors      start:0x801EEA18 end:0x801EEA1C
+
+new_mainmenu_anim.cpp:
+	extab       start:0x8000AC74 end:0x8000ACD4
+	extabindex  start:0x8001321C end:0x800132AC
+	.text       start:0x801714C4 end:0x8017385C
+	.ctors      start:0x801EEA1C end:0x801EEA20
+
+new_munari_lab.cpp:
+	extab       start:0x8000ACD4 end:0x8000AD04
+	extabindex  start:0x800132AC end:0x800132F4
+	.text       start:0x8017385C end:0x80174000
+
+new_options.cpp:
+	extab       start:0x8000AD04 end:0x8000AD64
+	extabindex  start:0x800132F4 end:0x80013384
+	.text       start:0x80174000 end:0x80175E9C
+	.ctors      start:0x801EEA20 end:0x801EEA24
+
+new_munari_shell.cpp:
+	extab       start:0x8000AD64 end:0x8000AD9C
+	extabindex  start:0x80013384 end:0x800133D8
+	.text       start:0x80175E9C end:0x8017742C
+	.ctors      start:0x801EEA24 end:0x801EEA28
+
 new_tutorial.cpp:
 	extab       start:0x8000AD9C end:0x8000ADEC
 	extabindex  start:0x800133D8 end:0x8001342C
 	.text       start:0x8017742C end:0x80178438
 	.ctors      start:0x801EEA28 end:0x801EEA2C
 
+new_worldmap.cpp:
+	extab       start:0x8000ADEC end:0x8000AE2C
+	extabindex  start:0x8001342C end:0x8001348C
+	.text       start:0x80178438 end:0x8017A670
+	.ctors      start:0x801EEA2C end:0x801EEA30
+
+new_weapon_minigame.cpp:
+	extab       start:0x8000AE2C end:0x8000AE6C
+	extabindex  start:0x8001348C end:0x800134EC
+	.text       start:0x8017A670 end:0x8017D0FC
+	.ctors      start:0x801EEA30 end:0x801EEA34
+
+new_save.cpp:
+	extab       start:0x8000AE6C end:0x8000AE7C
+	extabindex  start:0x800134EC end:0x80013504
+	.text       start:0x8017D0FC end:0x8017D264
+
+new_avoidance_area.cpp:
+	extab       start:0x8000AE7C end:0x8000AEAC
+	extabindex  start:0x80013504 end:0x8001354C
+	.text       start:0x8017D264 end:0x8017D9F0
+	.ctors      start:0x801EEA34 end:0x801EEA38
+
 SoundSystem.cpp:
 	extab       start:0x8000AEAC end:0x8000AF64
 	extabindex  start:0x8001354C end:0x80013660
-	.text       start:0x8017D9EC end:0x80180438
+	.text       start:0x8017D9F0 end:0x80180438
 	.ctors      start:0x801EEA38 end:0x801EEA3C
 	.rodata     start:0x80201664 end:0x802016E0
 	.bss        start:0x80410320 end:0x8041F960
@@ -994,6 +1178,11 @@ MusicSystem.cpp:
 	.text       start:0x801834B0 end:0x80184838
 	.ctors      start:0x801EEA48 end:0x801EEA4C
 
+MusicConvert.cpp:
+	extab       start:0x8000B164 end:0x8000B19C
+	extabindex  start:0x80013924 end:0x80013978
+	.text       start:0x80184838 end:0x801849B4
+
 memcard.cpp:
 	extab       start:0x8000B19C end:0x8000B204
 	extabindex  start:0x80013978 end:0x800139FC
@@ -1007,6 +1196,12 @@ console.cpp:
 	.ctors      start:0x801EEA50 end:0x801EEA54
 	.bss        start:0x804385F0 end:0x80438C30
 	.sbss       start:0x80475BB4 end:0x80475BB8
+
+new_decals.cpp:
+	extab       start:0x8000B2AC end:0x8000B2DC
+	extabindex  start:0x80013AB0 end:0x80013AF8
+	.text       start:0x8018929C end:0x8018A788
+	.ctors      start:0x801EEA54 end:0x801EEA58
 
 dolphin/base/PPCArch.c:
 	.text       start:0x8018A788 end:0x8018A824
