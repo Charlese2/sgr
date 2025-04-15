@@ -1,5 +1,7 @@
 #include "game/gamemem.h"
 #include "game/console.h"
+#include "game/gr.h"
+#include "game/characterinfo.h"
 #include "dolphin/os/OSAlloc.h"
 #include "dolphin/os.h"
 #include "macros.h"
@@ -48,11 +50,11 @@ void GameMem::AllocateMempools(void) {
 
     set_current_mempool(0);
 
-    Gamemem_info.persistant_data = AllocateArray(0x363800, "gamemem.cpp", 168);
+    Gamemem_info.persistant_data = (char*)operator new[](0x363800, "gamemem.cpp", 168);
     Copy(&Gamemem_info.persistantMempool, Gamemem_info.persistant_data, 0x363800, "persistant", 32);
     ResetOffset(&Gamemem_info.persistantMempool);
 
-    Gamemem_info.sound_data = AllocateArray(0x10000, "gamemem.cpp", 174);
+    Gamemem_info.sound_data = (char*)operator new[](0x10000, "gamemem.cpp", 174);
     Copy(&Gamemem_info.soundMempool, Gamemem_info.sound_data, 0x10000, "sound", 16);
     ResetOffset(&Gamemem_info.soundMempool);
 
@@ -60,20 +62,20 @@ void GameMem::AllocateMempools(void) {
     size = OSCheckHeap(heap) - 0x1dc500;
     printf("Allocating %.2f KB for the perlevel mempool\n", size / 1024.0f );
 
-    Gamemem_info.perlevel_data = AllocateArray(size, "gamemem.cpp", 181);
+    Gamemem_info.perlevel_data = (char*)operator new[](size, "gamemem.cpp", 181);
     Copy(&Gamemem_info.perlevelMempool, Gamemem_info.perlevel_data, size, "perlevel", 16);
     ResetOffset(&Gamemem_info.perlevelMempool);
     set_current_mempool(&Gamemem_info.perlevelMempool);
 
-    Gamemem_info.cutscene_data = AllocateArray(0x234000, "gamemem.cpp", 191);
+    Gamemem_info.cutscene_data = (char*)operator new[](0x234000, "gamemem.cpp", 191);
     Copy(&Gamemem_info.cutsceneMempool, Gamemem_info.cutscene_data, 0x234000, "cutscene", 16);
     ResetOffset(&Gamemem_info.cutsceneMempool);
     set_current_mempool(&Gamemem_info.cutsceneMempool);
 
-    Gamemem_info.summon_data = AllocateArray(0xf0000, "gamemem.cpp", 198);
+    Gamemem_info.summon_data = (char*)operator new[](0xf0000, "gamemem.cpp", 198);
     Copy(&Gamemem_info.summonMempool, Gamemem_info.summon_data, 0xf0000, "summon", 32);
 
-    Gamemem_info.spellslot_data = AllocateArray(0x144000, "gamemem.cpp", 202);
+    Gamemem_info.spellslot_data = (char*)operator new[](0x144000, "gamemem.cpp", 202);
     Copy(&Gamemem_info.spellslotMempool, Gamemem_info.spellslot_data, 0x144000, "spellslot", 16);
 
     Gamemem_info.perlevel_mempool_active = false;
@@ -164,13 +166,39 @@ void GameMem::ActivatePersistantMempool(void) {
     ResetOffset(&persistantMempool);
 }
 
-GameMem * GameMem::GetGameMem(void){
+GameMem * GameMem::GetGameMem(void) {
     return this;
 }
 
 Memory * GameMem::GetSoundMempool(void) {
     return &soundMempool;
 }
+
+#ifdef DEBUG
+void GameMem::DisplayMempoolUsage() {
+    char buffer[240];
+    if (show_mempool_usage) {
+        GameMem *gamemem = Gamemem_info.GetGameMem();
+        sprintf(buffer, "Persistant: %5dKB of %5dKB in use\n", gamemem->persistantMempool.offset >> 10, gamemem->persistantMempool.size >> 10);
+        DrawTextOnScreen(10, 10, buffer, -1);
+
+        Memory *perlevel_mempool = Gamemem_info.GetPerlevelMempool();
+        sprintf(buffer, "Per Level:  %5dKB of %5dKB in use\n", perlevel_mempool->offset >> 10, perlevel_mempool->size >> 10);
+        draw_mempool_info_on_new_line(buffer, -1);
+
+        if (Gamemem_info.cutscene_mempool_is_active()) {
+            Memory *cutscene_mempool = Gamemem_info.GetCutsceneMempool();
+            sprintf(buffer, "Cutscene:   %5dKB of %5dKB in use\n", cutscene_mempool->offset >> 10, cutscene_mempool->size >> 10);
+            draw_mempool_info_on_new_line(buffer, -1);
+        } else if (Gamemem_info.summon_mempool_is_active()) {
+            Memory *summon_mempool = Gamemem_info.GetSummonMempool();
+            sprintf(buffer, "Summon:     %5dKB of %5dKB in use\n", summon_mempool->offset >> 10, summon_mempool->size >> 10);
+            draw_mempool_info_on_new_line(buffer, -1);
+        }
+        DisplayCharacterMeminfo(buffer);
+    }
+}
+#endif
 
 u32 GetHeapHandle(MemSystem * memSystem) {
     return memSystem->heapHandle;

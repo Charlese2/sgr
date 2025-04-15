@@ -3,6 +3,14 @@
 #include "dolphin/os.h"
 #include "game/macros.h"
 
+u32 current_allocations;
+u32 new_called;
+u32 delete_called;
+u32 highest_allocations;
+u32 current_allocation_amount;
+u32 highest_allocation_amount;
+
+bool gHeapAlloc;
 Memory * Pool;
 u32 Common_block_index; 
 u32 Bytes_used; 
@@ -10,27 +18,46 @@ char COMMON_BLOCK[COMMON_BLOCK_SIZE];
 const char empty[4000] = "";
 extern s32 Common_block_allocation_amount[2];
 volatile extern OSHeapHandle __OSCurrHeap;
-bool gHeapAlloc;
+
+int memory1;
+int memory2;
+int memory3;
+int memory4;
+int memory5;
+int memory6;
+int memory7;
+int memory8;
 
 void * operator new(size_t size, char* file, int line) {
-    void * t;
+    int t;
     char stringbuf[128];
     if (Pool) {
-        t = AllocateInPool(Pool, size);
+        t = (int)AllocateInPool(Pool, size);
     } else {
         DEBUGASSERTLINE(100, gHeapAlloc == true);
         DEBUGASSERTLINE(102, size > 0);
-        
-        t = OSAllocFromHeap(__OSCurrHeap, size);
-        if (t == NULL) {
+
+        t = (int)OSAllocFromHeap(__OSCurrHeap, size);
+        if ((void*)t == 0) {
             sprintf(stringbuf, "Failed to allocate %d bytes\n", size);
             DEBUGERRORLINE(108, stringbuf);
-            t = NULL;
+            t = 0;
         } else {
             DEBUGASSERTLINE(114, (t & 15) == 0);
+#ifdef DEBUG
+            new_called++;
+            current_allocations++;
+            if (current_allocations > highest_allocations) {
+                highest_allocations = current_allocations;
+            }
+            current_allocation_amount += size;
+            if (current_allocation_amount > highest_allocation_amount) {
+                highest_allocation_amount = current_allocation_amount;
+            }
+#endif
         }
     }
-    return t;
+    return (void*)t;
 }
 
 void* operator new [](size_t size, char* file, int line) {
@@ -48,7 +75,7 @@ void operator delete[](void * p) throw () {
     ::operator delete (p);
 }
 
-void Copy(Memory* mem_pool,  char* destination, u32 size, char* _name, u8 alignment) {
+void Copy(Memory* mem_pool, char* destination, u32 size, char* _name, u8 alignment) {
     DEBUGASSERTLINE(353, strlen(_name) < MAX_POOL_NAME_LENGTH);
     strcpy(mem_pool->pool_name, _name);
     mem_pool->destination = destination;
@@ -58,7 +85,7 @@ void Copy(Memory* mem_pool,  char* destination, u32 size, char* _name, u8 alignm
     DEBUGASSERTLINE(359, (alignment == 4) || (alignment == 16) || (alignment == 32));
 }
 
-char* AllocateInPool(Memory* pool, u32 size) {
+void* AllocateInPool(Memory* pool, u32 size) {
     u32 offset;
     u32 poolSpaceLeft;
     u32 alignedSize;

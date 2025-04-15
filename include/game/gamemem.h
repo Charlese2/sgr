@@ -49,6 +49,7 @@ class GameMem {
     void ActivatePersistantMempool(void);
     GameMem * GetGameMem(void);
     Memory * GetSoundMempool(void);
+    void DisplayMempoolUsage();
 };
 
 u32 GetHeapHandle(MemSystem * memSystem);

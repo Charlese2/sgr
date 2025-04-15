@@ -1,0 +1,1 @@
+void DisplayCharacterMeminfo (char *buffer);

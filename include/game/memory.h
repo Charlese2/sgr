@@ -15,14 +15,14 @@ typedef struct {
     char pool_name[19];
 } Memory;
 
-char* Allocate(size_t amount, char * file, int line);
-char* AllocateArray(size_t amount, char * file, int line);
+void* operator new(size_t amount, char * file, int line);
+void* operator new[](size_t amount, char * file, int line);
 
-void Free(void * memoryAddress) throw();
-void FreeArray(void * memoryAddress) throw ();
+void operator delete(void * p) throw();
+void operator delete[](void * p) throw ();
 
 void Copy(Memory * mem_pool, char *destination, u32 size, char * name, u8 alignment);
-char* AllocateInPool(Memory* pool, u32 size);
+void* AllocateInPool(Memory* pool, u32 size);
 
 void set_current_mempool(Memory * memory);
 Memory* get_current_mempool(void);
