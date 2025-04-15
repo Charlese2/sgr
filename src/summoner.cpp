@@ -20,7 +20,7 @@ void Cleanup(int status) {
 }
 
 void Initialize() {
-    Memory* memPool;
+    Mempool* memPool;
     void* address;
     memPool = get_current_mempool();
     set_current_mempool(0);

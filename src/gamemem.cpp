@@ -100,7 +100,7 @@ bool GameMem::summon_mempool_is_active(void) {
     return summon_mempool_active;
 }
 
-Memory * GameMem::GetSummonMempool(void) {
+Mempool * GameMem::GetSummonMempool(void) {
     return &summonMempool;
 }
 
@@ -117,7 +117,7 @@ bool GameMem::cutscene_mempool_is_active(void) {
     return cutscene_mempool_active;
 }
 
-Memory * GameMem::GetCutsceneMempool(void) {
+Mempool * GameMem::GetCutsceneMempool(void) {
     return &cutsceneMempool;
 }
 
@@ -134,7 +134,7 @@ bool GameMem::spellslot_mempool_is_active(void) {
     return spellslot_mempool_active;
 }
 
-Memory * GameMem::GetSpellslotMempool(void) {
+Mempool * GameMem::GetSpellslotMempool(void) {
     return &spellslotMempool;
 }
 
@@ -152,7 +152,7 @@ bool GameMem::perlevel_mempool_is_active(void) {
     return perlevel_mempool_active;
 }
 
-Memory * GameMem::GetPerlevelMempool(void) {
+Mempool * GameMem::GetPerlevelMempool(void) {
     return &perlevelMempool;
 }
 
@@ -170,7 +170,7 @@ GameMem * GameMem::GetGameMem(void) {
     return this;
 }
 
-Memory * GameMem::GetSoundMempool(void) {
+Mempool * GameMem::GetSoundMempool(void) {
     return &soundMempool;
 }
 
@@ -182,16 +182,16 @@ void GameMem::DisplayMempoolUsage() {
         sprintf(buffer, "Persistant: %5dKB of %5dKB in use\n", gamemem->persistantMempool.offset >> 10, gamemem->persistantMempool.size >> 10);
         DrawTextOnScreen(10, 10, buffer, -1);
 
-        Memory *perlevel_mempool = Gamemem_info.GetPerlevelMempool();
+        Mempool *perlevel_mempool = Gamemem_info.GetPerlevelMempool();
         sprintf(buffer, "Per Level:  %5dKB of %5dKB in use\n", perlevel_mempool->offset >> 10, perlevel_mempool->size >> 10);
         draw_mempool_info_on_new_line(buffer, -1);
 
         if (Gamemem_info.cutscene_mempool_is_active()) {
-            Memory *cutscene_mempool = Gamemem_info.GetCutsceneMempool();
+            Mempool *cutscene_mempool = Gamemem_info.GetCutsceneMempool();
             sprintf(buffer, "Cutscene:   %5dKB of %5dKB in use\n", cutscene_mempool->offset >> 10, cutscene_mempool->size >> 10);
             draw_mempool_info_on_new_line(buffer, -1);
         } else if (Gamemem_info.summon_mempool_is_active()) {
-            Memory *summon_mempool = Gamemem_info.GetSummonMempool();
+            Mempool *summon_mempool = Gamemem_info.GetSummonMempool();
             sprintf(buffer, "Summon:     %5dKB of %5dKB in use\n", summon_mempool->offset >> 10, summon_mempool->size >> 10);
             draw_mempool_info_on_new_line(buffer, -1);
         }

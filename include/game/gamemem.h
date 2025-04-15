@@ -5,17 +5,17 @@ extern bool gHeapAlloc;
 
 class GameMem {
     public:
-    Memory persistantMempool;
+    Mempool persistantMempool;
     char* persistant_data;
-    Memory soundMempool;
+    Mempool soundMempool;
     char* sound_data;
-    Memory perlevelMempool;
+    Mempool perlevelMempool;
     char* perlevel_data;
-    Memory cutsceneMempool;
+    Mempool cutsceneMempool;
     char* cutscene_data;
-    Memory spellslotMempool;
+    Mempool spellslotMempool;
     char* spellslot_data;
-    Memory summonMempool;
+    Mempool summonMempool;
     char* summon_data;
     bool perlevel_mempool_active;
     bool cutscene_mempool_active;
@@ -32,23 +32,23 @@ class GameMem {
     void ActivateSummonMempool(void);
     void DeactivateSummonMempool(void);
     bool summon_mempool_is_active(void);
-    Memory * GetSummonMempool(void);
+    Mempool * GetSummonMempool(void);
     void ActivateCutsceneMempool(void);
     void DeactivateCutsceneMempool(void);
     bool cutscene_mempool_is_active(void);
-    Memory * GetCutsceneMempool(void);
+    Mempool * GetCutsceneMempool(void);
     void ActivateSpellslotMempool(void);
     void DeactivateSpellslotMempool(void);
     bool spellslot_mempool_is_active(void);
-    Memory * GetSpellslotMempool(void);
+    Mempool * GetSpellslotMempool(void);
     void ActivatePerlevelMempool(void);
     void DeactivatePerlevelMempool(void);
     bool perlevel_mempool_is_active(void);
-    Memory * GetPerlevelMempool(void);
+    Mempool * GetPerlevelMempool(void);
     void ClearPerlevelMempool(void);
     void ActivatePersistantMempool(void);
     GameMem * GetGameMem(void);
-    Memory * GetSoundMempool(void);
+    Mempool * GetSoundMempool(void);
     void DisplayMempoolUsage();
 };
 
@@ -56,6 +56,6 @@ u32 GetHeapHandle(MemSystem * memSystem);
 
 extern GameMem Gamemem_info;
 
-void ResetOffset(Memory * mempool) {
+void ResetOffset(Mempool * mempool) {
     mempool->offset = 0;
 }

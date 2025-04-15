@@ -11,7 +11,7 @@ u32 current_allocation_amount;
 u32 highest_allocation_amount;
 
 bool gHeapAlloc;
-Memory * Pool;
+Mempool * Pool;
 u32 Common_block_index; 
 u32 Bytes_used; 
 char COMMON_BLOCK[COMMON_BLOCK_SIZE];
@@ -75,7 +75,7 @@ void operator delete[](void * p) throw () {
     ::operator delete (p);
 }
 
-void Copy(Memory* mem_pool, char* destination, u32 size, char* _name, u8 alignment) {
+void Copy(Mempool* mem_pool, char* destination, u32 size, char* _name, u8 alignment) {
     DEBUGASSERTLINE(353, strlen(_name) < MAX_POOL_NAME_LENGTH);
     strcpy(mem_pool->pool_name, _name);
     mem_pool->destination = destination;
@@ -85,7 +85,7 @@ void Copy(Memory* mem_pool, char* destination, u32 size, char* _name, u8 alignme
     DEBUGASSERTLINE(359, (alignment == 4) || (alignment == 16) || (alignment == 32));
 }
 
-void* AllocateInPool(Memory* pool, u32 size) {
+void* AllocateInPool(Mempool* pool, u32 size) {
     u32 offset;
     u32 poolSpaceLeft;
     u32 alignedSize;
@@ -103,11 +103,11 @@ void* AllocateInPool(Memory* pool, u32 size) {
     return destination + offset;
 }
 
-void set_current_mempool(Memory * pool) {
+void set_current_mempool(Mempool * pool) {
     Pool = pool;
 }
 
-Memory * get_current_mempool(void) {
+Mempool * get_current_mempool(void) {
     return Pool;
 }
 

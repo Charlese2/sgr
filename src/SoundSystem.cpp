@@ -163,7 +163,7 @@ void SoundSystem::InitializeAudio(void) {
     bool previously_in_use;
     u32 aramBase;
     audio_file * file;
-    Memory* soundMempool;
+    Mempool* soundMempool;
 
     previously_in_use = m_InUse;
     m_InUse = TRUE;
