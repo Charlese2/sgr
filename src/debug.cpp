@@ -1,6 +1,5 @@
 #include "game/debug.h"
 #include "game/loading.h"
-#include "game/RenderSystem.h"
 #include "game/gr.h"
 #include "game/gr_ngc.h"
 #include "dolphin/os.h"
@@ -9,7 +8,7 @@
 void DebugPrint(char* buffer) {
     if (getGrInitialized()) {
         stop_loadscreen();
-        gRenderSystem.GetCurrentMode();
+        is_current_mode(&gRenderSystem, 1);
         printf(buffer);
         set_alpha_blending_mode(2);
     }
