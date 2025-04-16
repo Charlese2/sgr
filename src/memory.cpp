@@ -38,7 +38,8 @@ void set_allocation_done(void) {
 }
 
 void * operator new(size_t size, char* file, int line) {
-    int t;
+    void* address;
+    u32 t;
     char stringbuf[128];
     if (Pool) {
         return AllocateInPool(Pool, size);
@@ -47,12 +48,13 @@ void * operator new(size_t size, char* file, int line) {
 
         DEBUGASSERTLINE(102, size > 0);
 
-        t = (int)OSAllocFromHeap(__OSCurrHeap, size);
-        if ((void*)t == 0) {
+        address = OSAllocFromHeap(__OSCurrHeap, size);
+        if ((void*)address == 0) {
             sprintf(stringbuf, "Failed to allocate %d bytes\n", size);
             DEBUGERRORLINE(108, stringbuf);
-            return 0;
+            return NULL;
         } else {
+            t = (u32)address;
             DEBUGASSERTLINE(114, (t & 15) == 0);
 #ifdef DEBUG
             if (!allocation_done) {
@@ -70,7 +72,7 @@ void * operator new(size_t size, char* file, int line) {
 #endif
         }
     }
-    return (void*)t;
+    return address;
 }
 
 void* operator new [](size_t size, char* file, int line) {
