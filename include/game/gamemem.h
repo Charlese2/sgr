@@ -1,3 +1,4 @@
+#include "game/console.h"
 #include "game/memory.h"
 #include "game/MemSystem.h"
 
@@ -23,10 +24,13 @@ class GameMem {
     bool spellslot_mempool_active;
     bool persistant_mempool_active;
 
+    console_command toggle_gamemem_prints;
+    console_command toggle_mempool_usage;
+
     GameMem();
 
-    static bool ToggleShowGameMemPrints(void);
-    static bool ToggleShowMempoolUsage(void);
+    static bool toggle_show_gamemem_prints(void);
+    static bool toggle_show_mempool_usage(void);
     int ActivateGamemem(void);
     void AllocateMempools(void);
     void ActivateSummonMempool(void);
@@ -52,10 +56,12 @@ class GameMem {
     void DisplayMempoolUsage();
 };
 
-u32 GetHeapHandle(MemSystem * memSystem);
-
 extern GameMem Gamemem_info;
 
-void ResetOffset(Mempool * mempool) {
-    mempool->offset = 0;
+inline void ResetOffset(Mempool * pool) {
+    pool->offset = 0;
+}
+
+inline u32 getPoolSpaceLeft(Mempool * pool) {
+    return pool->size - pool->offset;
 }

@@ -1,4 +1,5 @@
 #include "game/memory.h"
+#include "game/gamemem.h"
 #include "game/debug.h"
 #include "dolphin/os.h"
 #include "game/macros.h"
@@ -9,6 +10,7 @@ u32 delete_called;
 u32 highest_allocations;
 u32 current_allocation_amount;
 u32 highest_allocation_amount;
+bool allocation_done;
 
 bool gHeapAlloc;
 Mempool * Pool;
@@ -17,6 +19,7 @@ u32 Bytes_used;
 char COMMON_BLOCK[COMMON_BLOCK_SIZE];
 const char empty[4000] = "";
 extern s32 Common_block_allocation_amount[2];
+extern char string_buffer[512];
 volatile extern OSHeapHandle __OSCurrHeap;
 
 int memory1;
@@ -28,23 +31,33 @@ int memory6;
 int memory7;
 int memory8;
 
+void set_allocation_done(void) {
+    if (!allocation_done) {
+        allocation_done = true;
+    }
+}
+
 void * operator new(size_t size, char* file, int line) {
     int t;
     char stringbuf[128];
     if (Pool) {
-        t = (int)AllocateInPool(Pool, size);
+        return AllocateInPool(Pool, size);
     } else {
         DEBUGASSERTLINE(100, gHeapAlloc == true);
+
         DEBUGASSERTLINE(102, size > 0);
 
         t = (int)OSAllocFromHeap(__OSCurrHeap, size);
         if ((void*)t == 0) {
             sprintf(stringbuf, "Failed to allocate %d bytes\n", size);
             DEBUGERRORLINE(108, stringbuf);
-            t = 0;
+            return 0;
         } else {
             DEBUGASSERTLINE(114, (t & 15) == 0);
 #ifdef DEBUG
+            if (!allocation_done) {
+                set_allocation_done();
+            }
             new_called++;
             current_allocations++;
             if (current_allocations > highest_allocations) {
@@ -67,6 +80,10 @@ void* operator new [](size_t size, char* file, int line) {
 void operator delete(void * p) throw () {
     DEBUGASSERTLINE(193, p != NULL);
     DEBUGASSERTLINE(194, Pool == NULL);
+#ifdef DEBUG
+    delete_called++;
+    current_allocations--;
+#endif
     OSFreeToHeap(__OSCurrHeap, p);
 }
 
@@ -93,9 +110,14 @@ void* AllocateInPool(Mempool* pool, u32 size) {
 
     alignedSize = ~(pool->alignment -1) & size + (pool->alignment - 1);
     if (pool->offset + alignedSize > pool->size) {
-        return 0;
+#ifdef DEBUG
+        sprintf(string_buffer, "Failed allocation of\n%d bytes in %s pool\n(max pool size is %d\nspace left is %d)\n",
+            size, pool->pool_name, pool->size, getPoolSpaceLeft(pool));
+        DebugError("memory.cpp", 370, string_buffer);
+#else
+        return NULL;
+#endif
     }
-
 
     destination = pool->destination;
     offset = pool->offset;

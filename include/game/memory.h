@@ -1,3 +1,6 @@
+#ifndef _H_GAME_MEMORY_
+#define _H_GAME_MEMORY_
+
 #include "dolphin/types.h"
 
 extern "C" {
@@ -32,3 +35,5 @@ BOOL is_mempool_active();
 u32 GetCommonBlockSpaceFree();
 void* AllocateInCommonBlock(u32 amount);
 void SetSomethingCommonBlock(u32 amount);
+
+#endif // _H_GAME_MEMORY_
