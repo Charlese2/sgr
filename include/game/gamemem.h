@@ -32,7 +32,7 @@ class GameMem {
     static bool toggle_show_gamemem_prints(void);
     static bool toggle_show_mempool_usage(void);
     int ActivateGamemem(void);
-    void AllocateMempools(void);
+    bool AllocateMempools(void);
     void ActivateSummonMempool(void);
     void DeactivateSummonMempool(void);
     bool summon_mempool_is_active(void);

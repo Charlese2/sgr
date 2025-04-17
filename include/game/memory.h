@@ -36,6 +36,6 @@ BOOL is_mempool_active();
 
 u32 GetCommonBlockSpaceFree();
 void* AllocateInCommonBlock(u32 amount);
-void SetSomethingCommonBlock(u32 amount);
+void deallocate_from_commonblock(char* p);
 
 #endif // _H_GAME_MEMORY_

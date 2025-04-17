@@ -1,4 +1,6 @@
-typedef bool (*Command)(void);
+#define MAX_COMMANDS 300
+
+typedef bool (*CommandCallback)(void);
 
 enum command_type {
     TOGGLE,
@@ -8,9 +10,9 @@ enum command_type {
 };
 
 typedef struct {
-    char* command;
+    char* name;
     char* description;
-    Command* function;
+    CommandCallback callback;
     command_type type;
 } console_command;
 
@@ -20,5 +22,7 @@ extern bool checking_status_for_command;
 
 void print_commands_to_file();
 void print_commands_to_tty();
-void register_command(console_command* console_command, char* command, char* description, command_type type, Command command_function);
+bool add_command(console_command *command,char *name,char *description,command_type type);
+console_command* register_command(console_command* console_command, char* command, char* description, command_type type, CommandCallback command_function);
+void print_to_console(char* buffer);
 void run_script_file(void);

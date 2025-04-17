@@ -4,6 +4,8 @@
 #include "dolphin/os.h"
 #include "game/macros.h"
 
+typedef u8 ubyte;
+
 u32 current_allocations;
 u32 new_called;
 u32 delete_called;
@@ -16,7 +18,7 @@ bool gHeapAlloc;
 Mempool * Pool;
 u32 Common_block_index; 
 u32 Bytes_used; 
-char COMMON_BLOCK[COMMON_BLOCK_SIZE];
+u8 COMMON_BLOCK[COMMON_BLOCK_SIZE];
 const char empty[4000] = "";
 extern s32 Common_block_allocation_amount[2];
 extern char string_buffer[512];
@@ -136,17 +138,25 @@ Mempool * get_current_mempool(void) {
 }
 
 BOOL is_mempool_active() {
-    return Pool != 0;
+    BOOL pool_active;
+
+    if (Pool){
+        pool_active = true;
+    }
+    else {
+        pool_active = false;
+    }
+    return pool_active;
 }
 
 u32 GetCommonBlockSpaceFree() {
     return COMMON_BLOCK_SIZE - Bytes_used;
 }
 
-void * AllocateInCommonBlock(u32 size) {
+void * allocate_in_commonblock(u32 size) {
     u32 alignedAmount;
-    char* allocatedAddress;
-    volatile s32* CurrentAllocation;
+    u8* allocatedAddress;
+    s32* CurrentAllocation;
 
     alignedAmount = OSRoundUp32B(size);
 
@@ -158,21 +168,30 @@ void * AllocateInCommonBlock(u32 size) {
     if (alignedAmount > COMMON_BLOCK_SIZE - Bytes_used) {
         DebugError( "memory.cpp", 452, "Not enough space in common block.\n");
     }
-    
-    CurrentAllocation = Common_block_allocation_amount + Common_block_index;
+
     Common_block_index += 1;
+    CurrentAllocation = Common_block_allocation_amount + 2;
     allocatedAddress = COMMON_BLOCK + Bytes_used;
     *CurrentAllocation = alignedAmount;
     Bytes_used += alignedAmount;
     return allocatedAddress;
 }
 
-void SetSomethingCommonBlock(u32 amount) {
-    int unk;
-    if (amount != 0) {
+void deallocate_from_commonblock(char* p) {
+    int size;
+    if (p != 0) {
+        DEBUGASSERTLINE(467, Common_block_index > 0);
+
         Common_block_index--;
-        unk = Common_block_allocation_amount[Common_block_index];
+        size = Common_block_allocation_amount[Common_block_index];
         Common_block_allocation_amount[Common_block_index] = -1;
-        Bytes_used = Bytes_used - unk;
+        DEBUGASSERTLINE(472, size != -1);
+
+        Bytes_used = Bytes_used - size;
+        DEBUGASSERTLINE(475, (ubyte *)p == COMMON_BLOCK + Bytes_used);
+
+        if (Common_block_index == 0) {
+            DEBUGASSERTLINE(477, Bytes_used == 0);
+        }
     }
 }

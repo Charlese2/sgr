@@ -57,7 +57,7 @@ int GameMem::ActivateGamemem(void) {
     return 0;
 }
 
-inline void GameMem::AllocateMempools(void) {
+inline bool GameMem::AllocateMempools(void) {
     u32 size;
     int heap;
     
@@ -110,6 +110,7 @@ inline void GameMem::AllocateMempools(void) {
 
     set_current_mempool(0);
     gHeapAlloc = false;
+    return false;
 }
 
 void GameMem::ActivateSummonMempool(void) {
