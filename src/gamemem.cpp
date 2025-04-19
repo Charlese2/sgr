@@ -71,35 +71,35 @@ inline bool GameMem::AllocateMempools(void) {
     gHeapAlloc = true;
     set_current_mempool(0);
 
-    persistant_data = (char*)operator new[](0x363800, "gamemem.cpp", 168);
+    persistant_data = (u8*)operator new[](0x363800, "gamemem.cpp", 168);
     DEBUGASSERTLINE(169, persistant_data);
     Copy(&persistantMempool, persistant_data, 0x363800, "persistant", 32);
     ResetOffset(&persistantMempool);
 
-    sound_data = (char*)operator new[](0x10000, "gamemem.cpp", 174);
+    sound_data = (u8*)operator new[](0x10000, "gamemem.cpp", 174);
     Copy(&soundMempool, sound_data, 0x10000, "sound", 16);
     ResetOffset(&soundMempool);
 
     size = OSCheckHeap(GetHeapHandle(&gMemSystem)) - 0x1dc500;
     printf("Allocating %.2f KB for the perlevel mempool\n", size / 1024.0f );
 
-    perlevel_data = (char*)operator new[](size, "gamemem.cpp", 181);
+    perlevel_data = (u8*)operator new[](size, "gamemem.cpp", 181);
     DEBUGASSERTLINE(182, perlevel_data);
     Copy(&perlevelMempool, perlevel_data, size, "perlevel", 16);
     ResetOffset(&perlevelMempool);
     set_current_mempool(&perlevelMempool);
 
-    cutscene_data = (char*)operator new[](0x234000, "gamemem.cpp", 191);
+    cutscene_data = (u8*)operator new[](0x234000, "gamemem.cpp", 191);
     DEBUGASSERTLINE(192, cutscene_data);
     Copy(&cutsceneMempool, cutscene_data, 0x234000, "cutscene", 16);
     ResetOffset(&cutsceneMempool);
     set_current_mempool(&cutsceneMempool);
 
-    summon_data = (char*)operator new[](0xf0000, "gamemem.cpp", 198);
+    summon_data = (u8*)operator new[](0xf0000, "gamemem.cpp", 198);
     DEBUGASSERTLINE(199, summon_data);
     Copy(&summonMempool, summon_data, 0xf0000, "summon", 32);
 
-    spellslot_data = (char*)operator new[](0x144000, "gamemem.cpp", 202);
+    spellslot_data = (u8*)operator new[](0x144000, "gamemem.cpp", 202);
     DEBUGASSERTLINE(203, spellslot_data);
     Copy(&spellslotMempool, spellslot_data, 0x144000, "spellslot", 16);
 
@@ -201,7 +201,7 @@ void GameMem::ActivatePerlevelMempool(void) {
     DEBUGASSERTLINE(398, !perlevel_mempool_active);
     perlevel_mempool_active = true;
     ResetOffset(&perlevelMempool);
-    AllocateInPool(&perlevelMempool, 0x234000);
+    allocate_in_mempool(&perlevelMempool, 0x234000);
 }
 
 void GameMem::DeactivatePerlevelMempool(void) {
@@ -227,7 +227,7 @@ void GameMem::ClearPerlevelMempool(void) {
     DEBUGASSERTLINE(453, gamemem_active);
     DEBUGASSERTLINE(454, perlevel_mempool_active);
     ResetOffset(&perlevelMempool);
-    AllocateInPool(&perlevelMempool, 0x234000);
+    allocate_in_mempool(&perlevelMempool, 0x234000);
 }
 
 void GameMem::ActivatePersistantMempool(void) {

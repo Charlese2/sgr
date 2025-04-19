@@ -12,18 +12,8 @@ u32 delete_called;
 u32 highest_allocations;
 u32 current_allocation_amount;
 u32 highest_allocation_amount;
-bool allocation_done;
 
 bool gHeapAlloc;
-Mempool * Pool;
-u32 Common_block_index; 
-u32 Bytes_used; 
-u8 COMMON_BLOCK[COMMON_BLOCK_SIZE];
-const char empty[4000] = "";
-extern s32 Common_block_allocation_amount[2];
-extern char string_buffer[512];
-volatile extern OSHeapHandle __OSCurrHeap;
-
 int memory1;
 int memory2;
 int memory3;
@@ -32,6 +22,15 @@ int memory5;
 int memory6;
 int memory7;
 int memory8;
+Mempool * Pool;
+bool allocation_done;
+u32 Common_block_index;
+u32 Bytes_used;
+u8 COMMON_BLOCK[COMMON_BLOCK_SIZE];
+const char empty[4000] = "";
+s32 Common_block_allocation_size[2] = {-1, -1};
+extern char string_buffer[512];
+volatile extern OSHeapHandle __OSCurrHeap;
 
 void set_allocation_done(void) {
     if (!allocation_done) {
@@ -44,7 +43,7 @@ void * operator new(size_t size, char* file, int line) {
     u32 t;
     char stringbuf[128];
     if (Pool) {
-        return AllocateInPool(Pool, size);
+        return allocate_in_mempool(Pool, size);
     } else {
         DEBUGASSERTLINE(100, gHeapAlloc == true);
 
@@ -96,7 +95,7 @@ void operator delete[](void * p) throw () {
     ::operator delete (p);
 }
 
-void Copy(Mempool* mem_pool, char* destination, u32 size, char* _name, u8 alignment) {
+void Copy(Mempool* mem_pool, u8* destination, u32 size, char* _name, u8 alignment) {
     DEBUGASSERTLINE(353, strlen(_name) < MAX_POOL_NAME_LENGTH);
     strcpy(mem_pool->pool_name, _name);
     mem_pool->destination = destination;
@@ -106,27 +105,24 @@ void Copy(Mempool* mem_pool, char* destination, u32 size, char* _name, u8 alignm
     DEBUGASSERTLINE(359, (alignment == 4) || (alignment == 16) || (alignment == 32));
 }
 
-void* AllocateInPool(Mempool* pool, u32 size) {
-    u32 offset;
-    u32 poolSpaceLeft;
-    u32 alignedSize;
-    char* destination;
+void* allocate_in_mempool(Mempool* mempool, u32 size) {
+    u8* destination;
+    u32 Alinged_size;
 
-    alignedSize = ~(pool->alignment -1) & size + (pool->alignment - 1);
-    if (pool->offset + alignedSize > pool->size) {
+    Alinged_size = ~(mempool->alignment - 1) & (size + mempool->alignment - 1);
+    if (mempool->offset + Alinged_size > mempool->size) {
 #ifdef DEBUG
         sprintf(string_buffer, "Failed allocation of\n%d bytes in %s pool\n(max pool size is %d\nspace left is %d)\n",
-            size, pool->pool_name, pool->size, getPoolSpaceLeft(pool));
+            size, mempool->pool_name, mempool->size, getPoolSpaceLeft(mempool));
         DebugError("memory.cpp", 370, string_buffer);
 #else
         return NULL;
 #endif
     }
 
-    destination = pool->destination;
-    offset = pool->offset;
-    pool->offset = pool->offset + alignedSize;
-    return destination + offset;
+    destination = mempool->destination + mempool->offset;
+    mempool->offset += Alinged_size;
+    return destination;
 }
 
 void set_current_mempool(Mempool * pool) {
@@ -153,41 +149,37 @@ u32 GetCommonBlockSpaceFree() {
     return COMMON_BLOCK_SIZE - Bytes_used;
 }
 
-void * allocate_in_commonblock(u32 size) {
-    u32 alignedAmount;
-    u8* allocatedAddress;
-    s32* CurrentAllocation;
+u8 * allocate_in_commonblock(u32 size) {
+    u8* Allocation_position;
 
-    alignedAmount = OSRoundUp32B(size);
+    size = OSRoundUp32B(size);
 
     DEBUGASSERTLINE(446, Common_block_index < 2);
 
-    if (Common_block_allocation_amount[Common_block_index] != -1) {
+    if (Common_block_allocation_size[Common_block_index] != -1) {
         DebugError("memory.cpp", 449, "Common block is already locked.");
     }
-    if (alignedAmount > COMMON_BLOCK_SIZE - Bytes_used) {
+    if (size > COMMON_BLOCK_SIZE - Bytes_used) {
         DebugError( "memory.cpp", 452, "Not enough space in common block.\n");
     }
 
-    Common_block_index += 1;
-    CurrentAllocation = Common_block_allocation_amount + 2;
-    allocatedAddress = COMMON_BLOCK + Bytes_used;
-    *CurrentAllocation = alignedAmount;
-    Bytes_used += alignedAmount;
-    return allocatedAddress;
+    Common_block_allocation_size[Common_block_index++] = size;
+    Allocation_position = COMMON_BLOCK + Bytes_used;
+    Bytes_used += size;
+    return Allocation_position;
 }
 
 void deallocate_from_commonblock(char* p) {
     int size;
-    if (p != 0) {
+    if (p) {
         DEBUGASSERTLINE(467, Common_block_index > 0);
 
         Common_block_index--;
-        size = Common_block_allocation_amount[Common_block_index];
-        Common_block_allocation_amount[Common_block_index] = -1;
+        size = Common_block_allocation_size[Common_block_index];
+        Common_block_allocation_size[Common_block_index] = -1;
         DEBUGASSERTLINE(472, size != -1);
 
-        Bytes_used = Bytes_used - size;
+        Bytes_used -= size;
         DEBUGASSERTLINE(475, (ubyte *)p == COMMON_BLOCK + Bytes_used);
 
         if (Common_block_index == 0) {

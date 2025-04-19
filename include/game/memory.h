@@ -11,7 +11,7 @@ extern "C" {
 #define MAX_POOL_NAME_LENGTH 16
 
 typedef struct {
-    char* destination;
+    u8* destination;
     u32 size;
     u32 offset;
     u8 alignment;
@@ -26,8 +26,8 @@ void* operator new[](size_t amount, char * file, int line);
 void operator delete(void * p) throw();
 void operator delete[](void * p) throw ();
 
-void Copy(Mempool * mem_pool, char *destination, u32 size, char * name, u8 alignment);
-void* AllocateInPool(Mempool* pool, u32 size);
+void Copy(Mempool * mem_pool, u8 *destination, u32 size, char * name, u8 alignment);
+void* allocate_in_mempool(Mempool* pool, u32 size);
 
 void set_current_mempool(Mempool * memory);
 Mempool* get_current_mempool(void);
@@ -35,7 +35,7 @@ Mempool* get_current_mempool(void);
 BOOL is_mempool_active();
 
 u32 GetCommonBlockSpaceFree();
-void* AllocateInCommonBlock(u32 amount);
+u8* allocate_in_commonblock(u32 amount);
 void deallocate_from_commonblock(char* p);
 
 #endif // _H_GAME_MEMORY_

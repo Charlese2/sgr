@@ -440,7 +440,7 @@ config.libs = [
             Object(NonMatching, "level_sequences_loadsave.cpp"),
             Object(NonMatching, "flipbook.cpp"),
             Object(NonMatching, "gamemem.cpp"),
-            Object(Equivalent, "memory.cpp"),
+            Object(Matching, "memory.cpp"),
             Object(NonMatching, "debug.cpp"),
             Object(NonMatching, "plainstring.cpp"),
             Object(NonMatching, "FileSystem.cpp"),

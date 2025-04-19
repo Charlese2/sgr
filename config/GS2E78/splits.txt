@@ -811,7 +811,8 @@ memory.cpp:
 	.text       start:0x801507DC end:0x80150BBC
 	.rodata     start:0x801FC900 end:0x801FD910
 	.bss        start:0x803AFA60 end:0x803C16C0
-	.sbss       start:0x8047558C end:0x80475598
+	.sdata      start:0x804740F0 end:0x804740F8
+	.sbss       start:0x80475568 end:0x80475598
 
 debug.cpp:
 	extab       start:0x8000A194 end:0x8000A19C
@@ -840,7 +841,7 @@ PackFileSystem.cpp:
 	extabindex  start:0x80012490 end:0x800124FC
 	.text       start:0x80151F14 end:0x80152AA0
 	.ctors      start:0x801EE9B8 end:0x801EE9BC
-	.bss        start:0x803C16CC end:0x803C16F0
+	.bss        start:0x803C16CC end:0x803C17F8
 
 LFile.cpp:
 	extab       start:0x8000A2D4 end:0x8000A2FC
@@ -863,14 +864,13 @@ MemSystem.cpp:
 	.text       start:0x801547B0 end:0x801548E4
 	.ctors      start:0x801EE9BC end:0x801EE9C0
 	.rodata     start:0x801FDDA0 end:0x801FDDB0
-	.sdata      start:0x804740F0 end:0x804740F8
 
 InputSystem.cpp:
 	extab       start:0x8000A384 end:0x8000A3CC
 	extabindex  start:0x80012604 end:0x80012670
 	.text       start:0x801548E4 end:0x80155394
 	.ctors      start:0x801EE9C0 end:0x801EE9C4
-	.bss        start:0x803C1814 end:0x803C1960
+	.bss        start:0x803C1808 end:0x803C1960
 
 LevelManager.cpp:
 	extab       start:0x8000A3CC end:0x8000A40C
@@ -1151,7 +1151,7 @@ SoundSystem.cpp:
 	extabindex  start:0x8001354C end:0x80013660
 	.text       start:0x8017D9F0 end:0x80180438
 	.ctors      start:0x801EEA38 end:0x801EEA3C
-	.rodata     start:0x80201664 end:0x802016E0
+	.rodata     start:0x802015F0 end:0x802016E0
 	.bss        start:0x80410320 end:0x8041F960
 	.sdata2     start:0x8047A758 end:0x8047A79C
 
@@ -1196,7 +1196,7 @@ console.cpp:
 	.text       start:0x8018532C end:0x8018929C
 	.ctors      start:0x801EEA50 end:0x801EEA54
 	.bss        start:0x804385F0 end:0x80438C30
-	.sbss       start:0x80475BB4 end:0x80475BB8
+	.sbss       start:0x80475B98 end:0x80475BF0
 
 new_decals.cpp:
 	extab       start:0x8000B2AC end:0x8000B2DC
@@ -1389,15 +1389,15 @@ dolphin/dvd/fstload.c:
 
 dolphin/vi/vi.c:
 	.text       start:0x80197400 end:0x80198E3C
-	.data       start:0x80213F24 end:0x80214088
+	.data       start:0x80213DC0 end:0x80214088
 	.bss        start:0x80452CC8 end:0x80452D40
-	.sbss       start:0x80475DB8 end:0x80475E04
+	.sbss       start:0x80475DB8 end:0x80475E08
 
 dolphin/pad/Pad.c:
 	.text       start:0x80198E3C end:0x8019A800
 	.bss        start:0x80452E20 end:0x80452E60
 	.sdata      start:0x80474210 end:0x80474224
-	.sbss       start:0x80475E04 end:0x80475E30
+	.sbss       start:0x80475E08 end:0x80475E30
 
 dolphin/ai/ai.c:
 	.text       start:0x8019A800 end:0x8019B110
@@ -1885,10 +1885,6 @@ dolphin/amcstubs/AmcExi2Stubs.c:
 
 dolphin/odenotstub/odenotstub.c:
 	.text       start:0x801C5AE8 end:0x801C5AF0
-
-dolphin/hio/hio.c:
-	.text       start:0x801C60D4 end:0x801C6114
-	.sbss       start:0x8047605C end:0x80476060
 
 dolphin/exi/EXIBios.c:
 	.text       start:0x801C6570 end:0x801C7E3C

@@ -7,17 +7,17 @@ extern bool gHeapAlloc;
 class GameMem {
     public:
     Mempool persistantMempool;
-    char* persistant_data;
+    u8* persistant_data;
     Mempool soundMempool;
-    char* sound_data;
+    u8* sound_data;
     Mempool perlevelMempool;
-    char* perlevel_data;
+    u8* perlevel_data;
     Mempool cutsceneMempool;
-    char* cutscene_data;
+    u8* cutscene_data;
     Mempool spellslotMempool;
-    char* spellslot_data;
+    u8* spellslot_data;
     Mempool summonMempool;
-    char* summon_data;
+    u8* summon_data;
     bool perlevel_mempool_active;
     bool cutscene_mempool_active;
     bool summon_mempool_active;
