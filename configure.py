@@ -519,7 +519,7 @@ config.libs = [
             Object(Matching, "PowerPC_EABI_Support/Runtime/__init_cpp_exceptions.cpp"),
             Object(Matching, "PowerPC_EABI_Support/Runtime/__mem.c"),
             Object(Matching, "PowerPC_EABI_Support/Runtime/CPlusLibPPC.cp"),
-            Object(NonMatching, "PowerPC_EABI_Support/Runtime/runtime.c"),
+            Object(Matching, "PowerPC_EABI_Support/Runtime/runtime.c"),
             Object(NonMatching, "PowerPC_EABI_Support/Runtime/Gecko_ExceptionPPC.cp", extra_cflags = ["-Cpp_exceptions on"]),
             Object(Matching, "PowerPC_EABI_Support/Runtime/NMWException.cp", extra_cflags = ["-Cpp_exceptions on"]),
             Object(NonMatching, "PowerPC_EABI_Support/Runtime/GCN_mem_alloc.c"),

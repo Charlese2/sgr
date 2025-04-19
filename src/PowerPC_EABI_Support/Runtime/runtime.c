@@ -106,10 +106,6 @@ static const u32 __constants[] = {
 	0x00000000, 0x00000000, 0x41F00000, 0x00000000, 0x41E00000, 0x00000000,
 };
 
-/**
- * @note Address: 0x800C1B4C
- * @note Size: 0x5C
- */
 asm u32 __cvt_fp2unsigned(register f64 d)
 {
 #ifdef __MWERKS__ // clang-format off
@@ -141,76 +137,92 @@ asm u32 __cvt_fp2unsigned(register f64 d)
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C1BA8
- * @note Size: 0x4C
- */
 asm static void __save_fpr(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
+	ENTRY_SAVE_FPR(14)
 		stfd    fp14,-144(save_restore_reg)
+	ENTRY_SAVE_FPR(15)
 		stfd    fp15,-136(save_restore_reg)
+	ENTRY_SAVE_FPR(16)
 		stfd    fp16,-128(save_restore_reg)
+	ENTRY_SAVE_FPR(17)
 		stfd    fp17,-120(save_restore_reg)
+	ENTRY_SAVE_FPR(18)
 		stfd    fp18,-112(save_restore_reg)
+	ENTRY_SAVE_FPR(19)
 		stfd    fp19,-104(save_restore_reg)
+	ENTRY_SAVE_FPR(20)
 		stfd    fp20,-96(save_restore_reg)
+	ENTRY_SAVE_FPR(21)
 		stfd    fp21,-88(save_restore_reg)
+	ENTRY_SAVE_FPR(22)
 		stfd    fp22,-80(save_restore_reg)
+	ENTRY_SAVE_FPR(23)
 		stfd    fp23,-72(save_restore_reg)
+	ENTRY_SAVE_FPR(24)
 		stfd    fp24,-64(save_restore_reg)
 	ENTRY_SAVE_FPR(25)
 		stfd    fp25,-56(save_restore_reg)
 	ENTRY_SAVE_FPR(26)
 		stfd    fp26,-48(save_restore_reg)
+	ENTRY_SAVE_FPR(27)
 		stfd    fp27,-40(save_restore_reg)
 	ENTRY_SAVE_FPR(28)
 		stfd    fp28,-32(save_restore_reg)
 	ENTRY_SAVE_FPR(29)
 		stfd    fp29,-24(save_restore_reg)
+	ENTRY_SAVE_FPR(30)
 		stfd    fp30,-16(save_restore_reg)
+	ENTRY_SAVE_FPR(31)
 		stfd    fp31,-8(save_restore_reg)
 		blr
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C1BF4
- * @note Size: 0x4C
- */
 asm static void __restore_fpr(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
+	ENTRY_RESTORE_FPR(14)
 		lfd     fp14,-144(save_restore_reg)
+	ENTRY_RESTORE_FPR(15)
 		lfd     fp15,-136(save_restore_reg)
+	ENTRY_RESTORE_FPR(16)
 		lfd     fp16,-128(save_restore_reg)
+	ENTRY_RESTORE_FPR(17)
 		lfd     fp17,-120(save_restore_reg)
+	ENTRY_RESTORE_FPR(18)
 		lfd     fp18,-112(save_restore_reg)
+	ENTRY_RESTORE_FPR(19)
 		lfd     fp19,-104(save_restore_reg)
+	ENTRY_RESTORE_FPR(20)
 		lfd     fp20,-96(save_restore_reg)
+	ENTRY_RESTORE_FPR(21)
 		lfd     fp21,-88(save_restore_reg)
+	ENTRY_RESTORE_FPR(22)
 		lfd     fp22,-80(save_restore_reg)
+	ENTRY_RESTORE_FPR(23)
 		lfd     fp23,-72(save_restore_reg)
+	ENTRY_RESTORE_FPR(24)
 		lfd     fp24,-64(save_restore_reg)
 	ENTRY_RESTORE_FPR(25)
 		lfd     fp25,-56(save_restore_reg)
 	ENTRY_RESTORE_FPR(26)
 		lfd     fp26,-48(save_restore_reg)
+	ENTRY_RESTORE_FPR(27)
 		lfd     fp27,-40(save_restore_reg)
 	ENTRY_RESTORE_FPR(28)
 		lfd     fp28,-32(save_restore_reg)
 	ENTRY_RESTORE_FPR(29)
 		lfd     fp29,-24(save_restore_reg)
+	ENTRY_RESTORE_FPR(30)
 		lfd     fp30,-16(save_restore_reg)
+	ENTRY_RESTORE_FPR(31)
 		lfd     fp31,-8(save_restore_reg)
 		blr
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C1C40
- * @note Size: 0x4C
- */
 asm static void __save_gpr(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
@@ -246,16 +258,14 @@ asm static void __save_gpr(void) {
 		stw     r28,-16(save_restore_reg)
 	ENTRY_SAVE_GPR(29)
 		stw     r29,-12(save_restore_reg)
+	ENTRY_SAVE_GPR(30)
 		stw     r30,-8(save_restore_reg)
+	ENTRY_SAVE_GPR(31)
 		stw     r31,-4(save_restore_reg)
 		blr
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C1C8C
- * @note Size: 0x4C
- */
 asm static void __restore_gpr(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
@@ -291,16 +301,14 @@ asm static void __restore_gpr(void) {
 		lwz     r28,-16(save_restore_reg)
 	ENTRY_RESTORE_GPR(29)
 		lwz     r29,-12(save_restore_reg)
+	ENTRY_RESTORE_GPR(30)
 		lwz     r30,-8(save_restore_reg)
+	ENTRY_RESTORE_GPR(31)
 		lwz     r31,-4(save_restore_reg)
 		blr
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C1CD8
- * @note Size: 0xEC
- */
 asm void __div2u(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
@@ -375,10 +383,6 @@ lab9:
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C1DC4
- * @note Size: 0x138
- */
 asm void __div2i(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
@@ -478,10 +482,6 @@ func_end:
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C1EFC
- * @note Size: 0xE4
- */
 asm void __mod2u(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
@@ -554,10 +554,6 @@ lab9:
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C1FE0
- * @note Size: 0x10C
- */
 asm void __mod2i(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
@@ -644,10 +640,6 @@ no_adjust:
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C20EC
- * @note Size: 0x24
- */
 asm void __shl2i(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
@@ -663,10 +655,6 @@ asm void __shl2i(void) {
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C2110
- * @note Size: 0x24
- */
 asm void __shr2u(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
@@ -682,10 +670,6 @@ asm void __shr2u(void) {
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C2134
- * @note Size: 0x28
- */
 asm void __shr2i(void) {
 #ifdef __MWERKS__ // clang-format off
 	nofralloc
@@ -703,10 +687,6 @@ around:
 #endif // clang-format on
 }
 
-/**
- * @note Address: 0x800C21F8
- * @note Size: 0xCC
- */
 asm void __cvt_dbl_usll(void)
 {
 #ifdef __MWERKS__ // clang-format off
