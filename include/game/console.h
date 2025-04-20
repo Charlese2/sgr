@@ -1,3 +1,5 @@
+#include "dolphin/types.h"
+
 #define MAX_COMMANDS 300
 #define MAX_CONSOLE_LINE_LENGTH 64
 
@@ -23,7 +25,7 @@ extern bool checking_status_for_command;
 
 void print_commands_to_file();
 void print_commands_to_tty();
-bool add_command(console_command *command,char *name,char *description,command_type type);
+BOOL add_command(console_command *command,char *name,char *description,command_type type);
 console_command* register_command(console_command* console_command, char* command, char* description, command_type type, CommandCallback command_function);
 void print_to_console(char* buffer);
 void run_script_file(void);

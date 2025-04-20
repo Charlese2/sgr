@@ -1,6 +1,5 @@
 #include "game/console.h"
 #include "game/gr.h"
-#include "dolphin/types.h"
 #include "game/macros.h"
 
 char next_arg[256];
@@ -35,7 +34,7 @@ void print_commands_to_tty() {
 
 }
 
-bool add_command(console_command *command,char *name,char *description,command_type type) {
+BOOL add_command(console_command *command,char *name,char *description,command_type type) {
     if (current_command_count >= MAX_COMMANDS) {
         DEBUGINT3LINE(641);
         return false;
@@ -81,8 +80,7 @@ bool add_command(console_command *command,char *name,char *description,command_t
 }
 
 console_command* register_command(console_command* command, char* name, char* description, command_type type, CommandCallback callback) {
-    add_command(command, name, description, type);
-    if (command) {
+    if (add_command(command, name, description, type)) {
         command->callback = callback;
     }
     return command;
