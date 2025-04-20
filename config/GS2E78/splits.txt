@@ -1195,7 +1195,7 @@ console.cpp:
 	extabindex  start:0x800139FC end:0x80013AB0
 	.text       start:0x8018532C end:0x8018929C
 	.ctors      start:0x801EEA50 end:0x801EEA54
-	.bss        start:0x804385F0 end:0x80438C30
+	.bss        start:0x804383F0 end:0x80438C30
 	.sbss       start:0x80475B98 end:0x80475BF0
 
 new_decals.cpp:

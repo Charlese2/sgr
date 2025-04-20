@@ -1,4 +1,5 @@
 #include "dolphin/types.h"
+#include "dolphin/gx/GXStruct.h"
 #include "game/RenderSystem.h"
 
 bool getGrInitialized(void);

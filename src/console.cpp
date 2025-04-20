@@ -1,12 +1,21 @@
 #include "game/console.h"
+#include "game/gr.h"
 #include "dolphin/types.h"
 #include "game/macros.h"
 
-static console_command* Console_commands[100];
+char next_arg[256];
+char original_arg[256];
+console_command* Console_commands[100];
 bool calling_a_command_function;
 bool doing_help_for_comand;
 bool checking_status_for_command;
 int current_command_count;
+BOOL debug_command_prefixed;
+bool console_is_animating;
+bool console_is_showing;
+GXColor console_background_color;
+
+extern char string_buffer[512];
 
 void print_console_commands_to_file(void) {
     if (calling_a_command_function) {
@@ -81,6 +90,16 @@ console_command* register_command(console_command* command, char* name, char* de
 
 void print_to_console(char * buffer) {
 
+}
+
+void process_command(int commandId) {
+    if (debug_command_prefixed) {
+        sprintf(string_buffer, "next arg is '%s', was originally '%s'\n", &next_arg, &original_arg);
+        print_to_console(string_buffer);
+        print_to_console("Rest of the command line is ");
+
+        print_to_console("\n");
+    }
 }
 
 void run_script_file() {

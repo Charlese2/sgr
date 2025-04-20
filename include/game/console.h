@@ -1,4 +1,5 @@
 #define MAX_COMMANDS 300
+#define MAX_CONSOLE_LINE_LENGTH 64
 
 typedef bool (*CommandCallback)(void);
 
