@@ -10,6 +10,7 @@ extern "C" {
 void GXSetVtxDesc(GXAttr attr, GXAttrType type);
 void GXSetVtxDescv(const GXVtxDescList *attrPtr);
 void GXClearVtxDesc(void);
+void GXSetCullMode(GXCullMode mode);
 void GXSetVtxAttrFmt(GXVtxFmt vtxfmt, GXAttr attr, GXCompCnt cnt, GXCompType type, u8 frac);
 void GXSetVtxAttrFmtv(GXVtxFmt vtxfmt, const GXVtxAttrFmtList *list);
 void GXSetArray(GXAttr attr, const void *base_ptr, u8 stride);

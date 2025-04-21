@@ -8,7 +8,7 @@
 void DebugPrint(char* buffer) {
     if (getGrInitialized()) {
         stop_loadscreen();
-        is_current_mode(&gRenderSystem, 1);
+        gRenderSystem.GetCurrentMode(kRenderModeDraw);
         printf(buffer);
         set_alpha_blending_mode(2);
     }

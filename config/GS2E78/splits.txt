@@ -38,9 +38,9 @@ gr.cpp:
 	.sdata2     start:0x80476268 end:0x80476274
 
 gr_font.cpp:
-	extab       start:0x800059A0 end:0x800059E8
-	extabindex  start:0x8000BCC8 end:0x8000BD10
-	.text       start:0x80023574 end:0x80024650
+	extab       start:0x800059A0 end:0x800059F8
+	extabindex  start:0x8000BCC8 end:0x8000BD28
+	.text       start:0x80023574 end:0x80024A90
 
 gr_poly.cpp:
 	extab       start:0x800059F8 end:0x80005A18
@@ -835,13 +835,14 @@ FileSystem.cpp:
 	extabindex  start:0x800123D0 end:0x80012490
 	.text       start:0x8015152C end:0x80151F14
 	.ctors      start:0x801EE9B4 end:0x801EE9B8
+	.bss        start:0x803C16C0 end:0x803C16F0
 
 PackFileSystem.cpp:
 	extab       start:0x8000A274 end:0x8000A2D4
 	extabindex  start:0x80012490 end:0x800124FC
 	.text       start:0x80151F14 end:0x80152AA0
 	.ctors      start:0x801EE9B8 end:0x801EE9BC
-	.bss        start:0x803C16CC end:0x803C17F8
+	.bss        start:0x803C16F0 end:0x803C17F8
 
 LFile.cpp:
 	extab       start:0x8000A2D4 end:0x8000A2FC
@@ -884,6 +885,7 @@ RenderSystem.cpp:
 	extabindex  start:0x800126AC end:0x800127F0
 	.text       start:0x801558B8 end:0x80157A88
 	.ctors      start:0x801EE9C8 end:0x801EE9CC
+	.data       start:0x802103A8 end:0x802103A8
 
 gr_ngc.cpp:
 	extab       start:0x8000A4E4 end:0x8000A5D4
