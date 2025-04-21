@@ -484,7 +484,7 @@ typedef struct astruct_5 {
     struct struct_5_1 field303_0x138;
 } astruct_5;
 
-int ClampVolume(double volume) {
+inline int ClampVolume(double volume) {
     int roundedVolume;
     if (volume <= 1.0f) {
         if (volume < 0.0f) {

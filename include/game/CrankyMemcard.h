@@ -5,6 +5,6 @@ class CrankyMemcard {
     bool IsMounted(void);
 };
 
-bool CrankyMemcard::IsMounted(void) {
+inline bool CrankyMemcard::IsMounted(void) {
     return m_isMounted;
 }

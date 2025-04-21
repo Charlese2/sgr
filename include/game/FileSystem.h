@@ -17,7 +17,7 @@ PathId PathIds[10] = {
     "/mus/",
 };
 
-PathId* GetFilePath(int index) {
+inline PathId* GetFilePath(int index) {
     DEBUGASSERTLINE(57, index >= 0 && index < kNumPathIds);
     return &PathIds[index];
 }
