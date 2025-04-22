@@ -445,7 +445,7 @@ config.libs = [
             Object(NonMatching, "plainstring.cpp"),
             Object(NonMatching, "FileSystem.cpp"),
             Object(NonMatching, "PackFileSystem.cpp"),
-            Object(NonMatching, "LFile.cpp"),
+            Object(NonMatching, "File.cpp"),
             Object(NonMatching, "file_or_buffer.cpp"),
             Object(NonMatching, "NGCSystem.cpp"),
             Object(NonMatching, "MemSystem.cpp"),
