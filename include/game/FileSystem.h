@@ -1,6 +1,6 @@
 #include "game/macros.h"
 
-typedef char PathId[16];
+typedef const char PathId[16];
 
 const int kNumPathIds = 10;
 
