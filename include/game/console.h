@@ -12,20 +12,26 @@ enum command_type {
     CALL
 };
 
-typedef struct {
+class console_command {
+    public:
     char* name;
     char* description;
     CommandCallback callback;
     command_type type;
-} console_command;
 
-extern bool calling_a_command_function;
-extern bool doing_help_for_comand;
-extern bool checking_status_for_command;
+    console_command(char *command,char *description, command_type type, CommandCallback command_function);
+
+    BOOL add_command(char *name,char *description,command_type type);
+};
+
+extern s32 calling_a_command_function;
+extern s32 doing_help_for_comand;
+extern s32 checking_status_for_command;
+extern u32 arg_type;
 
 void print_commands_to_file();
 void print_commands_to_tty();
-BOOL add_command(console_command *command,char *name,char *description,command_type type);
-console_command* register_command(console_command* console_command, char* command, char* description, command_type type, CommandCallback command_function);
-void print_to_console(char* buffer);
+
+void print_to_console(char* buffer, bool unk);
+void process_command(int commandId);
 void run_script_file(void);

@@ -5,6 +5,7 @@
 #include "dolphin/os/OSAlloc.h"
 #include "dolphin/os.h"
 #include "game/macros.h"
+#include "game/memory.h"
 #include "macros.h"
 #include <stdio.h>
 
@@ -14,16 +15,38 @@ bool bShowMempoolUsage;
 bool gamemem_active;
 extern char string_buffer[512];
 
-console_command toggle_gamemem_prints;
-console_command toggle_mempool_usage;
+#ifdef DEBUG
+console_command toggle_gamemem_prints("show_game_mem_prints", "Toggles Show_game_mem_prints", TOGGLE, Gamemem_info.toggle_show_gamemem_prints);
+console_command toggle_mempool_usage("show_mempool_usage", "Toggles bShowMempoolUsage", TOGGLE, Gamemem_info.toggle_show_mempool_usage);
+#endif
 
+inline GameMem::GameMem() {
+
+}
+
+#ifdef DEBUG
 bool GameMem::toggle_show_gamemem_prints(void) {
     if (calling_a_command_function) {
-        Show_game_mem_prints = !Show_game_mem_prints;
+        process_command(193);
+        if ((arg_type & 0x40)) {
+            Show_game_mem_prints = true;
+        }
+        else if (arg_type & 0x80) {
+            Show_game_mem_prints = false;
+        }
+        else if ((arg_type & 1)) {
+            Show_game_mem_prints ^= true;
+        }
+    }
+
+    if (doing_help_for_comand) {
+        sprintf(string_buffer, "Usage: %s [bool]\nSets %s to true or false. If nothing passed, then toggles it\n", "show_game_mem_prints", "Show_game_mem_prints");
+        print_to_console(string_buffer, false);
     }
 
     if (checking_status_for_command) {
-        sprintf(string_buffer, "Usage: %s [bool]\nSets %s to true or false. If nothing passed, then toggles it\n", "show_game_mem_prints", "Show_game_mem_prints");
+        sprintf(string_buffer, "%s is %s\n", "show_game_mem_prints", Show_game_mem_prints ? "TRUE" : "FALSE");
+        print_to_console(string_buffer, false);
     }
 
     return Show_game_mem_prints;
@@ -31,19 +54,31 @@ bool GameMem::toggle_show_gamemem_prints(void) {
 
 bool GameMem::toggle_show_mempool_usage(void) {
     if (calling_a_command_function) {
-        bShowMempoolUsage = !bShowMempoolUsage;
-    }
-    
-    if (checking_status_for_command) {
-        sprintf(string_buffer, "%s is %s\n", "show_mempool_usage", bShowMempoolUsage ? "TRUE" : "FALSE");
+        process_command(193);
+        if ((arg_type & 0x40)) {
+            bShowMempoolUsage = true;
+        }
+        else if (arg_type & 0x80) {
+            bShowMempoolUsage = false;
+        }
+        else if ((arg_type & 1)) {
+            bShowMempoolUsage ^= true;
+        }
     }
 
     if (doing_help_for_comand) {
         sprintf(string_buffer, "Usage: %s [bool]\nSets %s to true or false. If nothing passed, then toggles it\n", "show_mempool_usage", "bShowMempoolUsage");
+        print_to_console(string_buffer, false);
+    }
+
+    if (checking_status_for_command) {
+        sprintf(string_buffer, "%s is %s\n", "show_mempool_usage", bShowMempoolUsage ? "TRUE" : "FALSE");
+        print_to_console(string_buffer, false);
     }
 
     return bShowMempoolUsage;
 }
+#endif
 
 int GameMem::ActivateGamemem(void) {
     ASSERTLINE(144, !gamemem_active);
@@ -60,14 +95,14 @@ int GameMem::ActivateGamemem(void) {
 inline bool GameMem::AllocateMempools(void) {
     u32 size;
     int heap;
-    
+
     ASSERTLINE(159, gamemem_active);
 #if DEBUG
     if (Show_game_mem_prints) {
         printf("GAME_MEM: allocate mempools\n");
     }
 #endif
-    
+
     gHeapAlloc = true;
     set_current_mempool(0);
 
@@ -254,7 +289,7 @@ void GameMem::DisplayMempoolUsage() {
     if (bShowMempoolUsage) {
         GameMem *gamemem = Gamemem_info.GetGameMem();
         sprintf(buffer, "Persistant: %5dKB of %5dKB in use\n", gamemem->persistantMempool.offset >> 10, gamemem->persistantMempool.size >> 10);
-        DrawTextOnScreen(10, 10, buffer, -1);
+        DrawTextOnScreen2D(10, 10, buffer, -1);
 
         mempool = Gamemem_info.GetPerlevelMempool();
         sprintf(buffer, "Per Level:  %5dKB of %5dKB in use\n", mempool->offset >> 10, mempool->size >> 10);
@@ -273,11 +308,3 @@ void GameMem::DisplayMempoolUsage() {
     }
 }
 #endif
-
-
-GameMem::GameMem() {
-    #ifdef DEBUG
-        register_command(&Gamemem_info.toggle_gamemem_prints, "show_game_mem_prints", "Toggles Show_game_mem_prints", TOGGLE, Gamemem_info.toggle_show_gamemem_prints);
-        register_command(&Gamemem_info.toggle_mempool_usage, "show_mempool_usage", "Toggles bShowMempoolUsage", TOGGLE, Gamemem_info.toggle_show_mempool_usage);
-    #endif
-}

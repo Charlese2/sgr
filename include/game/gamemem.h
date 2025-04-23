@@ -24,9 +24,6 @@ class GameMem {
     bool spellslot_mempool_active;
     bool persistant_mempool_active;
 
-    console_command toggle_gamemem_prints;
-    console_command toggle_mempool_usage;
-
     GameMem();
 
     static bool toggle_show_gamemem_prints(void);

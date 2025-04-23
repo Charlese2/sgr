@@ -10,7 +10,8 @@ extern "C" {
 #define COMMON_BLOCK_SIZE 72800
 #define MAX_POOL_NAME_LENGTH 16
 
-typedef struct {
+typedef class {
+    public:
     u8* destination;
     u32 size;
     u32 offset;
