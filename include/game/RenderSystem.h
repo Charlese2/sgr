@@ -34,9 +34,13 @@ class RenderSystem {
     RenderSystem();
     ~RenderSystem();
 
-    u32 GetCurrentMode(u32 flag);
+    u32 GetCurrentMode(u32 flag) {
+        return flag & m_curMode;
+    }
     void SetupTextureDrawIn3DSpace(void);
     void Draw(void);
 };
+
+
 
 extern RenderSystem gRenderSystem;

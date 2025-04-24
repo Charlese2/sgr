@@ -3,7 +3,7 @@
 #define MAX_COMMANDS 300
 #define MAX_CONSOLE_LINE_LENGTH 64
 
-typedef bool (*CommandCallback)(void);
+typedef int (*CommandCallback)(void);
 
 enum command_type {
     TOGGLE,
@@ -27,6 +27,8 @@ class console_command {
 extern s32 calling_a_command_function;
 extern s32 doing_help_for_comand;
 extern s32 checking_status_for_command;
+extern int command_argument_int;
+extern float command_argument_float;
 extern u32 arg_type;
 
 void print_commands_to_file();

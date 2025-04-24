@@ -35,8 +35,9 @@ gr.cpp:
 	.ctors      start:0x801EE84C end:0x801EE850
 	.rodata     start:0x801EF0B8 end:0x801EF1E8
 	.bss        start:0x8024B7E0 end:0x8024C078
+	.sdata      start:0x80473C50 end:0x80473C70
 	.sbss       start:0x80474430 end:0x804744B0
-	.sdata2     start:0x80476268 end:0x80476274
+	.sdata2     start:0x80476268 end:0x804762B8
 
 gr_font.cpp:
 	extab       start:0x800059A0 end:0x800059F8

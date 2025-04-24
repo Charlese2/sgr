@@ -12,6 +12,8 @@ s32 current_command_count;
 BOOL debug_command_prefixed;
 bool console_is_animating;
 bool console_is_showing;
+int command_argument_int;
+float command_argument_float;
 GXColor console_background_color;
 u32 arg_type;
 

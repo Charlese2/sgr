@@ -25,7 +25,7 @@ inline GameMem::GameMem() {
 }
 
 #ifdef DEBUG
-bool GameMem::toggle_show_gamemem_prints(void) {
+int GameMem::toggle_show_gamemem_prints(void) {
     if (calling_a_command_function) {
         process_command(193);
         if ((arg_type & 0x40)) {
@@ -52,7 +52,7 @@ bool GameMem::toggle_show_gamemem_prints(void) {
     return Show_game_mem_prints;
 }
 
-bool GameMem::toggle_show_mempool_usage(void) {
+int GameMem::toggle_show_mempool_usage(void) {
     if (calling_a_command_function) {
         process_command(193);
         if ((arg_type & 0x40)) {
