@@ -37,8 +37,8 @@ class RenderSystem {
     u32 GetCurrentMode(u32 flag) {
         return flag & m_curMode;
     }
+    void Setup2DElementDraw(void);
     void SetupTextureDrawIn3DSpace(void);
-    void Draw(void);
 };
 
 

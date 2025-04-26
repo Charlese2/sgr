@@ -9,7 +9,7 @@
 
 RenderSystem gRenderSystem;
 
-void RenderSystem::Draw(void) {
+void RenderSystem::Setup2DElementDraw(void) {
     Mtx mtx;
     DEBUGASSERTLINE(262, m_curMode & kRenderModeDraw);
     if (!(m_curMode & kRenderModeDraw2D)) {

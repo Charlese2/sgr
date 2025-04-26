@@ -15,7 +15,7 @@ void DrawTextOnScreen2D(int width_offset, int height_offset, char *text, int par
     if (text) {
         left_pos = width_offset;
         gRenderSystem.SetupTextureDrawIn3DSpace();
-        gRenderSystem.Draw();
+        gRenderSystem.Setup2DElementDraw();
 
         for (; text; text++) {
             character = *text;

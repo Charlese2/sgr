@@ -27,7 +27,7 @@ void set_z_mode(int mode) {
 }
 
 void DrawDynamicTexture(u16 param_1, u16 param_2, u16 param_3, u16 param_4) {
-    gRenderSystem.Draw();
+    gRenderSystem.Setup2DElementDraw();
     GXSetNumChans(1);
     GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
     GXSetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
