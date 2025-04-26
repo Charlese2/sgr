@@ -8,16 +8,24 @@ console_command* Console_commands[100];
 s32 calling_a_command_function;
 s32 doing_help_for_comand;
 s32 checking_status_for_command;
+u32 arg_type;
+int command_argument_int;
+float command_argument_float;
 s32 current_command_count;
 BOOL debug_command_prefixed;
 bool console_is_animating;
 bool console_is_showing;
-int command_argument_int;
-float command_argument_float;
 GXColor console_background_color;
-u32 arg_type;
 
 extern char string_buffer[512];
+
+void print_commands_to_file() {
+
+}
+
+void print_commands_to_tty() {
+
+}
 
 BOOL console_command::add_command(char *name, char *description, command_type type) {
     if (current_command_count >= MAX_COMMANDS) {
@@ -78,14 +86,6 @@ void print_console_commands_to_file(void) {
     if (doing_help_for_comand) {
         print_to_console("Print out console commands to the text file console_commands.txt", false);
     }
-}
-
-void print_commands_to_file() {
-
-}
-
-void print_commands_to_tty() {
-
 }
 
 void print_to_console(char * buffer, bool unk) {
