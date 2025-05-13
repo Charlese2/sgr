@@ -19,15 +19,82 @@ GXColor console_background_color;
 
 extern char string_buffer[512];
 
-void print_commands_to_file() {
+console_command printCommandsToFile("print_to_file", "Print out console commands to the text file console_commands.txt", CALL,
+                                    print_commands_to_file);
+console_command printCommandsToTTY("print_to_tty", "Print out console commands to the tty window", CALL, print_commands_to_tty);
+console_command runScript("script", "Runs a console script file (.vcs)", CALL, run_script_file);
 
+int print_commands_to_file(void) {
+    char buffer[256];
+
+    if (calling_a_command_function) {
+        for (u32 i = 0; i < current_command_count; i++) {
+            if (Console_commands[i]) {
+                if (Console_commands[i]->description) {
+                    sprintf(buffer, "%s - %s", Console_commands[i]->name, Console_commands[i]->description);
+                } else {
+                    strcpy(buffer, Console_commands[i]->name);
+                }
+            }
+        }
+    }
+
+    if (doing_help_for_comand) {
+        print_to_console("Print out console commands to the text file console_commands.txt", 0);
+    }
 }
 
-void print_commands_to_tty() {
+int print_commands_to_tty(void) {
+    s32 prev_len = -1;
+    s32 msg_len;
+    char buffer[256];
 
+    if (calling_a_command_function) {
+        for (u32 i = 0; i < current_command_count; i++) {
+            if (Console_commands[i] && (msg_len = strlen(Console_commands[i]->name), prev_len < msg_len)) {
+                prev_len = msg_len;
+            }
+        }
+        for (u32 i = 0; i < current_command_count; i++) {
+            if (Console_commands[i]) {
+                memset(buffer, ' ', 256);
+                if (Console_commands[i]->description) {
+
+                    sprintf(buffer, "%s", Console_commands[i]->name);
+
+                    msg_len = strlen(buffer);
+                    buffer[msg_len] = ' ';
+                    sprintf(buffer + prev_len + 3, "- %s", Console_commands[i]->description);
+                } else {
+                    strcpy(buffer, Console_commands[i]->name);
+
+                }
+                msg_len = strlen(buffer);
+                if (msg_len < 79) {
+                    printf("%s\n", buffer);
+                } else {
+                    msg_len = prev_len + msg_len + 5;
+                    DEBUGASSERTLINE(252, msg_len < 255);
+                }
+                for (; prev_len + 84 <= msg_len; msg_len--) {
+                    buffer[msg_len] = buffer[msg_len - (prev_len + 5)];
+                }
+                for (; msg_len > 78; msg_len--) {
+                    buffer[msg_len] = ' ';
+                }
+                buffer[prev_len + 82] = '|';
+                printf("%s\n", buffer);
+            }
+        }
+    }
+
+    if (doing_help_for_comand) {
+		print_to_console("Print out console commands to the tty window", 0);
+    }
 }
 
-BOOL console_command::add_command(char *name, char *description, command_type type) {
+BOOL console_command::add_command(const char* name, const char* description, command_type type)
+{
     if (current_command_count >= MAX_COMMANDS) {
         DEBUGINT3LINE(641);
         return false;
@@ -72,7 +139,8 @@ BOOL console_command::add_command(char *name, char *description, command_type ty
     return true;
 }
 
-console_command::console_command(char *command, char *description, command_type type, CommandCallback command_function) {
+console_command::console_command(const char* command, const char* description, command_type type, CommandCallback command_function)
+{
     if (this->add_command(command, description, type)) {
         callback = command_function;
     }
@@ -88,7 +156,7 @@ void print_console_commands_to_file(void) {
     }
 }
 
-void print_to_console(char * buffer, bool unk) {
+void print_to_console(const char * buffer, bool unk) {
 
 }
 
@@ -102,6 +170,21 @@ void process_command(int commandId) {
     }
 }
 
-void run_script_file() {
+int run_script_file(void) {
+    if (calling_a_command_function) {
+        process_command(2);
+        if (strlen(next_arg)) {
+            load_script(next_arg);
+        } else {
+            doing_help_for_comand = 1;
+        }
+    }
+
+    if (doing_help_for_comand) {
+        print_to_console("Usage: script <scriptfilename>\n", 0);
+    }
+}
+
+void load_script(char * script_file) {
 
 }

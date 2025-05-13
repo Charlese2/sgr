@@ -14,14 +14,14 @@ enum command_type {
 
 class console_command {
     public:
-    char* name;
-    char* description;
+    const char* name;
+    const char* description;
     CommandCallback callback;
     command_type type;
 
-    console_command(char *command,char *description, command_type type, CommandCallback command_function);
+    console_command(const char *command, const char *description, command_type type, CommandCallback command_function);
 
-    BOOL add_command(char *name,char *description,command_type type);
+    BOOL add_command(const char *name, const char *description,command_type type);
 };
 
 extern s32 calling_a_command_function;
@@ -31,9 +31,10 @@ extern int command_argument_int;
 extern float command_argument_float;
 extern u32 arg_type;
 
-void print_commands_to_file();
-void print_commands_to_tty();
+int print_commands_to_file(void);
+int print_commands_to_tty(void);
 
-void print_to_console(char* buffer, bool unk);
+void print_to_console(const char* buffer, bool unk);
 void process_command(int commandId);
-void run_script_file(void);
+int run_script_file(void);
+void load_script(char * script_file);
