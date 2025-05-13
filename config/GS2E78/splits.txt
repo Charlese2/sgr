@@ -78,6 +78,7 @@ levels.cpp:
 	.text       start:0x80028090 end:0x80029E38
 	.ctors      start:0x801EE860 end:0x801EE864
 	.rodata     start:0x801EF270 end:0x801EFDB0
+	.sbss       start:0x80474580 end:0x804745C8
 
 effect_mem.cpp:
 	extab       start:0x80005BC0 end:0x80005C48
