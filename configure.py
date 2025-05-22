@@ -248,6 +248,19 @@ cflags_lib = [
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
 
+cflags_metrotrk = [
+    *cflags_base,
+    "-inline deferred",
+    "-rostr",
+    "-sdata 0",
+    "-sdata2 0",
+    "-pool off",
+    #"-use_lmw_stmw on",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/Runtime",
+    "-i src/dolphin",
+]
+
 # REL flags
 cflags_rel = [
     *cflags_base,
@@ -284,6 +297,15 @@ def Rel(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
         "mw_version": "GC/1.3.2",
         "cflags": cflags_rel,
         "progress_category": "game",
+        "objects": objects,
+    }
+
+def MetroTRKLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "mw_version": "GC/1.3.2",
+        "cflags": [*cflags_metrotrk],
+        "progress_category": "metrotrk",
         "objects": objects,
     }
 
@@ -799,6 +821,32 @@ config.libs = [
             Object(NonMatching, "dolphin/pad/Pad.c"),
         ]
     ),
+    MetroTRKLib(
+        "metrotrk",
+        [
+            Object(Matching, "metrotrk/mainloop.c"),
+            Object(Matching, "metrotrk/nubevent.c"),
+            Object(NonMatching, "metrotrk/nubinit.c"),
+            Object(NonMatching, "metrotrk/msg.c"),
+            Object(NonMatching, "metrotrk/msgbuf.c"),
+            Object(NonMatching, "metrotrk/serpoll.c"),
+            Object(NonMatching, "metrotrk/usr_put.c"),
+            Object(NonMatching, "metrotrk/dispatch.c"),
+            Object(NonMatching, "metrotrk/msghndlr.c"),
+            Object(NonMatching, "metrotrk/support.c"),
+            Object(Matching, "metrotrk/mutex_TRK.c"),
+            Object(NonMatching, "metrotrk/notify.c"),
+            Object(Matching, "metrotrk/flush_cache.c"),
+            Object(NonMatching, "metrotrk/mem_TRK.c"),
+            Object(NonMatching, "metrotrk/__exception.s"),
+            Object(NonMatching, "metrotrk/targimpl.c"),
+            Object(NonMatching, "metrotrk/dolphin_trk.c"),
+            Object(Matching, "metrotrk/mpc_7xx_603e.c"),
+            Object(Matching, "metrotrk/main_TRK.c"),
+            Object(NonMatching, "metrotrk/dolphin_trk_glue.c"),
+            Object(Matching, "metrotrk/targcont.c"),
+        ]
+    ),
     Lib(
         "Cranky",
         [
@@ -832,6 +880,7 @@ def link_order_callback(module_id: int, objects: List[str]) -> List[str]:
 config.progress_categories = [
     ProgressCategory("game", "Game Code"),
     ProgressCategory("sdk", "SDK Code"),
+    ProgressCategory("metrotrk", "MetroTRK")
 ]
 config.progress_each_module = args.verbose
 # Optional extra arguments to `objdiff-cli report generate`

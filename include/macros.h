@@ -28,4 +28,18 @@
     
 #define ASSERT(cond) ASSERTLINE(__LINE__, cond)
 
+#ifdef __MWERKS__
+#define DECL_SECTION(x) __declspec(section x)
+#define WEAK __declspec(weak)
+#define ASM asm
+#else
+#define DECL_SECTION(x)
+#define WEAK
+#define ASM
+#endif
+
+#define INIT DECL_SECTION(".init")
+#define CTORS DECL_SECTION(".ctors")
+#define DTORS DECL_SECTION(".dtors")
+
 #endif // _H_MACROS_

@@ -146,9 +146,11 @@ typedef void (*Event)(void);
 #if defined(__MWERKS__) && !defined(M2CTX)
 #define SDATA __declspec(section ".sdata")
 #define WEAK __declspec(weak)
+#define ASM asm
 #else
 #define SDATA
 #define WEAK
+#define ASM
 #endif
 
 #endif

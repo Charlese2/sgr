@@ -1728,73 +1728,86 @@ dolphin/gx/GXTransform.c:
 dolphin/gx/GXPerf.c:
 	.text       start:0x801AFFD4 end:0x801B08D0
 
-MetroTRK/Portable/mainloop.c:
+metrotrk/mainloop.c:
 	.text       start:0x801B08D0 end:0x801B09C8
 
-MetroTRK/Portable/nubevent.c:
+metrotrk/nubevent.c:
 	.text       start:0x801B09C8 end:0x801B0BF0
+	.bss        start:0x8046DF98 end:0x8046DFC0
 
-MetroTRK/Portable/nubinit.c:
+metrotrk/nubinit.c:
 	.text       start:0x801B0BF0 end:0x801B0D70
+	.rodata     start:0x802025F8 end:0x80202618
+	.bss        start:0x8046DFC0 end:0x8046DFC8
 
-MetroTRK/Portable/msg.c:
+metrotrk/msg.c:
 	.text       start:0x801B0D70 end:0x801B0F4C
 
-MetroTRK/Portable/msgbuffer.c:
+metrotrk/msgbuf.c:
 	.text       start:0x801B0F4C end:0x801B1978
+	.rodata     start:0x80202618 end:0x80202638
+	.bss        start:0x8046DFC8 end:0x8046F978
 
-MetroTRK/Portable/serpoll.c:
+metrotrk/serpoll.c:
 	.text       start:0x801B1978 end:0x801B1D44
+	.bss        start:0x8046F97C end:0x8046F990
 
-MetroTRK/Os/dolphin/usr_put.c:
+metrotrk/usr_put.c:
 	.text       start:0x801B1D44 end:0x801B1DD0
 
-MetroTRK/Portable/dispatch.c:
+metrotrk/dispatch.c:
 	.text       start:0x801B1DD0 end:0x801B1E6C
+	.data       start:0x80218EF0 end:0x80218F78
+	.bss        start:0x8046F990 end:0x8046F998
 
-MetroTRK/Portable/msghndlr.c:
+metrotrk/msghndlr.c:
 	.text       start:0x801B1E6C end:0x801B46CC
 
-MetroTRK/Portable/support.c:
+metrotrk/support.c:
 	.text       start:0x801B46CC end:0x801B4F8C
 
-MetroTRK/Portable/mutex_TRK.c:
+metrotrk/mutex_TRK.c:
 	.text       start:0x801B4F8C end:0x801B4FA4
 
-MetroTRK/Portable/notify.c:
+metrotrk/notify.c:
 	.text       start:0x801B4FA4 end:0x801B507C
 
-MetroTRK/Processor/ppc/Generic/flush_cache.c:
+metrotrk/flush_cache.c:
 	.text       start:0x801B507C end:0x801B50B4
 
-MetroTRK/Portable/mem_TRK.cpp:
+metrotrk/mem_TRK.c:
+	.init       start:0x800033A8 end:0x800033FC
 	.text       start:0x801B50B4 end:0x801B5170
 
-MetroTRK/Processor/ppc/Generic/targimpl.c:
+metrotrk/targimpl.c:
 	.text       start:0x801B5170 end:0x801B6A00
+	.rodata     start:0x80202638 end:0x802026C0
+	.data       start:0x80218FB0 end:0x80218FE0
+	.bss        start:0x8046F9A0 end:0x8046FF20
 
-MetroTRK/Processor/ppc/Export/targsupp.c:
+metrotrk/targsupp.c:
 	.text       start:0x801B6A00 end:0x801B6A20
 
-MetroTRK/Os/dolphin/dolphin_trk.c:
+metrotrk/dolphin_trk.c:
 	.text       start:0x801B6A20 end:0x801B6B60
 
-MetroTRK/Processor/ppc/Generic/mpc_7xx_603e.c:
+metrotrk/mpc_7xx_603e.c:
 	.text       start:0x801B6B60 end:0x801B6ED8
 
-MetroTRK/Portable/main_TRK.c:
+metrotrk/main_TRK.c:
 	.text       start:0x801B6ED8 end:0x801B6F1C
+	.bss        start:0x8046FF28 end:0x8046FF30
 
-MetroTRK/Os/dolphin/dolphin_trk_glue.c:
+metrotrk/dolphin_trk_glue.c:
 	.text       start:0x801B6F1C end:0x801B73C8
 
-MetroTRK/Os/dolphin/targcont.c:
+metrotrk/targcont.c:
 	.text       start:0x801B73C8 end:0x801B73FC
 
-MetroTRK/Os/dolphin/target_options.c:
+metrotrk/target_options.c:
 	.text       start:0x801B73FC end:0x801B7418
 
-MetroTRK/Export/mslsupp.c:
+metrotrk/mslsupp.c:
 	.text       start:0x801B7418 end:0x801B7614
 
 PowerPC_EABI_Support/Runtime/__va_arg.c:
