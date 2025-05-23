@@ -281,6 +281,15 @@ def DolphinLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
         "objects": objects,
     }
 
+def DebuggerLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "mw_version": "GC/1.1",
+        "cflags": [*cflags_sdk],
+        "progress_category": "sdk",
+        "objects": objects,
+    }
+
 def Lib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
     return {
         "lib": lib_name,
@@ -765,10 +774,10 @@ config.libs = [
             Object(Matching, "dolphin/odenotstub/odenotstub.c"),
         ]
     ),
-        DolphinLib(
+        DebuggerLib(
         "DebuggerDriver",
         [
-            Object(NonMatching, "debugger/DebuggerDriver.c"),
+            Object(Matching, "debugger/DebuggerDriver.c"),
         ]
     ),
     DolphinLib(
