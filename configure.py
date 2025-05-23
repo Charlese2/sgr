@@ -765,6 +765,12 @@ config.libs = [
             Object(Matching, "dolphin/odenotstub/odenotstub.c"),
         ]
     ),
+        DolphinLib(
+        "DebuggerDriver",
+        [
+            Object(NonMatching, "debugger/DebuggerDriver.c"),
+        ]
+    ),
     DolphinLib(
         "amcstubs",
         [

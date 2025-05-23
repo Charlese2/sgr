@@ -2059,6 +2059,11 @@ dolphin/amcstubs/AmcExi2Stubs.c:
 dolphin/odenotstub/odenotstub.c:
 	.text       start:0x801C5AE8 end:0x801C5AF0
 
+debugger/DebuggerDriver.c:
+	.text       start:0x801C5AF0 end:0x801C6570
+	.sdata      start:0x80474318 end:0x80474320
+	.sbss       start:0x80476058 end:0x80476070
+
 dolphin/exi/EXIBios.c:
 	.text       start:0x801C6570 end:0x801C7E3C
 	.bss        start:0x804725C0 end:0x80472680
