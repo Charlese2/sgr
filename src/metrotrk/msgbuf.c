@@ -1,6 +1,7 @@
 #include "metrotrk/msgbuf.h"
 #include "metrotrk/mem_TRK.h"
 #include "metrotrk/nubinit.h"
+#include "metrotrk/usr_put.h"
 
 TRKMsgBufs gTRKMsgBufs;
 
@@ -39,6 +40,10 @@ DSError TRKGetFreeBuffer(int* bufferIndexPtr, MessageBuffer** destBufPtr) {
         }
 
         TRKReleaseMutex(&buf->fMutex);
+    }
+    
+    if (error == kNoMessageBufferAvailable){
+        usr_puts_serial("ERROR : No buffer available\n");
     }
 
     return error;

@@ -8,8 +8,8 @@ DSError TRKSuppAccessFile(u32 file_handle, u8* data, size_t* count, u8* io_resul
     MessageBuffer* replyBuffer;
     int replyBufferId;
     u32 length;
-    MessageBuffer* buffer;
     int bufferId;
+    MessageBuffer* buffer;
     DSError error;
     u32 i;
     u16 replyLength;
@@ -111,8 +111,8 @@ DSError TRKRequestSend(MessageBuffer* msgBuf, int* bufferId, u32 p1, u32 p2, int
     MessageBuffer* buffer;
     u32 timer;
     int tries;
-    u8 msg_error;
     u8 msg_command;
+    u8 msg_error;
     BOOL badReply = TRUE;
 
     *bufferId = -1;

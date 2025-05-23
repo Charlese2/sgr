@@ -26,6 +26,7 @@ typedef struct msgbuf_t {
 } msgbuf_t; // size = 0x40
 
 BOOL GetTRKConnected(void);
+void SetTRKConnected(BOOL);
 DSError TRKDoConnect(MessageBuffer* buf);
 DSError TRKDoDisconnect(MessageBuffer* buf);
 DSError TRKDoReset(MessageBuffer* buf);

@@ -34,7 +34,7 @@ DispatchCallback gTRKDispatchTable[] = {
     TRKDoUnsupported,
     TRKDoUnsupported,
     TRKDoFlushCache,
-    TRKDoUnsupported,
+    TRKDoSetOption,
     TRKDoContinue,
     TRKDoStep,
     TRKDoStop,

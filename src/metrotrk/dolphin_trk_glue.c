@@ -1,6 +1,7 @@
 #include "metrotrk/dolphin_trk_glue.h"
 #include "debugger.h"
 #include "dolphin/amc/AmcExi2Comm.h"
+#include "dolphin/os.h"
 #include "metrotrk/mem_TRK.h"
 #include "metrotrk/targimpl.h"
 #include "metrotrk/trk.h"
@@ -59,6 +60,7 @@ int InitMetroTRKCommTable(int hwId) {
     BOOL isStub;
 
     if (hwId == HARDWARE_NDEV) {
+        OSReport("MetroTRK : Set to GDEV hardware\n");
         isStub = Hu_IsStub();
         gDBCommTable.initialize_func = (DBCommInitFunc)DBInitComm;
         gDBCommTable.initinterrupts_func = (DBCommFunc)DBInitInterrupts;
@@ -69,6 +71,7 @@ int InitMetroTRKCommTable(int hwId) {
         gDBCommTable.close_func = (DBCommFunc)DBClose;
         return isStub;
     } else {
+        OSReport("MetroTRK : Set to AMC DDH hardware\n");
         isStub = AMC_IsStub();
         gDBCommTable.initialize_func = (DBCommInitFunc)EXI2_Init;
         gDBCommTable.initinterrupts_func = (DBCommFunc)EXI2_EnableInterrupts;

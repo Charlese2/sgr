@@ -1800,6 +1800,8 @@ metrotrk/main_TRK.c:
 
 metrotrk/dolphin_trk_glue.c:
 	.text       start:0x801B6F1C end:0x801B73C8
+	.rodata     start:0x802026C0 end:0x80202708
+	.data       start:0x80219020 end:0x80219040
 
 metrotrk/targcont.c:
 	.text       start:0x801B73C8 end:0x801B73FC
