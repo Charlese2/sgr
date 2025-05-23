@@ -1,3 +1,5 @@
+#include "platform.h"
+
 int __TRK_write_console(int, int, int*, int);
 
 int __write_console(int param_0, int param_1, int* param_2, int param_3) {
@@ -14,7 +16,7 @@ int __write_console(int param_0, int param_1, int* param_2, int param_3) {
 	return 0;
 }
 
-int __close_console() {
+WEAK int __close_console() {
 	return 0;
 }
 

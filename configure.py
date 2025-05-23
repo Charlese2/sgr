@@ -571,7 +571,7 @@ config.libs = [
             Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common/strtoul.c"),
             Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common/wchar_io.c"),
             Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/ansi_fp.c", extra_cflags = ["-inline noauto", "-str pool"]),
-            Object(NonMatching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/uart_console_io.c"),
+            Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/uart_console_io.c"),
             Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_acos.c"),
             Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_asin.c"),
             Object(Matching, "PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_atan2.c"),
