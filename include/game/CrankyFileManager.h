@@ -1,28 +1,40 @@
-#include "game/FileSystem.h"
-
+#include "global.h"
 extern "C" {
 	#include "dolphin/dvd.h"
 }
+
+typedef void (FileFoundCallback)();
+typedef void (FileMissingCallback)(char* file);
+typedef bool (*FileTypeCallback)(int* fileTypeTable);
+
 extern FileFoundCallback* file_found_callback;
-extern FileNotFoundCallback* file_not_found_callback;
+extern FileMissingCallback* file_missing_callback;
 
 class CrankyFile {
-private:
-	char** unk0;
+	private:
+	virtual void unk0();
 	DVDFileInfo m_fileInfo;
 	u32 m_position;
 	BOOL m_Opened;
 	char m_filePath[8];
 	char m_fileName[48];
 
-public:
+	public:
 	void OpenFile(char* file_path, char* file_name);
+	void CloseFile(void);
+	u32 GetFileSize(void);
 	BOOL IsOpened() const { return m_Opened; };
+	u32 GetPosition(void) const {return m_position;};
+	CrankyFile();
+	~CrankyFile();
 };
 
-class CrankyFileBuffer {
+class CrankyFileCache {
+
+};
+
+class CrankyFileBuffer : CrankyFile {
 private:
-	CrankyFile m_file;
 	int unk80;
 	u32 m_TotalSize;
 	u32 m_BufferSize;
@@ -33,14 +45,28 @@ private:
 
 public:
 	void SetFileBuffer(u8* buf, int requested_size);
-	BOOL IsActive() const { return m_file.IsOpened(); };
+	BOOL IsActive() const { return IsOpened(); };
 };
 
 class CrankyFileManager {
-	void set_missing_file_callback(FileNotFoundCallback* callback);
 	public:
-	
-	void SetMissingFileCallback(FileNotFoundCallback* callback);
+	virtual void unk0();
+	CrankyFileCache* m_fileCache;
+	u32 m_availableFileCaches;
+	FileTypeCallback SomethingFileTypes;
+	int* m_pFileTypeTable;
+	u32 m_RegisteredFileTypes;
+	u32 m_MaxFiletypeLimit;
+	CrankyFile* m_pFile;
+	u32 m_MaxNumberOfOpenFiles;
+
+	public:
+	CrankyFileManager();
+	~CrankyFileManager();
+	int OpenNewFile(char* file_name, char* file_path);
+	void SetMissingFileCallback(FileMissingCallback* callback);
 };
 
-extern CrankyFileManager gFileManager;
+void set_missing_file_callback(FileMissingCallback* callback);
+
+STATIC_ASSERT(sizeof(CrankyFileManager) == 0x24);

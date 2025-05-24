@@ -3,7 +3,24 @@
 #include "dolphin/os.h"
 #include "macros.h"
 
-#pragma optimize_for_size off // (-opt speed)
+extern FileFoundCallback* file_found_callback;
+extern FileMissingCallback* file_missing_callback;
+
+CrankyFile::CrankyFile() {
+    m_Opened = 0;
+}
+
+CrankyFile::~CrankyFile() {
+
+}
+
+void set_missing_file_callback(FileMissingCallback* callback) {
+    file_missing_callback = callback;
+}
+
+void  set_file_found_callback(FileFoundCallback* callback) {
+    file_found_callback = callback;
+}
 
 void CrankyFile::OpenFile(char* file_path, char* file_name) {
     char file[56];
@@ -17,8 +34,8 @@ void CrankyFile::OpenFile(char* file_path, char* file_name) {
     strcpy(m_fileName, file_name);
     if (!DVDOpen(file, &m_fileInfo)) {
         sprintf(buffer, "%s/%s not found", file_path, file_name);
-        if (file_not_found_callback) {
-            file_not_found_callback(buffer);
+        if (file_missing_callback) {
+            file_missing_callback(buffer);
         } else {
             ASSERTMSGLINE(106, false, buffer);
         }
@@ -31,4 +48,17 @@ void CrankyFile::OpenFile(char* file_path, char* file_name) {
     }
 
     m_position = 0;
+}
+
+void CrankyFile::CloseFile(void) {
+    DVDClose(&m_fileInfo);
+    m_Opened = 0;
+}
+
+u32 CrankyFile::GetFileSize(void) {
+     return m_fileInfo.length;
+};
+
+void CrankyFile::unk0() {
+    
 }

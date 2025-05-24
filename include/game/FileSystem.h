@@ -2,14 +2,15 @@
 #define _GAME_FILESYSTEM_H_
 
 #include "game/macros.h"
+#include "game/CrankyFileManager.h"
+
+CrankyFileManager gFileManager;
 
 typedef const char PathId[16];
 
 const int kNumPathIds = 10;
 
-typedef void (FileFoundCallback)();
-typedef void (FileNotFoundCallback)(char* file);
-
+void LoadFile(void);
 void SetupFilesystem(void);
 
 PathId PathIds[10] = {

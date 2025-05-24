@@ -1,8 +1,6 @@
 #ifndef _global_h_
 #define _global_h_
 
-#include "dolphin/types.h"
-
 #include "macros.h"
 
 #define ARRAY_SIZE(o) (sizeof(o) / sizeof(o[0]))
@@ -30,15 +28,15 @@
 #ifdef __MWERKS__
 #define GLUE(a, b) a##b
 #define GLUE2(a, b) GLUE(a, b)
-#define STATIC_ASSERT(cond) typedef char GLUE2(static_assertion_failed, __LINE__)[(cond) ? 1 : -1]
+#define STATIC_ASSERT(cond) typedef char GLUE2(static_assertion_failed__line_, __LINE__)[(cond) ? 1 : -1]
 #define ALIGN_DECL(ALIGNMENT) __attribute__((aligned(ALIGNMENT)))
 #define SECTION_DATA __declspec(section ".data")
 #define SECTION_INIT __declspec(section ".init")
 #else
 #define STATIC_ASSERT(...)
 #define ALIGN_DECL(...)
-#define SECTION_DATA
-#define SECTION_INIT
+#define SECTION_DATA 0
+#define SECTION_INIT 0
 #endif
 
 #endif

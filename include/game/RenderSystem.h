@@ -6,7 +6,7 @@
 #define kRenderModeDraw2D 2
 
 class RenderSystem {
-    virtual void Unknown(void);
+    virtual void unk0(void);
     u32 m_curMode;
     int unk8;
     GXRenderModeObj* m_pRenderMode;

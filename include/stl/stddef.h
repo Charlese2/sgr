@@ -12,8 +12,6 @@ extern "C" {
 #define nullptr 0
 #endif // nullptr
 
-#define offsetof(ST, M) ((size_t) & (((ST*)0)->M))
-
 typedef signed long intptr_t;
 typedef unsigned long uintptr_t;
 typedef intptr_t ptrdiff_t;

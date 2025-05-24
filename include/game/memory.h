@@ -2,10 +2,7 @@
 #define _H_GAME_MEMORY_
 
 #include "dolphin/types.h"
-
-extern "C" {
-    #include "dolphin/os/OSAlloc.h"
-}
+#include "dolphin/os.h"
 
 #define COMMON_BLOCK_SIZE 72800
 #define MAX_POOL_NAME_LENGTH 16

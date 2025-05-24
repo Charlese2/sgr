@@ -7,7 +7,7 @@
 #define DEBUGASSERTLINE(line, cond) \
     if (!(cond)) {DebugAssert(__FILE__, line, #cond);}
 
-    #define DEBUGINT3LINE(line) \
+#define DEBUGINT3LINE(line) \
     DebugError(__FILE__, line, "Int3()")
 
 #define DEBUGPRINT(msg, cond) \

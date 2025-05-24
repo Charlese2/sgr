@@ -1,6 +1,7 @@
 #include "game/parse.h"
 #include "game/macros.h"
 #include "game/memory.h"
+#include "string.h"
 
 void parse::ParseFile(char* fname, int path_index, u8* data, int unk)
 {

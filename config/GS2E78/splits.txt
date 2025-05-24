@@ -1342,6 +1342,7 @@ memcard.cpp:
 	.text       start:0x801849B4 end:0x8018532C
 	.ctors      start:0x801EEA4C end:0x801EEA50
 	.rodata     start:0x80201768 end:0x80201A90
+	.bss        start:0x804383C0 end:0x804383F0
 
 console.cpp:
 	extab       start:0x8000B204 end:0x8000B2AC
@@ -2083,15 +2084,42 @@ Cranky/CrankyInput.cpp:
 	.text       start:0x801C9894 end:0x801CA0C0
 
 Cranky/CrankyFileManager.cpp:
-	extab       start:0x8000B400 end:0x8000B520
-	extabindex  start:0x80013C24 end:0x80013DD4
+	extab       start:0x8000B400 end:0x8000B468
+	extabindex  start:0x80013C24 end:0x80013CC0
 	.text       start:0x801CA0C0 end:0x801CA934
-	.text       start:0x801CA934 end:0x801CB878
+	.data       start:0x80219C18 end:0x80219C28
+
+Cranky/CrankyFile.cpp:
+	extab       start:0x8000B468 end:0x8000B490
+	extabindex  start:0x80013CC0 end:0x80013CFC
+	.text       start:0x801CA934 end:0x801CAC98
+	.rodata     start:0x802030E8 end:0x80203108
+	.data       start:0x80219C28 end:0x80219C38
+
+Cranky/CrankyFileCache.cpp:
+	extab       start:0x8000B490 end:0x8000B4F8
+	extabindex  start:0x80013CFC end:0x80013D98
+	.text       start:0x801CAC98 end:0x801CB504
+
+Cranky/CrankyFileType.cpp:
+	extab       start:0x8000B4F8 end:0x8000B500
+	extabindex  start:0x80013D98 end:0x80013DA4
+	.text       start:0x801CB504 end:0x801CB628
+
+Cranky/PackFile.cpp:
+	extab       start:0x8000B500 end:0x8000B508
+	extabindex  start:0x80013DA4 end:0x80013DB0
+	.text       start:0x801CB628 end:0x801CB738
+
+Cranky/CrankyFileBuffer.cpp:
+	extab       start:0x8000B508 end:0x8000B520
+	extabindex  start:0x80013DB0 end:0x80013DD4
+	.text       start:0x801CB738 end:0x801CB878
 
 Cranky/CrankyMemcard.cpp:
-	extab       start:0x8000B6D4 end:0x8000B784
-	extabindex  start:0x80014044 end:0x8001414C
-	.text       start:0x801ED6D0 end:0x801EE834
+	extab       start:0x8000B6CC end:0x8000B784
+	extabindex  start:0x80014038 end:0x8001414C
+	.text       start:0x801ED648 end:0x801EE834
 
 PowerPC_EABI_Support/Runtime/__mem.c:
 	.init       start:0x80005434 end:0x8000556C

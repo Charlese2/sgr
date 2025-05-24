@@ -243,6 +243,10 @@ cflags_game = [
 
 cflags_lib = [
     *cflags_base,
+    "-RTTI on",
+    "-Cpp_exceptions on",
+    "-inline auto,deferred",
+    "-str reuse,readonly",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
@@ -866,6 +870,11 @@ config.libs = [
         [
             Object(NonMatching, "Cranky/CrankyInput.cpp"),
             Object(NonMatching, "Cranky/CrankyFileManager.cpp"),
+            Object(NonMatching, "Cranky/CrankyFile.cpp"),
+            Object(NonMatching, "Cranky/CrankyFileCache.cpp"),
+            Object(NonMatching, "Cranky/CrankyFileType.cpp"),
+            Object(NonMatching, "Cranky/PackFile.cpp"),
+            Object(NonMatching, "Cranky/CrankyFileBuffer.cpp"),
             Object(NonMatching, "Cranky/CrankyMemcard.cpp"),
         ]
     ),
