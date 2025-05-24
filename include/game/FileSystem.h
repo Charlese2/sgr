@@ -1,8 +1,16 @@
+#ifndef _GAME_FILESYSTEM_H_
+#define _GAME_FILESYSTEM_H_
+
 #include "game/macros.h"
 
 typedef const char PathId[16];
 
 const int kNumPathIds = 10;
+
+typedef void (FileFoundCallback)();
+typedef void (FileNotFoundCallback)(char* file);
+
+void SetupFilesystem(void);
 
 PathId PathIds[10] = {
     "/",
@@ -21,3 +29,5 @@ inline PathId* GetFilePath(int index) {
     DEBUGASSERTLINE(57, index >= 0 && index < kNumPathIds);
     return &PathIds[index];
 }
+
+#endif // _GAME_FILESYSTEM_H_

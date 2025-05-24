@@ -1,4 +1,10 @@
-#include "dolphin/dvd.h"
+#include "game/FileSystem.h"
+
+extern "C" {
+	#include "dolphin/dvd.h"
+}
+extern FileFoundCallback* file_found_callback;
+extern FileNotFoundCallback* file_not_found_callback;
 
 class CrankyFile {
 private:
@@ -10,6 +16,7 @@ private:
 	char m_fileName[48];
 
 public:
+	void OpenFile(char* file_path, char* file_name);
 	BOOL IsOpened() const { return m_Opened; };
 };
 
@@ -19,15 +26,21 @@ private:
 	int unk80;
 	u32 m_TotalSize;
 	u32 m_BufferSize;
-	char* m_pBuffer;
+	u8* m_pBuffer;
 	int unk90;
 
+	
+
 public:
-	BOOL IsActive() const { return m_file.IsOpened() == true; };
+	void SetFileBuffer(u8* buf, int requested_size);
+	BOOL IsActive() const { return m_file.IsOpened(); };
 };
 
 class CrankyFileManager {
-
+	void set_missing_file_callback(FileNotFoundCallback* callback);
+	public:
+	
+	void SetMissingFileCallback(FileNotFoundCallback* callback);
 };
 
 extern CrankyFileManager gFileManager;
