@@ -33,9 +33,6 @@ BOOL __CARDIsOpened(CARDControl *card, s32 fileNo);
 // CARDMount.c
 void __CARDMountCallback(s32 chan, s32 result);
 
-// CARDFormat.c
-s32 CARDFormatAsync(s32 chan, CARDCallback callback);
-
 // CARDDir.c
 CARDDir *__CARDGetDirBlock(CARDControl* card);
 s32 __CARDUpdateDir(s32 chan, CARDCallback callback);

@@ -44,11 +44,11 @@ error:
     callback = card->apiCallback;
     card->apiCallback = NULL;
     __CARDPutControlBlock(card, result);
-    ASSERTLINE(0x79, callback);
+    ASSERTLINE(124, callback);
     callback(chan, result);
 }
 
-s32 CARDFormatAsync(s32 chan, CARDCallback callback) {
+s32 __CARDFormatRegionAsync(s32 chan, u16 encode, CARDCallback callback) {
     CARDControl *card;
     CARDID *id;
     CARDDir *dir;
@@ -57,11 +57,12 @@ s32 CARDFormatAsync(s32 chan, CARDCallback callback) {
     s32 result;
     OSSram *sram;
     OSSramEx *sramEx;
-    u16 viDTVStatus;
+    u16 dvdstatus;
     OSTime time;
     OSTime rand;
 
-    ASSERTLINE(0x9A, 0 <= chan && chan < 2);
+    ASSERTLINE(158, encode == CARD_ENCODE_ANSI || encode == CARD_ENCODE_SJIS);
+    ASSERTLINE(159, 0 <= chan && chan < 2);
 
     result = __CARDGetControlBlock(chan, &card);
     if (result < 0)
@@ -69,9 +70,9 @@ s32 CARDFormatAsync(s32 chan, CARDCallback callback) {
 
     id = (CARDID *)card->workArea;
     memset(id, 0xff, CARD_SYSTEM_BLOCK_SIZE);
-    viDTVStatus = __VIRegs[55];
+    dvdstatus = __VIRegs[55];
 
-    id->encode = OSGetFontEncode();
+    id->encode = encode;
 
     sram = __OSLockSram();
     *(u32 *)&id->serial[20] = sram->counterBias;
@@ -89,7 +90,7 @@ s32 CARDFormatAsync(s32 chan, CARDCallback callback) {
     }
     __OSUnlockSramEx(FALSE);
 
-    *(u32 *)&id->serial[28] = viDTVStatus;
+    *(u32 *)&id->serial[28] = dvdstatus;
     *(OSTime *)&id->serial[12] = time;
 
     id->deviceID = 0;
@@ -127,8 +128,23 @@ s32 CARDFormatAsync(s32 chan, CARDCallback callback) {
     return result;
 }
 
+s32 __CARDFormatRegion(s32 chan, u16 encode) {
+    s32 result;
+
+    result = __CARDFormatRegionAsync(chan, encode, __CARDSyncCallback);
+    if (result < 0) {
+        return result;
+    }
+
+    return __CARDSync(chan);
+}
+
+s32 CARDFormatAsync(s32 chan, CARDCallback callback) {
+    return __CARDFormatRegionAsync(chan, OSGetFontEncode(), callback);
+}
+
 long CARDFormat(long chan) {
-    long result = CARDFormatAsync(chan, &__CARDSyncCallback);
+    long result = __CARDFormatRegionAsync(chan, OSGetFontEncode(), __CARDSyncCallback);
 
     if (result < 0) {
         return result;
