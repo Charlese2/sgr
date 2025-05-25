@@ -1,10 +1,9 @@
 Language: Cpp
-BasedOnStyle: WebKit
+BasedOnStyle: LLVM
 ColumnLimit: 140
 SortIncludes: false
 IndentWidth: 4
 TabWidth: 4
-UseTab: ForIndentation
 NamespaceIndentation: None
 FixNamespaceComments: true
 CompactNamespaces: false
