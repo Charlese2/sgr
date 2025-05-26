@@ -904,7 +904,7 @@ config.libs = [
     LibDebug(
         "Cranky",
         [
-            Object(NonMatching, "Cranky/CrankyMemcard.cpp"),
+            Object(Matching, "Cranky/CrankyMemcard.cpp"),
         ]
     )
 ]

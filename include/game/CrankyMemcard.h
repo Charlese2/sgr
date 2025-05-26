@@ -4,7 +4,7 @@
 const int kMemcardMaxSlots = 2;
 
 class CrankyMemcard {
-    virtual void unk0();
+    virtual ~CrankyMemcard();
     int *m_cardWorkArea;
     int m_startPos;
     char m_gameName[4];
@@ -16,7 +16,6 @@ class CrankyMemcard {
 
   public:
     CrankyMemcard();
-    ~CrankyMemcard();
     void NewMemcard(int *cardWorkArea);
     void SetActiveSlot(int cardId);
     int ProbeInfo(void);
