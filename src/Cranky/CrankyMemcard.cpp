@@ -95,7 +95,7 @@ int CrankyMemcard::Free(s32 *filesNotUsed, s32 *bytesNotUsed) {
     }
 }
 
-int CrankyMemcard::GetChunkSize(int size) {
+int CrankyMemcard::GetBlockSize(int size) {
     ASSERTLINE(314, m_activeSlot >= 0 && m_activeSlot < kMemcardMaxSlots);
     if (!IsMounted()) {
         GetState(NULL);
@@ -194,7 +194,7 @@ int CrankyMemcard::SetSaveInfo(char *gameName, char *company) {
     memcpy(m_company, company, 2);
 }
 
-int CrankyMemcard::Unknown2(CARDStat *status, int startPos) {
+int CrankyMemcard::FindNextSaveFile(CARDStat *status, int startPos) {
     ASSERTLINE(582, m_activeSlot >= 0 && m_activeSlot < kMemcardMaxSlots);
     ASSERTLINE(583, IsMounted());
     ASSERTLINE(584, startPos >= 0);
