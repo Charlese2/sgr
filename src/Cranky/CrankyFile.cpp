@@ -3,26 +3,18 @@
 #include "dolphin/os.h"
 #include "macros.h"
 
-extern FileFoundCallback* file_found_callback;
-extern FileMissingCallback* file_missing_callback;
+extern FileFoundCallback *file_found_callback;
+extern FileMissingCallback *file_missing_callback;
 
-CrankyFile::CrankyFile() {
-    m_Opened = 0;
-}
+CrankyFile::CrankyFile() { m_Opened = 0; }
 
-CrankyFile::~CrankyFile() {
+CrankyFile::~CrankyFile() {}
 
-}
+void set_missing_file_callback(FileMissingCallback *callback) { file_missing_callback = callback; }
 
-void set_missing_file_callback(FileMissingCallback* callback) {
-    file_missing_callback = callback;
-}
+void set_file_found_callback(FileFoundCallback *callback) { file_found_callback = callback; }
 
-void  set_file_found_callback(FileFoundCallback* callback) {
-    file_found_callback = callback;
-}
-
-void CrankyFile::OpenFile(char* file_path, char* file_name) {
+void CrankyFile::OpenFile(char *file_path, char *file_name) {
     char file[56];
     char buffer[56];
     ASSERTMSGLINE(87, strlen(file_path) < 8, "path name exceeds maximum allowable length");
@@ -50,15 +42,15 @@ void CrankyFile::OpenFile(char* file_path, char* file_name) {
     m_position = 0;
 }
 
+void CrankyFile::ReadFile(u8 *buffer, int size) {
+    
+}
+
 void CrankyFile::CloseFile(void) {
     DVDClose(&m_fileInfo);
     m_Opened = 0;
 }
 
-u32 CrankyFile::GetFileSize(void) {
-     return m_fileInfo.length;
-};
+u32 CrankyFile::GetFileSize(void) { return m_fileInfo.length; };
 
-void CrankyFile::unk0() {
-    
-}
+void CrankyFile::unk0() {}

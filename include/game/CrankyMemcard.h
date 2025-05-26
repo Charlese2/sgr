@@ -1,17 +1,45 @@
-class CrankyMemcard{
-    public:
+#include "dolphin/card.h"
+#include "global.h"
+
+const int kMemcardMaxSlots = 2;
+
+class CrankyMemcard {
     virtual void unk0();
-    int* m_cardWorkArea;
-    int unk8;
-    int unkC;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
+    int *m_cardWorkArea;
+    int m_startPos;
+    char m_gameName[4];
+    char m_company[2];
+    int m_activeSlot;
+    s32 m_memSize;
+    s32 m_sectorSize;
     bool m_isMounted;
-    
+
+  public:
     CrankyMemcard();
     ~CrankyMemcard();
-    void NewMemcard(int* cardWorkArea);
+    void NewMemcard(int *cardWorkArea);
+    void SetActiveSlot(int cardId);
+    int ProbeInfo(void);
+    int GetState(CARDCallback detachCallback);
+    int Unmount(void);
+    int Format(CARDCallback formatCallback);
+    int Free(s32 *filesNotUsed, s32 *bytesNotUsed);
+    int GetChunkSize(int size);
+    int SetStatus(CARDFileInfo *fileInfo, CARDStat *status);
+    int GetStatus(CARDFileInfo *fileInfo, CARDStat *status);
+    int Open(CARDFileInfo *fileInfo, char *filename);
+    int Close(CARDFileInfo *fileInfo);
+    int Unknown(CARDFileInfo *fileInfo, CARDStat *status);
+    int Create(CARDFileInfo *fileInfo, char *fileName, u32 size, CARDStat *status);
+    int Read(CARDFileInfo *fileInfo, void *buffer, u32 length, u32 offset);
+    int ReadAsync(CARDFileInfo *fileInfo, void *buffer, u32 length, u32 offset, CARDCallback callback);
+    int WriteAsync(CARDFileInfo *fileInfo, void *buffer, u32 length, u32 offset, CARDCallback callback);
+    int Delete(char *fileName);
+    int SetSaveInfo(char *gameName, char *company);
+    int Unknown2(CARDStat *status, int startPos);
+    int ConvertResult(int result);
+    int GetResultCode(void);
     bool IsMounted(void) { return m_isMounted; };
 };
+
+STATIC_ASSERT(sizeof(CrankyMemcard) == 0x24);

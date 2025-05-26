@@ -4,7 +4,7 @@
 #include "game/macros.h"
 #include "game/CrankyFileManager.h"
 
-CrankyFileManager gFileManager;
+extern CrankyFileManager gFileManager;
 
 typedef const char PathId[16];
 
@@ -26,9 +26,9 @@ PathId PathIds[10] = {
     "/mus/",
 };
 
-inline PathId* GetFilePath(int index) {
+inline char* GetFilePath(int index) {
     DEBUGASSERTLINE(57, index >= 0 && index < kNumPathIds);
-    return &PathIds[index];
+    return (char*)PathIds[index];
 }
 
 #endif // _GAME_FILESYSTEM_H_

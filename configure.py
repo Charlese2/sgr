@@ -252,6 +252,21 @@ cflags_lib = [
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
 
+cflags_lib_debug = [
+    *cflags_base,
+    "-g",
+    "-RTTI on",
+    "-Cpp_exceptions on",
+    "-O0,p",
+    "-DDEBUG=1",
+    "-pool off",
+    "-inline off",
+    "-str reuse",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
+    "-i src/dolphin",
+    "-i include/PowerPC_EABI_Support/Runtime",
+]
+
 cflags_metrotrk = [
     *cflags_base,
     "-inline auto,deferred",
@@ -299,6 +314,15 @@ def Lib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
         "lib": lib_name,
         "mw_version": "GC/1.3.2",
         "cflags": cflags_lib,
+        "progress_category": "game",
+        "objects": objects,
+    }
+
+def LibDebug(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "mw_version": "GC/1.3.2",
+        "cflags": cflags_lib_debug,
         "progress_category": "game",
         "objects": objects,
     }
@@ -875,9 +899,14 @@ config.libs = [
             Object(NonMatching, "Cranky/CrankyFileType.cpp"),
             Object(NonMatching, "Cranky/PackFile.cpp"),
             Object(NonMatching, "Cranky/CrankyFileBuffer.cpp"),
-            Object(NonMatching, "Cranky/CrankyMemcard.cpp"),
         ]
     ),
+    LibDebug(
+        "Cranky",
+        [
+            Object(NonMatching, "Cranky/CrankyMemcard.cpp"),
+        ]
+    )
 ]
 
 

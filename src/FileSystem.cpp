@@ -4,6 +4,8 @@
 extern void file_found(void);
 extern void file_missing(char* file);
 
+CrankyFileManager gFileManager;
+
 void LoadFileCallback() {
     
 }

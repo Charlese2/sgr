@@ -2120,6 +2120,7 @@ Cranky/CrankyMemcard.cpp:
 	extab       start:0x8000B6CC end:0x8000B784
 	extabindex  start:0x80014038 end:0x8001414C
 	.text       start:0x801ED648 end:0x801EE834
+	.data       start:0x80228D80 end:0x80228F6C
 
 PowerPC_EABI_Support/Runtime/__mem.c:
 	.init       start:0x80005434 end:0x8000556C
