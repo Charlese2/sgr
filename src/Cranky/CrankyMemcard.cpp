@@ -83,7 +83,7 @@ int CrankyMemcard::Format(CARDCallback formatCallback) {
     return ConvertResult(CARDFormatAsync(m_activeSlot, formatCallback));
 }
 
-int CrankyMemcard::Free(s32 *filesNotUsed, s32 *bytesNotUsed) {
+void CrankyMemcard::Free(s32 *filesNotUsed, s32 *bytesNotUsed) {
     ASSERTLINE(266, m_activeSlot >= 0 && m_activeSlot < kMemcardMaxSlots);
     if (CARDFreeBlocks(m_activeSlot, bytesNotUsed, filesNotUsed)) {
         if (filesNotUsed) {
@@ -93,6 +93,7 @@ int CrankyMemcard::Free(s32 *filesNotUsed, s32 *bytesNotUsed) {
             *bytesNotUsed = 0;
         }
     }
+    
 }
 
 int CrankyMemcard::GetBlockSize(int size) {
@@ -189,7 +190,7 @@ int CrankyMemcard::WriteAsync(CARDFileInfo *fileInfo, void *buffer, u32 length, 
 
 int CrankyMemcard::Delete(char *fileName) { return ConvertResult(CARDDelete(m_activeSlot, fileName)); }
 
-int CrankyMemcard::SetSaveInfo(char *gameName, char *company) {
+void CrankyMemcard::SetSaveInfo(char *gameName, char *company) {
     memcpy(m_gameName, gameName, 4);
     memcpy(m_company, company, 2);
 }

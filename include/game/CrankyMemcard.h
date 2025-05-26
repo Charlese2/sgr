@@ -23,7 +23,7 @@ class CrankyMemcard {
     int GetState(CARDCallback detachCallback);
     int Unmount(void);
     int Format(CARDCallback formatCallback);
-    int Free(s32 *filesNotUsed, s32 *bytesNotUsed);
+    void Free(s32 *filesNotUsed, s32 *bytesNotUsed);
     int GetBlockSize(int size);
     int SetStatus(CARDFileInfo *fileInfo, CARDStat *status);
     int GetStatus(CARDFileInfo *fileInfo, CARDStat *status);
@@ -35,7 +35,7 @@ class CrankyMemcard {
     int ReadAsync(CARDFileInfo *fileInfo, void *buffer, u32 length, u32 offset, CARDCallback callback);
     int WriteAsync(CARDFileInfo *fileInfo, void *buffer, u32 length, u32 offset, CARDCallback callback);
     int Delete(char *fileName);
-    int SetSaveInfo(char *gameName, char *company);
+    void SetSaveInfo(char *gameName, char *company);
     int FindNextSaveFile(CARDStat *status, int startPos);
     int ConvertResult(int result);
     int GetResultCode(void);
