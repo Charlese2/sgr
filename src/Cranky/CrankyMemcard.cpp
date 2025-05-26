@@ -54,18 +54,7 @@ int CrankyMemcard::GetState(CARDCallback detachCallback) {
     result = CARDMount(m_activeSlot, m_cardWorkArea, detachCallback);
 
     switch (result) {
-    case CARD_RESULT_BUSY:
-    case CARD_RESULT_WRONGDEVICE:
-    case CARD_RESULT_NOCARD:
-    case CARD_RESULT_NOFILE:
-    case CARD_RESULT_IOERROR:
-    case CARD_RESULT_EXIST:
-    case CARD_RESULT_NOENT:
-    case CARD_RESULT_INSSPACE:
-    case CARD_RESULT_NOPERM:
-    case CARD_RESULT_LIMIT:
-    case CARD_RESULT_NAMETOOLONG:
-    case CARD_RESULT_CANCELED:
+    default:
         return ConvertResult(result);
     case CARD_RESULT_READY:
     case CARD_RESULT_BROKEN:
