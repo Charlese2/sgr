@@ -136,9 +136,9 @@ int CrankyMemcard::Close(CARDFileInfo *fileInfo) {
     return ConvertResult(CARDClose(fileInfo));
 }
 
-int CrankyMemcard::Unknown(CARDFileInfo *fileInfo, CARDStat *status) {
+int CrankyMemcard::GetSaveLength(CARDFileInfo *fileInfo, u32 *length) {
     int result;
-    CARDStat _status;
+    CARDStat status;
     if (!IsMounted() || fileInfo->chan != m_activeSlot) {
         SetActiveSlot(fileInfo->chan);
         result = CrankyMemcard::GetState(NULL);
@@ -146,8 +146,8 @@ int CrankyMemcard::Unknown(CARDFileInfo *fileInfo, CARDStat *status) {
             return ConvertResult(result);
         }
     }
-    result              = CARDGetStatus(m_activeSlot, fileInfo->fileNo, &_status);
-    status->fileName[0] = _status.length;
+    result  = CARDGetStatus(m_activeSlot, fileInfo->fileNo, &status);
+    *length = status.length;
     return ConvertResult(result);
 }
 

@@ -29,7 +29,7 @@ class CrankyMemcard {
     int GetStatus(CARDFileInfo *fileInfo, CARDStat *status);
     int Open(CARDFileInfo *fileInfo, char *filename);
     int Close(CARDFileInfo *fileInfo);
-    int Unknown(CARDFileInfo *fileInfo, CARDStat *status);
+    int GetSaveLength(CARDFileInfo *fileInfo, u32 *length);
     int Create(CARDFileInfo *fileInfo, char *fileName, u32 size, CARDStat *status);
     int Read(CARDFileInfo *fileInfo, void *buffer, u32 length, u32 offset);
     int ReadAsync(CARDFileInfo *fileInfo, void *buffer, u32 length, u32 offset, CARDCallback callback);
