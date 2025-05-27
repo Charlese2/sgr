@@ -58,7 +58,7 @@ int memcard::ShowFormatDialogue() {
 }
 
 u32 *GetSaveIcon(u32* icon) {
-    u8* iconBuffer = allocate_in_commonblock(2079);
+    u32* iconBuffer = allocate_in_commonblock(2079);
     CrankyFile iconFile;
     int size;
     iconFile.OpenFile(GetFilePath(0), "s2-mcicon.imd");

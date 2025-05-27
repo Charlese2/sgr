@@ -7,7 +7,7 @@ private:
 	char unk8[56];
 	u32 m_line;
 	CrankyFileBuffer m_fileBuff;
-	u8* m_pBuffer;
+	u32* m_pBuffer;
 	u8* m_pData;
 	int unkE4;
 

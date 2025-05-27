@@ -2,14 +2,13 @@
 #include "game/CrankyFileManager.h"
 
 class PackFileSystem {
-    virtual void unk0();
+    virtual ~PackFileSystem();
     int unk4;
     int unk8[61];
 
     
     public:
     PackFileSystem();
-    ~PackFileSystem();
 };
 
 STATIC_ASSERT(sizeof(PackFileSystem) == 0xFC);

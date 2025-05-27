@@ -2082,12 +2082,17 @@ Cranky/CrankyInput.cpp:
 	extab       start:0x8000B3C0 end:0x8000B400
 	extabindex  start:0x80013BC4 end:0x80013C24
 	.text       start:0x801C9894 end:0x801CA0C0
+	.rodata     start:0x802030C0 end:0x802030D0
+	.data       start:0x80219C08 end:0x80219C18
+	.sdata      start:0x80474320 end:0x80474328
 
 Cranky/CrankyFileManager.cpp:
 	extab       start:0x8000B400 end:0x8000B468
 	extabindex  start:0x80013C24 end:0x80013CC0
 	.text       start:0x801CA0C0 end:0x801CA934
+	.rodata     start:0x802030D0 end:0x802030E8
 	.data       start:0x80219C18 end:0x80219C28
+	.sdata      start:0x80474328 end:0x80474330
 
 Cranky/CrankyFile.cpp:
 	extab       start:0x8000B468 end:0x8000B490
@@ -2095,6 +2100,8 @@ Cranky/CrankyFile.cpp:
 	.text       start:0x801CA934 end:0x801CAC98
 	.rodata     start:0x802030E8 end:0x80203108
 	.data       start:0x80219C28 end:0x80219C38
+	.sdata      start:0x80474330 end:0x80474338
+	.sbss       start:0x80476098 end:0x804760A8
 
 Cranky/CrankyFileCache.cpp:
 	extab       start:0x8000B490 end:0x8000B4F8

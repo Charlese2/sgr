@@ -3,11 +3,10 @@
 #include "dolphin/types.h"
 
 class InputSystem : CrankyInput {
-    virtual void unk0();
-    int unk[80];
     public:
+    virtual ~InputSystem();
+    int unk[80];
     InputSystem();
-    ~InputSystem();
 };
 
 STATIC_ASSERT(sizeof(InputSystem) == 0x154);

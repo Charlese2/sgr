@@ -2,9 +2,6 @@
 #include "dolphin/os.h"
 #include "game/macros.h"
 
-FileFoundCallback* file_found_callback;
-FileMissingCallback* file_missing_callback;
-
 
 CrankyFileManager::CrankyFileManager() {
     m_fileCache = NULL;
@@ -45,8 +42,4 @@ int CrankyFileManager::OpenNewFile(char* file_name, char* file_path) {
 
 void CrankyFileManager::SetMissingFileCallback(FileMissingCallback* callback) {
     set_missing_file_callback(callback);
-}
-
-void CrankyFileManager::unk0() {
-
 }

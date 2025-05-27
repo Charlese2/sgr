@@ -3,8 +3,10 @@
 #include "dolphin/os.h"
 #include "macros.h"
 
-extern FileFoundCallback *file_found_callback;
-extern FileMissingCallback *file_missing_callback;
+BOOL readingFile;
+FileFoundCallback *file_found_callback;
+FileMissingCallback *file_missing_callback;
+
 
 CrankyFile::CrankyFile() { m_Opened = 0; }
 
@@ -42,10 +44,6 @@ void CrankyFile::OpenFile(char *file_path, char *file_name) {
     m_position = 0;
 }
 
-void CrankyFile::ReadFile(u8 *buffer, int size) {
-    
-}
-
 void CrankyFile::CloseFile(void) {
     DVDClose(&m_fileInfo);
     m_Opened = 0;
@@ -53,4 +51,73 @@ void CrankyFile::CloseFile(void) {
 
 u32 CrankyFile::GetFileSize(void) { return m_fileInfo.length; };
 
-void CrankyFile::unk0() {}
+void CrankyFile::SetReadPosition(int startPos, u32 mode) {
+    int position;
+
+    if (mode == 0)
+        position = 0;
+    else if (mode == 1)
+        position = GetPosition();
+    else if (mode == 2)
+        position = GetFileSize();
+    else {
+        ASSERTLINE(175, 0);
+    }
+    m_position = position + startPos;
+    ASSERTLINE(181, m_position <= this->GetFileSize());
+}
+
+int CrankyFile::ReadFile(u32 *data, int length) {
+    u32 size;
+    u32 position;
+    u32 result;
+    u32 file_size;
+    u32 new_size;
+    int test;
+
+    ASSERTLINE(202, CrankyTestAlign32((u32)data));
+    ASSERTLINE(203, CrankyTestAlign32((u32)length));
+    ASSERTLINE(204, m_position < this->GetFileSize());
+    position  = m_position + length;
+    file_size = GetFileSize();
+    if (position > file_size) {
+        new_size = file_size - m_position;
+    } else {
+        new_size = length;
+    }
+    size = new_size;
+    size = CrankyRoundUp32((u32)size);
+    ASSERTLINE(213, CrankyTestAlign4(m_position));
+    result = 0;
+    if (file_found_callback) {
+        readingFile = TRUE;
+        if (DVDReadAsyncPrio(&m_fileInfo, &data, size, m_position, (DVDCallback)ReadFileCallback, 2)) {
+            while (readingFile) {
+                file_found_callback();
+            }
+            result = size;
+        }
+    } else {
+        result = DVDReadPrio(&m_fileInfo, &data, size, m_position, 2);
+    }
+    m_position += result;
+    return result;
+}
+
+int CrankyFile::GetDiskFileSize(u8 *data) {
+    if (file_found_callback) {
+        readingFile = TRUE;
+        if (DVDReadAsyncPrio(&m_fileInfo, data, OSRoundUp32B(GetFileSize()), 0, (DVDCallback)ReadFileCallback, 2)) {
+            while (readingFile) {
+                file_found_callback();
+            }
+            return OSRoundUp32B(GetFileSize());
+        } else {
+            return 0;
+        }
+    } else {
+        return DVDReadPrio(&m_fileInfo, data, OSRoundUp32B(GetFileSize()), 0, 2);
+    }
+}
+
+void ReadFileCallback() { readingFile = FALSE; }
