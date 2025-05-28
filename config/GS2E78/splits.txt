@@ -228,9 +228,9 @@ gamewide.cpp:
 	.rodata     start:0x801F29F8 end:0x801F2C78
 
 timestamp.cpp:
-	extab       start:0x80006530 end:0x80006540
-	extabindex  start:0x8000CD60 end:0x8000CD78
-	.text       start:0x8005AD60 end:0x8005B2F0
+	extab       start:0x80006530 end:0x80006548
+	extabindex  start:0x8000CD60 end:0x8000CD84
+	.text       start:0x8005AD60 end:0x8005B310
 
 parse.cpp:
 	extab       start:0x80006548 end:0x80006628
@@ -250,10 +250,11 @@ mouse.cpp:
 	.ctors      start:0x801EE8A8 end:0x801EE8AC
 
 gamesound.cpp:
-	extab       start:0x80006678 end:0x800066C0
-	extabindex  start:0x8000CF4C end:0x8000CF94
-	.text       start:0x8005E8E0 end:0x8005ED8C
+	extab       start:0x80006678 end:0x800066E8
+	extabindex  start:0x8000CF4C end:0x8000CFD0
+	.text       start:0x8005E8E0 end:0x8005F10C
 	.rodata     start:0x801F2DE8 end:0x801F2E80
+	.sdata2     start:0x80476E18 end:0x80476E88
 
 character_instance.cpp:
 	extab       start:0x800066E8 end:0x800067FC
@@ -270,10 +271,13 @@ character.cpp:
 	.rodata     start:0x801F2E98 end:0x801F31A8
 
 skeleton.cpp:
-	extab       start:0x8000688C end:0x80006894
-	extabindex  start:0x8000D210 end:0x8000D21C
-	.text       start:0x80064C24 end:0x80064CC0
+	extab       start:0x8000688C end:0x800068C4
+	extabindex  start:0x8000D210 end:0x8000D264
+	.text       start:0x80064C24 end:0x8006572C
 	.rodata     start:0x801F31A8 end:0x801F31D8
+	.bss        start:0x8029BEF0 end:0x8029BF08
+	.sbss       start:0x80474AB0 end:0x80474AC0
+	.sdata2     start:0x80476EF0 end:0x80476F10
 
 coronas.cpp:
 	extab       start:0x800068C4 end:0x800068D4
@@ -739,7 +743,7 @@ v3d_shadow.cpp:
 	extabindex  start:0x800104A4 end:0x800104EC
 	.text       start:0x8010B740 end:0x8010BC58
 	.ctors      start:0x801EE96C end:0x801EE970
-	.bss        start:0x8039AC94 end:0x8039B918
+	.bss        start:0x8039AC88 end:0x8039B918
 
 descent_physics.cpp:
 	extab       start:0x80008CBC end:0x80008CC4
@@ -2167,9 +2171,9 @@ DisplayStateEntry.cpp:
 	.text       start:0x801CC094 end:0x801CC2EC
 
 MaterialShader.cpp:
-	extab       start:0x8000B580 end:0x8000B5A8
-	extabindex  start:0x80013E64 end:0x80013EA0
-	.text       start:0x801CC2EC end:0x801CC994
+	extab       start:0x8000B580 end:0x8000B5C0
+	extabindex  start:0x80013E64 end:0x80013EC4
+	.text       start:0x801CC2EC end:0x801CD1CC
 
 ImageHeader.cpp:
 	extab       start:0x8000B634 end:0x8000B63C
@@ -2181,7 +2185,7 @@ unknown11.cpp:
 	extabindex  start:0x80013F60 end:0x80013F78
 	.text       start:0x801CDA5C end:0x801CDB20
 
-MeshCollisionData:
+MeshCollisionData.cpp:
 	extab       start:0x8000B64C end:0x8000B65C
 	extabindex  start:0x80013F78 end:0x80013F90
 	.text       start:0x801CDB20 end:0x801CDDE4

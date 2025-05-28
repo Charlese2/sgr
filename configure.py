@@ -909,6 +909,8 @@ config.libs = [
             Object(NonMatching, "DisplayStateEntry.cpp"),
             Object(NonMatching, "MaterialShader.cpp"),
             Object(NonMatching, "ImageHeader.cpp"),
+            Object(NonMatching, "MeshCollisionData.cpp"),
+            Object(NonMatching, "Summoner2Item.cpp"),
         ]
     ),
     LibDebug(
