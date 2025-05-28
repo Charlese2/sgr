@@ -7,7 +7,6 @@ BOOL readingFile;
 FileFoundCallback *file_found_callback;
 FileMissingCallback *file_missing_callback;
 
-
 CrankyFile::CrankyFile() { m_Opened = 0; }
 
 CrankyFile::~CrankyFile() {}

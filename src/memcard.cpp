@@ -3,6 +3,7 @@
 #include "game/FileSystem.h"
 #include "game/memory.h"
 
+u8 card_work_area[40960];
 CrankyMemcard memorycard;
 int CardId;
 extern char string_buffer[512];
@@ -25,11 +26,9 @@ int memcard::DoFormat(void) {
     return 0;
 }
 
-void FormatDialogueCallback(int state){
+void FormatDialogueCallback(int state) {}
 
-}
-
-int memcard::ShowFormatDialogue() {
+void memcard::ShowFormatDialogue() {
     char *cardSlotName;
     if (CardId == 0) {
         cardSlotName = "Slot A";
@@ -54,11 +53,11 @@ int memcard::ShowFormatDialogue() {
     case 7:
         sprintf(string_buffer, "The %s in %s is not compatible with the Summoner save file.", "Memory Card", cardSlotName);
     }
-    ShowDialogue(string_buffer, -1, 0 , 0, &FormatDialogueCallback, 18);
+    ShowDialogue(string_buffer, -1, 0, 0, &FormatDialogueCallback, 18);
 }
 
-u32 *GetSaveIcon(u32* icon) {
-    u32* iconBuffer = allocate_in_commonblock(2079);
+void GetSaveIcon(u32 *icon) {
+    u32 *iconBuffer = allocate_in_commonblock(2079);
     CrankyFile iconFile;
     int size;
     iconFile.OpenFile(GetFilePath(0), "s2-mcicon.imd");
