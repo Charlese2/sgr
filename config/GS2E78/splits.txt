@@ -739,6 +739,7 @@ v3d_shadow.cpp:
 	extabindex  start:0x800104A4 end:0x800104EC
 	.text       start:0x8010B740 end:0x8010BC58
 	.ctors      start:0x801EE96C end:0x801EE970
+	.bss        start:0x8039AC94 end:0x8039B918
 
 descent_physics.cpp:
 	extab       start:0x80008CBC end:0x80008CC4
@@ -772,6 +773,7 @@ gr_3d_clipper.cpp:
 	extabindex  start:0x80010A08 end:0x80010A2C
 	.text       start:0x8011C5C0 end:0x8011CA18
 	.ctors      start:0x801EE980 end:0x801EE984
+	.bss        start:0x803A3D28 end:0x803A4728
 
 bbox.cpp:
 	.text       start:0x8011CA18 end:0x8011CD3C
@@ -1301,7 +1303,7 @@ SoundSystem.cpp:
 	.ctors      start:0x801EEA38 end:0x801EEA3C
 	.rodata     start:0x802015F0 end:0x802016E0
 	.bss        start:0x80410320 end:0x8041F960
-	.sdata2     start:0x8047A758 end:0x8047A79C
+	.sdata2     start:0x8047A758 end:0x8047A788
 
 music.cpp:
 	extab       start:0x8000AF64 end:0x8000AF94
@@ -1309,6 +1311,8 @@ music.cpp:
 	.text       start:0x80180438 end:0x80180778
 	.ctors      start:0x801EEA3C end:0x801EEA40
 	.rodata     start:0x802016E0 end:0x802016F8
+	.bss        start:0x8041F960 end:0x80421300
+	.sdata2     start:0x8047A788 end:0x8047A798
 
 sound_3d.cpp:
 	extab       start:0x8000AF94 end:0x8000B034
@@ -1316,6 +1320,8 @@ sound_3d.cpp:
 	.text       start:0x80180778 end:0x801829B4
 	.ctors      start:0x801EEA40 end:0x801EEA44
 	.rodata     start:0x802016F8 end:0x80201718
+	.bss        start:0x80421300 end:0x8042B358
+	.sdata2     start:0x8047A798 end:0x8047A7E8
 
 SoundConvert.cpp:
 	extab       start:0x8000B034 end:0x8000B104
@@ -1323,18 +1329,23 @@ SoundConvert.cpp:
 	.text       start:0x801829B4 end:0x80183498
 	.ctors      start:0x801EEA44 end:0x801EEA48
 	.rodata     start:0x80201718 end:0x80201738
+	.bss        start:0x8042B358 end:0x8042E2D8
+	.sdata2     start:0x8047A7E8 end:0x8047A808
 
 MusicSystem.cpp:
 	extab       start:0x8000B104 end:0x8000B164
 	extabindex  start:0x80013894 end:0x80013924
-	.text       start:0x801834B0 end:0x80184838
+	.text       start:0x80183498 end:0x80184838
 	.ctors      start:0x801EEA48 end:0x801EEA4C
 	.rodata     start:0x80201738 end:0x80201768
+	.bss        start:0x8042E2D8 end:0x8042E3C0
+	.sdata2     start:0x8047A808 end:0x8047A820
 
 MusicConvert.cpp:
 	extab       start:0x8000B164 end:0x8000B19C
 	extabindex  start:0x80013924 end:0x80013978
 	.text       start:0x80184838 end:0x801849B4
+	.sbss       start:0x80475B78 end:0x80475B88
 
 memcard.cpp:
 	extab       start:0x8000B19C end:0x8000B204
@@ -1342,7 +1353,9 @@ memcard.cpp:
 	.text       start:0x801849B4 end:0x8018532C
 	.ctors      start:0x801EEA4C end:0x801EEA50
 	.rodata     start:0x80201768 end:0x80201A90
-	.bss        start:0x804383C0 end:0x804383F0
+	.bss        start:0x8042E3C0 end:0x804383F0
+	.sbss       start:0x80475B88 end:0x80475B98
+	.sdata2     start:0x8047A820 end:0x8047A840
 
 console.cpp:
 	extab       start:0x8000B204 end:0x8000B2AC
@@ -1350,14 +1363,18 @@ console.cpp:
 	.text       start:0x8018532C end:0x8018929C
 	.ctors      start:0x801EEA50 end:0x801EEA54
 	.rodata     start:0x80201A90 end:0x802025E8
-	.bss        start:0x804383F0 end:0x80438C30
+	.bss        start:0x804383F0 end:0x8043F728
 	.sbss       start:0x80475B98 end:0x80475BF0
+	.sdata2     start:0x8047A840 end:0x8047A8D8
 
 new_decals.cpp:
 	extab       start:0x8000B2AC end:0x8000B2DC
 	extabindex  start:0x80013AB0 end:0x80013AF8
 	.text       start:0x8018929C end:0x8018A788
 	.ctors      start:0x801EEA54 end:0x801EEA58
+	.bss        start:0x8043F728 end:0x80451F80
+	.sbss       start:0x80475BF0 end:0x80475C18
+	.sdata2     start:0x8047A8D8 end:0x8047A910
 
 dolphin/base/PPCArch.c:
 	.text       start:0x8018A788 end:0x8018A824
@@ -1507,6 +1524,7 @@ dolphin/mtx/vec.c:
 
 dolphin/mtx/quat.c:
 	.text       start:0x801929F0 end:0x80192C48
+	.rodata     start:0x802025E8 end:0x802025F8
 
 dolphin/dvd/dvdlow.c:
 	.text       start:0x80192C48 end:0x80193A9C
@@ -1751,7 +1769,7 @@ metrotrk/msgbuf.c:
 
 metrotrk/serpoll.c:
 	.text       start:0x801B1978 end:0x801B1D44
-	.bss        start:0x8046F97C end:0x8046F990
+	.bss        start:0x8046F978 end:0x8046F990
 
 metrotrk/usr_put.c:
 	.text       start:0x801B1D44 end:0x801B1DD0
@@ -1928,7 +1946,7 @@ PowerPC_EABI_Support/MSL_C/MSL_Common/string.c:
 
 PowerPC_EABI_Support/MSL_C/MSL_Common/strtoul.c:
 	.text       start:0x801C1BB4 end:0x801C2428
-	.data       start:0x80219A5C end:0x80219AA0
+	.data       start:0x80219A18 end:0x80219AA0
 
 PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/uart_console_io.c:
 	.text       start:0x801C2428 end:0x801C24EC
@@ -2122,6 +2140,66 @@ Cranky/CrankyFileBuffer.cpp:
 	extab       start:0x8000B508 end:0x8000B520
 	extabindex  start:0x80013DB0 end:0x80013DD4
 	.text       start:0x801CB738 end:0x801CB878
+
+GeometryObject.cpp:
+	extab       start:0x8000B520 end:0x8000B538
+	extabindex  start:0x80013DD4 end:0x80013DF8
+	.text       start:0x801CB888 end:0x801CBA0C
+
+MeshData.cpp:
+	extab       start:0x8000B538 end:0x8000B548
+	extabindex  start:0x80013DF8 end:0x80013E10
+	.text       start:0x801CBA0C end:0x801CBC0C
+
+DataArray.cpp:
+	extab       start:0x8000B548 end:0x8000B558
+	extabindex  start:0x80013E10 end:0x80013E28
+	.text       start:0x801CBC0C end:0x801CBF64
+
+unknown10.cpp:
+	extab       start:0x8000B558 end:0x8000B568
+	extabindex  start:0x80013E28 end:0x80013E40
+	.text       start:0x801CBF64 end:0x801CC094
+
+DisplayStateEntry.cpp:
+	extab       start:0x8000B568 end:0x8000B580
+	extabindex  start:0x80013E40 end:0x80013E64
+	.text       start:0x801CC094 end:0x801CC2EC
+
+MaterialShader.cpp:
+	extab       start:0x8000B580 end:0x8000B5A8
+	extabindex  start:0x80013E64 end:0x80013EA0
+	.text       start:0x801CC2EC end:0x801CC994
+
+ImageHeader.cpp:
+	extab       start:0x8000B634 end:0x8000B63C
+	extabindex  start:0x80013F54 end:0x80013F60
+	.text       start:0x801CD8F0 end:0x801CDA5C
+
+unknown11.cpp:
+	extab       start:0x8000B63C end:0x8000B64C
+	extabindex  start:0x80013F60 end:0x80013F78
+	.text       start:0x801CDA5C end:0x801CDB20
+
+MeshCollisionData:
+	extab       start:0x8000B64C end:0x8000B65C
+	extabindex  start:0x80013F78 end:0x80013F90
+	.text       start:0x801CDB20 end:0x801CDDE4
+
+unknown12.cpp:
+	extab       start:0x8000B694 end:0x8000B6A4
+	extabindex  start:0x80013FE4 end:0x80013FFC
+	.text       start:0x801CE10C end:0x801CE510
+
+unknown13.cpp:
+	extab       start:0x8000B6A4 end:0x8000B6BC
+	extabindex  start:0x80013FFC end:0x80014020
+	.text       start:0x801CE510 end:0x801CE89C
+
+Summoner2Item.cpp:
+	extab       start:0x8000B6BC end:0x8000B6CC
+	extabindex  start:0x80014020 end:0x80014038
+	.text       start:0x801CE89C end:0x801CEA44
 
 Cranky/CrankyMemcard.cpp:
 	extab       start:0x8000B6CC end:0x8000B784

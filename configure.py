@@ -901,6 +901,16 @@ config.libs = [
             Object(NonMatching, "Cranky/CrankyFileBuffer.cpp"),
         ]
     ),
+    Lib("CrankySummoner",
+        [
+            Object(NonMatching, "GeometryObject.cpp"),
+            Object(NonMatching, "MeshData.cpp"),
+            Object(NonMatching, "DataArray.cpp"),
+            Object(NonMatching, "DisplayStateEntry.cpp"),
+            Object(NonMatching, "MaterialShader.cpp"),
+            Object(NonMatching, "ImageHeader.cpp"),
+        ]
+    ),
     LibDebug(
         "Cranky",
         [
@@ -932,7 +942,7 @@ def link_order_callback(module_id: int, objects: List[str]) -> List[str]:
 config.progress_categories = [
     ProgressCategory("game", "Game Code"),
     ProgressCategory("sdk", "SDK Code"),
-    ProgressCategory("metrotrk", "MetroTRK")
+    ProgressCategory("metrotrk", "MetroTRK"),
 ]
 config.progress_each_module = args.verbose
 # Optional extra arguments to `objdiff-cli report generate`
