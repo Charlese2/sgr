@@ -7,7 +7,7 @@
 #define COMMON_BLOCK_SIZE    72800
 #define MAX_POOL_NAME_LENGTH 16
 
-typedef class {
+typedef class Mempool {
   public:
     u8 *destination;
     u32 size;
@@ -15,6 +15,8 @@ typedef class {
     u8 alignment;
     char pool_name[MAX_POOL_NAME_LENGTH];
 } Mempool;
+
+
 
 void set_allocation_done();
 

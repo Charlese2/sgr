@@ -3,14 +3,19 @@
 #include "dolphin/dvd.h"
 
 extern "C" {
-    #include "dolphin/axart.h"
-    #include "dolphin/sp.h"
+#include "dolphin/axart.h"
+#include "dolphin/sp.h"
 }
 
-typedef unsigned char    byte;
-typedef unsigned char   undefined;
-typedef unsigned short    undefined2;
-typedef unsigned int    undefined4;
+#define AUDIO_BLOCK_SIZE_BYTES       0xc00000
+#define MAX_SOUND_LOAD_QUEUE_ENTRIES 32
+
+const bool kLoadInitiated = true;
+
+typedef unsigned char byte;
+typedef unsigned char undefined;
+typedef unsigned short undefined2;
+typedef unsigned int undefined4;
 
 typedef struct {
     bool field0_0x0;
@@ -28,12 +33,30 @@ typedef struct {
 } SoundInfo;
 
 typedef struct {
-    AXVPB* next;
-    AXVPB* prev;
+    AXVPB *next;
+    AXVPB *prev;
     float unk8;
     float unkC;
     float unk10;
 } sound_slot;
+
+typedef struct {
+    AXVPB *axvpb;
+    BOOL m_loadStatus;
+    AXART_SOUND axart_sound;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    bool unk40;
+    bool playing;
+    bool unk42;
+} sound;
 
 typedef struct audio_file {
     char file_name[20];
@@ -46,12 +69,12 @@ typedef struct audio_file {
 } audio_file;
 
 struct soundEffect {
-    AXVPB* axvpb;
-    table* table;
+    AXVPB *axvpb;
+    table *table;
     AXART_SOUND sound;
     AXART_VOLUME volume;
     AXART_PANNING panning;
-    undefined4 field6_0x34;
+    int field6_0x34;
     undefined4 field7_0x38;
     s32 attenuation;
     u8 pan;
@@ -61,7 +84,7 @@ struct soundEffect {
 };
 
 typedef struct audio2 {
-    undefined *field0_0x0;
+    sound *sound;
     struct CommandList *field1_0x4;
     undefined *field2_0x8;
     undefined *field3_0xc;
@@ -108,11 +131,11 @@ typedef struct new_struct {
     undefined4 field16_0x40;
 } new_struct;
 
-typedef struct AudioCache {
-    int field0_0x0;
+typedef struct {
+    sound *m_pSound;
     int field1_0x4;
     char m_fileName[56];
-} AudioCache;
+} audio_load_cache;
 
 struct unk {
     undefined4 field0_0x0;
@@ -120,369 +143,71 @@ struct unk {
 };
 
 class SoundSystem {
-public:
-    void InitializeGlobal(void);
-    static void ProcessSoundsEffects(void);
-    void Initialize(void);
-    static void * AllocateReverbMemoryNotImplemented(u32 unk);
-    static void FreeReverbMemoryNotImplemented(void *);
-    void LoadUncachedSoundFromDisk(void);
-    void CopySoundFileToCache();
-    void AddSound(int index);
-    void CleanupPlayedSound(int index);
-    void ReinitializeAudio(bool state);
-    void InitializeAudio(void);
-    sound_slot* GetFreeSoundSlot(void);
-    void LoadNewSoundsFromDisk(void);
-    void InitializeAudioCache(AudioCache* cache);
-    void SetProcessingQueue(bool processing);
-    bool GetInUse(void);
-    void InitializeSoundSlot(sound_slot* slot);
-    char* GetBuffer(void);
-
-    /* 0x00 */ DVDFileInfo mFileHandle;
-    /* 0x3c */ char* m_buffer;
+    /* 0x00 */ DVDFileInfo m_fileHandle;
+    /* 0x3c */ char *m_buffer;
     /* 0x40 */ u32 m_number_in_queue_of_sounds_not_preloaded;
     /* 0x44 */ s32 m_next_index;
     /* 0x48 */ char field4_0x48[340];
     /* 0x19c */ s32 m_AMZeroBuffer;
-    /* 0x1a0 */ u32 * stack_index_addr[3];
+    /* 0x1a0 */ u32 *stack_index_addr[3];
     /* 0x1ac */ s32 m_curEntry;
     /* 0x1b0 */ u32 m_lastPersist;
     /* 0x1b4 */ audio_file m_audio_file[1024];
-    /* 0xb1b4 */ AXVPB *m_axVoice;
-    /* 0xb1b8 */ audio2 m_SomeAudio[6];
-    /* 0xb350 */ char field14_0xb350[6116];
-    /* 0xcb34 */ struct soundEffect m_soundEffect[64];
-    /* 0xdc34 */ AudioCache m_Audio_cache[32];
+    /* 0xb1b8 */ audio2 m_SomeAudio[96];
+    /* 0xcb34 */ soundEffect m_soundEffect[64];
+    /* 0xdc34 */ audio_load_cache m_audioLoadcache[32];
     /* 0xe434 */ sound_slot m_sound_slots[128];
     /* 0xee34 */ bool field20_0xee34;
-    /* 0xee35 */ bool m_InUse;
+    /* 0xee35 */ bool m_inUse;
     /* 0xee36 */ bool field22_0xee36;
     /* 0xee37 */ bool field23_0xee37;
     /* 0xee38 */ bool m_processing_queue;
+#ifndef DEBUG
     /* 0xee39 */ bool m_deativated;
-};  // Size: 0xee3a
+#endif
 
-typedef struct struct_5_1 {
-    undefined field0_0x0;
-    undefined field1_0x1;
-    undefined field2_0x2;
-    undefined field3_0x3;
-    undefined field4_0x4;
-    undefined field5_0x5;
-    undefined field6_0x6;
-    undefined field7_0x7;
-    undefined2 crash_variable1;
-    undefined2 crash_variable2;
-} struct_5_1;
+  public:
+    SoundSystem();
+    void InitializeGlobal(void);
+    static void ProcessSoundsEffects(void);
+    static void RemoveSound(sound *sound);
+    void Initialize(void);
+    static void *AllocateReverbMemoryNotImplemented(u32 unk);
+    static void FreeReverbMemoryNotImplemented(void *);
+    void LoadSoundFromDisk(void);
+    void LoadUncachedSoundFromDisk(void);
+    audio_load_cache *GetNextAudioLoadCacheEntry(void);
+    void AddSound(int index);
+    void CopySoundFileToCache();
+    void PlaySoundEffect(int index);
+    void CleanupPlayedSound(int index);
+    void ReinitializeAudio(bool state);
+    void InitializeAudio(void);
+    sound_slot *GetFreeSoundSlot(void);
+    void LoadNewSoundsFromDisk(void);
 
-typedef struct astruct_5 {
-    float field0_0x0;
-    undefined field1_0x4;
-    undefined field2_0x5;
-    undefined field3_0x6;
-    undefined field4_0x7;
-    undefined field5_0x8;
-    undefined field6_0x9;
-    undefined field7_0xa;
-    undefined field8_0xb;
-    undefined field9_0xc;
-    undefined field10_0xd;
-    undefined field11_0xe;
-    undefined field12_0xf;
-    undefined field13_0x10;
-    undefined field14_0x11;
-    undefined field15_0x12;
-    undefined field16_0x13;
-    undefined field17_0x14;
-    undefined field18_0x15;
-    undefined field19_0x16;
-    undefined field20_0x17;
-    void *index;
-    u32 SomeStatus;
-    undefined field23_0x20;
-    undefined field24_0x21;
-    undefined field25_0x22;
-    undefined field26_0x23;
-    undefined field27_0x24;
-    undefined field28_0x25;
-    undefined field29_0x26;
-    undefined field30_0x27;
-    undefined field31_0x28;
-    undefined field32_0x29;
-    undefined field33_0x2a;
-    undefined field34_0x2b;
-    undefined field35_0x2c;
-    undefined field36_0x2d;
-    undefined field37_0x2e;
-    undefined field38_0x2f;
-    undefined field39_0x30;
-    undefined field40_0x31;
-    undefined field41_0x32;
-    undefined field42_0x33;
-    undefined field43_0x34;
-    undefined field44_0x35;
-    undefined field45_0x36;
-    undefined field46_0x37;
-    undefined field47_0x38;
-    undefined field48_0x39;
-    undefined field49_0x3a;
-    undefined field50_0x3b;
-    undefined field51_0x3c;
-    undefined field52_0x3d;
-    undefined field53_0x3e;
-    undefined field54_0x3f;
-    undefined field55_0x40;
-    undefined field56_0x41;
-    undefined field57_0x42;
-    undefined field58_0x43;
-    undefined field59_0x44;
-    undefined field60_0x45;
-    undefined field61_0x46;
-    undefined field62_0x47;
-    undefined field63_0x48;
-    undefined field64_0x49;
-    undefined field65_0x4a;
-    undefined field66_0x4b;
-    undefined field67_0x4c;
-    undefined field68_0x4d;
-    undefined field69_0x4e;
-    undefined field70_0x4f;
-    undefined field71_0x50;
-    undefined field72_0x51;
-    undefined field73_0x52;
-    undefined field74_0x53;
-    undefined field75_0x54;
-    undefined field76_0x55;
-    undefined field77_0x56;
-    undefined field78_0x57;
-    undefined field79_0x58;
-    undefined field80_0x59;
-    undefined field81_0x5a;
-    undefined field82_0x5b;
-    undefined field83_0x5c;
-    undefined field84_0x5d;
-    undefined field85_0x5e;
-    undefined field86_0x5f;
-    undefined field87_0x60;
-    undefined field88_0x61;
-    undefined field89_0x62;
-    undefined field90_0x63;
-    undefined field91_0x64;
-    undefined field92_0x65;
-    undefined field93_0x66;
-    undefined field94_0x67;
-    undefined field95_0x68;
-    undefined field96_0x69;
-    undefined field97_0x6a;
-    undefined field98_0x6b;
-    undefined field99_0x6c;
-    undefined field100_0x6d;
-    undefined field101_0x6e;
-    undefined field102_0x6f;
-    undefined field103_0x70;
-    undefined field104_0x71;
-    undefined field105_0x72;
-    undefined field106_0x73;
-    undefined field107_0x74;
-    undefined field108_0x75;
-    undefined field109_0x76;
-    undefined field110_0x77;
-    undefined field111_0x78;
-    undefined field112_0x79;
-    undefined field113_0x7a;
-    undefined field114_0x7b;
-    undefined field115_0x7c;
-    undefined field116_0x7d;
-    undefined field117_0x7e;
-    undefined field118_0x7f;
-    undefined field119_0x80;
-    undefined field120_0x81;
-    undefined field121_0x82;
-    undefined field122_0x83;
-    undefined field123_0x84;
-    undefined field124_0x85;
-    undefined field125_0x86;
-    undefined field126_0x87;
-    undefined field127_0x88;
-    undefined field128_0x89;
-    undefined field129_0x8a;
-    undefined field130_0x8b;
-    undefined field131_0x8c;
-    undefined field132_0x8d;
-    undefined field133_0x8e;
-    undefined field134_0x8f;
-    undefined field135_0x90;
-    undefined field136_0x91;
-    undefined field137_0x92;
-    undefined field138_0x93;
-    undefined field139_0x94;
-    undefined field140_0x95;
-    undefined field141_0x96;
-    undefined field142_0x97;
-    undefined field143_0x98;
-    undefined field144_0x99;
-    undefined field145_0x9a;
-    undefined field146_0x9b;
-    undefined field147_0x9c;
-    undefined field148_0x9d;
-    undefined field149_0x9e;
-    undefined field150_0x9f;
-    undefined field151_0xa0;
-    undefined field152_0xa1;
-    undefined field153_0xa2;
-    undefined field154_0xa3;
-    undefined field155_0xa4;
-    undefined field156_0xa5;
-    undefined field157_0xa6;
-    undefined field158_0xa7;
-    undefined field159_0xa8;
-    undefined field160_0xa9;
-    undefined field161_0xaa;
-    undefined field162_0xab;
-    undefined field163_0xac;
-    undefined field164_0xad;
-    undefined field165_0xae;
-    undefined field166_0xaf;
-    undefined field167_0xb0;
-    undefined field168_0xb1;
-    undefined field169_0xb2;
-    undefined field170_0xb3;
-    undefined field171_0xb4;
-    undefined field172_0xb5;
-    undefined field173_0xb6;
-    undefined field174_0xb7;
-    undefined field175_0xb8;
-    undefined field176_0xb9;
-    undefined field177_0xba;
-    undefined field178_0xbb;
-    undefined field179_0xbc;
-    undefined field180_0xbd;
-    undefined field181_0xbe;
-    undefined field182_0xbf;
-    undefined field183_0xc0;
-    undefined field184_0xc1;
-    undefined field185_0xc2;
-    undefined field186_0xc3;
-    undefined field187_0xc4;
-    undefined field188_0xc5;
-    undefined field189_0xc6;
-    undefined field190_0xc7;
-    undefined field191_0xc8;
-    undefined field192_0xc9;
-    undefined field193_0xca;
-    undefined field194_0xcb;
-    undefined field195_0xcc;
-    undefined field196_0xcd;
-    undefined field197_0xce;
-    undefined field198_0xcf;
-    undefined field199_0xd0;
-    undefined field200_0xd1;
-    undefined field201_0xd2;
-    undefined field202_0xd3;
-    undefined field203_0xd4;
-    undefined field204_0xd5;
-    undefined field205_0xd6;
-    undefined field206_0xd7;
-    undefined field207_0xd8;
-    undefined field208_0xd9;
-    undefined field209_0xda;
-    undefined field210_0xdb;
-    undefined field211_0xdc;
-    undefined field212_0xdd;
-    undefined field213_0xde;
-    undefined field214_0xdf;
-    undefined field215_0xe0;
-    undefined field216_0xe1;
-    undefined field217_0xe2;
-    undefined field218_0xe3;
-    undefined field219_0xe4;
-    undefined field220_0xe5;
-    undefined field221_0xe6;
-    undefined field222_0xe7;
-    undefined field223_0xe8;
-    undefined field224_0xe9;
-    undefined field225_0xea;
-    undefined field226_0xeb;
-    undefined field227_0xec;
-    undefined field228_0xed;
-    undefined field229_0xee;
-    undefined field230_0xef;
-    undefined field231_0xf0;
-    undefined field232_0xf1;
-    undefined field233_0xf2;
-    undefined field234_0xf3;
-    undefined field235_0xf4;
-    undefined field236_0xf5;
-    undefined field237_0xf6;
-    undefined field238_0xf7;
-    undefined field239_0xf8;
-    undefined field240_0xf9;
-    undefined field241_0xfa;
-    undefined field242_0xfb;
-    undefined field243_0xfc;
-    undefined field244_0xfd;
-    undefined field245_0xfe;
-    undefined field246_0xff;
-    undefined field247_0x100;
-    undefined field248_0x101;
-    undefined field249_0x102;
-    undefined field250_0x103;
-    undefined field251_0x104;
-    undefined field252_0x105;
-    undefined field253_0x106;
-    undefined field254_0x107;
-    undefined field255_0x108;
-    undefined field256_0x109;
-    undefined field257_0x10a;
-    undefined field258_0x10b;
-    undefined field259_0x10c;
-    undefined field260_0x10d;
-    undefined field261_0x10e;
-    undefined field262_0x10f;
-    undefined field263_0x110;
-    undefined field264_0x111;
-    undefined field265_0x112;
-    undefined field266_0x113;
-    undefined field267_0x114;
-    undefined field268_0x115;
-    undefined field269_0x116;
-    undefined field270_0x117;
-    undefined field271_0x118;
-    undefined field272_0x119;
-    undefined field273_0x11a;
-    undefined field274_0x11b;
-    undefined field275_0x11c;
-    undefined field276_0x11d;
-    undefined field277_0x11e;
-    undefined field278_0x11f;
-    undefined field279_0x120;
-    undefined field280_0x121;
-    undefined field281_0x122;
-    undefined field282_0x123;
-    undefined field283_0x124;
-    undefined field284_0x125;
-    undefined field285_0x126;
-    undefined field286_0x127;
-    undefined field287_0x128;
-    undefined field288_0x129;
-    undefined field289_0x12a;
-    undefined field290_0x12b;
-    undefined field291_0x12c;
-    undefined field292_0x12d;
-    undefined field293_0x12e;
-    undefined field294_0x12f;
-    undefined field295_0x130;
-    undefined field296_0x131;
-    undefined field297_0x132;
-    undefined field298_0x133;
-    undefined field299_0x134;
-    undefined field300_0x135;
-    undefined field301_0x136;
-    undefined field302_0x137;
-    struct struct_5_1 field303_0x138;
-} astruct_5;
+    sound *GetAudio(int index) { return m_SomeAudio[index].sound; };
+
+    soundEffect *GetSoundEffect(int index) { return &m_soundEffect[index]; };
+    bool GetUnknown() { return field22_0xee36; };
+    bool GetUnknown2() { return field23_0xee37; };
+    void SetProcessingQueue(bool processing) { m_processing_queue = processing; }
+    bool InUse(void) { return m_inUse; }
+    void InitializeSoundSlot(sound_slot *slot) {
+        slot->next = 0;
+        slot->prev = 0;
+        slot->unk8 = 0.0f;
+    }
+    char *GetBuffer(void) { return m_buffer; }
+    void InitializeAudioLoadCache(audio_load_cache *cache) {
+        cache->m_pSound      = NULL;
+        cache->field1_0x4    = 0;
+        cache->m_fileName[0] = (char)0;
+    }
+
+}; // Size: 0xee3a
+
+extern SoundSystem gSoundSystem;
 
 inline int ClampVolume(double volume) {
     int roundedVolume;
@@ -490,8 +215,7 @@ inline int ClampVolume(double volume) {
         if (volume < 0.0f) {
             volume = 0.0f;
         }
-    }
-    else {
+    } else {
         volume = 1.0f;
     }
     roundedVolume = 20.0f * volume;

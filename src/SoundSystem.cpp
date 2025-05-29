@@ -3,6 +3,7 @@
 #include "dolphin/sp.h"
 #include "game/gamemem.h"
 #include "game/debug.h"
+#include "game/macros.h"
 #include "dolphin/axfx.h"
 #include "dolphin/ai.h"
 #include "dolphin/ar.h"
@@ -12,50 +13,80 @@
 #include "dolphin/os.h"
 #include "dolphin/types.h"
 
-
-extern int DiskStatusStuff(int, int);
-
+extern int DiskStatusStuff(int);
 SoundSystem gSoundSystem;
 extern SoundInfo soundInfo;
 char buffer[2048];
 
-void SoundSystem::InitializeGlobal() {
-    gSoundSystem.m_buffer = buffer;
-    gSoundSystem.m_AMZeroBuffer = 0;
-    gSoundSystem.m_curEntry = 0;
-    gSoundSystem.field20_0xee34 = FALSE;
-    gSoundSystem.m_InUse = FALSE;
-    gSoundSystem.m_lastPersist = 0;
-    gSoundSystem.m_deativated = FALSE;
+SoundSystem::SoundSystem() {
+    m_buffer       = buffer;
+    m_AMZeroBuffer = 0;
+    m_curEntry     = 0;
+    field20_0xee34 = FALSE;
+    m_inUse        = FALSE;
+    m_lastPersist  = 0;
+#ifndef DEBUG
+    m_deativated = FALSE;
+#endif
 }
 
 void SoundSystem::ProcessSoundsEffects(void) {
     u32 i;
-    if (!gSoundSystem.m_deativated){
-        MIXUpdateSettings();
-        AXARTServiceSounds();
-        if (gSoundSystem.GetInUse() == FALSE){
+
+    MIXUpdateSettings();
+    AXARTServiceSounds();
+#ifndef DEBUG
+    if (!gSoundSystem.m_deativated) {
+#endif
+        if (!gSoundSystem.InUse()) {
             gSoundSystem.SetProcessingQueue(true);
             for (i = 0; i < 96; i++) {
-                
+                sound *sound = gSoundSystem.GetAudio(i);
+                if (!gSoundSystem.GetUnknown() && sound->unk42 && sound->axvpb && sound->axvpb->pb.state == 0) {
+                    gSoundSystem.RemoveSound(sound);
+                }
             }
-
-            for (i = 0; i < 64; i++) {
-                gSoundSystem.CleanupPlayedSound(i);
+            if (!gSoundSystem.GetUnknown()) {
+                for (i = 0; i < 64; i++) {
+                    soundEffect *sound_effect = gSoundSystem.GetSoundEffect(i);
+                    if (sound_effect->axvpb && sound_effect->axvpb->pb.state == 0) {
+                        gSoundSystem.CleanupPlayedSound(i);
+                        if (sound_effect->field6_0x34 != -1) {
+                            if (sound_effect->field7_0x38 < 1) {
+                                gSoundSystem.PlaySoundEffect(i);
+                                sound_effect->field7_0x38 = sound_effect->field6_0x34;
+                            }
+                        }
+                    }
+                }
             }
+            gSoundSystem.SetProcessingQueue(false);
         }
-        
+#ifndef DEBUG
     }
+#endif
+}
+
+void SoundSystem::RemoveSound(sound *sound) {
+    AXARTRemoveSound(&sound->axart_sound);
+    sound->m_loadStatus = FALSE;
+    if (sound->axvpb->priority) {
+        AXFreeVoice(sound->axvpb);
+    }
+    sound->axvpb   = NULL;
+    sound->playing = false;
 }
 
 void SoundSystem::Initialize() {
-    bool previously_in_use = m_InUse;
-    m_InUse = true;
+    bool previously_in_use = m_inUse;
+    m_inUse                = true;
+#ifndef DEBUG
     m_deativated = false;
+#endif
     field22_0xee36 = false;
     field23_0xee37 = false;
     field20_0xee34 = true;
-    ARInit((u32*)stack_index_addr, 3);
+    ARInit((u32 *)stack_index_addr, 3);
     ARQInit();
     AIInit(0);
     AXInit();
@@ -75,29 +106,73 @@ void SoundSystem::Initialize() {
     AXRegisterCallback(ProcessSoundsEffects);
     AXFXSetHooks(AllocateReverbMemoryNotImplemented, FreeReverbMemoryNotImplemented);
     AXSetCompressor(1);
-    m_InUse = previously_in_use;
+    m_inUse = previously_in_use;
 }
 
-void SoundSystem::FreeReverbMemoryNotImplemented(void * address) {
+void SoundSystem::FreeReverbMemoryNotImplemented(void *address) {
     DebugError("SoundSystem.cpp", 199, "Reverb memory freeing not implemented.  Get Geoff!");
 }
 
-void * SoundSystem::AllocateReverbMemoryNotImplemented(u32 unk ) {
+void *SoundSystem::AllocateReverbMemoryNotImplemented(u32 unk) {
     DebugError("SoundSystem.cpp", 206, "Reverb memory allocation not implemented.  Get Geoff!");
     return NULL;
 }
 
-void SoundSystem::LoadUncachedSoundFromDisk(void) {
+void SoundSystem::LoadSoundFromDisk() {
+    bool previously_in_use = m_inUse;
+    bool result;
+    m_inUse = true;
+    result  = false;
+    if (m_next_index == -1) {
+        result = true;
+    } else {
+    }
+    DEBUGASSERTLINE(261, 0);
+    audio_load_cache *pLoad = GetNextAudioLoadCacheEntry();
+    DEBUGASSERTLINE(275, pLoad->m_pSound->m_loadStatus == kLoadInitiated);
+}
 
+void SoundSystem::LoadUncachedSoundFromDisk() {}
+
+audio_load_cache *SoundSystem::GetNextAudioLoadCacheEntry() {
+    bool previously_in_use = m_inUse;
+    int next_index;
+    int index;
+    m_inUse = true;
+    if (m_number_in_queue_of_sounds_not_preloaded == 0) {
+        m_next_index = -1;
+        m_inUse      = previously_in_use;
+        return NULL;
+    } else {
+        next_index = m_next_index;
+        if (next_index == -1) {
+            next_index = 0;
+        }
+        for (int loadQueueIndex = 0; loadQueueIndex < 32; loadQueueIndex++) {
+            index = loadQueueIndex + next_index;
+        }
+        if (index == -1) {
+            index = 0;
+        }
+        DEBUGASSERTLINE(501, index >= 0 && index <= MAX_SOUND_LOAD_QUEUE_ENTRIES);
+        if (m_audioLoadcache[index].m_pSound) {
+            m_next_index = index;
+            m_inUse      = previously_in_use;
+            return &m_audioLoadcache[index];
+        }
+        DEBUGASSERTLINE(511, 0);
+        m_inUse = previously_in_use;
+        return NULL;
+    }
 }
 
 void SoundSystem::AddSound(int index) {
-    bool lastInUseState = m_InUse;
-    soundEffect* pSoundEffect;
-    SOUND_ENTRY* pSound;
-    AXVPB* pVoice;
+    bool lastInUseState = m_inUse;
+    soundEffect *pSoundEffect;
+    SOUND_ENTRY *pSound;
+    AXVPB *pVoice;
 
-    m_InUse = true;
+    m_inUse      = true;
     pSoundEffect = &m_soundEffect[index];
     if (!pSoundEffect->sound_finished_playing) {
         pSound = SPGetSoundEntry(pSoundEffect->table, index);
@@ -107,22 +182,29 @@ void SoundSystem::AddSound(int index) {
         AXARTInitSound(&pSoundEffect->sound, pSoundEffect->axvpb, pSound->sampleRate);
         AXARTInitArtVolume(&pSoundEffect->volume);
         pSoundEffect->volume.attenuation = pSoundEffect->attenuation;
-        AXARTAddArticulator(&pSoundEffect->sound, (AXART_ART*)&pSoundEffect->volume);
+        AXARTAddArticulator(&pSoundEffect->sound, (AXART_ART *)&pSoundEffect->volume);
         AXARTInitArtPanning(&pSoundEffect->panning);
-        pSoundEffect->panning.pan = pSoundEffect->pan;
+        pSoundEffect->panning.pan  = pSoundEffect->pan;
         pSoundEffect->panning.span = 127;
-        AXARTAddArticulator(&pSoundEffect->sound, (AXART_ART*)&pSoundEffect->panning);
+        AXARTAddArticulator(&pSoundEffect->sound, (AXART_ART *)&pSoundEffect->panning);
         AXARTAddSound(&pSoundEffect->sound);
         AXSetVoicePriority(pVoice, 1);
         pSoundEffect->sound_finished_playing = true;
     }
-    m_InUse = lastInUseState;
+    m_inUse = lastInUseState;
+}
+
+void SoundSystem::PlaySoundEffect(int index) {
+    bool lastInUseState;
+    if (!field22_0xee36) {
+        lastInUseState = m_inUse;
+    }
 }
 
 void SoundSystem::CleanupPlayedSound(int index) {
-    bool lastInUseState = m_InUse;
-    m_InUse = true;
-    soundEffect* pSoundEffect = &m_soundEffect[index];
+    bool lastInUseState       = m_inUse;
+    m_inUse                   = true;
+    soundEffect *pSoundEffect = &m_soundEffect[index];
     if (pSoundEffect->sound_finished_playing) {
         AXARTRemoveSound(&pSoundEffect->sound);
         if (pSoundEffect->axvpb && pSoundEffect->axvpb->priority) {
@@ -131,42 +213,38 @@ void SoundSystem::CleanupPlayedSound(int index) {
         }
         pSoundEffect->sound_finished_playing = false;
     }
-    m_InUse = lastInUseState;
+    m_inUse = lastInUseState;
 }
 
-void SoundSystem::ReinitializeAudio(bool unk) {
-    BOOL lastInUseState = m_InUse;
+void SoundSystem::ReinitializeAudio(bool loadNewSounds) {
+    u32 length;
+    BOOL lastInUseState = m_inUse;
 
-    while (m_processing_queue) {}
-    if (unk) {
-        BOOL lastInUseState2 = m_InUse;
-        m_InUse = TRUE;
-            
-        while (m_number_in_queue_of_sounds_not_preloaded) {
-            DiskStatusStuff(0,0);
-            LoadNewSoundsFromDisk();
-        }
-
-        m_InUse = lastInUseState;
+    while (m_processing_queue) {
+    }
+    if (loadNewSounds) {
+        LoadNewSoundsFromDisk();
     }
 
     field22_0xee36 = false;
     field23_0xee37 = false;
 
+    ARFree(&length);
+    DEBUGASSERTLINE(1087, length == AUDIO_BLOCK_SIZE_BYTES);
+    InitializeAudio();
     for (int i = 0; i < 0x60; i++) {
-        BOOL lastInUseState3 = m_InUse;
-
+        BOOL lastInUseState3 = m_inUse;
     }
 }
 
 void SoundSystem::InitializeAudio(void) {
     bool previously_in_use;
     u32 aramBase;
-    audio_file * file;
-    Mempool* soundMempool;
+    audio_file *file;
+    Mempool *soundMempool;
 
-    previously_in_use = m_InUse;
-    m_InUse = TRUE;
+    previously_in_use = m_inUse;
+    m_inUse           = TRUE;
 
     soundMempool = Gamemem_info.GetSoundMempool();
     ResetOffset(soundMempool);
@@ -174,22 +252,22 @@ void SoundSystem::InitializeAudio(void) {
     aramBase = ARAlloc(0xc00000);
     AMInit(aramBase, 0xc00000);
     m_AMZeroBuffer = AMGetZeroBuffer();
-    memset(&m_axVoice, 0, 0x1980);
+    memset(m_SomeAudio, 0, 0x1980);
     memset(m_soundEffect, 0, 0x1100);
 
-    m_next_index = -1;
+    m_next_index                              = -1;
     m_number_in_queue_of_sounds_not_preloaded = 0;
 
     for (int i = 0; i < 32; i++) {
-        InitializeAudioCache(&m_Audio_cache[i]);
+        InitializeAudioLoadCache(&m_audioLoadcache[i]);
     }
     for (int i = 0; i < 128; i++) {
         InitializeSoundSlot(&m_sound_slots[i]);
     }
     for (int i = 0; i < 1024; i++) {
-        file = &m_audio_file[i];
-        *(int*)file->file_name = 0;
-        *(int*)(file->file_name + 4) = 0;
+        file                          = &m_audio_file[i];
+        *(int *)file->file_name       = 0;
+        *(int *)(file->file_name + 4) = 0;
         if (i > m_lastPersist) {
             file->file_name[0xc] = char(0);
         }
@@ -199,47 +277,29 @@ void SoundSystem::InitializeAudio(void) {
     } else {
         m_curEntry = 0;
     }
-    m_InUse = previously_in_use;
+    m_inUse = previously_in_use;
 }
 
-sound_slot * SoundSystem::GetFreeSoundSlot(void) {
+sound_slot *SoundSystem::GetFreeSoundSlot(void) {
     bool previously_in_use;
-    previously_in_use = m_InUse;
+    previously_in_use = m_inUse;
     for (int i = 0; i < 128; i++) {
         if (m_sound_slots[i].next == NULL) {
             break;
         }
-        m_InUse = previously_in_use;
+        m_inUse = previously_in_use;
         return m_sound_slots + i;
     }
-    m_InUse = previously_in_use;
-    return (sound_slot*)NULL;
+    m_inUse = previously_in_use;
+    return (sound_slot *)NULL;
 }
 
 void SoundSystem::LoadNewSoundsFromDisk(void) {
-
-}
-
-void SoundSystem::InitializeAudioCache(AudioCache* cache) {
-    cache->field0_0x0 = 0;
-    cache->field1_0x4 = 0;
-    cache->m_fileName[0] = (char)0;
-}
-
-void SoundSystem::SetProcessingQueue(bool processing) {
-    m_processing_queue = processing;
-}
-
-bool SoundSystem::GetInUse(void) {
-    return m_InUse;
-}
-
-void SoundSystem::InitializeSoundSlot(sound_slot* slot) {
-    slot->next = 0;
-    slot->prev = 0;
-    slot->unk8 = 0.0f;
-}
-
-char* SoundSystem::GetBuffer(void) {
-    return m_buffer;
+    bool previously_in_use = m_inUse;
+    m_inUse                = true;
+    while (m_number_in_queue_of_sounds_not_preloaded) {
+        DiskStatusStuff(0);
+        LoadSoundFromDisk();
+    }
+    m_inUse = previously_in_use;
 }

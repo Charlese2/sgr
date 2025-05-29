@@ -1,0 +1,4 @@
+class DataArray {
+    DataArray();
+    ~DataArray();
+};

@@ -1,7 +1,8 @@
 #include "game/summoner.h"
+#include "game/gamemem.h"
+#include "game/living_entity.h"
 #include "dolphin/types.h"
 #include "string.h"
-#include "game/gamemem.h"
 #include <stdlib.h>
 
 extern void StatusStuff(u32, u32, double, double);
@@ -12,6 +13,22 @@ extern bool gHeapAlloc;
 double status1;
 double status2;
 
+living_entity *living_entities;
+transform *transforms;
+void *test;
+void *test2;
+void *test3;
+void *test4;
+void *test5;
+void *test6;
+void *test7;
+void *test8;
+void *test9;
+void *test10;
+void *test11;
+void *test12;
+void *test13;
+
 mainParameters parameters;
 
 void Cleanup(int status) {
@@ -20,17 +37,27 @@ void Cleanup(int status) {
 }
 
 void Initialize() {
-    Mempool* memPool;
-    void* address;
+    Mempool *memPool;
     memPool = get_current_mempool();
     set_current_mempool(0);
     gHeapAlloc = true;
 
+    transforms = new transform[1000];
+    test       = NEW_ALLOCATION(0x9c50, 767);
+    test2      = NEW_ALLOCATION(0x27f28, 768);
+    test3      = NEW_ALLOCATION(0x32000, 769);
+    test4      = NEW_ALLOCATION(0x20000, 770);
+    test5      = NEW_ALLOCATION(0x32000, 771);
+    test6      = NEW_ALLOCATION(0x2000, 772);
+
+        test8 = NEW_ALLOCATION(0x45d30, 774);
+
+    living_entities = new living_entity[180]();
+
     set_current_mempool(memPool);
 }
 
-void MainLoop() 
-{
+void MainLoop() {
 
     Initialize();
 
@@ -41,16 +68,15 @@ void MainLoop()
     printf("**** Game startup time: %.3f ***");
 }
 
-void setParameters() {
-    mainParameters* test;
+void setParameters(int input1, char *argv[]) {
+    mainParameters *test;
     bool test2;
 
     memset(&parameters, 0xff, 18);
     parameters.valid_demo = 0;
-    test = &parameters;
+    test                  = &parameters;
 
     for (int i = 0; i < 18; i++) {
-        
     }
 
     if (parameters.valid_demo == 0) {
@@ -70,10 +96,8 @@ void setParameters() {
     test2 = parameters.unk0;
 }
 
-
-int main()
-{
-    setParameters();
+int main(int argc, char *argv[]) {
+    setParameters(argc, argv);
     MainLoop();
     Cleanup(3);
     return 0;

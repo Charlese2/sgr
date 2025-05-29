@@ -1,6 +1,8 @@
 #ifndef _H_MACROS_
 #define _H_MACROS_
 
+#define NEW_ALLOCATION(size, line) operator new[](size, __FILE__, line)
+
 #ifdef DEBUG
 #define ASSERTLINE(line, cond) \
     ((cond) || (OSPanic(__FILE__, line, "Failed assertion " #cond), 0))
