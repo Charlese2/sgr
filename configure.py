@@ -486,6 +486,7 @@ config.libs = [
             Object(NonMatching, "new_shooting_game.cpp"),
             Object(NonMatching, "cutscene.cpp"),
             Object(NonMatching, "level_sequences.cpp"),
+            Object(NonMatching, "cutscene_sequences.cpp"),
             Object(NonMatching, "water_ripples.cpp"),
             Object(NonMatching, "birds.cpp"),
             Object(NonMatching, "rain.cpp"),

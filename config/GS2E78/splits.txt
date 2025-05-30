@@ -20,13 +20,15 @@ summoner.cpp:
 	.ctors      start:0x801EE844 end:0x801EE848
 	.rodata     start:0x801EEA80 end:0x801EED70
 	.bss        start:0x80228F80 end:0x80228F94
+	.sbss       start:0x804743E0 end:0x80474408
 
 effects.cpp:
-	extab       start:0x800056A0 end:0x80005928
-	extabindex  start:0x8000B860 end:0x8000BC14
-	.text       start:0x80016A68 end:0x800216BC
+	extab       start:0x80005668 end:0x80005928
+	extabindex  start:0x8000B80C end:0x8000BC14
+	.text       start:0x800154E4 end:0x800216BC
 	.ctors      start:0x801EE848 end:0x801EE84C
 	.rodata     start:0x801EED70 end:0x801EF0B8
+	.sbss       start:0x80474408 end:0x80474428
 
 gr.cpp:
 	extab       start:0x80005928 end:0x800059A0
@@ -36,7 +38,7 @@ gr.cpp:
 	.rodata     start:0x801EF0B8 end:0x801EF1E8
 	.bss        start:0x8024B7E0 end:0x8024C078
 	.sdata      start:0x80473C50 end:0x80473C70
-	.sbss       start:0x80474430 end:0x804744B0
+	.sbss       start:0x80474428 end:0x804744B0
 	.sdata2     start:0x80476268 end:0x804762B8
 
 gr_font.cpp:
@@ -44,18 +46,21 @@ gr_font.cpp:
 	extabindex  start:0x8000BCC8 end:0x8000BD28
 	.text       start:0x80023574 end:0x80024A90
 	.rodata     start:0x801EF1E8 end:0x801EF230
+	.sbss       start:0x804744B0 end:0x804744C8
 
 gr_poly.cpp:
 	extab       start:0x800059F8 end:0x80005A18
 	extabindex  start:0x8000BD28 end:0x8000BD58
 	.text       start:0x80024A90 end:0x8002523C
 	.ctors      start:0x801EE850 end:0x801EE854
+	.sbss       start:0x804744C8 end:0x804744F8
 
 gr_3d.cpp:
 	extab       start:0x80005A20 end:0x80005A80
 	extabindex  start:0x8000BD64 end:0x8000BDF4
 	.text       start:0x80025454 end:0x8002714C
 	.ctors      start:0x801EE854 end:0x801EE858
+	.sbss       start:0x804744F8 end:0x80474548
 
 frametime.cpp:
 	extab       start:0x80005A80 end:0x80005A90
@@ -63,7 +68,7 @@ frametime.cpp:
 	.text       start:0x80027158 end:0x800274D0
 	.ctors      start:0x801EE858 end:0x801EE85C
 	.rodata     start:0x801EF230 end:0x801EF250
-	.sbss       start:0x80474560 end:0x80474568
+	.sbss       start:0x80474548 end:0x80474568
 
 gameplay.cpp:
 	extab       start:0x80005A90 end:0x80005AD0
@@ -71,6 +76,7 @@ gameplay.cpp:
 	.text       start:0x800274D0 end:0x80028090
 	.ctors      start:0x801EE85C end:0x801EE860
 	.rodata     start:0x801EF250 end:0x801EF270
+	.sbss       start:0x80474568 end:0x80474580
 
 levels.cpp:
 	extab       start:0x80005AD0 end:0x80005B90
@@ -86,25 +92,29 @@ effect_mem.cpp:
 	.text       start:0x8002ADC8 end:0x8002C574
 	.ctors      start:0x801EE864 end:0x801EE868
 	.rodata     start:0x801EFDB0 end:0x801EFE48
+	.sbss       start:0x804745C8 end:0x80474600
 
 matrix.cpp:
-	extab       start:0x80005CB8 end:0x80005CF0
-	extabindex  start:0x8000C0D0 end:0x8000C124
-	.text       start:0x8002DF10 end:0x8002E9B0
+	extab       start:0x80005C50 end:0x80005CF0
+	extabindex  start:0x8000C034 end:0x8000C124
+	.text       start:0x8002C5D8 end:0x8002E9B0
 	.ctors      start:0x801EE868 end:0x801EE86C
 	.rodata     start:0x801EFE48 end:0x801EFE80
+	.sbss       start:0x80474608 end:0x80474618
 
 quaternion.cpp:
 	extab       start:0x80005CF0 end:0x80005D20
 	extabindex  start:0x8000C124 end:0x8000C16C
 	.text       start:0x8002E9B0 end:0x8002FB50
 	.ctors      start:0x801EE86C end:0x801EE870
+	.sbss       start:0x80474618 end:0x80474620
 
 stringpool.cpp:
 	extab       start:0x80005D20 end:0x80005D38
 	extabindex  start:0x8000C16C end:0x8000C190
 	.text       start:0x8002FB74 end:0x8002FE88
 	.rodata     start:0x801EFE80 end:0x801EFEB0
+	.sbss       start:0x80474620 end:0x80474638
 
 new_interface.cpp:
 	extab       start:0x80005D48 end:0x80005E80
@@ -112,6 +122,7 @@ new_interface.cpp:
 	.text       start:0x80030030 end:0x80037358
 	.ctors      start:0x801EE870 end:0x801EE874
 	.rodata     start:0x801EFEB0 end:0x801F0990
+	.sbss       start:0x80474638 end:0x804746D0
 
 dialogue.cpp:
 	extab       start:0x80005E88 end:0x80005F18
@@ -119,13 +130,15 @@ dialogue.cpp:
 	.text       start:0x8003770C end:0x80039B04
 	.ctors      start:0x801EE874 end:0x801EE878
 	.rodata     start:0x801F0990 end:0x801F09E0
+	.sbss       start:0x804746D0 end:0x804746E0
 
 new_inv.cpp:
-	extab       start:0x80005F28 end:0x80005FB8
-	extabindex  start:0x8000C478 end:0x8000C550
-	.text       start:0x8003A20C end:0x8003FF44
+	extab       start:0x80005F18 end:0x80005FB8
+	extabindex  start:0x8000C460 end:0x8000C550
+	.text       start:0x80039B14 end:0x8003FF44
 	.ctors      start:0x801EE878 end:0x801EE87C
 	.rodata     start:0x801F09E0 end:0x801F0E10
+	.sbss       start:0x804746E0 end:0x80474720
 
 new_icam.cpp:
 	extab       start:0x80005FC0 end:0x80005FE0
@@ -139,6 +152,7 @@ new_lore.cpp:
 	.text       start:0x80040270 end:0x80041E44
 	.ctors      start:0x801EE87C end:0x801EE880
 	.rodata     start:0x801F0E20 end:0x801F0E78
+	.sbss       start:0x80474720 end:0x80474768
 
 new_mainmenu.cpp:
 	extab       start:0x80006040 end:0x80006098
@@ -146,13 +160,15 @@ new_mainmenu.cpp:
 	.text       start:0x80041E44 end:0x8004399C
 	.ctors      start:0x801EE880 end:0x801EE884
 	.rodata     start:0x801F0E78 end:0x801F0F00
+	.sbss       start:0x80474768 end:0x804747B0
 
 new_party.cpp:
 	extab       start:0x80006098 end:0x800060E8
 	extabindex  start:0x8000C67C end:0x8000C6F4
-	.text       start:0x800439E8 end:0x80045218
+	.text       start:0x800439D0 end:0x80045218
 	.ctors      start:0x801EE884 end:0x801EE888
 	.rodata     start:0x801F0F00 end:0x801F0FE8
+	.sbss       start:0x804747B0 end:0x804747C8
 
 new_pickup.cpp:
 	extab       start:0x800060E8 end:0x80006128
@@ -160,6 +176,7 @@ new_pickup.cpp:
 	.text       start:0x80045218 end:0x800469A8
 	.ctors      start:0x801EE888 end:0x801EE88C
 	.rodata     start:0x801F0FE8 end:0x801F11A0
+	.sbss       start:0x804747C8 end:0x804747F0
 
 new_quests.cpp:
 	extab       start:0x80006128 end:0x80006188
@@ -167,12 +184,14 @@ new_quests.cpp:
 	.text       start:0x800469A8 end:0x80048568
 	.ctors      start:0x801EE88C end:0x801EE890
 	.rodata     start:0x801F11A0 end:0x801F11F8
+	.sbss       start:0x804747F0 end:0x80474838
 
 new_status.cpp:
 	extab       start:0x80006188 end:0x800061C8
 	extabindex  start:0x8000C7E4 end:0x8000C844
 	.text       start:0x80048568 end:0x8004A014
 	.rodata     start:0x801F11F8 end:0x801F1298
+	.sbss       start:0x80474838 end:0x80474840
 
 new_target.cpp:
 	extab       start:0x800061C8 end:0x80006238
@@ -180,6 +199,7 @@ new_target.cpp:
 	.text       start:0x8004A014 end:0x8004D8C8
 	.ctors      start:0x801EE890 end:0x801EE894
 	.rodata     start:0x801F1298 end:0x801F1368
+	.sbss       start:0x80474840 end:0x80474888
 
 new_skills.cpp:
 	extab       start:0x80006238 end:0x800062F8
@@ -187,6 +207,7 @@ new_skills.cpp:
 	.text       start:0x8004D8CC end:0x80051198
 	.ctors      start:0x801EE894 end:0x801EE898
 	.rodata     start:0x801F1368 end:0x801F1D98
+	.sbss       start:0x80474888 end:0x804748D0
 
 interface_common.cpp:
 	extab       start:0x800062F8 end:0x800063E0
@@ -194,6 +215,7 @@ interface_common.cpp:
 	.text       start:0x80051198 end:0x80053940
 	.ctors      start:0x801EE898 end:0x801EE89C
 	.rodata     start:0x801F1D98 end:0x801F2308
+	.sbss       start:0x804748D0 end:0x804748F8
 
 new_munari_poker.cpp:
 	extab       start:0x800063E0 end:0x80006450
@@ -201,6 +223,7 @@ new_munari_poker.cpp:
 	.text       start:0x80053940 end:0x800580E8
 	.ctors      start:0x801EE89C end:0x801EE8A0
 	.rodata     start:0x801F2308 end:0x801F2670
+	.sbss       start:0x804748F8 end:0x80474980
 
 new_munari_fool.cpp:
 	extab       start:0x80006450 end:0x80006478
@@ -208,6 +231,7 @@ new_munari_fool.cpp:
 	.text       start:0x800580E8 end:0x80059184
 	.ctors      start:0x801EE8A0 end:0x801EE8A4
 	.rodata     start:0x801F2670 end:0x801F2780
+	.sbss       start:0x80474980 end:0x804749C8
 
 unknown1.cpp:
 	extab       start:0x80006478 end:0x80006488
@@ -219,6 +243,7 @@ new_memcheck.cpp:
 	extabindex  start:0x8000CC64 end:0x8000CCA0
 	.text       start:0x800591D8 end:0x80059C9C
 	.rodata     start:0x801F2780 end:0x801F29F8
+	.sbss       start:0x804749C8 end:0x804749E8
 
 gamewide.cpp:
 	extab       start:0x800064B0 end:0x80006530
@@ -226,11 +251,13 @@ gamewide.cpp:
 	.text       start:0x80059C9C end:0x8005AD40
 	.ctors      start:0x801EE8A4 end:0x801EE8A8
 	.rodata     start:0x801F29F8 end:0x801F2C78
+	.sbss       start:0x804749E8 end:0x80474A58
 
 timestamp.cpp:
 	extab       start:0x80006530 end:0x80006548
 	extabindex  start:0x8000CD60 end:0x8000CD84
 	.text       start:0x8005AD60 end:0x8005B310
+	.sbss       start:0x80474A58 end:0x80474A60
 
 parse.cpp:
 	extab       start:0x80006548 end:0x80006628
@@ -248,12 +275,14 @@ mouse.cpp:
 	extabindex  start:0x8000CF1C end:0x8000CF4C
 	.text       start:0x8005E2D4 end:0x8005E8E0
 	.ctors      start:0x801EE8A8 end:0x801EE8AC
+	.sbss       start:0x80474A60 end:0x80474AA0
 
 gamesound.cpp:
 	extab       start:0x80006678 end:0x800066E8
 	extabindex  start:0x8000CF4C end:0x8000CFD0
 	.text       start:0x8005E8E0 end:0x8005F10C
 	.rodata     start:0x801F2DE8 end:0x801F2E80
+	.sbss       start:0x80474AA0 end:0x80474AA8
 	.sdata2     start:0x80476E18 end:0x80476E88
 
 character_instance.cpp:
@@ -269,6 +298,7 @@ character.cpp:
 	.text       start:0x8006392C end:0x80064C24
 	.ctors      start:0x801EE8B0 end:0x801EE8B4
 	.rodata     start:0x801F2E98 end:0x801F31A8
+	.sbss       start:0x80474AA8 end:0x80474AB0
 
 skeleton.cpp:
 	extab       start:0x8000688C end:0x800068C4
@@ -283,12 +313,14 @@ coronas.cpp:
 	extab       start:0x800068C4 end:0x800068D4
 	extabindex  start:0x8000D264 end:0x8000D27C
 	.text       start:0x8006572C end:0x800658D4
+	.sbss       start:0x80474AC0 end:0x80474AC8
 
 beams.cpp:
 	extab       start:0x800068D4 end:0x800068EC
 	extabindex  start:0x8000D27C end:0x8000D2A0
 	.text       start:0x800658D4 end:0x80066108
 	.ctors      start:0x801EE8B4 end:0x801EE8B8
+	.sbss       start:0x80474AC8 end:0x80474AD0
 
 anim_fx.cpp:
 	extab       start:0x800068EC end:0x80006974
@@ -296,6 +328,7 @@ anim_fx.cpp:
 	.text       start:0x80066110 end:0x8006850C
 	.ctors      start:0x801EE8B8 end:0x801EE8BC
 	.rodata     start:0x801F31D8 end:0x801F3240
+	.sbss       start:0x80474AD0 end:0x80474AE8
 
 anim_mesh.cpp:
 	extab       start:0x80006974 end:0x800069DC
@@ -303,17 +336,20 @@ anim_mesh.cpp:
 	.text       start:0x8006850C end:0x8006BBAC
 	.ctors      start:0x801EE8BC end:0x801EE8C0
 	.rodata     start:0x801F3240 end:0x801F3260
+	.sbss       start:0x80474AE8 end:0x80474AF0
 
 keyframe.cpp:
 	extab       start:0x800069DC end:0x80006A3C
 	extabindex  start:0x8000D408 end:0x8000D498
 	.text       start:0x8006BBAC end:0x8006D6B0
+	.sbss       start:0x80474AF0 end:0x80474AF8
 
 particles.cpp:
 	extab       start:0x80006A3C end:0x80006AB4
 	extabindex  start:0x8000D498 end:0x8000D54C
 	.text       start:0x8006D6B0 end:0x80070BCC
 	.ctors      start:0x801EE8C0 end:0x801EE8C4
+	.sbss       start:0x80474AF8 end:0x80474B00
 
 vif_particles.cpp:
 	extab       start:0x80006AB4 end:0x80006B04
@@ -321,6 +357,7 @@ vif_particles.cpp:
 	.text       start:0x80070BCC end:0x8007285C
 	.ctors      start:0x801EE8C4 end:0x801EE8C8
 	.rodata     start:0x801F3260 end:0x801F3310
+	.sbss       start:0x80474B00 end:0x80474B20
 
 unknown3.cpp:
 	extab       start:0x80006B04 end:0x80006B1C
@@ -338,6 +375,7 @@ objects.cpp:
 	.text       start:0x800743D0 end:0x80075EB4
 	.ctors      start:0x801EE8C8 end:0x801EE8CC
 	.rodata     start:0x801F3310 end:0x801F3398
+	.sbss       start:0x80474B20 end:0x80474B30
 
 items.cpp:
 	extab       start:0x80006BFC end:0x80006CC4
@@ -345,6 +383,7 @@ items.cpp:
 	.text       start:0x80075EB4 end:0x80079A94
 	.ctors      start:0x801EE8CC end:0x801EE8D0
 	.rodata     start:0x801F3398 end:0x801F4188
+	.sbss       start:0x80474B30 end:0x80474B60
 
 spells_queue.cpp:
 	extab       start:0x80006CC4 end:0x80006D34
@@ -366,6 +405,7 @@ skills.cpp:
 	.text       start:0x8007E210 end:0x80081158
 	.ctors      start:0x801EE8D8 end:0x801EE8DC
 	.rodata     start:0x801F4340 end:0x801F46E0
+	.sbss       start:0x80474B60 end:0x80474B70
 
 norlsallocpool.cpp:
 	extab       start:0x80006EDC end:0x80006EEC
@@ -379,6 +419,7 @@ characterinfo.cpp:
 	.text       start:0x800813DC end:0x80087674
 	.ctors      start:0x801EE8DC end:0x801EE8E0
 	.rodata     start:0x801F46F8 end:0x801F61B0
+	.sbss       start:0x80474B70 end:0x80474B98
 
 player.cpp:
 	extab       start:0x80007094 end:0x8000712C
@@ -386,6 +427,7 @@ player.cpp:
 	.text       start:0x80087674 end:0x800894AC
 	.ctors      start:0x801EE8E0 end:0x801EE8E4
 	.rodata     start:0x801F61B0 end:0x801F6298
+	.sbss       start:0x80474B98 end:0x80474BB0
 
 item_paging.cpp:
 	extab       start:0x8000712C end:0x80007164
@@ -399,6 +441,7 @@ footsteps.cpp:
 	extabindex  start:0x8000DDB0 end:0x8000DDF8
 	.text       start:0x8008AC28 end:0x8008B26C
 	.rodata     start:0x801F6388 end:0x801F6678
+	.sbss       start:0x80474BB0 end:0x80474BC8
 
 boss_ai.cpp:
 	extab       start:0x800071A4 end:0x800072DC
@@ -412,6 +455,7 @@ dc_menu.cpp:
 	.text       start:0x8008DC3C end:0x8008E470
 	.ctors      start:0x801EE8E8 end:0x801EE8EC
 	.rodata     start:0x801F6718 end:0x801F67D8
+	.sbss       start:0x80474BC8 end:0x80474BD0
 
 level_pirate_base.cpp:
 	extab       start:0x800072FC end:0x80007334
@@ -419,6 +463,7 @@ level_pirate_base.cpp:
 	.text       start:0x8008E470 end:0x8008F5CC
 	.ctors      start:0x801EE8EC end:0x801EE8F0
 	.rodata     start:0x801F67D8 end:0x801F6AE8
+	.sbss       start:0x80474BD0 end:0x80474BF0
 
 level_sepulchre.cpp:
 	extab       start:0x80007334 end:0x8000735C
@@ -426,6 +471,7 @@ level_sepulchre.cpp:
 	.text       start:0x8008F5CC end:0x8008FDC0
 	.ctors      start:0x801EE8F0 end:0x801EE8F4
 	.rodata     start:0x801F6AE8 end:0x801F6C78
+	.sbss       start:0x80474BF0 end:0x80474C08
 
 level_sharangir_cave.cpp:
 	extab       start:0x8000735C end:0x800073CC
@@ -433,6 +479,7 @@ level_sharangir_cave.cpp:
 	.text       start:0x8008FDFC end:0x800918E4
 	.ctors      start:0x801EE8F4 end:0x801EE8F8
 	.rodata     start:0x801F6C78 end:0x801F7028
+	.sbss       start:0x80474C08 end:0x80474C58
 
 level_test.cpp:
 	extab       start:0x800073CC end:0x800073DC
@@ -440,18 +487,21 @@ level_test.cpp:
 	.text       start:0x800918E4 end:0x80091988
 	.ctors      start:0x801EE8F8 end:0x801EE8FC
 	.rodata     start:0x801F7028 end:0x801F7038
+	.sbss       start:0x80474C58 end:0x80474C60
 
 level_unseen.cpp:
 	extab       start:0x800073DC end:0x80007414
 	extabindex  start:0x8000E0EC end:0x8000E140
-	.text       start:0x8009199C end:0x800920B4
+	.text       start:0x80091988 end:0x800920B4
 	.ctors      start:0x801EE8FC end:0x801EE900
 	.rodata     start:0x801F7038 end:0x801F7108
+	.sbss       start:0x80474C60 end:0x80474C70
 
 level_unseen_boss.cpp:
 	extab       start:0x80007414 end:0x8000742C
 	extabindex  start:0x8000E140 end:0x8000E164
 	.text       start:0x800920B4 end:0x80092318
+	.sbss       start:0x80474C70 end:0x80474C78
 
 level_arena.cpp:
 	extab       start:0x8000742C end:0x8000754C
@@ -459,6 +509,7 @@ level_arena.cpp:
 	.text       start:0x80092318 end:0x80099E30
 	.ctors      start:0x801EE900 end:0x801EE904
 	.rodata     start:0x801F7108 end:0x801F7EC8
+	.sbss       start:0x80474C78 end:0x80474D18
 
 level_city_of_glass.cpp:
 	extab       start:0x8000754C end:0x8000755C
@@ -471,6 +522,7 @@ level_cm4_ruins.cpp:
 	.text       start:0x80099E90 end:0x8009A55C
 	.ctors      start:0x801EE904 end:0x801EE908
 	.rodata     start:0x801F7EC8 end:0x801F80A8
+	.sbss       start:0x80474D18 end:0x80474D30
 
 level_eleh_ext.cpp:
 	extab       start:0x8000758C end:0x800075B4
@@ -484,6 +536,7 @@ level_halassar.cpp:
 	.text       start:0x8009A634 end:0x8009D7B0
 	.ctors      start:0x801EE908 end:0x801EE90C
 	.rodata     start:0x801F80F0 end:0x801F8420
+	.sbss       start:0x80474D30 end:0x80474D60
 
 level_highwater.cpp:
 	extab       start:0x80007634 end:0x8000768C
@@ -491,6 +544,7 @@ level_highwater.cpp:
 	.text       start:0x8009D944 end:0x8009F3D8
 	.ctors      start:0x801EE90C end:0x801EE910
 	.rodata     start:0x801F8420 end:0x801F8630
+	.sbss       start:0x80474D60 end:0x80474D88
 
 level_munari_city2.cpp:
 	extab       start:0x8000768C end:0x800076B4
@@ -504,6 +558,7 @@ minimap.cpp:
 	.text       start:0x8009F8AC end:0x800A2C94
 	.ctors      start:0x801EE910 end:0x801EE914
 	.rodata     start:0x801F86E0 end:0x801F8710
+	.sbss       start:0x80474D88 end:0x80474E30
 
 objectrender.cpp:
 	extab       start:0x800076FC end:0x800077FC
@@ -511,6 +566,7 @@ objectrender.cpp:
 	.text       start:0x800A2C94 end:0x800A89A8
 	.ctors      start:0x801EE914 end:0x801EE918
 	.rodata     start:0x801F8710 end:0x801F87F8
+	.sbss       start:0x80474E30 end:0x80474EF0
 
 living_entity.cpp:
 	extab       start:0x800077FC end:0x80007B78
@@ -520,23 +576,27 @@ living_entity.cpp:
 	.rodata     start:0x801F87F8 end:0x801F8F50
 	.data       start:0x8020DA90 end:0x8020DA9C
 	.bss        start:0x803355F0 end:0x80335BF0
+	.sbss       start:0x80474EF0 end:0x80474F08
 
 party_controller.cpp:
 	extab       start:0x80007B78 end:0x80007BD0
 	extabindex  start:0x8000EBD8 end:0x8000EC5C
 	.text       start:0x800BBB7C end:0x800BDA6C
 	.ctors      start:0x801EE91C end:0x801EE920
+	.sbss       start:0x80474F08 end:0x80474F10
 
 text_effects.cpp:
 	extab       start:0x80007BD0 end:0x80007BF0
 	extabindex  start:0x8000EC5C end:0x8000EC8C
 	.text       start:0x800BDA6C end:0x800BE614
+	.sbss       start:0x80474F10 end:0x80474F18
 
 vector.cpp:
 	extab       start:0x80007BF0 end:0x80007C48
 	extabindex  start:0x8000EC8C end:0x8000ED10
 	.text       start:0x800BE614 end:0x800BFFE0
 	.ctors      start:0x801EE920 end:0x801EE924
+	.sbss       start:0x80474F18 end:0x80474F20
 
 ai.cpp:
 	extab       start:0x80007C48 end:0x80007E00
@@ -544,6 +604,7 @@ ai.cpp:
 	.text       start:0x800BFFE0 end:0x800C4724
 	.ctors      start:0x801EE924 end:0x801EE928
 	.rodata     start:0x801F8F50 end:0x801F8F80
+	.sbss       start:0x80474F20 end:0x80474F38
 
 ai_task.cpp:
 	extab       start:0x80007E00 end:0x80007E50
@@ -555,13 +616,15 @@ pathfinding.cpp:
 	extabindex  start:0x8000F028 end:0x8000F118
 	.text       start:0x800C62DC end:0x800CAAFC
 	.rodata     start:0x801F8F80 end:0x801F90D8
+	.sbss       start:0x80474F38 end:0x80474F88
 
 ai_summon.cpp:
-	extab       start:0x80007F28 end:0x80007F98
-	extabindex  start:0x8000F130 end:0x8000F1D8
-	.text       start:0x800CABFC end:0x800CCA3C
+	extab       start:0x80007F18 end:0x80007F98
+	extabindex  start:0x8000F118 end:0x8000F1D8
+	.text       start:0x800CAAFC end:0x800CCA3C
 	.ctors      start:0x801EE928 end:0x801EE92C
 	.rodata     start:0x801F90D8 end:0x801F9148
+	.sbss       start:0x80474F88 end:0x80474FA8
 
 combat_behavior.cpp:
 	extab       start:0x80007F98 end:0x80008040
@@ -573,6 +636,7 @@ combat_skills.cpp:
 	extabindex  start:0x8000F2D4 end:0x8000F2F8
 	.text       start:0x800CF278 end:0x800D139C
 	.rodata     start:0x801F9148 end:0x801F91D0
+	.sbss       start:0x80474FA8 end:0x80474FB0
 
 action_combat.cpp:
 	extab       start:0x80008060 end:0x80008180
@@ -610,6 +674,7 @@ unseen_miniboss.cpp:
 	extabindex  start:0x8000F640 end:0x8000F6D0
 	.text       start:0x800DCF58 end:0x800DE748
 	.ctors      start:0x801EE934 end:0x801EE938
+	.sbss       start:0x80474FB0 end:0x80474FD8
 
 level_save.cpp:
 	extab       start:0x800082F8 end:0x80008490
@@ -617,11 +682,13 @@ level_save.cpp:
 	.text       start:0x800DE748 end:0x800E7118
 	.ctors      start:0x801EE938 end:0x801EE93C
 	.rodata     start:0x801F9430 end:0x801F9950
+	.sbss       start:0x80474FD8 end:0x80474FE0
 
 pathfinding_support.cpp:
 	extab       start:0x80008490 end:0x80008500
 	extabindex  start:0x8000F8EC end:0x8000F994
 	.text       start:0x800E7118 end:0x800E905C
+	.sbss       start:0x80474FE0 end:0x80475048
 
 ezuran.cpp:
 	extab       start:0x80008500 end:0x80008588
@@ -636,6 +703,7 @@ azraman.cpp:
 	.text       start:0x800EB020 end:0x800EC53C
 	.ctors      start:0x801EE940 end:0x801EE944
 	.rodata     start:0x801F9988 end:0x801F99E8
+	.sbss       start:0x80475048 end:0x80475080
 
 imarbeth_galdyr.cpp:
 	extab       start:0x800085E0 end:0x80008630
@@ -643,12 +711,14 @@ imarbeth_galdyr.cpp:
 	.text       start:0x800EC53C end:0x800ED438
 	.ctors      start:0x801EE944 end:0x801EE948
 	.rodata     start:0x801F99E8 end:0x801F9A08
+	.sbss       start:0x80475080 end:0x80475090
 
 judges.cpp:
 	extab       start:0x80008630 end:0x80008678
 	extabindex  start:0x8000FB5C end:0x8000FBC8
 	.text       start:0x800ED438 end:0x800EE1D0
 	.ctors      start:0x801EE948 end:0x801EE94C
+	.sbss       start:0x80475090 end:0x804750A0
 
 imarbeth_demon.cpp:
 	extab       start:0x80008678 end:0x800086C8
@@ -656,12 +726,14 @@ imarbeth_demon.cpp:
 	.text       start:0x800EE1D0 end:0x800EF49C
 	.ctors      start:0x801EE94C end:0x801EE950
 	.rodata     start:0x801F9A08 end:0x801F9A18
+	.sbss       start:0x804750A0 end:0x804750B0
 
 ushandul.cpp:
 	extab       start:0x800086C8 end:0x80008700
 	extabindex  start:0x8000FC40 end:0x8000FC94
 	.text       start:0x800EF49C end:0x800F03E0
 	.ctors      start:0x801EE950 end:0x801EE954
+	.sbss       start:0x804750B0 end:0x804750C0
 
 sharangir.cpp:
 	extab       start:0x80008700 end:0x80008758
@@ -669,6 +741,7 @@ sharangir.cpp:
 	.text       start:0x800F03E0 end:0x800F11B0
 	.ctors      start:0x801EE954 end:0x801EE958
 	.rodata     start:0x801F9A18 end:0x801F9A28
+	.sbss       start:0x804750C0 end:0x804750D0
 
 gametarget.cpp:
 	extab       start:0x80008758 end:0x800087A0
@@ -676,24 +749,28 @@ gametarget.cpp:
 	.text       start:0x800F11B0 end:0x800F25E8
 	.ctors      start:0x801EE958 end:0x801EE95C
 	.rodata     start:0x801F9A28 end:0x801F9A38
+	.sbss       start:0x804750D0 end:0x804750D8
 
 inv.cpp:
 	extab       start:0x800087A0 end:0x80008808
 	extabindex  start:0x8000FD84 end:0x8000FE20
 	.text       start:0x800F25E8 end:0x800F5CEC
 	.rodata     start:0x801F9A38 end:0x801F9AB0
+	.sbss       start:0x804750D8 end:0x804750E0
 
 objectshadow.cpp:
 	extab       start:0x80008828 end:0x800088A0
 	extabindex  start:0x8000FE50 end:0x8000FEE0
 	.text       start:0x800F6900 end:0x800F78B0
 	.rodata     start:0x801F9AB0 end:0x801F9B20
+	.sbss       start:0x804750E0 end:0x804750F8
 
 gameload.cpp:
 	extab       start:0x800088A0 end:0x800088B8
 	extabindex  start:0x8000FEE0 end:0x8000FF04
 	.text       start:0x800F78B0 end:0x800F82A4
 	.rodata     start:0x801F9B20 end:0x801F9B58
+	.sbss       start:0x804750F8 end:0x80475108
 
 new_use.cpp:
 	extab       start:0x800088C8 end:0x80008958
@@ -701,6 +778,7 @@ new_use.cpp:
 	.text       start:0x800F8518 end:0x800FC094
 	.ctors      start:0x801EE95C end:0x801EE960
 	.rodata     start:0x801F9B58 end:0x801F9E20
+	.sbss       start:0x80475108 end:0x80475178
 
 level_scripts.cpp:
 	extab       start:0x80008958 end:0x80008A10
@@ -708,6 +786,7 @@ level_scripts.cpp:
 	.text       start:0x800FC094 end:0x800FE7E8
 	.ctors      start:0x801EE960 end:0x801EE964
 	.rodata     start:0x801F9E20 end:0x801F9F88
+	.sbss       start:0x80475178 end:0x804751E0
 
 camera.cpp:
 	extab       start:0x80008A10 end:0x80008AC8
@@ -715,23 +794,27 @@ camera.cpp:
 	.text       start:0x800FE7F0 end:0x80101964
 	.ctors      start:0x801EE964 end:0x801EE968
 	.rodata     start:0x801F9F88 end:0x801F9F98
+	.sbss       start:0x804751E0 end:0x80475200
 
 camera_script.cpp:
 	extab       start:0x80008AC8 end:0x80008B10
 	extabindex  start:0x8001021C end:0x80010288
 	.text       start:0x80101964 end:0x80103504
 	.ctors      start:0x801EE968 end:0x801EE96C
+	.sbss       start:0x80475200 end:0x80475210
 
 ix.cpp:
 	extab       start:0x80008B10 end:0x80008B40
 	extabindex  start:0x80010288 end:0x800102D0
 	.text       start:0x80103504 end:0x80104E90
+	.sbss       start:0x80475210 end:0x80475220
 
 ai_process.cpp:
-	extab       start:0x80008B48 end:0x80008BC0
-	extabindex  start:0x800102DC end:0x80010390
-	.text       start:0x801050C8 end:0x801092CC
+	extab       start:0x80008B40 end:0x80008BC0
+	extabindex  start:0x800102D0 end:0x80010390
+	.text       start:0x80104E90 end:0x801092CC
 	.rodata     start:0x801F9FA8 end:0x801FA028
+	.sbss       start:0x80475220 end:0x80475230
 
 ai_think.cpp:
 	extab       start:0x80008BC0 end:0x80008C78
@@ -744,12 +827,14 @@ v3d_shadow.cpp:
 	.text       start:0x8010B740 end:0x8010BC58
 	.ctors      start:0x801EE96C end:0x801EE970
 	.bss        start:0x8039AC88 end:0x8039B918
+	.sbss       start:0x80475230 end:0x80475240
 
 descent_physics.cpp:
 	extab       start:0x80008CBC end:0x80008CC4
 	extabindex  start:0x800104EC end:0x800104F8
 	.text       start:0x8010BC58 end:0x8010C4EC
 	.ctors      start:0x801EE970 end:0x801EE974
+	.sbss       start:0x80475240 end:0x80475250
 
 new_hud.cpp:
 	extab       start:0x80008CC4 end:0x80008D94
@@ -757,6 +842,7 @@ new_hud.cpp:
 	.text       start:0x8010C4EC end:0x80112888
 	.ctors      start:0x801EE974 end:0x801EE978
 	.rodata     start:0x801FA028 end:0x801FA4A8
+	.sbss       start:0x80475250 end:0x804752E8
 
 new_fullscreen.cpp:
 	extab       start:0x80008D94 end:0x80008F8C
@@ -764,6 +850,7 @@ new_fullscreen.cpp:
 	.text       start:0x80112888 end:0x8011A314
 	.ctors      start:0x801EE978 end:0x801EE97C
 	.rodata     start:0x801FA4A8 end:0x801FA730
+	.sbss       start:0x804752E8 end:0x80475340
 
 ac_hud.cpp:
 	extab       start:0x80008F8C end:0x80009024
@@ -771,6 +858,7 @@ ac_hud.cpp:
 	.text       start:0x8011A314 end:0x8011C5C0
 	.ctors      start:0x801EE97C end:0x801EE980
 	.rodata     start:0x801FA730 end:0x801FA7D0
+	.sbss       start:0x80475340 end:0x804753A0
 
 gr_3d_clipper.cpp:
 	extab       start:0x80009024 end:0x8000903C
@@ -778,6 +866,7 @@ gr_3d_clipper.cpp:
 	.text       start:0x8011C5C0 end:0x8011CA18
 	.ctors      start:0x801EE980 end:0x801EE984
 	.bss        start:0x803A3D28 end:0x803A4728
+	.sbss       start:0x804753A0 end:0x804753A8
 
 bbox.cpp:
 	.text       start:0x8011CA18 end:0x8011CD3C
@@ -788,6 +877,7 @@ new_buysell.cpp:
 	.text       start:0x8011CD3C end:0x80120768
 	.ctors      start:0x801EE984 end:0x801EE988
 	.rodata     start:0x801FA7D0 end:0x801FA980
+	.sbss       start:0x804753A8 end:0x804753F8
 
 unknown4.cpp:
 	extab       start:0x800090CC end:0x800090EC
@@ -797,11 +887,12 @@ unknown4.cpp:
 	.rodata     start:0x801FA980 end:0x801FA998
 
 new_shooting_game.cpp:
-	extab       start:0x80009114 end:0x80009134
-	extabindex  start:0x80010B70 end:0x80010BA0
-	.text       start:0x80122E80 end:0x80123598
+	extab       start:0x800090EC end:0x80009134
+	extabindex  start:0x80010B34 end:0x80010BA0
+	.text       start:0x80120A58 end:0x80123598
 	.ctors      start:0x801EE98C end:0x801EE990
 	.rodata     start:0x801FA998 end:0x801FAA10
+	.sbss       start:0x804753F8 end:0x80475440
 
 cutscene.cpp:
 	extab       start:0x80009134 end:0x800091E4
@@ -809,6 +900,7 @@ cutscene.cpp:
 	.text       start:0x80123598 end:0x801251C8
 	.ctors      start:0x801EE990 end:0x801EE994
 	.rodata     start:0x801FAA10 end:0x801FAAE0
+	.sbss       start:0x80475440 end:0x80475458
 
 level_sequences.cpp:
 	extab       start:0x800091E4 end:0x8000991C
@@ -816,19 +908,22 @@ level_sequences.cpp:
 	.text       start:0x801251C8 end:0x801370E8
 	.ctors      start:0x801EE994 end:0x801EE998
 	.rodata     start:0x801FAAE0 end:0x801FBB70
+	.sbss       start:0x80475458 end:0x80475460
 
-unknown5.cpp:
+cutscene_sequences.cpp:
 	extab       start:0x8000991C end:0x8000995C
 	extabindex  start:0x80011734 end:0x80011794
 	.text       start:0x801370E8 end:0x80138884
 	.rodata     start:0x801FBB70 end:0x801FBB80
+	.sbss       start:0x80475460 end:0x804754A8
 
 water_ripples.cpp:
-	extab       start:0x80009964 end:0x800099BC
-	extabindex  start:0x800117A0 end:0x80011824
-	.text       start:0x80138BBC end:0x8013A4D4
+	extab       start:0x8000995C end:0x800099BC
+	extabindex  start:0x80011794 end:0x80011824
+	.text       start:0x80138884 end:0x8013A4D4
 	.ctors      start:0x801EE998 end:0x801EE9A0
 	.rodata     start:0x801FBB80 end:0x801FBBE8
+	.sbss       start:0x804754A8 end:0x804754D0
 
 birds.cpp:
 	extab       start:0x800099BC end:0x800099E4
@@ -836,6 +931,7 @@ birds.cpp:
 	.text       start:0x8013A4D4 end:0x8013B23C
 	.ctors      start:0x801EE9A0 end:0x801EE9A4
 	.rodata     start:0x801FBBE8 end:0x801FBC08
+	.sbss       start:0x804754D0 end:0x804754E0
 
 rain.cpp:
 	extab       start:0x800099E4 end:0x80009A24
@@ -843,11 +939,13 @@ rain.cpp:
 	.text       start:0x8013B23C end:0x8013BEAC
 	.ctors      start:0x801EE9A4 end:0x801EE9A8
 	.rodata     start:0x801FBC08 end:0x801FBC58
+	.sbss       start:0x804754E0 end:0x80475510
 
 trees.cpp:
 	extab       start:0x80009A24 end:0x80009A3C
 	extabindex  start:0x800118C0 end:0x800118E4
 	.text       start:0x8013BEAC end:0x8013C404
+	.sbss       start:0x80475510 end:0x80475518
 
 unknown6.cpp:
 	extab       start:0x80009A3C end:0x80009A4C
@@ -859,6 +957,7 @@ unknown7.cpp:
 	extab       start:0x80009A4C end:0x80009A54
 	extabindex  start:0x800118FC end:0x80011908
 	.text       start:0x8013C634 end:0x8013C778
+	.sbss       start:0x80475528 end:0x80475530
 
 mainmenu.cpp:
 	extab       start:0x80009A54 end:0x80009A84
@@ -876,12 +975,14 @@ pathfinding_debug.cpp:
 	.text       start:0x8013CA54 end:0x8013D028
 	.ctors      start:0x801EE9AC end:0x801EE9B0
 	.rodata     start:0x801FBC58 end:0x801FBE10
+	.sbss       start:0x80475530 end:0x80475548
 
 level_scripts_loadsave.cpp:
 	extab       start:0x80009AB4 end:0x80009B44
 	extabindex  start:0x80011998 end:0x80011A28
 	.text       start:0x8013D028 end:0x80140D2C
 	.rodata     start:0x801FBE10 end:0x801FC2F0
+	.sbss       start:0x80475548 end:0x80475550
 
 ai_combat.cpp:
 	extab       start:0x80009B64 end:0x80009BC4
@@ -900,6 +1001,7 @@ flipbook.cpp:
 	extabindex  start:0x800122C8 end:0x800122D4
 	.text       start:0x801500E0 end:0x80150444
 	.rodata     start:0x801FC848 end:0x801FC890
+	.sbss       start:0x80475558 end:0x80475560
 
 gamemem.cpp:
 	extab       start:0x8000A10C end:0x8000A124
@@ -944,6 +1046,7 @@ FileSystem.cpp:
 	.ctors      start:0x801EE9B4 end:0x801EE9B8
 	.rodata     start:0x801FD958 end:0x801FDA18
 	.bss        start:0x803C16C0 end:0x803C16F0
+	.sbss       start:0x80475598 end:0x804755A0
 
 PackFileSystem.cpp:
 	extab       start:0x8000A274 end:0x8000A2D4
@@ -952,6 +1055,7 @@ PackFileSystem.cpp:
 	.ctors      start:0x801EE9B8 end:0x801EE9BC
 	.rodata     start:0x801FDA18 end:0x801FDA48
 	.bss        start:0x803C16F0 end:0x803C17F8
+	.sbss       start:0x804755A0 end:0x804755A8
 
 File.cpp:
 	extab       start:0x8000A2D4 end:0x8000A2FC
@@ -968,6 +1072,7 @@ NGCSystem.cpp:
 	extabindex  start:0x8001258C end:0x800125C8
 	.text       start:0x80153464 end:0x801540C4
 	.rodata     start:0x801FDA48 end:0x801FDDA0
+	.sbss       start:0x804755A8 end:0x804755C0
 
 MemSystem.cpp:
 	extab       start:0x8000A36C end:0x8000A384
@@ -975,6 +1080,7 @@ MemSystem.cpp:
 	.text       start:0x801547B0 end:0x801548E4
 	.ctors      start:0x801EE9BC end:0x801EE9C0
 	.rodata     start:0x801FDDA0 end:0x801FDDB0
+	.sbss       start:0x804755C0 end:0x804755C8
 
 InputSystem.cpp:
 	extab       start:0x8000A384 end:0x8000A3CC
@@ -999,12 +1105,14 @@ RenderSystem.cpp:
 	.ctors      start:0x801EE9C8 end:0x801EE9CC
 	.rodata     start:0x801FDDE8 end:0x801FDF38
 	.data       start:0x802103A8 end:0x802103A8
+	.sbss       start:0x804755D0 end:0x804755F8
 
 gr_ngc.cpp:
 	extab       start:0x8000A4E4 end:0x8000A5D4
 	extabindex  start:0x800127F0 end:0x800128D4
 	.text       start:0x80157A88 end:0x80158F54
 	.rodata     start:0x801FDF38 end:0x801FDF88
+	.sbss       start:0x804755F8 end:0x80475610
 
 S3dConvert.cpp:
 	extab       start:0x8000A5D4 end:0x8000A5DC
@@ -1018,6 +1126,7 @@ Cranky/am/am.c:
 	.text       start:0x8015935C end:0x80159968
 	.rodata     start:0x801FDFC8 end:0x801FE008
 	.bss        start:0x803E4D50 end:0x803ED150
+	.sbss       start:0x80475610 end:0x80475620
 
 s3d.cpp:
 	extab       start:0x8000A5FC end:0x8000A6A4
@@ -1029,6 +1138,7 @@ S3dCollide.cpp:
 	extabindex  start:0x80012A0C end:0x80012A48
 	.text       start:0x8015BA28 end:0x8015C9B8
 	.ctors      start:0x801EE9CC end:0x801EE9D0
+	.sbss       start:0x80475620 end:0x80475628
 
 spline.cpp:
 	extab       start:0x8000A6D4 end:0x8000A6DC
@@ -1051,6 +1161,7 @@ mud_god.cpp:
 	.text       start:0x8015E09C end:0x8015E9CC
 	.ctors      start:0x801EE9D4 end:0x801EE9D8
 	.rodata     start:0x801FE048 end:0x801FE098
+	.sbss       start:0x80475628 end:0x80475630
 
 khargathalan_int.cpp:
 	extab       start:0x8000A724 end:0x8000A75C
@@ -1058,6 +1169,7 @@ khargathalan_int.cpp:
 	.text       start:0x8015E9CC end:0x8015F8E0
 	.ctors      start:0x801EE9D8 end:0x801EE9DC
 	.rodata     start:0x801FE098 end:0x801FE1D8
+	.sbss       start:0x80475630 end:0x80475638
 
 khargathalan_tower.cpp:
 	extab       start:0x8000A75C end:0x8000A77C
@@ -1084,6 +1196,7 @@ lore.cpp:
 	.text       start:0x801624B8 end:0x80162B90
 	.ctors      start:0x801EE9E8 end:0x801EE9EC
 	.rodata     start:0x801FE208 end:0x801FE250
+	.sbss       start:0x80475638 end:0x80475640
 
 quests.cpp:
 	extab       start:0x8000A844 end:0x8000A874
@@ -1091,6 +1204,7 @@ quests.cpp:
 	.text       start:0x80162B90 end:0x80163118
 	.ctors      start:0x801EE9EC end:0x801EE9F0
 	.rodata     start:0x801FE250 end:0x801FE288
+	.sbss       start:0x80475640 end:0x80475650
 
 level_coral_grotto_boss.cpp:
 	extab       start:0x8000A874 end:0x8000A89C
@@ -1109,6 +1223,7 @@ level_eleh2.cpp:
 	extabindex  start:0x80012CC4 end:0x80012D0C
 	.text       start:0x801633B8 end:0x80163B8C
 	.rodata     start:0x801FE308 end:0x801FE388
+	.sbss       start:0x80475650 end:0x80475678
 
 level_endgame_boss.cpp:
 	extab       start:0x8000A8D4 end:0x8000A8DC
@@ -1122,6 +1237,7 @@ level_endgame.cpp:
 	.text       start:0x80163C0C end:0x801643A4
 	.ctors      start:0x801EE9F0 end:0x801EE9F4
 	.rodata     start:0x801FE3A0 end:0x801FE4F0
+	.sbss       start:0x80475678 end:0x80475688
 
 level_galdyr_pass.cpp:
 	extab       start:0x8000A904 end:0x8000A934
@@ -1129,6 +1245,7 @@ level_galdyr_pass.cpp:
 	.text       start:0x801643A4 end:0x80165468
 	.ctors      start:0x801EE9F4 end:0x801EE9F8
 	.rodata     start:0x801FE4F0 end:0x801FE940
+	.sbss       start:0x80475688 end:0x804756A0
 
 level_khargathalan.cpp:
 	extab       start:0x8000A934 end:0x8000A93C
@@ -1141,6 +1258,7 @@ level_mud_god.cpp:
 	extabindex  start:0x80012DA8 end:0x80012DC0
 	.text       start:0x801654D0 end:0x801656B4
 	.rodata     start:0x801FE950 end:0x801FE9A0
+	.sbss       start:0x804756A0 end:0x804756A8
 
 level_mud_god_boss.cpp:
 	extab       start:0x8000A94C end:0x8000A964
@@ -1154,6 +1272,7 @@ level_munari_city.cpp:
 	.text       start:0x80165968 end:0x801660D0
 	.ctors      start:0x801EE9F8 end:0x801EE9FC
 	.rodata     start:0x801FEAD8 end:0x801FEC48
+	.sbss       start:0x804756A8 end:0x804756B0
 
 level_indubal.cpp:
 	extab       start:0x8000A994 end:0x8000A99C
@@ -1167,6 +1286,7 @@ level_nhuvasarim.cpp:
 	.text       start:0x8016629C end:0x80167A20
 	.ctors      start:0x801EE9FC end:0x801EEA00
 	.rodata     start:0x801FECB0 end:0x801FEF90
+	.sbss       start:0x804756B0 end:0x804756C0
 
 level_pirate_base_int.cpp:
 	extab       start:0x8000A9E4 end:0x8000A9EC
@@ -1179,6 +1299,7 @@ level_sharangir.cpp:
 	.text       start:0x80167A54 end:0x80167CD0
 	.ctors      start:0x801EEA00 end:0x801EEA04
 	.rodata     start:0x801FEF90 end:0x801FEFA8
+	.sbss       start:0x804756C0 end:0x804756D0
 
 level_tamirath_citadel.cpp:
 	extab       start:0x8000A9FC end:0x8000AA34
@@ -1186,18 +1307,21 @@ level_tamirath_citadel.cpp:
 	.text       start:0x80167CD0 end:0x80168284
 	.ctors      start:0x801EEA04 end:0x801EEA08
 	.rodata     start:0x801FEFA8 end:0x801FF0E0
+	.sbss       start:0x804756D0 end:0x804756E8
 
 loading.cpp:
-	extab       start:0x8000AA34 end:0x8000AA54
-	extabindex  start:0x80012F1C end:0x80012F4C
-	.text       start:0x80168284 end:0x80168524
+	extab       start:0x8000AA34 end:0x8000AA5C
+	extabindex  start:0x80012F1C end:0x80012F58
+	.text       start:0x80168284 end:0x8016874C
 	.rodata     start:0x801FF0E0 end:0x801FF1B8
+	.sbss       start:0x804756E8 end:0x80475700
 
 new_assess.cpp:
 	extab       start:0x8000AA5C end:0x8000AA74
 	extabindex  start:0x80012F58 end:0x80012F7C
 	.text       start:0x8016874C end:0x801693D0
 	.rodata     start:0x801FF1B8 end:0x801FF268
+	.sbss       start:0x80475700 end:0x80475710
 
 new_cutscene.cpp:
 	extab       start:0x8000AA74 end:0x8000AA84
@@ -1211,6 +1335,7 @@ new_credits.cpp:
 	.text       start:0x801695B0 end:0x8016A4F8
 	.ctors      start:0x801EEA08 end:0x801EEA0C
 	.rodata     start:0x801FF278 end:0x801FF2E0
+	.sbss       start:0x80475710 end:0x80475730
 
 new_extras.cpp:
 	extab       start:0x8000AAE4 end:0x8000AB1C
@@ -1218,6 +1343,7 @@ new_extras.cpp:
 	.text       start:0x8016A4F8 end:0x8016B550
 	.ctors      start:0x801EEA0C end:0x801EEA10
 	.rodata     start:0x801FF2E0 end:0x801FF8A8
+	.sbss       start:0x80475730 end:0x80475758
 
 new_help.cpp:
 	extab       start:0x8000AB1C end:0x8000ABA4
@@ -1225,6 +1351,7 @@ new_help.cpp:
 	.text       start:0x8016B550 end:0x8016D0B8
 	.ctors      start:0x801EEA10 end:0x801EEA14
 	.rodata     start:0x801FF8A8 end:0x801FF990
+	.sbss       start:0x80475758 end:0x804757A8
 
 new_gem_minigame.cpp:
 	extab       start:0x8000ABA4 end:0x8000ABD4
@@ -1232,6 +1359,7 @@ new_gem_minigame.cpp:
 	.text       start:0x8016D0B8 end:0x8016E934
 	.ctors      start:0x801EEA14 end:0x801EEA18
 	.rodata     start:0x801FF990 end:0x801FFEC8
+	.sbss       start:0x804757A8 end:0x80475830
 
 new_loadsave.cpp:
 	extab       start:0x8000ABD4 end:0x8000AC74
@@ -1239,6 +1367,7 @@ new_loadsave.cpp:
 	.text       start:0x8016E934 end:0x801714C4
 	.ctors      start:0x801EEA18 end:0x801EEA1C
 	.rodata     start:0x801FFEC8 end:0x802001C0
+	.sbss       start:0x80475830 end:0x80475880
 
 new_mainmenu_anim.cpp:
 	extab       start:0x8000AC74 end:0x8000ACD4
@@ -1246,12 +1375,14 @@ new_mainmenu_anim.cpp:
 	.text       start:0x801714C4 end:0x8017385C
 	.ctors      start:0x801EEA1C end:0x801EEA20
 	.rodata     start:0x802001C0 end:0x80200520
+	.sbss       start:0x80475880 end:0x804759D0
 
 new_munari_lab.cpp:
 	extab       start:0x8000ACD4 end:0x8000AD04
 	extabindex  start:0x800132AC end:0x800132F4
 	.text       start:0x8017385C end:0x80174000
 	.rodata     start:0x80200520 end:0x80200898
+	.sbss       start:0x804759D0 end:0x804759E0
 
 new_options.cpp:
 	extab       start:0x8000AD04 end:0x8000AD64
@@ -1259,6 +1390,7 @@ new_options.cpp:
 	.text       start:0x80174000 end:0x80175E9C
 	.ctors      start:0x801EEA20 end:0x801EEA24
 	.rodata     start:0x80200898 end:0x802009D0
+	.sbss       start:0x804759E0 end:0x804759F8
 
 new_munari_shell.cpp:
 	extab       start:0x8000AD64 end:0x8000AD9C
@@ -1266,6 +1398,7 @@ new_munari_shell.cpp:
 	.text       start:0x80175E9C end:0x8017742C
 	.ctors      start:0x801EEA24 end:0x801EEA28
 	.rodata     start:0x802009D0 end:0x80200B60
+	.sbss       start:0x804759F8 end:0x80475A58
 
 new_tutorial.cpp:
 	extab       start:0x8000AD9C end:0x8000ADEC
@@ -1273,6 +1406,7 @@ new_tutorial.cpp:
 	.text       start:0x8017742C end:0x80178438
 	.ctors      start:0x801EEA28 end:0x801EEA2C
 	.rodata     start:0x80200B60 end:0x80200DD8
+	.sbss       start:0x80475A58 end:0x80475A68
 
 new_worldmap.cpp:
 	extab       start:0x8000ADEC end:0x8000AE2C
@@ -1280,6 +1414,7 @@ new_worldmap.cpp:
 	.text       start:0x80178438 end:0x8017A670
 	.ctors      start:0x801EEA2C end:0x801EEA30
 	.rodata     start:0x80200DD8 end:0x80201378
+	.sbss       start:0x80475A68 end:0x80475AA0
 
 new_weapon_minigame.cpp:
 	extab       start:0x8000AE2C end:0x8000AE6C
@@ -1287,6 +1422,7 @@ new_weapon_minigame.cpp:
 	.text       start:0x8017A670 end:0x8017D0FC
 	.ctors      start:0x801EEA30 end:0x801EEA34
 	.rodata     start:0x80201378 end:0x802015D8
+	.sbss       start:0x80475AA0 end:0x80475B38
 
 new_save.cpp:
 	extab       start:0x8000AE6C end:0x8000AE7C
@@ -1316,6 +1452,7 @@ music.cpp:
 	.ctors      start:0x801EEA3C end:0x801EEA40
 	.rodata     start:0x802016E0 end:0x802016F8
 	.bss        start:0x8041F960 end:0x80421300
+	.sbss       start:0x80475B38 end:0x80475B50
 	.sdata2     start:0x8047A788 end:0x8047A798
 
 sound_3d.cpp:
@@ -1325,6 +1462,7 @@ sound_3d.cpp:
 	.ctors      start:0x801EEA40 end:0x801EEA44
 	.rodata     start:0x802016F8 end:0x80201718
 	.bss        start:0x80421300 end:0x8042B358
+	.sbss       start:0x80475B50 end:0x80475B68
 	.sdata2     start:0x8047A798 end:0x8047A7E8
 
 SoundConvert.cpp:
@@ -1334,6 +1472,7 @@ SoundConvert.cpp:
 	.ctors      start:0x801EEA44 end:0x801EEA48
 	.rodata     start:0x80201718 end:0x80201738
 	.bss        start:0x8042B358 end:0x8042E2D8
+	.sbss       start:0x80475B68 end:0x80475B70
 	.sdata2     start:0x8047A7E8 end:0x8047A808
 
 MusicSystem.cpp:
@@ -1343,6 +1482,7 @@ MusicSystem.cpp:
 	.ctors      start:0x801EEA48 end:0x801EEA4C
 	.rodata     start:0x80201738 end:0x80201768
 	.bss        start:0x8042E2D8 end:0x8042E3C0
+	.sbss       start:0x80475B70 end:0x80475B78
 	.sdata2     start:0x8047A808 end:0x8047A820
 
 MusicConvert.cpp:
