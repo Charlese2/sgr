@@ -16,8 +16,6 @@ typedef class Mempool {
     char pool_name[MAX_POOL_NAME_LENGTH];
 } Mempool;
 
-
-
 void set_allocation_done();
 
 void *operator new(size_t amount, char *file, int line);

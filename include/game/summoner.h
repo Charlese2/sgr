@@ -1,5 +1,4 @@
 #include "dolphin/types.h"
-#include "game/vector3.h"
 
 typedef struct {
     u16 unk0;

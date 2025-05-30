@@ -6,10 +6,23 @@ class vector3 {
     vector3(){};
 };
 
-class transform{
+class pathfinding_transform {
   public:
-    vector3 position;
-    float scale;
-    vector3 rotation;
-    transform() {};
+    vector3 unk0;
+    int unkC;
+    vector3 unk10;
+    int unk1C;
+    pathfinding_transform *next;
+    pathfinding_transform *prev;
+    pathfinding_transform(){};
+};
+
+class effect_transform {
+  public:
+    vector3 unk0;
+    int unkC;
+    vector3 unk10;
+    int unk1C;
+    int unk20;
+    int unk24;
 };

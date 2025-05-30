@@ -1,7 +1,7 @@
 #ifndef _H_MACROS_
 #define _H_MACROS_
 
-#define NEW_ALLOCATION(size, line) operator new[](size, __FILE__, line)
+#define NEW_ALLOCATION(line, type) new(__FILE__, line) type
 
 #ifdef DEBUG
 #define ASSERTLINE(line, cond) \

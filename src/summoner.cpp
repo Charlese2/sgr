@@ -1,8 +1,10 @@
 #include "game/summoner.h"
+#include "game/characterinfo.h"
+#include "game/level_sequences.h"
+#include "game/quests.h"
 #include "game/gamemem.h"
 #include "game/living_entity.h"
 #include "dolphin/types.h"
-#include "string.h"
 #include <stdlib.h>
 
 extern void StatusStuff(u32, u32, double, double);
@@ -13,21 +15,13 @@ extern bool gHeapAlloc;
 double status1;
 double status2;
 
-living_entity *living_entities;
-transform *transforms;
-void *test;
-void *test2;
-void *test3;
-void *test4;
-void *test5;
-void *test6;
-void *test7;
-void *test8;
-void *test9;
-void *test10;
-void *test11;
-void *test12;
-void *test13;
+extern pathfinding_transform *PathfindingTransforms;
+extern living_entity *living_entities;
+extern effect_transform *EffectTransforms;
+extern characterinfo *Character_info;
+statscreen *Stat_screen;
+extern quests *Quests;
+extern level_sequences_loadsave *Level_sequences;
 
 mainParameters parameters;
 
@@ -42,17 +36,13 @@ void Initialize() {
     set_current_mempool(0);
     gHeapAlloc = true;
 
-    transforms = new transform[1000];
-    test       = NEW_ALLOCATION(0x9c50, 767);
-    test2      = NEW_ALLOCATION(0x27f28, 768);
-    test3      = NEW_ALLOCATION(0x32000, 769);
-    test4      = NEW_ALLOCATION(0x20000, 770);
-    test5      = NEW_ALLOCATION(0x32000, 771);
-    test6      = NEW_ALLOCATION(0x2000, 772);
-
-        test8 = NEW_ALLOCATION(0x45d30, 774);
-
-    living_entities = new living_entity[180]();
+    PathfindingTransforms = NEW_ALLOCATION(796, pathfinding_transform[1000]);
+    Character_info        = (characterinfo *)operator new[](sizeof(characterinfo), __FILE__, 797);
+    Stat_screen           = (statscreen *)operator new[](sizeof(statscreen), __FILE__, 798);
+    Quests                = (quests *)operator new[](sizeof(quests), __FILE__, 799);
+    Level_sequences       = (level_sequences_loadsave*)operator new[](sizeof(level_sequences_loadsave), __FILE__, 800);
+    living_entities       = NEW_ALLOCATION(802, living_entity[180]);
+    EffectTransforms      = NEW_ALLOCATION(808, effect_transform[1000]);
 
     set_current_mempool(memPool);
 }
