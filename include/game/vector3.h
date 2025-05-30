@@ -19,10 +19,10 @@ class pathfinding_transform {
 
 class effect_transform {
   public:
-    vector3 unk0;
-    int unkC;
-    vector3 unk10;
-    int unk1C;
+    int unk0;
+    int unk4;
+    vector3 unk8;
+    vector3 unk14;
     int unk20;
     int unk24;
 };

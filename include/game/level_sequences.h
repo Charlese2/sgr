@@ -1,3 +1,3 @@
-class level_sequences_loadsave {
-
+class level_sequences {
+    char unk[0x32000];
 };

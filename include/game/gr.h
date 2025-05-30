@@ -19,6 +19,7 @@ class gr_font {
     int unk14;
 };
 
+void GraphicsInit(int,int,int,int window_mode,int,int);
 int toggle_gr_show_stats(void);
 int toggle_gr_show_paging(void);
 int set_gr_ngps_hires(void);

@@ -1,5 +1,5 @@
 class characterinfo {
-    char unk[1000];
+    char unk[0x27f28];
 };
 
 class statscreen {

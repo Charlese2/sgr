@@ -21,6 +21,7 @@ summoner.cpp:
 	.rodata     start:0x801EEA80 end:0x801EED70
 	.bss        start:0x80228F80 end:0x80228F94
 	.sbss       start:0x804743E0 end:0x80474408
+	.sdata2     start:0x80476100 end:0x80476128
 
 effects.cpp:
 	extab       start:0x80005668 end:0x80005928

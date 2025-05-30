@@ -13,3 +13,7 @@ typedef struct {
 class NewInventory {
     bool is_item_equippable(inventory_item item, bool unk);
 };
+
+class inv {
+    char unk[0x1fa18];
+};
