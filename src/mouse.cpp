@@ -36,7 +36,6 @@ void MoveMouse() {
     }
     position_x_delta = position_y_delta = position_z_delta = 0;
     if (mouse_initalized) {
-
         position_x = mouse_position_x;
         position_y = mouse_position_y;
         gInputSystem.GetJoystickVector(0, 0, &x, &y, 0);

@@ -90,13 +90,13 @@ void operator delete(void *p) throw() {
 
 void operator delete[](void *p) throw() { ::operator delete(p); }
 
-void Copy(Mempool *mem_pool, u8 *destination, u32 size, char *_name, u8 alignment) {
+void Mempool::Copy(u8 *_destination, u32 _size, char *_name, u8 _alignment) {
     DEBUGASSERTLINE(353, strlen(_name) < MAX_POOL_NAME_LENGTH);
-    strcpy(mem_pool->pool_name, _name);
-    mem_pool->destination = destination;
-    mem_pool->size        = size;
-    mem_pool->offset      = 0;
-    mem_pool->alignment   = alignment;
+    strcpy(pool_name, _name);
+    destination = _destination;
+    size        = _size;
+    offset      = 0;
+    alignment   = _alignment;
     DEBUGASSERTLINE(359, (alignment == 4) || (alignment == 16) || (alignment == 32));
 }
 

@@ -91,9 +91,9 @@ void Initialize() {
     gHeapAlloc = false;
     set_current_mempool(memPool);
 
-    Copy(&Level_sequence_mempool, (u8*)Level_sequences, sizeof(level_sequences), "Level sequences", 4);
-    Copy(&Cutscene_sequence_mempool, (u8*)Cutscene_sequences, sizeof(cutscene_sequences), "Cutscene seqs", 4);
-    Copy(&Quest_mempool, (u8*)Quests, sizeof(quests), "Quests", 4);
+    Level_sequence_mempool.Copy((u8*)Level_sequences, sizeof(level_sequences), "Level sequences", 4);
+    Cutscene_sequence_mempool.Copy((u8*)Cutscene_sequences, sizeof(cutscene_sequences), "Cutscene seqs", 4);
+    Quest_mempool.Copy((u8*)Quests, sizeof(quests), "Quests", 4);
 }
 
 void MainLoop() {

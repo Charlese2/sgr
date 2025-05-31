@@ -43,6 +43,7 @@ class CrankyFileBuffer : CrankyFile {
 };
 
 class CrankyFileManager {
+  public:
     virtual ~CrankyFileManager();
     CrankyFileCache *m_fileCache;
     u32 m_availableFileCaches;
@@ -53,7 +54,6 @@ class CrankyFileManager {
     CrankyFile *m_pFile;
     u32 m_MaxNumberOfOpenFiles;
 
-  public:
     CrankyFileManager();
     int OpenNewFile(char *file_name, char *file_path);
     void SetMissingFileCallback(FileMissingCallback *callback);

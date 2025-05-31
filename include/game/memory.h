@@ -14,6 +14,8 @@ typedef class Mempool {
     u32 offset;
     u8 alignment;
     char pool_name[MAX_POOL_NAME_LENGTH];
+    Mempool() {};
+    void Copy(u8 *_destination, u32 _size, char *_name, u8 _alignment);
 } Mempool;
 
 void set_allocation_done();
@@ -24,7 +26,6 @@ void *operator new[](size_t amount, char *file, int line);
 void operator delete(void *p) throw();
 void operator delete[](void *p) throw();
 
-void Copy(Mempool *mem_pool, u8 *destination, u32 size, char *name, u8 alignment);
 void *allocate_in_mempool(Mempool *pool, u32 size);
 
 void set_current_mempool(Mempool *memory);

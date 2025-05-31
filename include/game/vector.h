@@ -1,3 +1,6 @@
+#ifndef _VECTOR_H_
+#define _VECTOR_H_
+
 class vector3 {
   public:
     float x;
@@ -26,3 +29,5 @@ class effect_transform {
     int unk20;
     int unk24;
 };
+
+#endif // _VECTOR_H_
