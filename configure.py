@@ -397,7 +397,7 @@ config.libs = [
             Object(NonMatching, "new_munari_fool.cpp"),
             Object(NonMatching, "new_memcheck.cpp"),
             Object(NonMatching, "gamewide.cpp"),
-            Object(NonMatching, "timestamp.cpp"),
+            Object(Matching, "timestamp.cpp"),
             Object(NonMatching, "parse.cpp"),
             Object(NonMatching, "mouse.cpp"),
             Object(NonMatching, "gamesound.cpp"),

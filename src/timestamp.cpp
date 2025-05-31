@@ -1,6 +1,5 @@
 #include "game/timestamp.h"
 #include "game/macros.h"
-#include "dolphin/types.h"
 
 extern "C" {
 int rand();
@@ -93,7 +92,7 @@ int GameTimer::GetRemainingTime() {
     }
     if (value > Timestamp_ticker) {
         remainingTimerTime = value - Timestamp_ticker;
-        if (remainingTimerTime > MAX_TIME / 2){
+        if (remainingTimerTime > MAX_TIME / 2) {
             return -(MAX_TIME - value + Timestamp_ticker);
         }
         return remainingTimerTime;
@@ -105,9 +104,7 @@ int GameTimer::GetRemainingTime() {
     return -(timeSinceTimerFinished);
 }
 
-int GameTimer::GetElapsedTime() {
-    return -GetRemainingTime();
-}
+int GameTimer::GetElapsedTime() { return -GetRemainingTime(); }
 
 bool GameTimer::valid() {
     if (value < 0) {
@@ -142,7 +139,7 @@ void RealtimeTimer::SetRandomTimeout(int low_milliseconds, int high_milliseconds
 }
 
 bool RealtimeTimer::elapsed() {
-        int remainingTimerTime;
+    int remainingTimerTime;
     int timeSinceTimerFinished;
     DEBUGASSERTLINE(214, value < MAX_TIME);
     DEBUGASSERTLINE(215, Timestamp_realtime_ticker < MAX_TIME);
@@ -171,7 +168,7 @@ int RealtimeTimer::GetRemainingTime() {
     }
     if (value > Timestamp_realtime_ticker) {
         remainingTimerTime = value - Timestamp_realtime_ticker;
-        if (remainingTimerTime > MAX_TIME / 2){
+        if (remainingTimerTime > MAX_TIME / 2) {
             return -(MAX_TIME - value + Timestamp_realtime_ticker);
         }
         return remainingTimerTime;
@@ -183,9 +180,7 @@ int RealtimeTimer::GetRemainingTime() {
     return -(timeSinceTimerFinished);
 }
 
-int RealtimeTimer::GetElapsedTime() {
-    return -GetRemainingTime();
-}
+int RealtimeTimer::GetElapsedTime() { return -GetRemainingTime(); }
 
 bool RealtimeTimer::valid() {
     if (value < 0) {
