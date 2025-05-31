@@ -3,6 +3,7 @@
 
 bool mouse_initalized;
 mouse mouse_buttons[MOUSE_NUM_BUTTONS];
+mouse mouse_buttons2[MOUSE_NUM_BUTTONS];
 
 bool CheckMouseUnknown1(int button) {
     if (!mouse_initalized) {
