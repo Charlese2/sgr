@@ -258,6 +258,7 @@ timestamp.cpp:
 	extab       start:0x80006530 end:0x80006548
 	extabindex  start:0x8000CD60 end:0x8000CD84
 	.text       start:0x8005AD60 end:0x8005B310
+	.sdata      start:0x80473D30 end:0x80473D38
 	.sbss       start:0x80474A58 end:0x80474A60
 
 parse.cpp:
