@@ -279,6 +279,7 @@ mouse.cpp:
 	.ctors      start:0x801EE8A8 end:0x801EE8AC
 	.bss        start:0x802853E0 end:0x80285440
 	.sbss       start:0x80474A60 end:0x80474AA0
+	.sdata2     start:0x80476E08 end:0x80476E18
 
 gamesound.cpp:
 	extab       start:0x80006678 end:0x800066E8
