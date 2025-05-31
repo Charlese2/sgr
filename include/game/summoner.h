@@ -1,5 +1,8 @@
 #include "dolphin/types.h"
 
+void show_title_credits();
+void hide_title_credits();
+
 typedef struct {
     u16 unk0;
     u16 unk2;

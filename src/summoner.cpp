@@ -1,4 +1,5 @@
 #include "game/summoner.h"
+#include "game/timestamp.h"
 #include "game/characterinfo.h"
 #include "game/quests.h"
 #include "game/level_sequences.h"
@@ -21,6 +22,8 @@ extern bool gHeapAlloc;
 double status1;
 double status2;
 
+OSTick TimeTick;
+
 extern pathfinding_transform *PathfindingTransforms;
 extern living_entity *Living_entities;
 extern effect_transform *EffectTransforms;
@@ -38,6 +41,27 @@ extern Mempool Cutscene_sequence_mempool;
 extern Mempool Quest_mempool;
 
 mainParameters parameters;
+
+void show_title_credits() {
+    RealtimeTimer titleCreditsTimer;
+    titleCreditsTimer.SetTimeout(505);
+    while (!titleCreditsTimer.elapsed()) {
+        DriveStatusStuff(0, 0);
+        gRenderSystem.Setup2DElementDraw();
+    }
+    TimeTick = OSGetTick();
+}
+
+void hide_title_credits() {
+    RealtimeTimer titleCreditsTimer;
+
+    titleCreditsTimer.SetTimeout(505);
+    while (!titleCreditsTimer.elapsed()) {
+        DriveStatusStuff(0, 0);
+        gRenderSystem.Setup2DElementDraw();
+    }
+    TimeTick = OSGetTick();
+}
 
 void Cleanup(int status) {
     SoundStuff();
