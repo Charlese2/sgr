@@ -277,6 +277,7 @@ mouse.cpp:
 	extabindex  start:0x8000CF1C end:0x8000CF4C
 	.text       start:0x8005E2D4 end:0x8005E8E0
 	.ctors      start:0x801EE8A8 end:0x801EE8AC
+	.bss        start:0x802853E0 end:0x80285440
 	.sbss       start:0x80474A60 end:0x80474AA0
 
 gamesound.cpp:
