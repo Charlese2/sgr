@@ -9,7 +9,7 @@ int Timestamp_ticker          = 1;
 int Timestamp_realtime_ticker = 1;
 int Timestamp_paused;
 
-void GameTimer::UpdateTicker(int delta_milliseconds) {
+void UpdateTicker(int delta_milliseconds) {
     int remainingTime;
     int remainingRealTime;
     if (!Timestamp_paused) {
@@ -28,9 +28,9 @@ void GameTimer::UpdateTicker(int delta_milliseconds) {
     }
 }
 
-void GameTimer::IncrementPauseCounter() { Timestamp_paused += 1; }
+void IncrementPauseCounter() { Timestamp_paused += 1; }
 
-void GameTimer::DecrementPauseCounter() {
+void DecrementPauseCounter() {
     Timestamp_paused -= 1;
     DEBUGASSERTLINE(54, Timestamp_paused >= 0);
 }
