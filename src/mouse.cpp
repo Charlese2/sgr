@@ -24,6 +24,8 @@ char mouse_y_position_initialized;
 void MoveMouse() {
     float x;
     float y;
+    int position_x;
+    int position_y;
     if (mouse_x_position_initialized == 0) {
         previous_mouse_x_position    = 0;
         mouse_x_position_initialized = true;
@@ -34,14 +36,19 @@ void MoveMouse() {
     }
     position_x_delta = position_y_delta = position_z_delta = 0;
     if (mouse_initalized) {
+
+        position_x = mouse_position_x;
+        position_y = mouse_position_y;
         gInputSystem.GetJoystickVector(0, 0, &x, &y, 0);
         y = -y;
-        mouse_position_x          = ((x + 1.0f) * 0.5f) * 512.0f;
-        mouse_position_y          = ((y + 1.0f) * 0.5f) * 448.0f;
-        position_x_delta          = mouse_position_x - previous_mouse_x_position;
-        position_y_delta          = mouse_position_y - previous_mouse_y_position;
-        previous_mouse_x_position = mouse_position_x;
-        previous_mouse_y_position = mouse_position_y;
+        position_x          = ((x + 1.0f) * 0.5f) * 512.0f;
+        position_y          = ((y + 1.0f) * 0.5f) * 448.0f;
+        mouse_position_x = position_x;
+        mouse_position_y = position_y;
+        position_x_delta          = position_x - previous_mouse_x_position;
+        position_y_delta          = position_y - previous_mouse_y_position;
+        previous_mouse_x_position = position_x;
+        previous_mouse_y_position = position_y;
     }
 }
 

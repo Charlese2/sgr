@@ -399,7 +399,7 @@ config.libs = [
             Object(NonMatching, "gamewide.cpp"),
             Object(Matching, "timestamp.cpp"),
             Object(NonMatching, "parse.cpp"),
-            Object(NonMatching, "mouse.cpp"),
+            Object(Matching, "mouse.cpp"),
             Object(NonMatching, "gamesound.cpp"),
             Object(NonMatching, "character_instance.cpp"),
             Object(NonMatching, "character.cpp"),
