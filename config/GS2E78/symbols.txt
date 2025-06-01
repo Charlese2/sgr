@@ -14516,7 +14516,6 @@ lbl_803AC6B0 = .bss:0x803AC6B0; // type:object size:0x3030 align:4 data:float
 lbl_803AF6E0 = .bss:0x803AF6E0; // type:object size:0x190 align:4 data:float
 lbl_803AF870 = .bss:0x803AF870; // type:object size:0x100 data:byte
 Gamemem_info = .bss:0x803AF970; // type:object size:0xE0
-toggle_gamemem_prints = .bss:0x803AFA50; // type:object size:0x10 scope:local
 COMMON_BLOCK = .bss:0x803AFA60; // type:object size:0x11C60
 lbl_803C16C0 = .bss:0x803C16C0; // type:object size:0xC
 gFileManager = .bss:0x803C16CC; // type:object size:0x24

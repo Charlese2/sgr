@@ -103,35 +103,35 @@ inline bool GameMem::AllocateMempools(void) {
     gHeapAlloc = true;
     set_current_mempool(0);
 
-    persistant_data = (u8*)operator new[](0x363800, "gamemem.cpp", 168);
+    persistant_data = (u8 *)operator new[](0x363800, "gamemem.cpp", 168);
     DEBUGASSERTLINE(169, persistant_data);
     persistantMempool.Copy(persistant_data, 0x363800, "persistant", 32);
     ResetOffset(&persistantMempool);
 
-    sound_data = (u8*)operator new[](0x10000, "gamemem.cpp", 174);
+    sound_data = (u8 *)operator new[](0x10000, "gamemem.cpp", 174);
     soundMempool.Copy(sound_data, 0x10000, "sound", 16);
     ResetOffset(&soundMempool);
 
     size = OSCheckHeap(GetHeapHandle(&gMemSystem)) - 0x1dc500;
     printf("Allocating %.2f KB for the perlevel mempool\n", size / 1024.0f);
 
-    perlevel_data = (u8*)operator new[](size, "gamemem.cpp", 181);
+    perlevel_data = (u8 *)operator new[](size, "gamemem.cpp", 181);
     DEBUGASSERTLINE(182, perlevel_data);
     perlevelMempool.Copy(perlevel_data, size, "perlevel", 16);
     ResetOffset(&perlevelMempool);
     set_current_mempool(&perlevelMempool);
 
-    cutscene_data = (u8*)operator new[](0x234000, "gamemem.cpp", 191);
+    cutscene_data = (u8 *)operator new[](0x234000, "gamemem.cpp", 191);
     DEBUGASSERTLINE(192, cutscene_data);
     cutsceneMempool.Copy(cutscene_data, 0x234000, "cutscene", 16);
     ResetOffset(&cutsceneMempool);
     set_current_mempool(&cutsceneMempool);
 
-    summon_data = (u8*)operator new[](0xf0000, "gamemem.cpp", 198);
+    summon_data = (u8 *)operator new[](0xf0000, "gamemem.cpp", 198);
     DEBUGASSERTLINE(199, summon_data);
     summonMempool.Copy(summon_data, 0xf0000, "summon", 32);
 
-    spellslot_data = (u8*)operator new[](0x144000, "gamemem.cpp", 202);
+    spellslot_data = (u8 *)operator new[](0x144000, "gamemem.cpp", 202);
     DEBUGASSERTLINE(203, spellslot_data);
     spellslotMempool.Copy(spellslot_data, 0x144000, "spellslot", 16);
 
