@@ -1,6 +1,7 @@
 #include "game/gamemem.h"
 #include "game/gr.h"
 #include "game/characterinfo.h"
+#include "game/effect_mem.h"
 #include "game/debug.h"
 #include "dolphin/os/OSAlloc.h"
 #include "dolphin/os.h"
@@ -13,7 +14,6 @@ GameMem Gamemem_info;
 bool Show_game_mem_prints;
 bool bShowMempoolUsage;
 bool gamemem_active;
-extern char string_buffer[512];
 
 #ifdef DEBUG
 console_command toggle_gamemem_prints("show_game_mem_prints", "Toggles Show_game_mem_prints", TOGGLE,

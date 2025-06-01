@@ -1,3 +1,6 @@
+#ifndef TIMESTAMP_H
+#define TIMESTAMP_H
+
 #define MAX_TIME 1072800000
 
 void UpdateTicker(int delta_milliseconds);
@@ -6,6 +9,7 @@ void DecrementPauseCounter(void);
 
 class GameTimer {
     int value;
+
   public:
     GameTimer() { value = -1; };
     void SetTimeout(int delta_milliseconds);
@@ -18,6 +22,7 @@ class GameTimer {
 
 class RealtimeTimer {
     int value;
+
   public:
     RealtimeTimer() { value = -1; };
     void SetTimeout(int delta_milliseconds);
@@ -27,3 +32,5 @@ class RealtimeTimer {
     int GetElapsedTime();
     bool valid();
 };
+
+#endif

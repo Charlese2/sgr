@@ -1,4 +1,5 @@
 #include "game/memcard.h"
+#include "game/effect_mem.h"
 #include "game/interface.h"
 #include "game/FileSystem.h"
 #include "game/memory.h"
@@ -6,7 +7,6 @@
 u8 card_work_area[40960];
 CrankyMemcard memorycard;
 int CardId;
-extern char string_buffer[512];
 
 int memcard::DoFormat(void) {
     char *cardSlotName;

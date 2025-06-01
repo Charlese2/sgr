@@ -1,10 +1,11 @@
 #include "game/console.h"
+#include "game/effect_mem.h"
 #include "game/gr.h"
 #include "game/macros.h"
 
 char next_arg[256];
 char original_arg[256];
-console_command* Console_commands[100];
+console_command *Console_commands[100];
 s32 calling_a_command_function;
 s32 doing_help_for_comand;
 s32 checking_status_for_command;
@@ -17,14 +18,13 @@ bool console_is_animating;
 bool console_is_showing;
 GXColor console_background_color;
 
-extern char string_buffer[512];
-
 console_command printCommandsToFile("print_to_file", "Print out console commands to the text file console_commands.txt", CALL,
-                                    print_commands_to_file);
-console_command printCommandsToTTY("print_to_tty", "Print out console commands to the tty window", CALL, print_commands_to_tty);
-console_command runScript("script", "Runs a console script file (.vcs)", CALL, run_script_file);
+                                    (CommandCallbackInt)print_commands_to_file);
+console_command printCommandsToTTY("print_to_tty", "Print out console commands to the tty window", CALL,
+                                   (CommandCallbackInt)print_commands_to_tty);
+console_command runScript("script", "Runs a console script file (.vcs)", CALL, (CommandCallbackInt)run_script_file);
 
-int print_commands_to_file(void) {
+void print_commands_to_file(void) {
     char buffer[256];
 
     if (calling_a_command_function) {
@@ -44,7 +44,7 @@ int print_commands_to_file(void) {
     }
 }
 
-int print_commands_to_tty(void) {
+void print_commands_to_tty(void) {
     s32 prev_len = -1;
     s32 msg_len;
     char buffer[256];
@@ -62,12 +62,11 @@ int print_commands_to_tty(void) {
 
                     sprintf(buffer, "%s", Console_commands[i]->name);
 
-                    msg_len = strlen(buffer);
+                    msg_len         = strlen(buffer);
                     buffer[msg_len] = ' ';
                     sprintf(buffer + prev_len + 3, "- %s", Console_commands[i]->description);
                 } else {
                     strcpy(buffer, Console_commands[i]->name);
-
                 }
                 msg_len = strlen(buffer);
                 if (msg_len < 79) {
@@ -89,12 +88,11 @@ int print_commands_to_tty(void) {
     }
 
     if (doing_help_for_comand) {
-		print_to_console("Print out console commands to the tty window", 0);
+        print_to_console("Print out console commands to the tty window", 0);
     }
 }
 
-BOOL console_command::add_command(const char* name, const char* description, command_type type)
-{
+BOOL console_command::add_command(const char *name, const char *description, command_type type) {
     if (current_command_count >= MAX_COMMANDS) {
         DEBUGINT3LINE(641);
         return false;
@@ -103,8 +101,7 @@ BOOL console_command::add_command(const char* name, const char* description, com
     int i;
     for (i = 0; i < current_command_count; i++) {
         int found = stricmp(Console_commands[i]->name, name);
-        if (found == 0)
-        {
+        if (found == 0) {
             DEBUGINT3LINE(649);
             return false;
         }
@@ -121,26 +118,22 @@ BOOL console_command::add_command(const char* name, const char* description, com
     int j;
     if (i < current_command_count) {
         for (j = current_command_count; j > i; j--) {
-            Console_commands[j] = Console_commands[j-1];
+            Console_commands[j] = Console_commands[j - 1];
         }
         Console_commands[i] = this;
         current_command_count++;
-    }
-    else {
+    } else {
         Console_commands[current_command_count] = this;
         current_command_count++;
     }
 
-
-
-    this->name = name;
+    this->name        = name;
     this->description = description;
-    this->type = type;
+    this->type        = type;
     return true;
 }
 
-console_command::console_command(const char* command, const char* description, command_type type, CommandCallback command_function)
-{
+console_command::console_command(const char *command, const char *description, command_type type, CommandCallbackInt command_function) {
     if (this->add_command(command, description, type)) {
         callback = command_function;
     }
@@ -148,7 +141,6 @@ console_command::console_command(const char* command, const char* description, c
 
 void print_console_commands_to_file(void) {
     if (calling_a_command_function) {
-
     }
 
     if (doing_help_for_comand) {
@@ -156,9 +148,7 @@ void print_console_commands_to_file(void) {
     }
 }
 
-void print_to_console(const char * buffer, bool unk) {
-
-}
+void print_to_console(const char *buffer, bool unk) {}
 
 void process_command(int commandId) {
     if (debug_command_prefixed) {
@@ -170,7 +160,7 @@ void process_command(int commandId) {
     }
 }
 
-int run_script_file(void) {
+void run_script_file(void) {
     if (calling_a_command_function) {
         process_command(2);
         if (strlen(next_arg)) {
@@ -185,6 +175,4 @@ int run_script_file(void) {
     }
 }
 
-void load_script(char * script_file) {
-
-}
+void load_script(char *script_file) {}

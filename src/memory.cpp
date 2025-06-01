@@ -1,4 +1,5 @@
 #include "game/memory.h"
+#include "game/effect_mem.h"
 #include "game/gamemem.h"
 #include "game/debug.h"
 #include "dolphin/os.h"
@@ -29,8 +30,6 @@ u32 Bytes_used;
 u8 COMMON_BLOCK[COMMON_BLOCK_SIZE];
 const char empty[4000]              = "";
 s32 Common_block_allocation_size[2] = { -1, -1 };
-extern char string_buffer[512];
-volatile extern OSHeapHandle __OSCurrHeap;
 
 void set_allocation_done(void) {
     if (!allocation_done) {

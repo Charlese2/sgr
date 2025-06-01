@@ -1,0 +1,2 @@
+#define NUM_PF_GRAPH_PLANES 30
+#define NUM_PF_GRAPH_BLOCKS 2

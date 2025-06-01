@@ -93,6 +93,7 @@ effect_mem.cpp:
 	.text       start:0x8002ADC8 end:0x8002C574
 	.ctors      start:0x801EE864 end:0x801EE868
 	.rodata     start:0x801EFDB0 end:0x801EFE48
+	.bss        start:0x80261460 end:0x8027AA68
 	.sbss       start:0x804745C8 end:0x80474600
 
 matrix.cpp:
@@ -979,6 +980,7 @@ pathfinding_debug.cpp:
 	.text       start:0x8013CA54 end:0x8013D028
 	.ctors      start:0x801EE9AC end:0x801EE9B0
 	.rodata     start:0x801FBC58 end:0x801FBE10
+	.sdata      start:0x804740E0 end:0x804740E8
 	.sbss       start:0x80475530 end:0x80475548
 
 level_scripts_loadsave.cpp:
