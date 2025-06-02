@@ -4,7 +4,7 @@
 #define MOUSE_NUM_BUTTONS 3
 
 class mouse {
-    public:
+  public:
     bool unk0;
     bool unk1;
     int unk4;

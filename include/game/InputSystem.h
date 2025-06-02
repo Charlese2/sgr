@@ -5,9 +5,11 @@
 class InputSystem : CrankyInput {
   public:
     virtual ~InputSystem();
-    int unk[80];
     InputSystem();
     void GetJoystickVector(int contId, int joyId, float *x, float *y, int mode);
+
+  private:
+    int unk[80];
 };
 
 extern InputSystem gInputSystem;

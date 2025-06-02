@@ -4,17 +4,8 @@
 const int kMemcardMaxSlots = 2;
 
 class CrankyMemcard {
-    virtual ~CrankyMemcard();
-    int *m_cardWorkArea;
-    int m_startPos;
-    char m_gameName[4];
-    char m_company[2];
-    int m_activeSlot;
-    s32 m_memSize;
-    s32 m_sectorSize;
-    bool m_isMounted;
-
   public:
+    virtual ~CrankyMemcard();
     CrankyMemcard();
     void NewMemcard(int *cardWorkArea);
     void SetActiveSlot(int cardId);
@@ -39,6 +30,16 @@ class CrankyMemcard {
     int ConvertResult(int result);
     int GetResultCode(void);
     bool IsMounted(void) { return m_isMounted; };
+
+  private:
+    int *m_cardWorkArea;
+    int m_startPos;
+    char m_gameName[4];
+    char m_company[2];
+    int m_activeSlot;
+    s32 m_memSize;
+    s32 m_sectorSize;
+    bool m_isMounted;
 };
 
 STATIC_ASSERT(sizeof(CrankyMemcard) == 0x24);

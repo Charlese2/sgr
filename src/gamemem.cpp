@@ -106,25 +106,25 @@ inline bool GameMem::AllocateMempools(void) {
     persistant_data = (u8 *)operator new[](0x363800, "gamemem.cpp", 168);
     DEBUGASSERTLINE(169, persistant_data);
     persistantMempool.Copy(persistant_data, 0x363800, "persistant", 32);
-    ResetOffset(&persistantMempool);
+    persistantMempool.ResetOffset();
 
     sound_data = (u8 *)operator new[](0x10000, "gamemem.cpp", 174);
     soundMempool.Copy(sound_data, 0x10000, "sound", 16);
-    ResetOffset(&soundMempool);
+    soundMempool.ResetOffset();
 
-    size = OSCheckHeap(GetHeapHandle(&gMemSystem)) - 0x1dc500;
+    size = OSCheckHeap(gMemSystem.GetHeapHandle()) - 0x1dc500;
     printf("Allocating %.2f KB for the perlevel mempool\n", size / 1024.0f);
 
     perlevel_data = (u8 *)operator new[](size, "gamemem.cpp", 181);
     DEBUGASSERTLINE(182, perlevel_data);
     perlevelMempool.Copy(perlevel_data, size, "perlevel", 16);
-    ResetOffset(&perlevelMempool);
+    perlevelMempool.ResetOffset();
     set_current_mempool(&perlevelMempool);
 
     cutscene_data = (u8 *)operator new[](0x234000, "gamemem.cpp", 191);
     DEBUGASSERTLINE(192, cutscene_data);
     cutsceneMempool.Copy(cutscene_data, 0x234000, "cutscene", 16);
-    ResetOffset(&cutsceneMempool);
+    cutsceneMempool.ResetOffset();
     set_current_mempool(&cutsceneMempool);
 
     summon_data = (u8 *)operator new[](0xf0000, "gamemem.cpp", 198);
@@ -151,7 +151,7 @@ void GameMem::ActivateSummonMempool(void) {
     DEBUGASSERTLINE(229, !cutscene_mempool_active);
     DEBUGASSERTLINE(230, !summon_mempool_active);
     summon_mempool_active = true;
-    ResetOffset(&summonMempool);
+    summonMempool.ResetOffset();
 }
 
 void GameMem::DeactivateSummonMempool(void) {
@@ -179,7 +179,7 @@ void GameMem::ActivateCutsceneMempool(void) {
     DEBUGASSERTLINE(286, !spellslot_mempool_active);
     DEBUGASSERTLINE(287, !cutscene_mempool_active);
     cutscene_mempool_active = true;
-    ResetOffset(&cutsceneMempool);
+    cutsceneMempool.ResetOffset();
 }
 
 void GameMem::DeactivateCutsceneMempool(void) {
@@ -206,7 +206,7 @@ void GameMem::ActivateSpellslotMempool(void) {
     DEBUGASSERTLINE(342, !cutscene_mempool_active);
     DEBUGASSERTLINE(343, !spellslot_mempool_active);
     spellslot_mempool_active = true;
-    ResetOffset(&spellslotMempool);
+    spellslotMempool.ResetOffset();
 }
 
 void GameMem::DeactivateSpellslotMempool(void) {
@@ -232,7 +232,7 @@ void GameMem::ActivatePerlevelMempool(void) {
     DEBUGASSERTLINE(397, gamemem_active);
     DEBUGASSERTLINE(398, !perlevel_mempool_active);
     perlevel_mempool_active = true;
-    ResetOffset(&perlevelMempool);
+    perlevelMempool.ResetOffset();
     allocate_in_mempool(&perlevelMempool, 0x234000);
 }
 
@@ -258,7 +258,7 @@ void GameMem::ClearPerlevelMempool(void) {
     DEBUGPRINT("GAME_MEM: clear perlevel mempool\n", Show_game_mem_prints);
     DEBUGASSERTLINE(453, gamemem_active);
     DEBUGASSERTLINE(454, perlevel_mempool_active);
-    ResetOffset(&perlevelMempool);
+    perlevelMempool.ResetOffset();
     allocate_in_mempool(&perlevelMempool, 0x234000);
 }
 
@@ -266,7 +266,7 @@ void GameMem::ActivatePersistantMempool(void) {
     DEBUGPRINT("GAME_MEM: activate persistant mempool\n", Show_game_mem_prints);
     DEBUGASSERTLINE(469, gamemem_active);
     persistant_mempool_active = true;
-    ResetOffset(&persistantMempool);
+    persistantMempool.ResetOffset();
 }
 
 GameMem *GameMem::GetGameMem(void) {

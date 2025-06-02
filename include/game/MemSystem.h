@@ -1,14 +1,12 @@
 #include "dolphin/types.h"
 class MemSystem {
-    virtual ~MemSystem();
-    public:
-    int heapHandle;
-
+  public:
     MemSystem();
-};
+    virtual ~MemSystem();
+    u32 GetHeapHandle() { return heapHandle; }
 
-inline u32 GetHeapHandle(MemSystem * memSystem) {
-    return memSystem->heapHandle;
-}
+  private:
+    int heapHandle;
+};
 
 extern MemSystem gMemSystem;

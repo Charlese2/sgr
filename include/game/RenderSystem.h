@@ -2,14 +2,21 @@
 #include "dolphin/mtx.h"
 #include "dolphin/types.h"
 
-#define kRenderModeDraw 1
+#define kRenderModeDraw   1
 #define kRenderModeDraw2D 2
 
 class RenderSystem {
-    virtual void unk0(void);
+  public:
+    RenderSystem();
+    virtual ~RenderSystem();
+    u32 GetCurrentMode(u32 flag) { return flag & m_curMode; }
+    void Setup2DElementDraw(void);
+    void SetupTextureDrawIn3DSpace(void);
+
+  private:
     u32 m_curMode;
     int unk8;
-    GXRenderModeObj* m_pRenderMode;
+    GXRenderModeObj *m_pRenderMode;
     int unk10;
     int unk14;
     int unk18;
@@ -29,18 +36,6 @@ class RenderSystem {
     int unk50;
     int unk54;
     Mtx m_mtx1;
-
-    public:
-    RenderSystem();
-    ~RenderSystem();
-
-    u32 GetCurrentMode(u32 flag) {
-        return flag & m_curMode;
-    }
-    void Setup2DElementDraw(void);
-    void SetupTextureDrawIn3DSpace(void);
 };
-
-
 
 extern RenderSystem gRenderSystem;

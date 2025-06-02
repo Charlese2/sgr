@@ -2,15 +2,15 @@
 #include "dolphin/types.h"
 
 class object {
-    void * next;
-    void * prev;
+    void *next;
+    void *prev;
     u32 unk8;
     vector3 position;
     vector3 position2;
     u32 unk24;
     u32 unk28;
     u32 unk2c;
-    char * object_string;
+    char *object_string;
     u32 unk34;
     u32 unk38;
     u32 unk3c;
@@ -23,7 +23,7 @@ class object {
     u32 unk58;
     u32 unk5c;
     u32 unk60;
-    char *** type_name;
+    char ***type_name;
     u32 unk68;
     u32 unk6c;
     u32 unk70;

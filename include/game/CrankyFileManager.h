@@ -10,12 +10,6 @@ typedef bool (*FileTypeCallback)(int *fileTypeTable);
 class CrankyFile {
   public:
     virtual ~CrankyFile();
-    DVDFileInfo m_fileInfo;
-    u32 m_position;
-    BOOL m_Opened;
-    char m_filePath[8];
-    char m_fileName[48];
-
     CrankyFile();
     void OpenFile(char *file_path, char *file_name);
     void CloseFile(void);
@@ -25,26 +19,38 @@ class CrankyFile {
     BOOL IsOpened() const { return m_Opened; };
     u32 GetPosition(void) const { return m_position; };
     int GetDiskFileSize(u8 *data);
+
+  private:
+    DVDFileInfo m_fileInfo;
+    u32 m_position;
+    BOOL m_Opened;
+    char m_filePath[8];
+    char m_fileName[48];
 };
 
 class CrankyFileCache {};
 
 class CrankyFileBuffer : CrankyFile {
+  public:
+    void SetFileBuffer(u32 *buf, int requested_size);
+    BOOL IsActive() const { return IsOpened(); };
+
   private:
     int unk80;
     u32 m_TotalSize;
     u32 m_BufferSize;
     u32 *m_pBuffer;
     int unk90;
-
-  public:
-    void SetFileBuffer(u32 *buf, int requested_size);
-    BOOL IsActive() const { return IsOpened(); };
 };
 
 class CrankyFileManager {
   public:
     virtual ~CrankyFileManager();
+    CrankyFileManager();
+    int OpenNewFile(char *file_name, char *file_path);
+    void SetMissingFileCallback(FileMissingCallback *callback);
+
+  private:
     CrankyFileCache *m_fileCache;
     u32 m_availableFileCaches;
     FileTypeCallback SomethingFileTypes;
@@ -53,10 +59,6 @@ class CrankyFileManager {
     u32 m_MaxFiletypeLimit;
     CrankyFile *m_pFile;
     u32 m_MaxNumberOfOpenFiles;
-
-    CrankyFileManager();
-    int OpenNewFile(char *file_name, char *file_path);
-    void SetMissingFileCallback(FileMissingCallback *callback);
 };
 
 void set_missing_file_callback(FileMissingCallback *callback);

@@ -41,8 +41,8 @@ void SoundSystem::ProcessSoundsEffects(void) {
         if (!gSoundSystem.InUse()) {
             gSoundSystem.SetProcessingQueue(true);
             for (i = 0; i < 96; i++) {
-                sound *sound = gSoundSystem.GetAudio(i);
-                if (!gSoundSystem.GetUnknown() && sound->unk42 && sound->axvpb && sound->axvpb->pb.state == 0) {
+                sound *sound = gSoundSystem.GetSoundEffectSound(i);
+                if (gSoundSystem.GetUnknown2() && sound->unk42 || sound->axvpb && sound->axvpb->pb.state == 0) {
                     gSoundSystem.RemoveSound(sound);
                 }
             }
@@ -51,10 +51,10 @@ void SoundSystem::ProcessSoundsEffects(void) {
                     soundEffect *sound_effect = gSoundSystem.GetSoundEffect(i);
                     if (sound_effect->axvpb && sound_effect->axvpb->pb.state == 0) {
                         gSoundSystem.CleanupPlayedSound(i);
-                        if (sound_effect->field6_0x34 != -1) {
+                        if (sound_effect->index != -1) {
                             if (sound_effect->field7_0x38 < 1) {
                                 gSoundSystem.PlaySoundEffect(i);
-                                sound_effect->field7_0x38 = sound_effect->field6_0x34;
+                                sound_effect->field7_0x38 = sound_effect->index;
                             }
                         }
                     }
@@ -172,11 +172,17 @@ void SoundSystem::AddSound(int index) {
     SOUND_ENTRY *pSound;
     AXVPB *pVoice;
 
+    if (field22_0xee36) {
+        return;
+    }
+
     m_inUse      = true;
-    pSoundEffect = &m_soundEffect[index];
-    if (!pSoundEffect->sound_finished_playing) {
+    pSoundEffect = &m_soundEffects[index];
+    if (!pSoundEffect->finished_playing) {
         pSound = SPGetSoundEntry(pSoundEffect->table, index);
+        DEBUGASSERTLINE(715, pSound);
         pVoice = AXAcquireVoice(15, 0, 0);
+        DEBUGASSERTLINE(720, pVoice);
         AXSetVoicePriority(pVoice, 5);
         SPPrepareSound(pSound, pVoice, pSound->sampleRate);
         AXARTInitSound(&pSoundEffect->sound, pSoundEffect->axvpb, pSound->sampleRate);
@@ -189,7 +195,7 @@ void SoundSystem::AddSound(int index) {
         AXARTAddArticulator(&pSoundEffect->sound, (AXART_ART *)&pSoundEffect->panning);
         AXARTAddSound(&pSoundEffect->sound);
         AXSetVoicePriority(pVoice, 1);
-        pSoundEffect->sound_finished_playing = true;
+        pSoundEffect->finished_playing = true;
     }
     m_inUse = lastInUseState;
 }
@@ -204,14 +210,14 @@ void SoundSystem::PlaySoundEffect(int index) {
 void SoundSystem::CleanupPlayedSound(int index) {
     bool lastInUseState       = m_inUse;
     m_inUse                   = true;
-    soundEffect *pSoundEffect = &m_soundEffect[index];
-    if (pSoundEffect->sound_finished_playing) {
+    soundEffect *pSoundEffect = &m_soundEffects[index];
+    if (pSoundEffect->finished_playing) {
         AXARTRemoveSound(&pSoundEffect->sound);
         if (pSoundEffect->axvpb && pSoundEffect->axvpb->priority) {
             AXFreeVoice(pSoundEffect->axvpb);
             pSoundEffect->axvpb = 0;
         }
-        pSoundEffect->sound_finished_playing = false;
+        pSoundEffect->finished_playing = false;
     }
     m_inUse = lastInUseState;
 }
@@ -229,31 +235,31 @@ void SoundSystem::ReinitializeAudio(bool loadNewSounds) {
     field22_0xee36 = false;
     field23_0xee37 = false;
 
+    for (int i = 0; i < 96; i++) {
+    }
+    for (int i = 0; i < 64; i++) {
+        m_soundEffects[i].index = -1;
+    }
+
     ARFree(&length);
     DEBUGASSERTLINE(1087, length == AUDIO_BLOCK_SIZE_BYTES);
     InitializeAudio();
-    for (int i = 0; i < 0x60; i++) {
-        BOOL lastInUseState3 = m_inUse;
-    }
+    lastInUseState = m_inUse;
 }
 
 void SoundSystem::InitializeAudio(void) {
     bool previously_in_use;
-    u32 aramBase;
     audio_file *file;
-    Mempool *soundMempool;
 
     previously_in_use = m_inUse;
     m_inUse           = TRUE;
 
-    soundMempool = Gamemem_info.GetSoundMempool();
-    ResetOffset(soundMempool);
+    Gamemem_info.GetSoundMempool()->ResetOffset();
 
-    aramBase = ARAlloc(0xc00000);
-    AMInit(aramBase, 0xc00000);
+    AMInit(ARAlloc(0xc00000), 0xc00000);
     m_AMZeroBuffer = AMGetZeroBuffer();
-    memset(m_SomeAudio, 0, 0x1980);
-    memset(m_soundEffect, 0, 0x1100);
+    memset(m_ambienceEffects, 0, 0x1980);
+    memset(m_soundEffects, 0, 0x1100);
 
     m_next_index                              = -1;
     m_number_in_queue_of_sounds_not_preloaded = 0;
@@ -265,11 +271,11 @@ void SoundSystem::InitializeAudio(void) {
         InitializeSoundSlot(&m_sound_slots[i]);
     }
     for (int i = 0; i < 1024; i++) {
-        file                          = &m_audio_file[i];
-        *(int *)file->file_name       = 0;
-        *(int *)(file->file_name + 4) = 0;
+        file       = &m_audio_file[i];
+        file->unk0 = 0;
+        file->unk4 = 0;
         if (i > m_lastPersist) {
-            file->file_name[0xc] = char(0);
+            file->file_name[0] = '\0';
         }
     }
     if (m_lastPersist != 0) {

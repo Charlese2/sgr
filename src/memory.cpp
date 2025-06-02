@@ -107,7 +107,7 @@ void *allocate_in_mempool(Mempool *mempool, u32 size) {
     if (mempool->offset + Alinged_size > mempool->size) {
 #ifdef DEBUG
         sprintf(string_buffer, "Failed allocation of\n%d bytes in %s pool\n(max pool size is %d\nspace left is %d)\n", size,
-                mempool->pool_name, mempool->size, getPoolSpaceLeft(mempool));
+                mempool->pool_name, mempool->size, mempool->getPoolSpaceLeft());
         DebugError("memory.cpp", 370, string_buffer);
 #else
         return NULL;

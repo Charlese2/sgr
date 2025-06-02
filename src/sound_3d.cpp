@@ -59,8 +59,8 @@ void snd_setup() {
         SoundEffects[i].state &= 0xFF;
     }
     for (i = 0; i < 64; i++) {
-        SetupSoundEffect(&Ambience[i]);
-        Ambience[i].state &= 0xFF;
+        SetupSoundEffect(&AmbienceEffects[i]);
+        AmbienceEffects[i].state &= 0xFF;
     }
     if (!soundEffectsSetup) {
         for (i = 0; i < 2048; i++) {

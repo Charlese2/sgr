@@ -10,14 +10,13 @@ enum command_type { TOGGLE, SET_INT, SET_FLOAT, CALL };
 
 class console_command {
   public:
+    console_command(const char *command, const char *description, command_type type, CommandCallbackInt command_function);
+    BOOL add_command(const char *name, const char *description, command_type type);
+
     const char *name;
     const char *description;
     CommandCallbackInt callback;
     command_type type;
-
-    console_command(const char *command, const char *description, command_type type, CommandCallbackInt command_function);
-
-    BOOL add_command(const char *name, const char *description, command_type type);
 };
 
 extern s32 calling_a_command_function;

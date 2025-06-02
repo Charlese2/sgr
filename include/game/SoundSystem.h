@@ -1,21 +1,18 @@
-#include "NMWException.h"
 #include "dolphin/ax.h"
 #include "dolphin/dvd.h"
 
 extern "C" {
-#include "dolphin/axart.h"
-#include "dolphin/sp.h"
+    #include "dolphin/axart.h"
+    #include "dolphin/sp.h"
 }
+
+#include "game/sound_3d.h"
 
 #define AUDIO_BLOCK_SIZE_BYTES       0xc00000
 #define MAX_SOUND_LOAD_QUEUE_ENTRIES 32
 
 const bool kLoadInitiated = true;
 
-typedef unsigned char byte;
-typedef unsigned char undefined;
-typedef unsigned short undefined2;
-typedef unsigned int undefined4;
 
 typedef struct {
     bool field0_0x0;
@@ -59,13 +56,10 @@ typedef struct {
 } sound;
 
 typedef struct audio_file {
-    char file_name[20];
-    u32 field1_0x14;
-    u32 field2_0x18;
-    u32 field3_0x1c;
-    u32 field4_0x20;
-    u32 field5_0x24;
-    u32 field6_0x28;
+    int *unk0;
+    int unk4;
+    int unk8;
+    char file_name[32];
 } audio_file;
 
 struct soundEffect {
@@ -74,61 +68,61 @@ struct soundEffect {
     AXART_SOUND sound;
     AXART_VOLUME volume;
     AXART_PANNING panning;
-    int field6_0x34;
-    undefined4 field7_0x38;
+    int index;
+    int field7_0x38;
     s32 attenuation;
     u8 pan;
-    bool sound_finished_playing;
-    undefined field11_0x42;
-    undefined field12_0x43;
+    bool finished_playing;
+    bool unk42;
+    bool field12_0x43;
 };
 
 typedef struct audio2 {
     sound *sound;
     struct CommandList *field1_0x4;
-    undefined *field2_0x8;
-    undefined *field3_0xc;
-    undefined *field4_0x10;
-    undefined *field5_0x14;
-    undefined4 field6_0x18;
-    undefined4 field7_0x1c;
-    undefined4 field8_0x20;
-    undefined *field9_0x24;
-    undefined field10_0x28;
-    undefined field11_0x29;
-    undefined field12_0x2a;
-    undefined field13_0x2b;
-    undefined2 field14_0x2c;
-    undefined field15_0x2e;
-    undefined field16_0x2f;
+    char *field2_0x8;
+    char *field3_0xc;
+    char *field4_0x10;
+    char *field5_0x14;
+    int field6_0x18;
+    int field7_0x1c;
+    int field8_0x20;
+    char *field9_0x24;
+    char field10_0x28;
+    char field11_0x29;
+    char field12_0x2a;
+    char field13_0x2b;
+    short field14_0x2c;
+    char field15_0x2e;
+    char field16_0x2f;
     int field17_0x30;
-    int field18_0x34;
-    undefined4 field19_0x38;
-    byte field20_0x3c;
+    int index;
+    int field19_0x38;
+    char field20_0x3c;
     bool field21_0x3d;
     bool field22_0x3e;
-    undefined field23_0x3f;
-    undefined *field24_0x40;
+    char field23_0x3f;
+    char *field24_0x40;
 } audio2;
 
 typedef struct new_struct {
     int sound_index;
     int field1_0x4;
-    undefined4 field2_0x8;
+    int field2_0x8;
     float field3_0xc;
     struct soundEffect *field4_0x10;
     struct SomeSFXStruct *field5_0x14;
     struct astruct_7 *field6_0x18;
-    undefined4 field7_0x1c;
-    undefined *field8_0x20;
+    int field7_0x1c;
+    char *field8_0x20;
     sound_slot *field9_0x24;
-    undefined4 field10_0x28;
-    undefined4 field11_0x2c;
-    undefined4 field12_0x30;
-    undefined4 field13_0x34;
-    undefined4 field14_0x38;
-    undefined4 field15_0x3c;
-    undefined4 field16_0x40;
+    int field10_0x28;
+    int field11_0x2c;
+    int field12_0x30;
+    int field13_0x34;
+    int field14_0x38;
+    int field15_0x3c;
+    int field16_0x40;
 } new_struct;
 
 typedef struct {
@@ -137,35 +131,7 @@ typedef struct {
     char m_fileName[56];
 } audio_load_cache;
 
-struct unk {
-    undefined4 field0_0x0;
-    undefined4 field1_0x4;
-};
-
 class SoundSystem {
-    /* 0x00 */ DVDFileInfo m_fileHandle;
-    /* 0x3c */ char *m_buffer;
-    /* 0x40 */ u32 m_number_in_queue_of_sounds_not_preloaded;
-    /* 0x44 */ s32 m_next_index;
-    /* 0x48 */ char field4_0x48[340];
-    /* 0x19c */ s32 m_AMZeroBuffer;
-    /* 0x1a0 */ u32 *stack_index_addr[3];
-    /* 0x1ac */ s32 m_curEntry;
-    /* 0x1b0 */ u32 m_lastPersist;
-    /* 0x1b4 */ audio_file m_audio_file[1024];
-    /* 0xb1b8 */ audio2 m_SomeAudio[96];
-    /* 0xcb34 */ soundEffect m_soundEffect[64];
-    /* 0xdc34 */ audio_load_cache m_audioLoadcache[32];
-    /* 0xe434 */ sound_slot m_sound_slots[128];
-    /* 0xee34 */ bool field20_0xee34;
-    /* 0xee35 */ bool m_inUse;
-    /* 0xee36 */ bool field22_0xee36;
-    /* 0xee37 */ bool field23_0xee37;
-    /* 0xee38 */ bool m_processing_queue;
-#ifndef DEBUG
-    /* 0xee39 */ bool m_deativated;
-#endif
-
   public:
     SoundSystem();
     void InitializeGlobal(void);
@@ -186,9 +152,9 @@ class SoundSystem {
     sound_slot *GetFreeSoundSlot(void);
     void LoadNewSoundsFromDisk(void);
 
-    sound *GetAudio(int index) { return m_SomeAudio[index].sound; };
+    sound *GetSoundEffectSound(int index) { return m_ambienceEffects[index].sound; };
 
-    soundEffect *GetSoundEffect(int index) { return &m_soundEffect[index]; };
+    soundEffect *GetSoundEffect(int index) { return &m_soundEffects[index]; };
     bool GetUnknown() { return field22_0xee36; };
     bool GetUnknown2() { return field23_0xee37; };
     void SetProcessingQueue(bool processing) { m_processing_queue = processing; }
@@ -205,6 +171,29 @@ class SoundSystem {
         cache->m_fileName[0] = (char)0;
     }
 
+  private:
+    /* 0x00 */ DVDFileInfo m_fileHandle;
+    /* 0x3c */ char *m_buffer;
+    /* 0x40 */ u32 m_number_in_queue_of_sounds_not_preloaded;
+    /* 0x44 */ s32 m_next_index;
+    /* 0x48 */ char field4_0x48[340];
+    /* 0x19c */ s32 m_AMZeroBuffer;
+    /* 0x1a0 */ u32 *stack_index_addr[3];
+    /* 0x1ac */ s32 m_curEntry;
+    /* 0x1b0 */ u32 m_lastPersist;
+    /* 0x1b4 */ audio_file m_audio_file[1024];
+    /* 0xb1b8 */ audio2 m_ambienceEffects[96];
+    /* 0xcb34 */ soundEffect m_soundEffects[64];
+    /* 0xdc34 */ audio_load_cache m_audioLoadcache[32];
+    /* 0xe434 */ sound_slot m_sound_slots[128];
+    /* 0xee34 */ bool field20_0xee34;
+    /* 0xee35 */ bool m_inUse;
+    /* 0xee36 */ bool field22_0xee36;
+    /* 0xee37 */ bool field23_0xee37;
+    /* 0xee38 */ bool m_processing_queue;
+#ifndef DEBUG
+    /* 0xee39 */ bool m_deativated;
+#endif
 }; // Size: 0xee3a
 
 extern SoundSystem gSoundSystem;

@@ -9,13 +9,16 @@
 
 typedef class Mempool {
   public:
+    Mempool(){};
+    void Copy(u8 *_destination, u32 _size, char *_name, u8 _alignment);
+    void ResetOffset(void) { offset = 0; };
+    u32 getPoolSpaceLeft(void) { return size - offset; };
+
     u8 *destination;
     u32 size;
     u32 offset;
     u8 alignment;
     char pool_name[MAX_POOL_NAME_LENGTH];
-    Mempool() {};
-    void Copy(u8 *_destination, u32 _size, char *_name, u8 _alignment);
 } Mempool;
 
 void set_allocation_done();
