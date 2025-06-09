@@ -17,7 +17,7 @@ void OSReport(const char* msg, ...) {
   va_end(marker);
 }
 
-void OSPanic(const char* file, int line, char* msg, ...) {
+void OSPanic(const char* file, int line, const char* msg, ...) {
   va_list marker;
   u32 i;
   u32* p;

@@ -3,7 +3,6 @@
 #include "game/console.h"
 #include "game/SoundConvert.h"
 #include "game/vector.h"
-#include "printf.h"
 
 u8 soundEffectsSetup;
 int snd_marks;

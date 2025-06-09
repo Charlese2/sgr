@@ -12,6 +12,7 @@
 #include "game/living_entity.h"
 #include "game/gr.h"
 #include "dolphin/types.h"
+#include "dolphin/os.h"
 #include <stdlib.h>
 
 extern void StatusStuff(u32, u32, double, double);

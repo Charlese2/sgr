@@ -37,7 +37,7 @@ void set_allocation_done(void) {
     }
 }
 
-void *operator new(size_t size, char *file, int line) {
+void *operator new(size_t size, const char *file, int line) {
     void *address;
     u32 t;
     char stringbuf[128];
@@ -75,7 +75,7 @@ void *operator new(size_t size, char *file, int line) {
     return address;
 }
 
-void *operator new[](size_t size, char *file, int line) { return ::operator new(size, file, line); }
+void *operator new[](size_t size, const char *file, int line) { return ::operator new(size, file, line); }
 
 void operator delete(void *p) throw() {
     DEBUGASSERTLINE(193, p != NULL);
@@ -89,7 +89,7 @@ void operator delete(void *p) throw() {
 
 void operator delete[](void *p) throw() { ::operator delete(p); }
 
-void Mempool::Copy(u8 *_destination, u32 _size, char *_name, u8 _alignment) {
+void Mempool::Copy(u8 *_destination, u32 _size, const char *_name, u8 _alignment) {
     DEBUGASSERTLINE(353, strlen(_name) < MAX_POOL_NAME_LENGTH);
     strcpy(pool_name, _name);
     destination = _destination;

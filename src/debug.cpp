@@ -15,7 +15,7 @@ void DebugPrint(char* buffer) {
     OSPanic("debug.cpp", 51, buffer);
 }
 
-int DebugAssert(char* File, u32 Line, char* Assert) {
+int DebugAssert(const char* File, u32 Line, const char* Assert) {
     char buffer [1036];
 
     sprintf(buffer,"Assert: %s\nFile: %s - Line: %d\n\n", Assert, File, Line);
@@ -23,7 +23,7 @@ int DebugAssert(char* File, u32 Line, char* Assert) {
     return 0;
 }
 
-int DebugError(char* File, u32 Line, char* Error) {
+int DebugError(const char* File, u32 Line, const char* Error) {
     char charBuffer [1052];
     sprintf(charBuffer, "Error: %s\nFile: %s - Line: %d\n\n", Error, File, Line);
     DebugPrint(charBuffer);

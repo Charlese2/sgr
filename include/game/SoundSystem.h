@@ -6,8 +6,6 @@ extern "C" {
     #include "dolphin/sp.h"
 }
 
-#include "game/sound_3d.h"
-
 #define AUDIO_BLOCK_SIZE_BYTES       0xc00000
 #define MAX_SOUND_LOAD_QUEUE_ENTRIES 32
 

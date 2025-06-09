@@ -35,8 +35,8 @@
 #else
 #define STATIC_ASSERT(...)
 #define ALIGN_DECL(...)
-#define SECTION_DATA 0
-#define SECTION_INIT 0
+#define SECTION_DATA
+#define SECTION_INIT
 #endif
 
 #endif

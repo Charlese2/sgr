@@ -1,7 +1,6 @@
 #include "game/mouse.h"
 #include "game/macros.h"
 #include "game/InputSystem.h"
-#include <stdio.h>
 
 bool mouse_initalized;
 mouse mouse_buttons[MOUSE_NUM_BUTTONS];

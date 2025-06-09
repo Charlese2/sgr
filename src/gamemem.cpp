@@ -3,7 +3,6 @@
 #include "game/characterinfo.h"
 #include "game/effect_mem.h"
 #include "game/debug.h"
-#include "dolphin/os/OSAlloc.h"
 #include "dolphin/os.h"
 #include "game/macros.h"
 #include "game/memory.h"
