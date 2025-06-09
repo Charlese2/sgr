@@ -45,7 +45,7 @@ void CrankyFile::OpenFile(char *file_path, char *file_name) {
 
 void CrankyFile::CloseFile(void) {
     DVDClose(&m_fileInfo);
-    m_Opened = 0;
+    m_Opened = FALSE;
 }
 
 u32 CrankyFile::GetFileSize(void) { return m_fileInfo.length; };
@@ -72,7 +72,6 @@ int CrankyFile::ReadFile(u32 *data, int length) {
     u32 result;
     u32 file_size;
     u32 new_size;
-    int test;
 
     ASSERTLINE(202, CrankyTestAlign32((u32)data));
     ASSERTLINE(203, CrankyTestAlign32((u32)length));
@@ -85,19 +84,19 @@ int CrankyFile::ReadFile(u32 *data, int length) {
         new_size = length;
     }
     size = new_size;
-    size = CrankyRoundUp32((u32)size);
+    size = CrankyRoundUp32(size);
     ASSERTLINE(213, CrankyTestAlign4(m_position));
     result = 0;
     if (file_found_callback) {
         readingFile = TRUE;
-        if (DVDReadAsyncPrio(&m_fileInfo, &data, size, m_position, (DVDCallback)ReadFileCallback, 2)) {
+        if (DVDReadAsyncPrio(&m_fileInfo, data, size, m_position, (DVDCallback)ReadFileCallback, 2)) {
             while (readingFile) {
                 file_found_callback();
             }
             result = size;
         }
     } else {
-        result = DVDReadPrio(&m_fileInfo, &data, size, m_position, 2);
+        result = DVDReadPrio(&m_fileInfo, data, size, m_position, 2);
     }
     m_position += result;
     return result;

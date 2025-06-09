@@ -895,7 +895,7 @@ config.libs = [
         [
             Object(NonMatching, "Cranky/CrankyInput.cpp"),
             Object(NonMatching, "Cranky/CrankyFileManager.cpp"),
-            Object(NonMatching, "Cranky/CrankyFile.cpp"),
+            Object(Matching, "Cranky/CrankyFile.cpp"),
             Object(NonMatching, "Cranky/CrankyFileCache.cpp"),
             Object(NonMatching, "Cranky/CrankyFileType.cpp"),
             Object(NonMatching, "Cranky/PackFile.cpp"),
