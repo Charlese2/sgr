@@ -237,6 +237,7 @@ cflags_game = [
     "-inline auto,deferred",
     "-str reuse,readonly",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include",
     "-i src/Cranky",
     "-i include/PowerPC_EABI_Support/Runtime",
 ]

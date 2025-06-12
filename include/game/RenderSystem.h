@@ -1,3 +1,4 @@
+#include "game/new_math.h"
 #include "dolphin/gx/GXStruct.h"
 #include "dolphin/mtx.h"
 #include "dolphin/types.h"
@@ -7,8 +8,9 @@
 
 class RenderSystem {
   public:
-    RenderSystem();
     virtual ~RenderSystem();
+    RenderSystem();
+    static void UpdateShadowCameraMatrix(Mtx44 *matrix, float field_of_view, float aspect_ratio, float unk3, float unk4);
     u32 GetCurrentMode(u32 flag) { return flag & m_curMode; }
     void Setup2DElementDraw(void);
     void SetupTextureDrawIn3DSpace(void);
@@ -17,25 +19,14 @@ class RenderSystem {
     u32 m_curMode;
     int unk8;
     GXRenderModeObj *m_pRenderMode;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    Mtx m_mtx1;
+    GXRenderModeObj m_RenderMode;
+    void *m_pFirstFramebuffer;
+    void *m_pSecondFramebuffer;
+    void *m_pCurrentFramebuffer;
+    Mtx44 m_mtx1;
+    Mtx44 m_shadowCameraMatrix;
+    Mtx m_mtx3;
+    int unk108;
 };
 
 extern RenderSystem gRenderSystem;

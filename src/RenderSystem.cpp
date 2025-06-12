@@ -5,9 +5,40 @@
 #include "dolphin/gx/GXPixel.h"
 #include "dolphin/gx/GXTev.h"
 #include "dolphin/mtx.h"
+#include "dolphin/os.h"
 #include "game/macros.h"
 
 RenderSystem gRenderSystem;
+
+void RenderSystem::UpdateShadowCameraMatrix(Mtx44 *matrix, float field_of_view, float aspect_ratio, float near_clip, float far_clip) {
+    float cotangent;
+    float size;
+    float angle;
+
+    ASSERTMSGLINE(41, matrix, "no matrix present");
+    ASSERTMSGLINE(42, field_of_view > 0.0 && field_of_view < 180.0, "invalid field-of-view");
+    ASSERTMSGLINE(43, aspect_ratio != 0.0f, "invalid aspect ratio");
+    angle           = field_of_view * DEG_TO_RAD(1);
+    angle           = 0.5f * angle;
+    cotangent       = 1.0f / Math::tanf(angle);
+    (*matrix)[0][0] = -(cotangent / aspect_ratio);
+    (*matrix)[0][1] = 0.0f;
+    (*matrix)[0][2] = 0.0f;
+    (*matrix)[0][3] = 0.0f;
+    (*matrix)[1][0] = 0.0f;
+    (*matrix)[1][1] = cotangent;
+    (*matrix)[1][2] = 0.0f;
+    (*matrix)[1][3] = 0.0f;
+    (*matrix)[2][0] = 0.0f;
+    (*matrix)[2][1] = 0.0f;
+    size            = 1.0f / (far_clip - near_clip);
+    (*matrix)[2][2] = -near_clip * size;
+    (*matrix)[2][3] = -(far_clip * near_clip) * size;
+    (*matrix)[3][0] = 0.0f;
+    (*matrix)[3][1] = 0.0f;
+    (*matrix)[3][2] = -1.0f;
+    (*matrix)[3][3] = 0.0f;
+}
 
 void RenderSystem::Setup2DElementDraw(void) {
     Mtx mtx;
@@ -24,12 +55,27 @@ void RenderSystem::Setup2DElementDraw(void) {
 }
 
 RenderSystem::RenderSystem() {
+    float local0;
+    float local4;
 
+    memset(&m_RenderMode, 0, sizeof(m_RenderMode));
+    m_pRenderMode         = NULL;
+    m_pFirstFramebuffer   = NULL;
+    m_pSecondFramebuffer  = NULL;
+    m_pCurrentFramebuffer = NULL;
+    m_curMode             = 0;
+    local0                = 0.00390625f;
+    local4                = 0.0044642859f;
+    MTXIdentity(m_mtx1);
+    m_mtx1[0][0] = local0;
+    m_mtx1[1][1] = local4;
+    m_mtx1[0][3] = -1.0f;
+    m_mtx1[1][3] = 1.0f;
+    UpdateShadowCameraMatrix(&m_shadowCameraMatrix, 45.0f, 4.0f / 3.0f, 0.01f, 1024.0f);
+    MTXIdentity(m_mtx3);
 }
 
-RenderSystem::~RenderSystem() {
-
-}
+RenderSystem::~RenderSystem() {}
 
 void RenderSystem::SetupTextureDrawIn3DSpace() {
     GXSetZCompLoc(true);

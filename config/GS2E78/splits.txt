@@ -1110,8 +1110,10 @@ RenderSystem.cpp:
 	.text       start:0x801558B8 end:0x80157A88
 	.ctors      start:0x801EE9C8 end:0x801EE9CC
 	.rodata     start:0x801FDDE8 end:0x801FDF38
-	.data       start:0x802103A8 end:0x802103A8
+	.data       start:0x80210398 end:0x802103A8
+	.bss        start:0x803C1970 end:0x803C1A88
 	.sbss       start:0x804755D0 end:0x804755F8
+	.sdata2     start:0x80479C60 end:0x80479C98
 
 gr_ngc.cpp:
 	extab       start:0x8000A4E4 end:0x8000A5D4
