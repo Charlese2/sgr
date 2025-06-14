@@ -1094,6 +1094,7 @@ InputSystem.cpp:
 	.text       start:0x801548E4 end:0x80155394
 	.ctors      start:0x801EE9C0 end:0x801EE9C4
 	.rodata     start:0x801FDDB0 end:0x801FDDC8
+	.data       start:0x80210370 end:0x80210388
 	.bss        start:0x803C1808 end:0x803C1960
 
 LevelManager.cpp:
@@ -2257,6 +2258,7 @@ Cranky/CrankyInput.cpp:
 	.rodata     start:0x802030C0 end:0x802030D0
 	.data       start:0x80219C08 end:0x80219C18
 	.sdata      start:0x80474320 end:0x80474328
+	.sdata2     start:0x8047AF98 end:0x8047AFB8
 
 Cranky/CrankyFileManager.cpp:
 	extab       start:0x8000B400 end:0x8000B468

@@ -3,6 +3,10 @@
 
 #include <dolphin/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define PAD_SPEC_0 0
 #define PAD_SPEC_1 1
 #define PAD_SPEC_2 2
@@ -70,5 +74,9 @@ void PADSetAnalogMode(u32 mode);
 
 // Padclamp.c
 void PADClamp(PADStatus * status);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
