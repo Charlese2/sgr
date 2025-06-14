@@ -301,6 +301,15 @@ def DolphinLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
         "objects": objects,
     }
 
+def DolphinLibUnpatched(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
+    return {
+        "lib": lib_name,
+        "mw_version": "GC/1.2.5",
+        "cflags": cflags_sdk,
+        "progress_category": "sdk",
+        "objects": objects,
+    }
+
 def DebuggerLib(lib_name: str, objects: List[Object]) -> Dict[str, Any]:
     return {
         "lib": lib_name,
@@ -816,13 +825,13 @@ config.libs = [
             Object(Matching, "dolphin/amcstubs/AmcExi2Stubs.c"),
         ]
     ),
-    DolphinLib(
+    DolphinLibUnpatched(
         "mtx",
         [
-            Object(NonMatching, "dolphin/mtx/mtx.c"),
-            Object(NonMatching, "dolphin/mtx/mtx44.c"),
-            Object(NonMatching, "dolphin/mtx/vec.c"),
-            Object(NonMatching, "dolphin/mtx/quat.c"),
+            Object(Matching, "dolphin/mtx/mtx.c"),
+            Object(Matching, "dolphin/mtx/mtx44.c"),
+            Object(Matching, "dolphin/mtx/vec.c"),
+            Object(Matching, "dolphin/mtx/quat.c"),
         ]
     ),
     DolphinLib(

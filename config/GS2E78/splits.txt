@@ -1669,6 +1669,7 @@ dolphin/mtx/mtx.c:
 
 dolphin/mtx/mtx44.c:
 	.text       start:0x801927A4 end:0x80192950
+	.sdata2     start:0x8047A970 end:0x8047A988
 
 dolphin/mtx/vec.c:
 	.text       start:0x80192950 end:0x801929F0
@@ -1677,6 +1678,7 @@ dolphin/mtx/vec.c:
 dolphin/mtx/quat.c:
 	.text       start:0x801929F0 end:0x80192C48
 	.rodata     start:0x802025E8 end:0x802025F8
+	.sdata2     start:0x8047A990 end:0x8047A9B0
 
 dolphin/dvd/dvdlow.c:
 	.text       start:0x80192C48 end:0x80193A9C
