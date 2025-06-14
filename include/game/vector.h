@@ -9,6 +9,13 @@ class vector3 {
     vector3(){};
 };
 
+class vector3x3 {
+  public:
+    vector3 vec1;
+    vector3 vec2;
+    vector3 vec3;
+};
+
 class pathfinding_transform {
   public:
     vector3 unk0;
