@@ -248,7 +248,9 @@ cflags_lib = [
     "-Cpp_exceptions on",
     "-inline auto,deferred",
     "-str reuse,readonly",
+    "-use_lmw_stmw on",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
+    "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include",
     "-i src/dolphin",
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
@@ -903,7 +905,7 @@ config.libs = [
     Lib(
         "Cranky",
         [
-            Object(NonMatching, "Cranky/CrankyInput.cpp"),
+            Object(Matching, "Cranky/CrankyInput.cpp"),
             Object(NonMatching, "Cranky/CrankyFileManager.cpp"),
             Object(Matching, "Cranky/CrankyFile.cpp"),
             Object(NonMatching, "Cranky/CrankyFileCache.cpp"),
