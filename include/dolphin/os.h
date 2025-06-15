@@ -56,7 +56,8 @@ OSThread *__gCurrentThread : (OS_BASE_CACHED | 0x00E4);
 u32 __OSSimulatedMemSize  : (OS_BASE_CACHED | 0x00F0);
 u32 __OSBusClock  : (OS_BASE_CACHED | 0x00F8);
 u32 __OSCoreClock : (OS_BASE_CACHED | 0x00FC);
-unsigned int __gUnknown800030C0[2] : (OS_BASE_CACHED | 0x30C0);
+s32 __gUnknown800030C0[2] : (OS_BASE_CACHED | 0x30C0);
+u8 __gUnknown800030E3 : (OS_BASE_CACHED | 0x30E3);
 #else
 #define __OSBusClock  (*(u32 *)(OS_BASE_CACHED | 0x00F8))
 #define __OSCoreClock (*(u32 *)(OS_BASE_CACHED | 0x00FC))

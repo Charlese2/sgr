@@ -803,7 +803,7 @@ config.libs = [
     DolphinLib(
         "si",
         [
-            Object(NonMatching, "dolphin/si/SIBios.c"),
+            Object(Matching, "dolphin/si/SIBios.c"),
             Object(NonMatching, "dolphin/si/SISamplingRate.c"),
         ]
     ),
@@ -872,7 +872,7 @@ config.libs = [
     DolphinLib(
         "pad",
         [
-            Object(NonMatching, "dolphin/pad/Pad.c"),
+            Object(Matching, "dolphin/pad/Pad.c"),
         ]
     ),
     MetroTRKLib(

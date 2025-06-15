@@ -1,6 +1,7 @@
 #ifndef _METROTRK_TRK_GLUE_H
 #define _METROTRK_TRK_GLUE_H
 
+#include "dolphin/os.h"
 #include "dolphin/os/OSInterrupt.h"
 #include "dolphin/types.h"
 #include "metrotrk/dserror.h"
