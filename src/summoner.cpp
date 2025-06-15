@@ -1,6 +1,7 @@
 #include "game/summoner.h"
 #include "game/timestamp.h"
 #include "game/characterinfo.h"
+#include "game/InputSystem.h"
 #include "game/quests.h"
 #include "game/level_sequences.h"
 #include "game/cutscene_sequences.h"
@@ -64,6 +65,14 @@ void hide_title_credits() {
     TimeTick = OSGetTick();
 }
 
+void InitializeInput() {
+#ifdef DEBUG
+    gInputSystem.Initialize(1);
+#else
+    gInputSystem.Initialize(0);
+#endif
+}
+
 void Cleanup(int status) {
     SoundStuff();
     exit(status);
@@ -92,9 +101,9 @@ void Initialize() {
     gHeapAlloc = false;
     set_current_mempool(memPool);
 
-    Level_sequence_mempool.Copy((u8*)Level_sequences, sizeof(level_sequences), "Level sequences", 4);
-    Cutscene_sequence_mempool.Copy((u8*)Cutscene_sequences, sizeof(cutscene_sequences), "Cutscene seqs", 4);
-    Quest_mempool.Copy((u8*)Quests, sizeof(quests), "Quests", 4);
+    Level_sequence_mempool.Copy((u8 *)Level_sequences, sizeof(level_sequences), "Level sequences", 4);
+    Cutscene_sequence_mempool.Copy((u8 *)Cutscene_sequences, sizeof(cutscene_sequences), "Cutscene seqs", 4);
+    Quest_mempool.Copy((u8 *)Quests, sizeof(quests), "Quests", 4);
 }
 
 void MainLoop() {
@@ -110,7 +119,7 @@ void MainLoop() {
     DriveStatusStuff(0, 0);
     DriveStatusStuff(0, 0);
     DriveStatusStuff(0, 0);
-    GraphicsInit(512,448,105,201,0,1);
+    GraphicsInit(512, 448, 105, 201, 0, 1);
     DriveStatusStuff(0, 0);
 
     printf("**** Game startup time: %.3f ***");

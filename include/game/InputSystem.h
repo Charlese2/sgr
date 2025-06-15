@@ -24,16 +24,22 @@ class InputSystem : CrankyInput {
     void GetJoystickVector(int contId, int joyId, float *x, float *y, int mode);
     bool DebounceTimerExpired(int contId, int joyId, int dir);
     u32 ElapsedTicks(OSTick currentTick, OSTick savedTick);
+    void InitializeController(int contId);
+    bool Initialize(int debugControllerId) {
+      CrankyInput::Initialize(true);
+      m_debugControllerId = debugControllerId;
+      return true;
+    };
 
   private:
-    int unk[6];
     InputTicks m_InputTicks[PAD_MAX_CONTROLLERS];
     int m_debounceTicks;
-    int unk1[17];
+    int m_debugControllerId;
+    int unk1[16];
     OSTick unkTick1;
     OSTick unkTick2;
     OSTick unkTick3;
-    int unk2[4];
+    int unk2[3];
 };
 
 extern InputSystem gInputSystem;
