@@ -2,6 +2,7 @@
 #include "dolphin/am.h"
 #include "dolphin/sp.h"
 #include "game/gamemem.h"
+#include "game/NGCSystem.h"
 #include "game/debug.h"
 #include "game/macros.h"
 #include "dolphin/axfx.h"
@@ -13,7 +14,6 @@
 #include "dolphin/os.h"
 #include "dolphin/types.h"
 
-extern int DiskStatusStuff(int);
 SoundSystem gSoundSystem;
 extern SoundInfo soundInfo;
 char buffer[2048];
@@ -304,7 +304,9 @@ void SoundSystem::LoadNewSoundsFromDisk(void) {
     bool previously_in_use = m_inUse;
     m_inUse                = true;
     while (m_number_in_queue_of_sounds_not_preloaded) {
-        DiskStatusStuff(0);
+
+        DriveStatus(0, 0);
+
         LoadSoundFromDisk();
     }
     m_inUse = previously_in_use;

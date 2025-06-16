@@ -1,14 +1,47 @@
 #include "game/InputSystem.h"
+#include "game/NGCSystem.h"
 #include "game/new_math.h"
 #include "dolphin/pad.h"
 #include "dolphin/os.h"
 #include "game/macros.h"
+#include <string.h>
+
+extern bool ResetGame;
 
 InputSystem gInputSystem;
 
 InputSystem::InputSystem() {
+    m_LeftTriggerDown   = false;
+    m_RightTriggerDown  = false;
+    m_unk1              = false;
+    m_unk2              = true;
+    m_unk3              = true;
+    m_unk4              = true;
     m_DebugControllerId = 0;
     m_DebounceTicks     = OSMillisecondsToTicks(50); // @BUG: This is too fast.
+    m_unkTick1          = 0;
+#ifdef DEBUG
+    m_unkTick2          = 0;
+    m_unkTick3          = 0;
+#else
+    m_unk5              = false;
+#endif
+    m_buttons[0]        = 0;
+    m_buttons[1]        = 0;
+    m_buttons[2]        = 0;
+    m_buttons[3]        = PAD_BUTTON_START;
+    m_buttons[4]        = PAD_BUTTON_UP;
+    m_buttons[5]        = PAD_BUTTON_RIGHT;
+    m_buttons[6]        = PAD_BUTTON_DOWN;
+    m_buttons[7]        = PAD_BUTTON_LEFT;
+    m_buttons[8]        = 0;
+    m_buttons[9]        = PAD_TRIGGER_Z;
+    m_buttons[10]       = PAD_TRIGGER_L;
+    m_buttons[11]       = PAD_TRIGGER_R;
+    m_buttons[12]       = PAD_BUTTON_Y;
+    m_buttons[13]       = PAD_BUTTON_X;
+    m_buttons[14]       = PAD_BUTTON_A;
+    m_buttons[15]       = PAD_BUTTON_B;
 }
 
 InputSystem::~InputSystem() {}
@@ -47,7 +80,7 @@ u32 InputSystem::IsButtonPressed(int contId, int ButtonId) {
         }
         return 0;
     }
-    return CrankyInput::ButtonPressed(contId, buttons[ButtonId], true);
+    return CrankyInput::is_button_pressed(contId, m_buttons[ButtonId], true);
 }
 
 bool InputSystem::DebounceTimerExpired(int contId, int joyId, int dir) {
@@ -153,7 +186,7 @@ void InputSystem::GetJoystickVector(int contId, int joyId, float *x, float *y, i
     low  = 0.0f;
     high = 0.0f;
     if (mode != 0) {
-        Reset(&low, &high);
+        GetDeadzone(&low, &high);
         SetDeadzone(0.0f, 0.0f);
     }
     if (joyId == 0) {
@@ -173,5 +206,97 @@ void InputSystem::GetJoystickVector(int contId, int joyId, float *x, float *y, i
     }
     if (mode != 0) {
         SetDeadzone(low, high);
+    }
+}
+
+void InputSystem::RunSystem(bool unk) {
+    OSTick tick;
+    StickTicks *pInputTicks;
+    float x, y;
+
+    if (unk) {
+        DriveStatus(0, 0);
+    }
+    tick = OSGetTick();
+    if (m_unkTick1 != 0) {
+        if (ElapsedTicks(tick, m_unkTick1) < OSMicrosecondsToTicks(16600)) {
+            return;
+        }
+    }
+    m_unkTick1 = tick;
+#ifdef DEBUG
+    RunRumbleMotorTimer();
+    if (is_button_pressed(CONTROLLER_ONE, PAD_BUTTON_X, false) && is_button_pressed(CONTROLLER_ONE, PAD_BUTTON_B, false) &&
+        is_button_pressed(CONTROLLER_ONE, PAD_BUTTON_START, false)) {
+        if (m_unkTick2 == 0) {
+            m_unkTick2 = OSGetTick();
+        }
+
+    } else if (m_unkTick2 != 0) {
+        m_unkTick3 = OSGetTick();
+    }
+    if (m_unkTick2 != 0 && m_unkTick3 != 0) {
+        if (OSTicksToMilliseconds(ElapsedTicks(m_unkTick3, m_unkTick2)) >= 500) {
+            ResetGame = true;
+        }
+        m_unkTick2 = 0;
+        m_unkTick3 = 0;
+    }
+#else
+    ResetGame = false;
+    RunRumbleMotorTimer();
+#endif
+    for (int contId = 0; contId < PAD_MAX_CONTROLLERS; contId++) {
+        if (is_controller_connected(contId)) {
+            for (int joyId = 0; joyId < NGPS_JOY_COUNT; joyId++) {
+                pInputTicks = &m_InputTicks[contId].Stick[joyId];
+                GetJoystickVector(contId, joyId, &x, &y, 0);
+                if (y < 0.0f) {
+                    if (pInputTicks->Direction[DIRECTION_DOWN] == 0) {
+                        pInputTicks->Direction[DIRECTION_DOWN] = m_Tick;
+                    }
+                    pInputTicks->Direction[DIRECTION_UP] = 0;
+                } else if (y > 0.0f) {
+                    if (pInputTicks->Direction[DIRECTION_UP] == 0) {
+                        pInputTicks->Direction[DIRECTION_UP] = m_Tick;
+                    }
+                    pInputTicks->Direction[DIRECTION_DOWN] = 0;
+                } else {
+                    pInputTicks->Direction[DIRECTION_DOWN] = 0;
+                    pInputTicks->Direction[DIRECTION_UP]   = 0;
+                }
+                if (x < 0.0f) {
+                    if (pInputTicks->Direction[DIRECTION_LEFT] == 0) {
+                        pInputTicks->Direction[DIRECTION_LEFT] = m_Tick;
+                    }
+                    pInputTicks->Direction[DIRECTION_RIGHT] = 0;
+                } else if (x > 0.0f) {
+                    if (pInputTicks->Direction[DIRECTION_RIGHT] == 0) {
+                        pInputTicks->Direction[DIRECTION_RIGHT] = m_Tick;
+                    }
+                    pInputTicks->Direction[DIRECTION_LEFT] = 0;
+                } else {
+                    pInputTicks->Direction[DIRECTION_LEFT]  = 0;
+                    pInputTicks->Direction[DIRECTION_RIGHT] = 0;
+                }
+            }
+        }
+    }
+}
+
+void InputSystem::CopyButtonStatus() {
+    u16 buttons[4];
+    for (int i = 0; i < PAD_MAX_CONTROLLERS; i++) {
+        buttons[i] = m_PadStatus[i].button;
+#ifndef DEBUG
+        if (i > m_DebugControllerId) {
+            continue;
+        }
+#endif
+        InitializeController(i);
+    }
+    for (int j = 0; j < PAD_MAX_CONTROLLERS; j++) {
+        m_ControllerStatus[j].button = buttons[j];
+        m_PadStatus[j].button        = buttons[j];
     }
 }

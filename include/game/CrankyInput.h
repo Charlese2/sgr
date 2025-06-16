@@ -17,6 +17,14 @@ typedef struct controller_status {
     u16 button;
 } controller_status;
 
+typedef struct StickTicks {
+    OSTick Direction[4];
+} StickTicks;
+
+typedef struct ControllerTicks {
+    StickTicks Stick[2];
+} InputTicks;
+
 class CrankyInput {
   public:
     virtual ~CrankyInput();
@@ -33,23 +41,28 @@ class CrankyInput {
         ASSERTLINE(157, low >= 0.f && low < 1.f);
         ASSERTLINE(158, high >= 0.f && high < 1.f);
 
-        m_JoystickLow = 128.f * low;
+        m_JoystickLow  = 128.f * low;
         m_JoystickHigh = 128.f * high;
-    }
+    };
     u32 ElapsedTicks(OSTick currentTick, OSTick savedTick) {
         if (currentTick < savedTick) {
             return (-1 - savedTick) + currentTick;
         }
         return currentTick - savedTick;
-    }
+    };
     void StopAllRumbleMotors();
-    int IsControllerConnected(int contId) { return m_ActiveMask & GetControllerMask(contId); };
-    int GetControllerMask(int contId) { return 0x10000000 << (3 - contId); };
-    void Reset(float *low, float *high) {
-        *low = m_JoystickLow / 128.0f;
+    void GetDeadzone(float *low, float *high) {
+        *low  = m_JoystickLow / 128.0f;
         *high = m_JoystickHigh / 128.0f;
-    }
-    u32 ButtonPressed(int contId, u32 button, bool unk) {
+    };
+    int IsControllerConnected(int contId) { return is_controller_connected(contId); };
+    int GetControllerMask(int contId) { return 0x10000000 << (3 - contId); };
+    u32 is_controller_connected(int contId) {
+        ASSERTLINE(289, contId >= 0 && contId < PAD_MAX_CONTROLLERS);
+        
+        return m_ActiveMask & GetControllerMask(contId);
+    };
+    u32 is_button_pressed(int contId, u32 button, bool unk) {
         u8 status;
 
         ASSERTLINE(315, contId >= 0 && contId < PAD_MAX_CONTROLLERS);
@@ -62,7 +75,11 @@ class CrankyInput {
             return status;
         }
         return m_PadStatus[contId].button & button;
-    }
+    };
+    void InitializeController(int contId) {
+        InitializeControllerStatus(contId);
+        memset(&m_InputTicks[contId], 0, 32);
+    };
 
     float m_TriggerLow;
     float m_TriggerHigh;
@@ -74,6 +91,5 @@ class CrankyInput {
     OSTick m_Tick;
     PADStatus m_PadStatus[PAD_MAX_CONTROLLERS];
     controller_status m_ControllerStatus[PAD_MAX_CONTROLLERS];
+    InputTicks m_InputTicks[PAD_MAX_CONTROLLERS];
 };
-
-STATIC_ASSERT(sizeof(CrankyInput) == 0x74);

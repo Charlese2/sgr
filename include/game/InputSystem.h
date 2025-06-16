@@ -9,18 +9,15 @@
 
 #define NGPS_JOY_LEFT  0
 #define NGPS_JOY_RIGHT 1
+#define NGPS_JOY_COUNT 2
 
 #define NGPS_MAX_BUTTONS 16
 
-#define DIR_COUNT 4
-
-typedef struct StickTicks {
-    OSTick Direction[4];
-} StickTicks;
-
-typedef struct ControllerTicks {
-    StickTicks Stick[2];
-} InputTicks;
+#define DIRECTION_UP    0
+#define DIRECTION_DOWN  1
+#define DIRECTION_LEFT  2
+#define DIRECTION_RIGHT 3
+#define DIR_COUNT       4
 
 class InputSystem : public CrankyInput {
   public:
@@ -31,7 +28,8 @@ class InputSystem : public CrankyInput {
     bool DebounceTimerExpired(int contId, int joyId, int dir);
     bool IsInDeadzone(int contId, int joyId);
     bool IsNoButtonPressed(int contId);
-    void InitializeController(int contId);
+    void RunSystem(bool unk);
+    void CopyButtonStatus();
     bool Initialize(int debugControllerId) {
         CrankyInput::Initialize(true);
         m_DebugControllerId = debugControllerId;
@@ -47,19 +45,23 @@ class InputSystem : public CrankyInput {
     };
 
   private:
-    InputTicks m_InputTicks[PAD_MAX_CONTROLLERS];
     int m_DebounceTicks;
     int m_DebugControllerId;
-    int buttons[NGPS_MAX_BUTTONS];
-    OSTick unkTick1;
-    OSTick unkTick2;
+    int m_buttons[NGPS_MAX_BUTTONS];
+    OSTick m_unkTick1;
 #ifdef DEBUG
-    OSTick unkTick3;
-    int unk2;
+    OSTick m_unkTick2;
+    OSTick m_unkTick3;
 #endif
+    bool m_unk1;
+    bool m_unk2;
+    bool m_unk3;
+    bool m_unk4;
     bool m_LeftTriggerDown;
     bool m_RightTriggerDown;
-    int unk3;
+    bool m_unk5;
 };
 
 extern InputSystem gInputSystem;
+
+STATIC_ASSERT(sizeof(InputSystem) == 328);

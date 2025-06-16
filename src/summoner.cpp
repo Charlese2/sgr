@@ -48,7 +48,7 @@ void show_title_credits() {
     RealtimeTimer titleCreditsTimer;
     titleCreditsTimer.SetTimeout(505);
     while (!titleCreditsTimer.elapsed()) {
-        DriveStatusStuff(0, 0);
+        DriveStatus(0, 0);
         gRenderSystem.Setup2DElementDraw();
     }
     TimeTick = OSGetTick();
@@ -59,7 +59,7 @@ void hide_title_credits() {
 
     titleCreditsTimer.SetTimeout(505);
     while (!titleCreditsTimer.elapsed()) {
-        DriveStatusStuff(0, 0);
+        DriveStatus(0, 0);
         gRenderSystem.Setup2DElementDraw();
     }
     TimeTick = OSGetTick();
@@ -108,19 +108,19 @@ void Initialize() {
 
 void MainLoop() {
     InitializeNGCSystems();
-    DriveStatusStuff(0, 0);
+    DriveStatus(0, 0);
     Initialize();
-    DriveStatusStuff(0, 0);
+    DriveStatus(0, 0);
 
     Gamemem_info.ActivateGamemem();
-    DriveStatusStuff(0, 0);
+    DriveStatus(0, 0);
     Gamemem_info.ActivatePerlevelMempool();
     Gamemem_info.ActivatePersistantMempool();
-    DriveStatusStuff(0, 0);
-    DriveStatusStuff(0, 0);
-    DriveStatusStuff(0, 0);
+    DriveStatus(0, 0);
+    DriveStatus(0, 0);
+    DriveStatus(0, 0);
     GraphicsInit(512, 448, 105, 201, 0, 1);
-    DriveStatusStuff(0, 0);
+    DriveStatus(0, 0);
 
     printf("**** Game startup time: %.3f ***");
 }
