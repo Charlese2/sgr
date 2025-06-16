@@ -236,6 +236,7 @@ cflags_game = [
     "-Cpp_exceptions on",
     "-inline auto,deferred",
     "-str reuse,readonly",
+    "-use_lmw_stmw on",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common_Embedded/Math/Include",
     "-i src/Cranky",

@@ -1,6 +1,7 @@
 #include "dolphin/os.h"
 #include "dolphin/pad.h"
 #include "global.h"
+#include "macros.h"
 
 #define kAnalogStickX       0
 #define kAnalogStickY       1
@@ -28,6 +29,13 @@ class CrankyInput {
     void StopRumbleMotor(int contId);
     float ConvertInput(float input, float low, float high, float max);
     float GetAnalogTriggerInput(int contId, int analogId);
+    void SetDeadzone(float low, float high) {
+        ASSERTLINE(157, low >= 0.f && low < 1.f);
+        ASSERTLINE(158, high >= 0.f && high < 1.f);
+
+        m_JoystickLow = 128.f * low;
+        m_JoystickHigh = 128.f * high;
+    }
     u32 ElapsedTicks(OSTick currentTick, OSTick savedTick) {
         if (currentTick < savedTick) {
             return (-1 - savedTick) + currentTick;
@@ -35,11 +43,25 @@ class CrankyInput {
         return currentTick - savedTick;
     }
     void StopAllRumbleMotors();
-    int IsControllerConnected(int contId) { return m_ActiveMask |= GetControllerMask(contId); };
+    int IsControllerConnected(int contId) { return m_ActiveMask & GetControllerMask(contId); };
     int GetControllerMask(int contId) { return 0x10000000 << (3 - contId); };
-    void Reset(float *x, float *y) {
-        *x = m_JoystickLow * 0.0078125f;
-        *y = m_JoystickHigh * 0.0078125f;
+    void Reset(float *low, float *high) {
+        *low = m_JoystickLow / 128.0f;
+        *high = m_JoystickHigh / 128.0f;
+    }
+    u32 ButtonPressed(int contId, u32 button, bool unk) {
+        u8 status;
+
+        ASSERTLINE(315, contId >= 0 && contId < PAD_MAX_CONTROLLERS);
+
+        if (unk) {
+            status = 0;
+            if ((m_PadStatus[contId].button & button) != 0 && (m_ControllerStatus[contId].button & button) == 0) {
+                status = 1;
+            }
+            return status;
+        }
+        return m_PadStatus[contId].button & button;
     }
 
     float m_TriggerLow;

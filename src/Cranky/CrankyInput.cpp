@@ -103,7 +103,7 @@ void CrankyInput::StartRumbleMotor(int contId, u32 rumbleTime) {
     ASSERTLINE(208, contId >= 0 && contId < PAD_MAX_CONTROLLERS);
 
     if (rumbleTime != 0) {
-        m_ControllerStatus[contId].rumbleTicksRemaining = rumbleTime * ((OS_BUS_CLOCK / 4) / 1000);
+        m_ControllerStatus[contId].rumbleTicksRemaining = OSMillisecondsToTicks(rumbleTime);
     } else {
         m_ControllerStatus[contId].rumbleTicksRemaining = 0;
     }

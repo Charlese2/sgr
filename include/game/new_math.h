@@ -5,6 +5,6 @@ class Math {
     static float tanf(float x) { return tan(x); }
 };
 
-inline double fl_abs(float x) {
+inline double fl_abs(double x) {
     return __fabs(x);
 }
