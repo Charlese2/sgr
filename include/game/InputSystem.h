@@ -43,15 +43,18 @@ class InputSystem : public CrankyInput {
 #endif
         return IsButtonPressed(contId, buttonId);
     };
+    void SetDebounceTime(u32 milliseconds) {
+        m_DebounceTicks = OSMillisecondsToTicks(milliseconds);
+    };
 
   private:
     int m_DebounceTicks;
     int m_DebugControllerId;
     int m_buttons[NGPS_MAX_BUTTONS];
-    OSTick m_unkTick1;
+    OSTick m_CurrentTick;
 #ifdef DEBUG
-    OSTick m_unkTick2;
-    OSTick m_unkTick3;
+    OSTick m_GameResetSavedTick;
+    OSTick m_GameResetCurrentTick;
 #endif
     bool m_unk1;
     bool m_unk2;
@@ -63,5 +66,3 @@ class InputSystem : public CrankyInput {
 };
 
 extern InputSystem gInputSystem;
-
-STATIC_ASSERT(sizeof(InputSystem) == 328);

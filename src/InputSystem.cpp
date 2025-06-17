@@ -9,39 +9,40 @@
 extern bool ResetGame;
 
 InputSystem gInputSystem;
+bool InputSystem_unknown_global_bool = true;
 
 InputSystem::InputSystem() {
-    m_LeftTriggerDown   = false;
-    m_RightTriggerDown  = false;
-    m_unk1              = false;
-    m_unk2              = true;
-    m_unk3              = true;
-    m_unk4              = true;
-    m_DebugControllerId = 0;
-    m_DebounceTicks     = OSMillisecondsToTicks(50); // @BUG: This is too fast.
-    m_unkTick1          = 0;
+    m_LeftTriggerDown      = false;
+    m_RightTriggerDown     = false;
+    m_unk1                 = false;
+    m_unk2                 = true;
+    m_unk3                 = true;
+    m_unk4                 = true;
+    m_DebugControllerId    = 0;
+    m_DebounceTicks        = OSMillisecondsToTicks(50);
+    m_CurrentTick          = 0;
 #ifdef DEBUG
-    m_unkTick2          = 0;
-    m_unkTick3          = 0;
+    m_GameResetSavedTick   = 0;
+    m_GameResetCurrentTick = 0;
 #else
-    m_unk5              = false;
-#endif
-    m_buttons[0]        = 0;
-    m_buttons[1]        = 0;
-    m_buttons[2]        = 0;
-    m_buttons[3]        = PAD_BUTTON_START;
-    m_buttons[4]        = PAD_BUTTON_UP;
-    m_buttons[5]        = PAD_BUTTON_RIGHT;
-    m_buttons[6]        = PAD_BUTTON_DOWN;
-    m_buttons[7]        = PAD_BUTTON_LEFT;
-    m_buttons[8]        = 0;
-    m_buttons[9]        = PAD_TRIGGER_Z;
-    m_buttons[10]       = PAD_TRIGGER_L;
-    m_buttons[11]       = PAD_TRIGGER_R;
-    m_buttons[12]       = PAD_BUTTON_Y;
-    m_buttons[13]       = PAD_BUTTON_X;
-    m_buttons[14]       = PAD_BUTTON_A;
-    m_buttons[15]       = PAD_BUTTON_B;
+    m_unk5                 = false;
+#endif  
+    m_buttons[0]           = 0;
+    m_buttons[1]           = 0;
+    m_buttons[2]           = 0;
+    m_buttons[3]           = PAD_BUTTON_START;
+    m_buttons[4]           = PAD_BUTTON_UP;
+    m_buttons[5]           = PAD_BUTTON_RIGHT;
+    m_buttons[6]           = PAD_BUTTON_DOWN;
+    m_buttons[7]           = PAD_BUTTON_LEFT;
+    m_buttons[8]           = 0;
+    m_buttons[9]           = PAD_TRIGGER_Z;
+    m_buttons[10]          = PAD_TRIGGER_L;
+    m_buttons[11]          = PAD_TRIGGER_R;
+    m_buttons[12]          = PAD_BUTTON_Y;
+    m_buttons[13]          = PAD_BUTTON_X;
+    m_buttons[14]          = PAD_BUTTON_A;
+    m_buttons[15]          = PAD_BUTTON_B;
 }
 
 InputSystem::~InputSystem() {}
@@ -218,29 +219,29 @@ void InputSystem::RunSystem(bool unk) {
         DriveStatus(0, 0);
     }
     tick = OSGetTick();
-    if (m_unkTick1 != 0) {
-        if (ElapsedTicks(tick, m_unkTick1) < OSMicrosecondsToTicks(16600)) {
+    if (m_CurrentTick != 0) {
+        if (ElapsedTicks(tick, m_CurrentTick) < OSMicrosecondsToTicks(16600)) {
             return;
         }
     }
-    m_unkTick1 = tick;
+    m_CurrentTick = tick;
 #ifdef DEBUG
     RunRumbleMotorTimer();
     if (is_button_pressed(CONTROLLER_ONE, PAD_BUTTON_X, false) && is_button_pressed(CONTROLLER_ONE, PAD_BUTTON_B, false) &&
         is_button_pressed(CONTROLLER_ONE, PAD_BUTTON_START, false)) {
-        if (m_unkTick2 == 0) {
-            m_unkTick2 = OSGetTick();
+        if (m_GameResetSavedTick == 0) {
+            m_GameResetSavedTick = OSGetTick();
         }
 
-    } else if (m_unkTick2 != 0) {
-        m_unkTick3 = OSGetTick();
+    } else if (m_GameResetSavedTick != 0) {
+        m_GameResetCurrentTick = OSGetTick();
     }
-    if (m_unkTick2 != 0 && m_unkTick3 != 0) {
-        if (OSTicksToMilliseconds(ElapsedTicks(m_unkTick3, m_unkTick2)) >= 500) {
+    if (m_GameResetSavedTick != 0 && m_GameResetCurrentTick != 0) {
+        if (OSTicksToMilliseconds(ElapsedTicks(m_GameResetCurrentTick, m_GameResetSavedTick)) >= 500) {
             ResetGame = true;
         }
-        m_unkTick2 = 0;
-        m_unkTick3 = 0;
+        m_GameResetSavedTick = 0;
+        m_GameResetCurrentTick = 0;
     }
 #else
     ResetGame = false;
