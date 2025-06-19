@@ -11,5 +11,5 @@ void MusicSystem::PlayMusic(void) {
 
 void MusicSystem::SetMusicVolume(u8 volume) {
     DTKSetVolume(volume, volume);
-    this->volume = volume;
+    m_Volume = volume;
 }

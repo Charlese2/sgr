@@ -1,16 +1,27 @@
 #include "dolphin/ax.h"
 #include "dolphin/dvd.h"
-
-extern "C" {
-    #include "dolphin/axart.h"
-    #include "dolphin/sp.h"
-}
+#include "dolphin/axart.h"
+#include "dolphin/sp.h"
+#include "game/macros.h"
+#include "macros.h"
+#include "game/NGCSystem.h"
 
 #define AUDIO_BLOCK_SIZE_BYTES       0xc00000
 #define MAX_SOUND_LOAD_QUEUE_ENTRIES 32
+#define MAX_PLAY_SLOTS               128
+#define MAX_AMBIANCE_EFFECT_SLOTS    96
+#define MAX_SOUND_EFFECT_SLOTS       64
+#define MAX_SOUNDS                   1024
+#define MAX_SOUND_FILE_NAME_LENGTH   32
+#define MAX_SPT_FILE_SIZE            128
 
-const bool kLoadInitiated = true;
+#define kNoCurrentLoad -1
 
+#define kLoadInitiated      1
+#define kLoadStarted        2
+#define kLoadAMPushBuffered 3
+#define kLoadJustCompleted  4
+#define kLoadCached         5
 
 typedef struct {
     bool field0_0x0;
@@ -27,22 +38,12 @@ typedef struct {
     bool special_sound_mode;
 } SoundInfo;
 
-typedef struct {
-    AXVPB *next;
-    AXVPB *prev;
-    float unk8;
-    float unkC;
-    float unk10;
-} sound_slot;
-
-typedef struct {
-    AXVPB *axvpb;
-    BOOL m_loadStatus;
-    AXART_SOUND axart_sound;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
+class sound {
+  public:
+    table *m_pTable;
+    u32 m_LoadStatus;
+    int unk8;
+    char m_filename[MAX_SOUND_FILE_NAME_LENGTH];
     int unk2C;
     int unk30;
     int unk34;
@@ -51,143 +52,166 @@ typedef struct {
     bool unk40;
     bool playing;
     bool unk42;
-} sound;
-
-typedef struct audio_file {
-    int *unk0;
-    int unk4;
-    int unk8;
-    char file_name[32];
-} audio_file;
-
-struct soundEffect {
-    AXVPB *axvpb;
-    table *table;
-    AXART_SOUND sound;
-    AXART_VOLUME volume;
-    AXART_PANNING panning;
-    int index;
-    int field7_0x38;
-    s32 attenuation;
-    u8 pan;
-    bool finished_playing;
-    bool unk42;
-    bool field12_0x43;
+    int unk[64];
+    u16 unk144;
+    u16 unk146;
 };
 
-typedef struct audio2 {
-    sound *sound;
-    struct CommandList *field1_0x4;
-    char *field2_0x8;
-    char *field3_0xc;
-    char *field4_0x10;
-    char *field5_0x14;
-    int field6_0x18;
-    int field7_0x1c;
-    int field8_0x20;
-    char *field9_0x24;
-    char field10_0x28;
-    char field11_0x29;
-    char field12_0x2a;
-    char field13_0x2b;
-    short field14_0x2c;
-    char field15_0x2e;
-    char field16_0x2f;
-    int field17_0x30;
+typedef struct audio_file {
+    table *m_pTable;
+    u32 m_LoadStatus;
+    int *unk8;
+    char file_name[MAX_SOUND_FILE_NAME_LENGTH];
+} audio_file;
+
+class soundEffect {
+  public:
+    AXVPB *m_pVoice;
+    audio_file *m_pFile;
+    AXART_SOUND m_AXArtSound;
+    AXART_VOLUME m_AXARTVolume;
+    AXART_PANNING m_AXARTPanning;
     int index;
-    int field19_0x38;
-    char field20_0x3c;
-    bool field21_0x3d;
-    bool field22_0x3e;
-    char field23_0x3f;
-    char *field24_0x40;
-} audio2;
+    int index2;
+    s32 attenuation;
+    s8 pan;
+    bool finished_playing;
+    bool unk42;
+    bool unk43;
+};
 
-typedef struct new_struct {
-    int sound_index;
-    int field1_0x4;
-    int field2_0x8;
-    float field3_0xc;
-    struct soundEffect *field4_0x10;
-    struct SomeSFXStruct *field5_0x14;
-    struct astruct_7 *field6_0x18;
-    int field7_0x1c;
-    char *field8_0x20;
-    sound_slot *field9_0x24;
-    int field10_0x28;
-    int field11_0x2c;
-    int field12_0x30;
-    int field13_0x34;
-    int field14_0x38;
-    int field15_0x3c;
-    int field16_0x40;
-} new_struct;
+class ambienceEffect {
+  public:
+    AXVPB *m_pVoice;
+    audio_file *m_pFile;
+    AXART_SOUND m_AXArtSound;
+    AXART_VOLUME m_AXARTVolume;
+    AXART_PANNING m_AXARTPanning;
+    int index;
+    int index2;
+    s32 attenuation;
+    s8 pan;
+    bool finished_playing;
+    bool unk42;
+    bool unk43;
+};
 
-typedef struct {
+class playSlot {
+  public:
+    ambienceEffect *m_pInstance;
+    s32 m_LoadStatus;
+    float m_AXARTVolume;
+    int unkC;
+    bool unk10;
+};
+
+class audio_load_cache {
+  public:
     sound *m_pSound;
-    int field1_0x4;
+    u32 m_aramStart;
     char m_fileName[56];
-} audio_load_cache;
+};
+
+class sound_file_something {
+  public:
+    char filename[MAX_SOUND_FILE_NAME_LENGTH];
+    int unk;
+};
 
 class SoundSystem {
   public:
     SoundSystem();
-    void InitializeGlobal(void);
     static void ProcessSoundsEffects(void);
-    static void RemoveSound(sound *sound);
+    static void RemoveAmbienceEffect(ambienceEffect *sound);
+    void *GetAudioFileSomethingAtIndex(int index);
     void Initialize(void);
     static void *AllocateReverbMemoryNotImplemented(u32 unk);
     static void FreeReverbMemoryNotImplemented(void *);
-    void LoadSoundFromDisk(void);
+    u32 GetEntry(char *filename, bool bIsPersistent, bool bFindExisting);
+    void CacheSoundFromDisk(void);
     void LoadUncachedSoundFromDisk(void);
+    static void DVDReadCallback(void);
+    void LoadAudioFile(audio_load_cache *pLoad);
+    static void AMPushBufferedCallback(char *path);
     audio_load_cache *GetNextAudioLoadCacheEntry(void);
-    void AddSound(int index);
-    void CopySoundFileToCache();
+    void CacheSound(audio_load_cache *pLoad);
+    void PlayAmbienceEffect(ambienceEffect *pSoundEffect, s32 pan, float m_AXARTVolume, u32 index, bool unk3, bool unk4);
     void PlaySoundEffect(int index);
     void CleanupPlayedSound(int index);
     void ReinitializeAudio(bool state);
     void InitializeAudio(void);
-    sound_slot *GetFreeSoundSlot(void);
+    playSlot *GetFreePlaySlot(void);
     void LoadNewSoundsFromDisk(void);
-
-    sound *GetSoundEffectSound(int index) { return m_ambienceEffects[index].sound; };
-
+    ambienceEffect *GetAmbianceEffect(int index) { return &m_ambienceEffects[index]; };
     soundEffect *GetSoundEffect(int index) { return &m_soundEffects[index]; };
-    bool GetUnknown() { return field22_0xee36; };
-    bool GetUnknown2() { return field23_0xee37; };
-    void SetProcessingQueue(bool processing) { m_processing_queue = processing; }
-    bool InUse(void) { return m_inUse; }
-    void InitializeSoundSlot(sound_slot *slot) {
-        slot->next = 0;
-        slot->prev = 0;
-        slot->unk8 = 0.0f;
-    }
-    char *GetBuffer(void) { return m_buffer; }
+    bool GetUnknown() { return field16_0xee36; };
+    bool GetUnknown2() { return field17_0xee37; };
+    bool GetUnknown3() { return field14_0xee34; };
+#ifndef DEBUG
+    bool IsDeactivated() { return m_deativated; };
+#endif
+    void SetProcessingQueue(bool processing) { m_processing_queue = processing; };
+    bool GetInUse(void) { return m_inUse; };
+    void ClearPlaySlot(playSlot *slot) {
+        slot->m_pInstance   = NULL;
+        slot->m_LoadStatus  = 0;
+        slot->m_AXARTVolume = 0.0f;
+    };
+    char *GetBuffer(void) { return m_buffer; };
+    DVDFileInfo *GetDVDFileHandle() { return &m_fileHandle; };
+    audio_load_cache *GetCurAudioLodeCacheSlot() {
+        if (m_CurLoadIndex == -1) {
+            return NULL;
+        } else {
+            return &m_audioLoadcache[m_CurLoadIndex];
+        }
+    };
+    u32 GetCurLoadIndex() { return m_CurLoadIndex; };
+    void SetInUse(bool inUse) { m_inUse = inUse; };
     void InitializeAudioLoadCache(audio_load_cache *cache) {
         cache->m_pSound      = NULL;
-        cache->field1_0x4    = 0;
-        cache->m_fileName[0] = (char)0;
-    }
+        cache->m_aramStart   = 0;
+        cache->m_fileName[0] = '\0';
+    };
+    u8 ConvertPan(float pan) {
+        if (pan < -1.0f || pan > 1.0f) {
+            pan = 0.0f;
+        }
+        pan = 0.5f * (pan + 1.0f);
+        pan *= 127.0f;
+        return pan;
+    };
+    u32 ClampVolume(float volume) {
+        s32 roundedVolume;
+        if (volume > 1.0f) {
+            volume = 1.0f;
+        } else if (volume < 0.0f) {
+            volume = 0.0f;
+        }
+        roundedVolume = 20.0f * volume;
+        DEBUGASSERTLINE(326, roundedVolume >= 0 && roundedVolume <= 20);
+        return Volume_table[roundedVolume] << 16;
+    };
 
   private:
     /* 0x00 */ DVDFileInfo m_fileHandle;
     /* 0x3c */ char *m_buffer;
-    /* 0x40 */ u32 m_number_in_queue_of_sounds_not_preloaded;
-    /* 0x44 */ s32 m_next_index;
+    /* 0x40 */ u32 m_CacheQueueRemaining;
+    /* 0x44 */ u32 m_CurLoadIndex;
     /* 0x48 */ char field4_0x48[340];
     /* 0x19c */ s32 m_AMZeroBuffer;
     /* 0x1a0 */ u32 *stack_index_addr[3];
-    /* 0x1ac */ s32 m_curEntry;
+    /* 0x1ac */ u32 m_curEntry;
     /* 0x1b0 */ u32 m_lastPersist;
     /* 0x1b4 */ audio_file m_audio_file[1024];
-    /* 0xb1b8 */ audio2 m_ambienceEffects[96];
+    /* 0xb1b4 */ ambienceEffect m_ambienceEffects[96];
     /* 0xcb34 */ soundEffect m_soundEffects[64];
     /* 0xdc34 */ audio_load_cache m_audioLoadcache[32];
-    /* 0xe434 */ sound_slot m_sound_slots[128];
-    /* 0xee34 */ bool field20_0xee34;
+    /* 0xe434 */ playSlot m_PlaySlots[128];
+    /* 0xee34 */ bool field14_0xee34;
     /* 0xee35 */ bool m_inUse;
-    /* 0xee36 */ bool field22_0xee36;
-    /* 0xee37 */ bool field23_0xee37;
+    /* 0xee36 */ bool field16_0xee36;
+    /* 0xee37 */ bool field17_0xee37;
     /* 0xee38 */ bool m_processing_queue;
 #ifndef DEBUG
     /* 0xee39 */ bool m_deativated;
@@ -195,16 +219,3 @@ class SoundSystem {
 }; // Size: 0xee3a
 
 extern SoundSystem gSoundSystem;
-
-inline int ClampVolume(double volume) {
-    int roundedVolume;
-    if (volume <= 1.0f) {
-        if (volume < 0.0f) {
-            volume = 0.0f;
-        }
-    } else {
-        volume = 1.0f;
-    }
-    roundedVolume = 20.0f * volume;
-    return roundedVolume;
-}

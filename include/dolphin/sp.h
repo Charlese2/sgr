@@ -1,6 +1,10 @@
 #ifndef _DOLPHIN_SP_H_
 #define _DOLPHIN_SP_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "dolphin/ax.h"
 #include "dolphin/types.h"
 
@@ -32,5 +36,10 @@ void SPInitSoundTable(table* table, u32 aramBase, u32 zeroBase);
 SOUND_ENTRY * SPGetSoundEntry(table* table, u32 index);
 void SPPrepareSound(SOUND_ENTRY* sound, AXVPB * axvpb, u32 sampleRate);
 void SPPrepareEnd(SOUND_ENTRY* sound, AXVPB* axvpb);
+
+#ifdef __cplusplus
+}
+;
+#endif
 
 #endif // _DOLPHIN_SP_H_

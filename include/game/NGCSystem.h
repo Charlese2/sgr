@@ -1,5 +1,7 @@
 #include "dolphin/types.h"
 
+extern u32 Volume_table[21];
+
 #ifdef DEBUG
 #define DriveStatus(first, second) DriveStatusStuff(first)
 #else

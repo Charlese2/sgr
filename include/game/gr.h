@@ -1,6 +1,8 @@
 #include "dolphin/types.h"
 #include "game/RenderSystem.h"
 
+extern float frametime;
+
 typedef struct font_face {
 
 } font_face;

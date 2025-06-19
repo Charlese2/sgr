@@ -50,7 +50,7 @@ class MusicSystem {
     bool unke1;
     bool unke2;
     u8 unke3;
-    u8 volume;
+    u8 m_Volume;
     bool unke5;
     bool unke6;
     bool unke7;

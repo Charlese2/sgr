@@ -1,6 +1,10 @@
 #ifndef _DOLPHIN_AXART_H_
 #define _DOLPHIN_AXART_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <dolphin/types.h>
 #include <dolphin/ax.h>
 
@@ -218,5 +222,9 @@ void AXARTLfo(AXART_LFO* lfo);
 // axartsound.c
 void AXARTServiceSound(AXART_SOUND* sound);
 void AXARTAddArticulator(AXART_SOUND* sound, AXART_ART* articulator);
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif // _DOLPHIN_AXART_H_

@@ -243,6 +243,9 @@ cflags_game = [
     "-i include/PowerPC_EABI_Support/Runtime",
 ]
 
+if config.non_matching:
+    cflags_game.append("-DNON_MATCHING")
+
 cflags_lib = [
     *cflags_base,
     "-RTTI on",

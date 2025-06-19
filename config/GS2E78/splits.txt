@@ -1138,6 +1138,7 @@ Cranky/am/am.c:
 	.rodata     start:0x801FDFC8 end:0x801FE008
 	.bss        start:0x803E4D50 end:0x803ED150
 	.sbss       start:0x80475610 end:0x80475620
+	.sdata2     start:0x80479CD8 end:0x80479CE0
 
 s3d.cpp:
 	extab       start:0x8000A5FC end:0x8000A6A4

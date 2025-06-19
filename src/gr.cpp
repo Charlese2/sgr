@@ -6,7 +6,9 @@
 bool gr_initialized;
 bool Gr_show_stats;
 bool Gr_show_paging;
+
 int Gr_ngps_hires = 1;
+float frametime = 1.0f/60.0f;
 
 console_command toggle_show_stats_gr("gr_show_stats", "Toggles Gr_show_stats", TOGGLE, toggle_gr_show_stats);
 #ifdef DEBUG
