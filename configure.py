@@ -849,7 +849,7 @@ config.libs = [
     DolphinLib(
         "sp",
         [
-            Object(NonMatching, "dolphin/sp/sp.c"),
+            Object(Matching, "dolphin/sp/sp.c"),
         ]
     ),
     DolphinLib(
