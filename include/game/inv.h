@@ -1,3 +1,5 @@
+extern int Inv_party_gold;
+
 typedef struct {
     int unk0;
     int unk4;

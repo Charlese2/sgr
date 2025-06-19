@@ -3,6 +3,15 @@
 #define MAX_COMMANDS            300
 #define MAX_CONSOLE_LINE_LENGTH 64
 
+#define ARGUMENT_TYPE_UNKNOWN1 1 << 0
+#define ARGUMENT_TYPE_UNKNOWN2 1 << 1
+#define ARGUMENT_TYPE_UNKNOWN3 1 << 2
+#define ARGUMENT_TYPE_UNKNOWN4 1 << 3
+#define ARGUMENT_TYPE_UNKNOWN5 1 << 4
+#define ARGUMENT_TYPE_UNKNOWN6 1 << 5
+#define ARGUMENT_TYPE_UNKNOWN7 1 << 6
+#define ARGUMENT_TYPE_UNKNOWN8 1 << 7
+
 typedef int (*CommandCallbackInt)(void);
 typedef void (*CommandCallbackVoid)(void);
 
@@ -29,6 +38,7 @@ extern u32 arg_type;
 void print_commands_to_file(void);
 void print_commands_to_tty(void);
 
+void print_available_functions(void);
 void print_to_console(const char *buffer, bool unk);
 void process_command(int commandId);
 void run_script_file(void);

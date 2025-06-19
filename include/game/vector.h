@@ -1,6 +1,13 @@
 #ifndef _VECTOR_H_
 #define _VECTOR_H_
 
+class vector2 {
+  public:
+  float x;
+  float y;
+  vector2(){};
+};
+
 class vector3 {
   public:
     float x;

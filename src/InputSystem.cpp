@@ -47,7 +47,7 @@ InputSystem::InputSystem() {
 
 InputSystem::~InputSystem() {}
 
-u32 InputSystem::IsButtonPressed(int contId, int ButtonId) {
+BOOL InputSystem::IsButtonPressed(int contId, int ButtonId) {
     float leftTriggerInput;
     float rightTriggerInput;
 

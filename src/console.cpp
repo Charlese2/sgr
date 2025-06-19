@@ -148,6 +148,18 @@ void print_console_commands_to_file(void) {
     }
 }
 
+void print_available_functions() {
+    print_to_console("Available functions:\n", 0);
+    for (int i = 0; i < current_command_count; i++) {
+        if (Console_commands[i]->description) {
+            sprintf(string_buffer, " %s - %s\n", Console_commands[i]->name, Console_commands[i]->description);
+        } else {
+            sprintf(string_buffer, " %s\n", Console_commands[i]->name);
+        }
+        print_to_console(string_buffer, 0);
+    }
+}
+
 void print_to_console(const char *buffer, bool unk) {}
 
 void process_command(int commandId) {

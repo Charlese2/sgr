@@ -11,6 +11,19 @@
 #define NGPS_JOY_RIGHT 1
 #define NGPS_JOY_COUNT 2
 
+#define START_BUTTON      3
+#define DPAD_UP_BUTTON    4
+#define DPAD_RIGHT_BUTTON 5
+#define DPAD_DOWN_BUTTON  6
+#define DPAD_LEFT_BUTTON  7
+#define Z_TRIGGER_BUTTON  9
+#define L_TRIGGER_BUTTON  10
+#define R_TRIGGER_BUTTON  11
+#define Y_BUTTON          12
+#define X_BUTTON          13
+#define A_BUTTON          14
+#define B_BUTTON          15
+
 #define NGPS_MAX_BUTTONS 16
 
 #define DIRECTION_UP    0
@@ -23,7 +36,7 @@ class InputSystem : public CrankyInput {
   public:
     virtual ~InputSystem();
     InputSystem();
-    u32 IsButtonPressed(int contId, int buttonId);
+    BOOL IsButtonPressed(int contId, int buttonId);
     void GetJoystickVector(int contId, int joyId, float *x, float *y, int mode);
     bool DebounceTimerExpired(int contId, int joyId, int dir);
     bool IsInDeadzone(int contId, int joyId);
@@ -43,9 +56,7 @@ class InputSystem : public CrankyInput {
 #endif
         return IsButtonPressed(contId, buttonId);
     };
-    void SetDebounceTime(u32 milliseconds) {
-        m_DebounceTicks = OSMillisecondsToTicks(milliseconds);
-    };
+    void SetDebounceTime(u32 milliseconds) { m_DebounceTicks = OSMillisecondsToTicks(milliseconds); };
 
   private:
     int m_DebounceTicks;
