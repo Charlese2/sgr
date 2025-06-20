@@ -235,6 +235,7 @@ cflags_game = [
     "-RTTI on",
     "-Cpp_exceptions on",
     "-inline auto,deferred",
+    "-fp_contract on",
     "-str reuse,readonly",
     "-use_lmw_stmw on",
     "-i include/PowerPC_EABI_Support/MSL_C/MSL_Common/Include",

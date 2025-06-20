@@ -42,9 +42,9 @@ void snd_release() {
     ReinitializeSoundSystems();
     for (int i = 0; i < 2048; i++) {
     }
-    for (int i = 0; i < 96; i++) {
+    for (int i = 0; i < MAX_SND_INSTANCES; i++) {
     }
-    for (int i = 0; i < 64; i++) {
+    for (int i = 0; i < MAX_AMBIENT_SOUNDS; i++) {
     }
 }
 
@@ -53,13 +53,13 @@ void snd_setup() {
     if (disableSoundEffects) {
         return;
     }
-    for (i = 0; i < 96; i++) {
-        SetupSoundEffect(&SoundEffects[i]);
-        SoundEffects[i].state &= 0xFF;
+    for (i = 0; i < MAX_SND_INSTANCES; i++) {
+        SetupSoundEffect(&SndInstances[i]);
+        SndInstances[i].state &= 0xFF;
     }
-    for (i = 0; i < 64; i++) {
-        SetupSoundEffect(&AmbienceEffects[i]);
-        AmbienceEffects[i].state &= 0xFF;
+    for (i = 0; i < MAX_AMBIENT_SOUNDS; i++) {
+        SetupSoundEffect(&AmbientSounds[i]);
+        AmbientSounds[i].state &= 0xFF;
     }
     if (!soundEffectsSetup) {
         for (i = 0; i < 2048; i++) {
