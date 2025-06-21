@@ -19,12 +19,14 @@
 
 #define kNoCurrentLoad -1
 
-#define kLoadNotStarted     0
-#define kLoadInitiated      1
-#define kLoadStarted        2
-#define kLoadRead           3
-#define kLoadJustCompleted  4
-#define kLoadReady          5
+#define kLoadNotStarted    0
+#define kLoadInitiated     1
+#define kLoadStarted       2
+#define kLoadRead          3
+#define kLoadJustCompleted 4
+#define kLoadReady         5
+
+enum SndInstanceType { SND_INSTANCE = 6, AMBIENT_SOUND };
 
 typedef struct {
     bool field0_0x0;
@@ -60,22 +62,6 @@ class sound_file_something {
     int unk;
 };
 
-class ambient_sound {
-  public:
-    AXVPB *m_pVoice;
-    sound_file *m_pFile;
-    AXART_SOUND m_AXArtSound;
-    AXART_VOLUME m_AXARTVolume;
-    AXART_PANNING m_AXARTPanning;
-    int index;
-    int index2;
-    s32 attenuation;
-    s8 pan;
-    bool finished_playing;
-    bool unk42;
-    bool unk43;
-};
-
 class snd_instance {
   public:
     AXVPB *m_pVoice;
@@ -83,22 +69,22 @@ class snd_instance {
     AXART_SOUND m_AXArtSound;
     AXART_VOLUME m_AXARTVolume;
     AXART_PANNING m_AXARTPanning;
-    int index;
-    int index2;
-    s32 attenuation;
-    s8 pan;
-    bool finished_playing;
-    bool unk42;
+    int m_length;
+    int m_lengthMilliseconds;
+    s32 m_attenuation;
+    s8 m_pan;
+    bool m_finishedPlaying;
+    bool m_AXVoiceState;
     bool unk43;
 };
 
 class play_slot {
   public:
     snd_instance *m_pInstance;
-    s32 m_LoadStatus;
-    float m_AXARTVolume;
-    int unkC;
-    bool unk10;
+    s32 m_pan;
+    float m_volume;
+    int m_length;
+    bool m_bIsSndInstance;
 };
 
 class sound_load {
@@ -115,11 +101,11 @@ class SoundSystem {
     static void RemoveSndInstance(snd_instance *sound);
     sound_header *GetAudioFileSoundHeader(int index);
     void Initialize(void);
-    static void *AllocateReverbMemoryNotImplemented(u32 unk);
-    static void FreeReverbMemoryNotImplemented(void *);
+    static void *AllocateReverbMemory(u32 unk);
+    static void FreeReverbMemory(void *);
     u32 GetEntry(char *filename, bool bIsPersistent, bool bFindExisting);
     void CacheSoundFromDisk(void);
-    sound_load *AddToLoadQueue(int index);
+    sound_load *AddToLoadQueue(int instance);
     static void DVDReadCallback(void);
     void LoadSoundFile(sound_load *pLoad);
     static void AMPushBufferedCallback(char *path);
@@ -127,32 +113,52 @@ class SoundSystem {
     sound_load *GetNextAudioLoadQueueEntry(void);
     void InitializeSoundTable(sound_load *pLoad);
     void SetAmbientSoundPanAndVolume(int instance, float pan, float volume);
-    void PlaySndInstance(snd_instance *pSoundEffect, s32 pan, float m_AXARTVolume, u32 index, bool unk3, bool unk4);
-    void PlayAmbientSound(int index);
+    void BlankUnknown1(int unk, float unk2);
+    void SetSndInstancePanAndVolume(int instance, float pan, float volume);
+    int PlayAmbientSoundFile(int instance, s32 pan, float volume, int length);
+    void BlankUnknown2(int unk, float unk2, int unk3, float unk4);
+    int PlaySndInstanceFile(int instance, s32 pan, float volume);
+    void ClearSndInstance(int instance, SndInstanceType type);
+    int IsSndInstanceInUse(int instance, SndInstanceType type);
+#ifdef DEBUG
+    void Shutdown(void);
+#else
+    void Shutdown(bool);
+#endif
+    void PlaySndInstance(snd_instance *pSndInstance, s32 pan, float volume, u32 length, bool axVoiceState, bool bIsSndInstance);
+    void PlayAmbientSound(int instance);
     void CleanupPlayedAmbientSound(int index);
     void ReinitializeAudio(bool state);
     void InitializeAudio(void);
-    play_slot *GetFreePlaySlot(void);
+    play_slot *GetSndInstancePlaySlot(snd_instance *pInstance);
+    play_slot *GetFreePlaySlot(sound_file *pSound);
     void LoadNewSoundsFromDisk(void);
+    void EnableSndInstanceAXVoiceState();
+    void EnableAmbientSoundAXVoiceState();
+    void DisableSndInstanceAXVoiceState();
+    void DisableAmbientSoundAXVoiceState();
+    bool IsSndInstanceAdded(snd_instance *pInstance);
+    bool IsAmbientSoundAdded(snd_instance *pInstance);
+
     snd_instance *GetSndInstance(int index) { return &m_sndInstances[index]; };
-    ambient_sound *GetAmbientSound(int index) { return &m_ambientSounds[index]; };
-    bool GetUnknown() { return field16_0xee36; };
-    bool GetUnknown2() { return field17_0xee37; };
-    bool GetUnknown3() { return field14_0xee34; };
+    snd_instance *GetAmbientSound(int index) { return &m_ambientSounds[index]; };
+    bool GetAmbientSoundAXVoiceState() { return m_AmbientSoundAXVoiceState; };
+    bool GetSndInstanceAXVoiceState() { return m_SndInstanceAXVoiceState; };
+    bool GetUnknown() { return field14_0xee34; };
 #ifndef DEBUG
     bool IsDeactivated() { return m_deactivated; };
 #endif
-    void SetProcessingQueue(bool processing) { m_processing_queue = processing; };
+    void SetProcessingQueue(bool processing) { m_processingQueue = processing; };
     bool GetInUse(void) { return m_inUse; };
     void ClearPlaySlot(play_slot *slot) {
-        slot->m_pInstance   = NULL;
-        slot->m_LoadStatus  = 0;
-        slot->m_AXARTVolume = 0.0f;
+        slot->m_pInstance = NULL;
+        slot->m_pan       = 0;
+        slot->m_volume    = 0.0f;
     };
     char *GetBuffer(void) { return m_buffer; };
     DVDFileInfo *GetDVDFileHandle() { return &m_fileHandle; };
-    sound_load *GetCurAudioLodeQueueSlot() {
-        if (m_CurLoadIndex == -1) {
+    sound_load *GetCurAudioLoadQueueSlot() {
+        if (m_CurLoadIndex == 0xFFFFFFFF) {
             return NULL;
         }
         return &m_audioLoadQueue[m_CurLoadIndex];
@@ -189,25 +195,24 @@ class SoundSystem {
     /* 0x3c */ char *m_buffer;
     /* 0x40 */ u32 m_LoadQueueEntries;
     /* 0x44 */ u32 m_CurLoadIndex;
-    /* 0x48 */ char field4_0x48[340];
+    /* 0x48 */ snd_instance unk[5];
     /* 0x19c */ s32 m_AMZeroBuffer;
     /* 0x1a0 */ u32 *stack_index_addr[3];
     /* 0x1ac */ u32 m_curEntry;
     /* 0x1b0 */ u32 m_lastPersist;
     /* 0x1b4 */ sound_file m_audio_file[1024];
     /* 0xb1b4 */ snd_instance m_sndInstances[96];
-    /* 0xcb34 */ ambient_sound m_ambientSounds[64];
+    /* 0xcb34 */ snd_instance m_ambientSounds[64];
     /* 0xdc34 */ sound_load m_audioLoadQueue[32];
     /* 0xe434 */ play_slot m_PlaySlots[128];
     /* 0xee34 */ bool field14_0xee34;
     /* 0xee35 */ bool m_inUse;
-    /* 0xee36 */ bool field16_0xee36;
-    /* 0xee37 */ bool field17_0xee37;
-    /* 0xee38 */ bool m_processing_queue;
-#ifndef DEBUG
+    /* 0xee36 */ bool m_AmbientSoundAXVoiceState;
+    /* 0xee37 */ bool m_SndInstanceAXVoiceState;
+    /* 0xee38 */ bool m_processingQueue;
     /* 0xee39 */ bool m_deactivated;
-#endif
-}; // Size: 0xee3a
+    u8 padding[6];
+}; // Size: 0xee40
 
 extern SoundSystem gSoundSystem;
 
