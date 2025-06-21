@@ -11,7 +11,7 @@ class CrankyFile {
   public:
     virtual ~CrankyFile();
     CrankyFile();
-    void OpenFile(char *file_path, char *file_name);
+    void OpenFile(const char *file_path, char *file_name);
     void CloseFile(void);
     u32 GetFileSize(void);
     void SetReadPosition(int startPos, u32 mode);

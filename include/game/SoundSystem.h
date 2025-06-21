@@ -60,6 +60,8 @@ class sound_file_something {
   public:
     char filename[MAX_SOUND_FILE_NAME_LENGTH];
     int unk;
+    int unk2;
+    int unk3;
 };
 
 class snd_instance {

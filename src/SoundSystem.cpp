@@ -311,7 +311,7 @@ void SoundSystem::DVDReadCallback() {
         pLoad                = gSoundSystem.GetCurAudioLoadQueueSlot();
         pSound               = pLoad->m_pSound;
         sptLength            = pSound->m_pSoundData->entries;
-        pSound->m_pSoundData = (table *)pSound->m_pSoundData->sound;
+        pSound->m_pSoundData = (table *)pSound->m_pSoundData->sound; // TODO: Fix type of m_pSoundData
         DEBUGASSERTLINE(361, sptLength < MAX_SPT_FILE_SIZE);
         bufferSize = (gSoundSystem.GetDVDFileHandle()->length - sptLength) - 4;
         DVDClose(gSoundSystem.GetDVDFileHandle());
@@ -332,6 +332,7 @@ void SoundSystem::LoadSoundFile(sound_load *pLoad) {
     sound_file *pSound;
     Mempool *pPreviousMempool;
     sound_file_something file;
+    snd_instance *pInstance;
     int length;
 
 #ifndef DEBUG
@@ -370,9 +371,36 @@ void SoundSystem::LoadSoundFile(sound_load *pLoad) {
         set_current_mempool(pPreviousMempool);
 
         sprintf(pLoad->m_fileName, "%s%s", GetFilePath(5), file.filename);
+
+#ifdef DEBUG
         DVDOpen(pLoad->m_fileName, &m_fileHandle);
         DriveStatus(0, 0);
         DVDReadAsyncPrio(&m_fileHandle, pSound->m_pSoundData, 128, 0, (DVDCallback)DVDReadCallback, 2);
+#else
+    if (DVDOpen(pLoad->m_fileName, &m_fileHandle)) {
+        DriveStatus(0, 0);
+        DVDReadAsyncPrio(&m_fileHandle, pSound->m_pSoundData, 128, 0, (DVDCallback)DVDReadCallback, 2);
+    } else {
+        printf("********************************************************\n");
+        printf("MISSING SOUND FILE!!!!!!!!!!!!\n");
+        printf("File: %s\n", pLoad->m_fileName);
+        printf("********************************************************\n");
+        m_CurLoadIndex       = 0xFFFFFFFF;
+        pSound->m_loadStatus = kLoadNotStarted;
+        pLoad->m_pSound      = NULL;
+        pLoad->m_aramStart   = 0;
+        pLoad->m_fileName[0] = '\0';
+        m_LoadQueueEntries--;
+        for (int i = 0; i < MAX_PLAY_SLOTS; i++) {
+            pInstance = m_PlaySlots[i].m_pInstance;
+            if (pInstance && pInstance->m_pSound == pSound) {
+                m_PlaySlots[i].m_pInstance = NULL;
+                m_PlaySlots[i].m_pan       = 0;
+                m_PlaySlots[i].m_volume    = 0.0f;
+            }
+        }
+    }
+#endif
         m_inUse = lastInUseState;
 
 #ifndef DEBUG

@@ -5,30 +5,16 @@
 #include "game/CrankyFileManager.h"
 
 extern CrankyFileManager gFileManager;
-
-typedef const char PathId[16];
+extern const char PathIds[10][16];
 
 const int kNumPathIds = 10;
 
 void LoadFile(void);
 void SetupFilesystem(void);
 
-PathId PathIds[10] = {
-    "/",
-    "/char/",
-    "/fx/",
-    "/itm/",
-    "/lvl/",
-    "/snd/",
-    "/fnt/",
-    "/mov/",
-    "/cuts/",
-    "/mus/",
-};
-
-inline char* GetFilePath(int index) {
+inline const char *GetFilePath(int index) {
     DEBUGASSERTLINE(57, index >= 0 && index < kNumPathIds);
-    return (char*)PathIds[index];
+    return PathIds[index];
 }
 
 #endif // _GAME_FILESYSTEM_H_
