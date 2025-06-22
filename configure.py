@@ -573,7 +573,7 @@ config.libs = [
             Object(NonMatching, "new_weapon_minigame.cpp"),
             Object(NonMatching, "new_save.cpp"),
             Object(NonMatching, "new_avoidance_area.cpp"),
-            Object(NonMatching, "SoundSystem.cpp"),
+            Object(Matching, "SoundSystem.cpp"),
             Object(NonMatching, "music.cpp"),
             Object(NonMatching, "sound_3d.cpp"),
             Object(NonMatching, "SoundConvert.cpp"),

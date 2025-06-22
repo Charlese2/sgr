@@ -59,9 +59,9 @@ class sound_file {
 class sound_file_something {
   public:
     char filename[MAX_SOUND_FILE_NAME_LENGTH];
-    int unk;
-    int unk2;
-    int unk3;
+    int unk20;
+    int unk24;
+    int unk28;
 };
 
 class snd_instance {
@@ -117,6 +117,8 @@ class SoundSystem {
     void SetAmbientSoundPanAndVolume(int instance, float pan, float volume);
     void BlankUnknown1(int unk, float unk2);
     void SetSndInstancePanAndVolume(int instance, float pan, float volume);
+    void PlaySndInstance(snd_instance *pSndInstance, s32 pan, float volume, u32 length, bool axVoiceState, bool bIsSndInstance);
+    void PlayAmbientSound(int instance);
     int PlayAmbientSoundFile(int instance, s32 pan, float volume, int length);
     void BlankUnknown2(int unk, float unk2, int unk3, float unk4);
     int PlaySndInstanceFile(int instance, s32 pan, float volume);
@@ -127,8 +129,6 @@ class SoundSystem {
 #else
     void Shutdown(bool);
 #endif
-    void PlaySndInstance(snd_instance *pSndInstance, s32 pan, float volume, u32 length, bool axVoiceState, bool bIsSndInstance);
-    void PlayAmbientSound(int instance);
     void CleanupPlayedAmbientSound(int index);
     void ReinitializeAudio(bool state);
     void InitializeAudio(void);
@@ -142,15 +142,15 @@ class SoundSystem {
     bool IsSndInstanceAdded(snd_instance *pInstance);
     bool IsAmbientSoundAdded(snd_instance *pInstance);
 
-    snd_instance *GetSndInstance(int index) { return &m_sndInstances[index]; };
-    snd_instance *GetAmbientSound(int index) { return &m_ambientSounds[index]; };
+    snd_instance *GetAmbientSound(u32 instance) { return &m_ambientSounds[instance]; };
     bool GetAmbientSoundAXVoiceState() { return m_AmbientSoundAXVoiceState; };
+    snd_instance *GetSndInstance(u32 instance) { return &m_sndInstances[instance]; };
     bool GetSndInstanceAXVoiceState() { return m_SndInstanceAXVoiceState; };
+    void SetProcessingSounds(bool processing) { m_processingQueue = processing; };
     bool GetUnknown() { return field14_0xee34; };
 #ifndef DEBUG
     bool IsDeactivated() { return m_deactivated; };
 #endif
-    void SetProcessingQueue(bool processing) { m_processingQueue = processing; };
     bool GetInUse(void) { return m_inUse; };
     void ClearPlaySlot(play_slot *slot) {
         slot->m_pInstance = NULL;

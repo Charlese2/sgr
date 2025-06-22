@@ -39,24 +39,20 @@ void SoundSystem::ProcessSounds(void) {
     snd_instance *pAmbientSound;
 
 #ifndef DEBUG
-    if (!gSoundSystem.m_deactivated) {
+    if (!gSoundSystem.IsDeactivated()) {
 #endif
         MIXUpdateSettings();
         AXARTServiceSounds();
         if (!gSoundSystem.GetInUse()) {
-            gSoundSystem.SetProcessingQueue(true);
+            gSoundSystem.SetProcessingSounds(true);
             for (i = 0; i < MAX_SND_INSTANCES; i++) {
-#ifdef DEBUG
                 pSndInstance = gSoundSystem.GetSndInstance(i);
-#else
-            pSndInstance = &gSoundSystem.m_sndInstances[i];
-#endif
                 if (!gSoundSystem.GetSndInstanceAXVoiceState() || pSndInstance->m_AXVoiceState) {
                     AXVPB *pVoice = pSndInstance->m_pVoice;
                     if (pVoice) {
                         if (pVoice->pb.state == 0) {
 #ifndef DEBUG
-                            if (!gSoundSystem.m_deactivated) {
+                            if (!gSoundSystem.IsDeactivated()) {
 #endif
                                 gSoundSystem.RemoveSndInstance(pSndInstance);
 #ifndef DEBUG
@@ -68,11 +64,7 @@ void SoundSystem::ProcessSounds(void) {
             }
             if (!gSoundSystem.GetAmbientSoundAXVoiceState()) {
                 for (i = 0; i < MAX_AMBIENT_SOUNDS; i++) {
-#ifdef DEBUG
                     pAmbientSound = gSoundSystem.GetAmbientSound(i);
-#else
-                pAmbientSound = &gSoundSystem.m_ambientSounds[i];
-#endif
                     AXVPB *pVoice = pAmbientSound->m_pVoice;
                     if (pVoice) {
                         if (pVoice->pb.state == 0) {
@@ -88,7 +80,7 @@ void SoundSystem::ProcessSounds(void) {
                     }
                 }
             }
-            gSoundSystem.SetProcessingQueue(false);
+            gSoundSystem.SetProcessingSounds(false);
         }
 #ifndef DEBUG
     }
