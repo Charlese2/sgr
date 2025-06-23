@@ -364,7 +364,7 @@ void GXLoadLightObjImm(GXLightObj *lt_obj, GXLightID light)
     WRITE_SOME_LIGHT_REG2(obj->ldir[1], addr + 14);
     WRITE_SOME_LIGHT_REG2(obj->ldir[2], addr + 15);
 
-    gx->bpSent = 0;
+    gx->bpSentNot = 0;
 }
 
 void GXLoadLightObjIndx(u32 lt_obj_indx, GXLightID light)
@@ -400,7 +400,7 @@ void GXLoadLightObjIndx(u32 lt_obj_indx, GXLightID light)
 #if DEBUG
     __GXShadowIndexState(7, reg);
 #endif
-    gx->bpSent = 0;
+    gx->bpSentNot = 0;
 }
 
 void GXSetChanAmbColor(GXChannelID chan, GXColor amb_color)
@@ -458,7 +458,7 @@ void GXSetChanAmbColor(GXChannelID chan, GXColor amb_color)
     }
 
     GX_WRITE_XF_REG(colIdx + 10, reg);
-    gx->bpSent = 1;
+    gx->bpSentNot = 1;
     gx->ambColor[colIdx] = reg;
 }
 
@@ -517,7 +517,7 @@ void GXSetChanMatColor(GXChannelID chan, GXColor mat_color)
     }
 
     GX_WRITE_XF_REG(colIdx + 12, reg);
-    gx->bpSent = 1;
+    gx->bpSentNot = 1;
     gx->matColor[colIdx] = reg;
 }
 
@@ -565,7 +565,7 @@ void GXSetChanCtrl(GXChannelID chan, GXBool enable, GXColorSrc amb_src,
     SET_REG_FIELD(0x310, reg, 1, 10, (attn_fn != 0));
 
     GX_WRITE_XF_REG(idx + 14, reg);
-    gx->bpSent = 1;
+    gx->bpSentNot = 1;
     if (chan == GX_COLOR0A0) {
         GX_WRITE_XF_REG(16, reg);
     } else if (chan == GX_COLOR1A1) {

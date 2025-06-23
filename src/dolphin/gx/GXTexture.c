@@ -158,6 +158,11 @@ void __GetImageTileCount(enum _GXTexFmt fmt, u16 wd, u16 ht, u32 *rowTiles, u32 
     *cmpTiles = (fmt == GX_TF_RGBA8 || fmt == GX_TF_Z24X8) ? 2 : 1;
 }
 
+#define SOME_SET_REG_MACRO(reg, size, shift, val)                                                   \
+	do {                                                                                            \
+		(reg) = (u32)__rlwimi((u32)(reg), (val), (shift), (32 - (shift) - (size)), (31 - (shift))); \
+	} while (0);
+
 void GXInitTexObj(GXTexObj *obj, void *image_ptr, u16 width, u16 height, GXTexFmt format, GXTexWrapMode wrap_s, GXTexWrapMode wrap_t, u8 mipmap)
 {
     u32 imageBase;
@@ -190,7 +195,13 @@ void GXInitTexObj(GXTexObj *obj, void *image_ptr, u16 width, u16 height, GXTexFm
     if (mipmap != 0) {
         u8 lmax;
         t->flags |= 1;
-        t->mode0 = (t->mode0 & 0xFFFFFF1F) | 0xC0;
+
+        if (format == 8 || format == 9 || format == 10) {
+            t->mode0 = (t->mode0 & 0xFFFFFF1F) | 0xA0;
+        } else {
+            t->mode0 = (t->mode0 & 0xFFFFFF1F) | 0xC0;
+        }
+
         if (width > height) {
             maxLOD = 31 - __cntlzw(width);
         } else {
@@ -556,7 +567,7 @@ void GXLoadTexObjPreLoaded(GXTexObj *obj, GXTexRegion *region, GXTexMapID id)
     gx->tImage0[id] = t->image0;
     gx->tMode0[id] = t->mode0;
     gx->dirtyState |= 1;
-    gx->bpSent = 1;
+    gx->bpSentNot = 0;
 }
 
 void GXLoadTexObj(GXTexObj *obj, GXTexMapID id)
@@ -1037,7 +1048,7 @@ void GXSetTexCoordScaleManually(GXTexCoordID coord, u8 enable, u16 ss, u16 ts)
         SET_REG_FIELD(0x6DA, gx->suTs1[coord], 16, 0, (u16)(ts - 1));
         GX_WRITE_RAS_REG(gx->suTs0[coord]);
         GX_WRITE_RAS_REG(gx->suTs1[coord]);
-        gx->bpSent = 1;
+        gx->bpSentNot = 1;
     }
 }
 
@@ -1050,7 +1061,7 @@ void GXSetTexCoordCylWrap(GXTexCoordID coord, u8 s_enable, u8 t_enable)
     if (gx->tcsManEnab & (1 << coord)) {
         GX_WRITE_RAS_REG(gx->suTs0[coord]);
         GX_WRITE_RAS_REG(gx->suTs1[coord]);
-        gx->bpSent = 1;
+        gx->bpSentNot = 1;
     }
 }
 
@@ -1063,7 +1074,7 @@ void GXSetTexCoordBias(GXTexCoordID coord, u8 s_enable, u8 t_enable)
     if (gx->tcsManEnab & (1 << coord)) {
         GX_WRITE_RAS_REG(gx->suTs0[coord]);
         GX_WRITE_RAS_REG(gx->suTs1[coord]);
-        gx->bpSent = 1;
+        gx->bpSentNot = 1;
     }
 }
 
@@ -1084,7 +1095,7 @@ static void __SetSURegs(u32 tmap, u32 tcoord)
     SET_REG_FIELD(0x73D, gx->suTs1[tcoord], 1, 16, t_bias);
     GX_WRITE_RAS_REG(gx->suTs0[tcoord]);
     GX_WRITE_RAS_REG(gx->suTs1[tcoord]);
-    gx->bpSent = 1;
+    gx->bpSentNot = 0;
 }
 
 void __GXSetSUTexRegs(void)
@@ -1133,7 +1144,7 @@ void __GXSetSUTexRegs(void)
             } else {
                 coord = GET_REG_FIELD(*ptref, 3, 3);
             }
-            if ((tmap != 0xFF) && !(gx->tcsManEnab & (1 << coord))) {
+            if ((tmap != 0xFF) && !(gx->tcsManEnab & (1 << coord)) && (gx->tevTcEnab & (1 << i))) {
                 __SetSURegs(tmap, coord);
             }
         }
@@ -1144,4 +1155,62 @@ void __GXGetSUTexSize(GXTexCoordID coord, u16 *width, u16 *height)
 {
     *width = (u16)gx->suTs0[coord] + 1;
     *height = (u16)gx->suTs1[coord] + 1;
+}
+
+void __GXSetTmemConfig(u32 config) {
+    switch (config) {
+    case 1:
+        GX_WRITE_RAS_REG(0x8c0d8000);
+        GX_WRITE_RAS_REG(0x900dc000);
+
+        GX_WRITE_RAS_REG(0x8d0d8800);
+        GX_WRITE_RAS_REG(0x910dc800);
+
+        GX_WRITE_RAS_REG(0x8e0d9000);
+        GX_WRITE_RAS_REG(0x920dd000);
+
+        GX_WRITE_RAS_REG(0x8f0d9800);
+        GX_WRITE_RAS_REG(0x930dd800);
+
+        GX_WRITE_RAS_REG(0xac0da000);
+        GX_WRITE_RAS_REG(0xb00de000);
+
+        GX_WRITE_RAS_REG(0xad0da800);
+        GX_WRITE_RAS_REG(0xb10de800);
+
+        GX_WRITE_RAS_REG(0xae0db000);
+        GX_WRITE_RAS_REG(0xb20df000);
+
+        GX_WRITE_RAS_REG(0xaf0db800);
+        GX_WRITE_RAS_REG(0xb30df800);
+
+        break;
+    case 0:
+    default:
+        GX_WRITE_RAS_REG(0x8c0d8000);
+        GX_WRITE_RAS_REG(0x900dc000);
+
+        GX_WRITE_RAS_REG(0x8d0d8400);
+        GX_WRITE_RAS_REG(0x910dc400);
+
+        GX_WRITE_RAS_REG(0x8e0d8800);
+        GX_WRITE_RAS_REG(0x920dc800);
+
+        GX_WRITE_RAS_REG(0x8f0d8c00);
+        GX_WRITE_RAS_REG(0x930dcc00);
+
+        GX_WRITE_RAS_REG(0xac0d9000);
+        GX_WRITE_RAS_REG(0xb00dd000);
+
+        GX_WRITE_RAS_REG(0xad0d9400);
+        GX_WRITE_RAS_REG(0xb10dd400);
+
+        GX_WRITE_RAS_REG(0xae0d9800);
+        GX_WRITE_RAS_REG(0xb20dd800);
+
+        GX_WRITE_RAS_REG(0xaf0d9c00);
+        GX_WRITE_RAS_REG(0xb30ddc00);
+
+        break;
+    }
 }

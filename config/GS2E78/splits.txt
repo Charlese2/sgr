@@ -1853,7 +1853,10 @@ dolphin/card/CARDStat.c:
 
 dolphin/gx/GXInit.c:
 	.text       start:0x801A8CC4 end:0x801A9DB4
+	.bss        start:0x8046DA20 end:0x8046DF98
 	.sdata      start:0x80474250 end:0x80474258
+	.sbss       start:0x80475FE0 end:0x80475FF0
+	.sdata2     start:0x8047A9B8 end:0x8047A9D8
 
 dolphin/gx/GXFifo.c:
 	.text       start:0x801A9DB4 end:0x801AA554
@@ -1861,6 +1864,8 @@ dolphin/gx/GXFifo.c:
 
 dolphin/gx/GXAttr.c:
 	.text       start:0x801AA554 end:0x801AB700
+	.data       start:0x802189E0 end:0x80218B68
+	.sdata      start:0x80474258 end:0x80474268
 
 dolphin/gx/GXMisc.c:
 	.text       start:0x801AB700 end:0x801ABE18
@@ -1872,14 +1877,17 @@ dolphin/gx/GXGeometry.c:
 
 dolphin/gx/GXFrameBuf.c:
 	.text       start:0x801AC23C end:0x801AD028
+	.data       start:0x80218B98 end:0x80218C88
+	.sdata2     start:0x8047A9D8 end:0x8047A9E8
 
 dolphin/gx/GXLight.c:
 	.text       start:0x801AD028 end:0x801AD528
 
 dolphin/gx/GXTexture.c:
 	.text       start:0x801AD528 end:0x801AE388
-	.data       start:0x80218B98 end:0x80218D7C
-	.sdata      start:0x80474268 end:0x804742A0
+	.data       start:0x80218C88 end:0x80218DB8
+	.sdata      start:0x80474268 end:0x804742A8
+	.sdata2     start:0x8047A9E8 end:0x8047AA10
 
 dolphin/gx/GXBump.c:
 	.text       start:0x801AE388 end:0x801AE75C
@@ -1905,6 +1913,7 @@ dolphin/gx/GXTransform.c:
 
 dolphin/gx/GXPerf.c:
 	.text       start:0x801AFFD4 end:0x801B08D0
+	.data       start:0x80218E00 end:0x80218EF0
 
 metrotrk/mainloop.c:
 	.text       start:0x801B08D0 end:0x801B09C8

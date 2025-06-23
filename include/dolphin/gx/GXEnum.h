@@ -11,6 +11,47 @@ typedef u8 GXBool;
 #define GX_ENABLE ((GXBool)1)
 #define GX_DISABLE ((GXBool)0)
 
+typedef enum _GXCommand {
+	GX_CMD_LOAD_INDX_A = 0x20,
+	GX_CMD_LOAD_INDX_B = 0x28,
+	GX_CMD_LOAD_INDX_C = 0x30,
+	GX_CMD_LOAD_INDX_D = 0x38,
+
+	GX_CMD_LOAD_BP_REG = 0x61,
+	GX_CMD_LOAD_CP_REG = 0x08,
+	GX_CMD_LOAD_XF_REG = 0x10,
+
+	GX_CMD_CALL_DL = 0x40,
+	GX_CMD_INVL_VC = 0x48,
+
+	GX_CMD_NOP                 = 0x00,
+	GX_CMD_DRAW_QUADS          = 0x80,
+	GX_CMD_DRAW_TRIANGLES      = 0x90,
+	GX_CMD_DRAW_TRIANGLE_STRIP = 0x98,
+	GX_CMD_DRAW_TRIANGLE_FAN   = 0xA0,
+	GX_CMD_DRAW_LINES          = 0xA8,
+	GX_CMD_DRAW_LINE_STRIP     = 0xB0,
+	GX_CMD_DRAW_POINTS         = 0xB8,
+} GXCommand;
+
+// Commands for interacting with the GXFifo pipe.
+typedef enum _GXFifoCmd {
+	GX_FIFO_CMD_NOOP = 0x00, // no operation
+
+	GX_FIFO_CMD_LOAD_BP_REG = 0x61, // load blitting processor reg
+	GX_FIFO_CMD_LOAD_CP_REG = 0x08, // load command processor reg
+	GX_FIFO_CMD_LOAD_XF_REG = 0x10, // load transform unit reg
+
+	GX_FIFO_CMD_LOAD_INDX_A = 0x20, // load index A
+	GX_FIFO_CMD_LOAD_INDX_B = 0x28, // load index B
+	GX_FIFO_CMD_LOAD_INDX_C = 0x30, // load index C
+	GX_FIFO_CMD_LOAD_INDX_D = 0x38, // load index D
+
+	GX_FIFO_CMD_CALL_DL   = 0x40, // call displaylist
+	GX_FIFO_CMD_INVAL_VTX = 0x48, // invalid vertex
+
+} GXFifoCmd;
+
 typedef enum _GXProjectionType
 {
     GX_PERSPECTIVE,

@@ -18,8 +18,9 @@ void GXSetMisc(GXMiscToken token, u32 val)
         break;
     
     case GX_MT_XF_FLUSH:
-        gx->vNum = 1;
-        gx->vNum = !gx->vLim;
+        gx->vNum = val;
+        gx->vNumNot = !gx->vNum;
+        gx->bpSentNot = 1;
 
         if (gx->vNum != 0) {
             gx->dirtyState |= 8;
@@ -45,8 +46,8 @@ void GXFlush(void)
     if (gx->dirtyState) {
         __GXSetDirtyState();
     }
-    for (i = 32; i > 0; i--) {
-        GX_WRITE_U8(0);
+    for (i = 8; i > 0; i--) {
+        GX_WRITE_U32(0);
     }
     PPCSync();
 }
@@ -93,7 +94,7 @@ void GXSetDrawSync(u16 token)
     GX_WRITE_RAS_REG(reg);
     GXFlush();
     OSRestoreInterrupts(enabled);
-    gx->bpSent = 1;
+    gx->bpSentNot = 0;
 }
 
 u16 GXReadDrawSync(void)
@@ -140,7 +141,7 @@ void GXPixModeSync(void)
 {
     CHECK_GXBEGIN(0x20D, "GXPixModeSync");
     GX_WRITE_RAS_REG(gx->peCtrl);
-    gx->bpSent = 0;
+    gx->bpSentNot = 0;
 }
 
 void GXTexModeSync(void)
@@ -150,7 +151,7 @@ void GXTexModeSync(void)
     CHECK_GXBEGIN(0x225, "GXTexModeSync");
     reg = 0x63000000;
     GX_WRITE_RAS_REG(reg);
-    gx->bpSent = 1;
+    gx->bpSentNot = 1;
 }
 
 #if DEBUG
@@ -158,7 +159,7 @@ void __GXBypass(u32 reg)
 {
     CHECK_GXBEGIN(0x23B, "__GXBypass");
     GX_WRITE_RAS_REG(reg);
-    gx->bpSent = 1;
+    gx->bpSentNot = 1;
 }
 
 u16 __GXReadPEReg(u32 reg)

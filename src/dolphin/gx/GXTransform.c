@@ -63,7 +63,7 @@ void GXSetProjection(f32 mtx[4][4], GXProjectionType type)
     GX_WRITE_XF_REG_F(36, gx->projMtx[4]);
     GX_WRITE_XF_REG_F(37, gx->projMtx[5]);
     GX_WRITE_XF_REG_2(38, gx->projType);
-    gx->bpSent = 1;
+    gx->bpSentNot = GX_TRUE;
 }
 
 void GXSetProjectionv(f32 *ptr)
@@ -90,7 +90,7 @@ void GXSetProjectionv(f32 *ptr)
     GX_WRITE_XF_REG_F(36, gx->projMtx[4]);
     GX_WRITE_XF_REG_F(37, gx->projMtx[5]);
     GX_WRITE_XF_REG_2(38, gx->projType);
-    gx->bpSent = 1;
+    gx->bpSentNot = GX_TRUE;
 }
 
 #define qr0 0
@@ -420,7 +420,7 @@ void GXSetViewportJitter(f32 left, f32 top, f32 wd, f32 ht, f32 nearz, f32 farz,
     GX_WRITE_XF_REG_F(29, ox);
     GX_WRITE_XF_REG_F(30, oy);
     GX_WRITE_XF_REG_F(31, oz);
-    gx->bpSent = 1;
+    gx->bpSentNot = GX_TRUE;
 }
 
 void GXSetViewport(f32 left, f32 top, f32 wd, f32 ht, f32 nearz, f32 farz)
@@ -449,10 +449,10 @@ void GXSetScissor(u32 left, u32 top, u32 wd, u32 ht)
 
     CHECK_GXBEGIN(0x3B4, "GXSetScissor");
 
-    ASSERTMSGLINE(0x3B5, left < 1708, "GXSetScissor: Left origin > 1708");
-    ASSERTMSGLINE(0x3B6, top < 1708, "GXSetScissor: top origin > 1708");
-    ASSERTMSGLINE(0x3B7, left + wd < 1708, "GXSetScissor: right edge > 1708");
-    ASSERTMSGLINE(0x3B8, top + ht < 1708, "GXSetScissor: bottom edge > 1708");
+    ASSERTMSGLINE(0x3B5, left < 1706, "GXSetScissor: Left origin > 1706");
+    ASSERTMSGLINE(0x3B6, top < 1706, "GXSetScissor: top origin > 1706");
+    ASSERTMSGLINE(0x3B7, left + wd < 1706, "GXSetScissor: right edge > 1706");
+    ASSERTMSGLINE(0x3B8, top + ht < 1706, "GXSetScissor: bottom edge > 1706");
 
     tp = top + 342;
     lf = left + 342;
@@ -466,7 +466,7 @@ void GXSetScissor(u32 left, u32 top, u32 wd, u32 ht)
 
     GX_WRITE_RAS_REG(gx->suScis0);
     GX_WRITE_RAS_REG(gx->suScis1);
-    gx->bpSent = 0;
+    gx->bpSentNot = GX_FALSE;
 }
 
 void GXGetScissor(u32 *left, u32 *top, u32 *wd, u32 *ht)
@@ -497,8 +497,8 @@ void GXSetScissorBoxOffset(s32 x_off, s32 y_off)
 
     CHECK_GXBEGIN(0x3FB, "GXSetScissorBoxOffset");
 
-    ASSERTMSGLINE(0x3FE, (u32)(x_off + 340) < 2048, "GXSetScissorBoxOffset: x offset > 2048");
-    ASSERTMSGLINE(0x400, (u32)(y_off + 340) < 2048, "GXSetScissorBoxOffset: y offset > 2048");
+    ASSERTMSGLINE(0x3FE, (u32)(x_off + 342) < 2048, "GXSetScissorBoxOffset: x offset > 2048");
+    ASSERTMSGLINE(0x400, (u32)(y_off + 342) < 2048, "GXSetScissorBoxOffset: y offset > 2048");
 
     hx = (u32)(x_off + 342) >> 1;
     hy = (u32)(y_off + 342) >> 1;
@@ -507,14 +507,14 @@ void GXSetScissorBoxOffset(s32 x_off, s32 y_off)
     SET_REG_FIELD(0x406, reg, 10, 10, hy);
     SET_REG_FIELD(0x407, reg, 8, 24, 0x59);
     GX_WRITE_RAS_REG(reg);
-    gx->bpSent = 0;
+    gx->bpSentNot = GX_FALSE;
 }
 
 void GXSetClipMode(GXClipMode mode)
 {
     CHECK_GXBEGIN(0x41B, "GXSetClipMode");
     GX_WRITE_XF_REG(5, mode);
-    gx->bpSent = 1;
+    gx->bpSentNot = GX_TRUE;
 }
 
 void __GXSetMatrixIndex(GXAttr matIdxAttr)
@@ -526,5 +526,5 @@ void __GXSetMatrixIndex(GXAttr matIdxAttr)
         GX_WRITE_SOME_REG4(8, 0x40, gx->matIdxB, -12);
         GX_WRITE_XF_REG(25, gx->matIdxB);
     }
-    gx->bpSent = 1;
+    gx->bpSentNot = GX_TRUE;
 }

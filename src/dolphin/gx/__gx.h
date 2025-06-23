@@ -179,11 +179,14 @@ void __GXSetGenMode(void);
 
 /* GXInit.c */
 
+void __GXInitGX(void);
+
 struct __GXData_struct {
     // total size: 0x4F4
-    unsigned short vNum; // offset 0x0, size 0x2
-    unsigned short bpSent; // offset 0x2, size 0x2
-    unsigned long vLim; // offset 0x4, size 0x4
+    unsigned short vNumNot; // offset 0x0, size 0x2
+    unsigned short bpSentNot; // offset 0x2, size 0x2
+    unsigned short vNum; // offset 0x4, size 0x2
+    unsigned short vLim; // offset 0x6, size 0x2
     unsigned long cpEnable; // offset 0x8, size 0x4
     unsigned long cpStatus; // offset 0xC, size 0x4
     unsigned long cpClr; // offset 0x10, size 0x4
@@ -249,6 +252,7 @@ struct __GXData_struct {
     unsigned long tMode0[8]; // offset 0x47C, size 0x20
     unsigned long texmapId[16]; // offset 0x49C, size 0x40
     unsigned long tcsManEnab; // offset 0x4DC, size 0x4
+    unsigned long tevTcEnab; // offset 0x4E0, size 0x4
     GXPerf0 perf0; // offset 0x4E0, size 0x4
     GXPerf1 perf1; // offset 0x4E4, size 0x4
     unsigned long perfSel; // offset 0x4E8, size 0x4
@@ -256,7 +260,7 @@ struct __GXData_struct {
     unsigned char dlSaveContext; // offset 0x4ED, size 0x1
     unsigned char dirtyVAT; // offset 0x4EE, size 0x1
     unsigned long dirtyState; // offset 0x4F0, size 0x4
-}; // size = 0x4F4
+}; // size = 0x4F8
 
 extern struct __GXData_struct *gx;
 extern u16 *__memReg;
@@ -288,6 +292,7 @@ void __GXSetRange(float nearz, float fgSideX);
 void __GetImageTileCount(GXTexFmt fmt, u16 wd, u16 ht, u32 *rowTiles, u32 *colTiles, u32 *cmpTiles);
 void __GXSetSUTexRegs(void);
 void __GXGetSUTexSize(GXTexCoordID coord, u16 *width, u16 *height);
+void __GXSetTmemConfig(u32 config);
 
 /* GXTransform.c */
 
@@ -417,7 +422,9 @@ typedef enum {
     GXWARN_INV_MTX_VAL = 110,
     GXWARN_ADDR_UNINIT = 111,
     GXWARN_REG_UNINIT = 112,
-    GXWARN_MAX = 113,
+    GXWARN_DL_INV_CMD = 113,
+    GXWARN_DL_NESTED = 114,
+    GXWARN_MAX = 115,
 } GXWarnID;
 
 #define __GX_WARN(id) (__gxVerif->cb(GX_WARN_SEVERE, (id), __gxvWarnings[(id)]))
@@ -433,6 +440,24 @@ do { \
     sprintf(__gxvDummyStr, __gxvWarnings[(id)], __VA_ARGS__); \
     __gxVerif->cb(level, (id), __gxvDummyStr); \
 } while (0)
+
+#define __GX_WARN3(id) (__gxVerif->cb(__gxvWarnLev[(id)], (id), __gxvWarnings[(id)]))
+#define __GX_WARN3F(id, ...) \
+do { \
+    sprintf(__gxvDummyStr, __gxvWarnings[(id)], __VA_ARGS__); \
+    __gxVerif->cb(__gxvWarnLev[(id)], (u32)(id), __gxvDummyStr); \
+} while (0)
+
+#define __GX_WARN3_CHECK(id) \
+do { \
+    if (__gxVerif->verifyLevel >= __gxvWarnLev[(u32)(id)]) \
+        __GX_WARN3(id); \
+} while(0)
+#define __GX_WARN3F_CHECK(id, ...) \
+do { \
+    if (__gxVerif->verifyLevel >= __gxvWarnLev[(id)]) \
+        __GX_WARN3F(id, __VA_ARGS__); \
+} while(0)
 
 struct __GXVerifyData {
     // total size: 0x13F8
@@ -452,7 +477,8 @@ struct __GXVerifyData {
 };
 
 extern struct __GXVerifyData *__gxVerif;
-extern char *__gxvWarnings[113];
+extern char *__gxvWarnings[115];
+extern GXWarningLevel __gxvWarnLev[115];
 extern char __gxvDummyStr[256];
 
 void __GXVerifyGlobal(void);

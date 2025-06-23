@@ -103,7 +103,11 @@ void GXSetGPMetric(GXPerf0 perf0, GXPerf1 perf1)
 
     gx->perf0 = perf0;
     switch (gx->perf0) {
-    case GX_PERF0_VERTICES:            reg = 0x273;      GX_WRITE_XF_REG(6, reg); break;
+    case GX_PERF0_VERTICES:
+        ASSERTMSGLINE(258, 0, "The use of GX_PERF0_VERTICES is prohibited. Use GX_PERF1_VERTICES instead.\n");
+        reg = 0x273;
+        GX_WRITE_XF_REG(6, reg);
+        break;
     case GX_PERF0_CLIP_VTX:            reg = 0x14A;      GX_WRITE_XF_REG(6, reg); break;
     case GX_PERF0_CLIP_CLKS:           reg = 0x16B;      GX_WRITE_XF_REG(6, reg); break;
     case GX_PERF0_XF_WAIT_IN:          reg = 0x84;       GX_WRITE_XF_REG(6, reg); break;
@@ -113,23 +117,24 @@ void GXSetGPMetric(GXPerf0 perf0, GXPerf1 perf1)
     case GX_PERF0_XF_BOT_CLKS:         reg = 0x231;      GX_WRITE_XF_REG(6, reg); break;
     case GX_PERF0_XF_REGLD_CLKS:       reg = 0x1AD;      GX_WRITE_XF_REG(6, reg); break;
     case GX_PERF0_XF_REGRD_CLKS:       reg = 0x1CE;      GX_WRITE_XF_REG(6, reg); break;
-    case GX_PERF0_TRIANGLES:           reg = 0x2303AE7F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_CLOCKS:              reg = 0x21;       GX_WRITE_XF_REG(6, reg); break;
     case GX_PERF0_CLIP_RATIO:          reg = 0x153;      GX_WRITE_XF_REG(6, reg); break;
-    case GX_PERF0_TRIANGLES_CULLED:    reg = 0x23038E7F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_PASSED:    reg = 0x23039E7F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_SCISSORED: reg = 0x23031E7F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_0TEX:      reg = 0x2303AC3F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_1TEX:      reg = 0x2303AC7F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_2TEX:      reg = 0x2303ACBF; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_3TEX:      reg = 0x2303ACFF; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_4TEX:      reg = 0x2303AD3F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_5TEX:      reg = 0x2303AD7F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_6TEX:      reg = 0x2303ADBF; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_7TEX:      reg = 0x2303ADFF; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_8TEX:      reg = 0x2303AE3F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_0CLR:      reg = 0x2303A27F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_1CLR:      reg = 0x2303A67F; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_TRIANGLES_2CLR:      reg = 0x2303AA7F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES:           reg = 0x2300AE7F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_CULLED:    reg = 0x23008E7F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_PASSED:    reg = 0x23009E7F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_SCISSORED: reg = 0x23001E7F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_0TEX:      reg = 0x2300AC3F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_1TEX:      reg = 0x2300AC7F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_2TEX:      reg = 0x2300ACBF; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_3TEX:      reg = 0x2300ACFF; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_4TEX:      reg = 0x2300AD3F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_5TEX:      reg = 0x2300AD7F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_6TEX:      reg = 0x2300ADBF; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_7TEX:      reg = 0x2300ADFF; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_8TEX:      reg = 0x2300AE3F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_0CLR:      reg = 0x2300A27F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_1CLR:      reg = 0x2300A67F; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF0_TRIANGLES_2CLR:      reg = 0x2300AA7F; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF0_QUAD_0CVG:           reg = 0x2402C0C6; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF0_QUAD_NON0CVG:        reg = 0x2402C16B; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF0_QUAD_1CVG:           reg = 0x2402C0E7; GX_WRITE_RAS_REG(reg); break;
@@ -137,7 +142,6 @@ void GXSetGPMetric(GXPerf0 perf0, GXPerf1 perf1)
     case GX_PERF0_QUAD_3CVG:           reg = 0x2402C129; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF0_QUAD_4CVG:           reg = 0x2402C14A; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF0_AVG_QUAD_CNT:        reg = 0x2402C1AD; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF0_CLOCKS:              reg = 0x21; GX_WRITE_XF_REG(6, reg); break;
     case GX_PERF0_NONE: break;
     default:
         ASSERTMSGLINE(0x1DA, 0, "GXSetGPMetric: Invalid GXPerf0 metric name");
@@ -150,11 +154,12 @@ void GXSetGPMetric(GXPerf0 perf0, GXPerf1 perf1)
     case GX_PERF1_TX_IDLE:     reg = 0x67000084; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF1_TX_REGS:     reg = 0x67000063; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF1_TX_MEMSTALL: reg = 0x67000129; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF1_TC_MISS:     reg = 0x67000252; GX_WRITE_RAS_REG(reg); break;
+    case GX_PERF1_CLOCKS:      reg = 0x67000021; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF1_TC_CHECK1_2: reg = 0x6700014B; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF1_TC_CHECK3_4: reg = 0x6700018D; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF1_TC_CHECK5_6: reg = 0x670001CF; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF1_TC_CHECK7_8: reg = 0x67000211; GX_WRITE_RAS_REG(reg); break;
-    case GX_PERF1_TC_MISS:     reg = 0x67000252; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF1_VC_ELEMQ_FULL:    SET_REG_FIELD(0, gx->perfSel, 4, 4, 2); GX_WRITE_SOME_REG4(8, 0x20, gx->perfSel, -12); break;
     case GX_PERF1_VC_MISSQ_FULL:    SET_REG_FIELD(0, gx->perfSel, 4, 4, 3); GX_WRITE_SOME_REG4(8, 0x20, gx->perfSel, -12); break;
     case GX_PERF1_VC_MEMREQ_FULL:   SET_REG_FIELD(0, gx->perfSel, 4, 4, 4); GX_WRITE_SOME_REG4(8, 0x20, gx->perfSel, -12); break;
@@ -167,14 +172,13 @@ void GXSetGPMetric(GXPerf0 perf0, GXPerf1 perf1)
     case GX_PERF1_CALL_REQ:    reg = 3; __cpReg[3] = reg; break;
     case GX_PERF1_VC_MISS_REQ: reg = 4; __cpReg[3] = reg; break;
     case GX_PERF1_CP_ALL_REQ:  reg = 5; __cpReg[3] = reg; break;
-    case GX_PERF1_CLOCKS: reg = 0x67000021; GX_WRITE_RAS_REG(reg); break;
     case GX_PERF1_NONE: break;
     default:
         ASSERTMSGLINE(0x26B, 0, "GXSetGPMetric: Invalid GXPerf1 metric name");
         break;
     }
 
-    gx->bpSent = 1;
+    gx->bpSentNot = 0;
 }
 
 void GXReadGPMetric(u32 *cnt0, u32 *cnt1)
@@ -416,7 +420,7 @@ void GXClearPixMetric(void)
     GX_WRITE_RAS_REG(reg);
     reg = 0x57000AAA;
     GX_WRITE_RAS_REG(reg);
-    gx->bpSent = 1;
+    gx->bpSentNot = 1;
 }
 
 void GXSetVCacheMetric(GXVCachePerf attr)
@@ -458,7 +462,7 @@ void GXInitXfRasMetric(void)
     GX_WRITE_RAS_REG(reg);
     reg = 0x31000;
     GX_WRITE_XF_REG(6, reg);
-    gx->bpSent = 0;
+    gx->bpSentNot = 0;
 }
 
 void GXReadXfRasMetric(u32 *xf_wait_in, u32 *xf_wait_out, u32 *ras_busy, u32 *clocks)

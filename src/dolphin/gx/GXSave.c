@@ -76,9 +76,29 @@ static void __SaveCPRegs(u8 reg, u8 vatIdx, u32 data)
         }
         break;
     default:
-        OSReport("GX DisplayList: Invalid CP Stream Register Address 0x%x\n", reg);
+        if (__gxVerif->verifyLevel >= __gxvWarnLev[113]) {
+            (*__gxVerif->cb)(__gxvWarnLev[113], 113, __gxvWarnings[113]);
+        }
+        OSReport("[Invalid CP Stream Register Address 0x%x\n]", reg);
         break;
     }
+}
+
+static void __ReconstVtxStatus(u8 vatIdx) {
+    u32 vat;
+
+    if ((gx->vcdLo & (3 << 11)) >> 11) {
+        vat = gx->vatA[vatIdx];
+
+        if ((vat >> 9) & 1) {
+            gx->hasNrms = GX_FALSE;
+            gx->hasBiNrms = GX_TRUE;
+        } else {
+            gx->hasNrms = GX_TRUE;
+            gx->hasBiNrms = GX_FALSE;
+        }
+    }
+
 }
 
 static u32 vtxCompSize[5] = { 1, 1, 2, 2, 4 };
@@ -126,20 +146,31 @@ static u32 GetAttrSize(u8 vatIdx, u32 attrIdx)
     case 10:
         vcd = gx->vcdLo;
         vat = gx->vatA[vatIdx & 0xFF];
-        if ((vat >> 9) & 1) {
-            nc = 8;
-        } else {
-            nc = 3;
-        }
         switch (GET_REG_FIELD(vcd, 2, 11)) {
         case 0:
             return 0;
         case 2:
-            return 1;
+            if (((vat >> 9) & 1) && (vat >> 31)) {
+                nc = 3;
+            } else {
+                nc = 1;
+            }
+            return nc;
         case 3:
-            return 2;
+            if (((vat >> 9) & 1) && (vat >> 31)) {
+                nc = 6;
+            } else {
+                nc = 2;
+            }
+            return nc;
         case 1:
-            return (((vat >> 9) & 1) + nc) * vtxCompSize[(vat >> 10) & 7];
+            if ((vat >> 9) & 1) {
+                nc = 9;
+            } else {
+                nc = 3;
+            }
+
+            return nc * vtxCompSize[(vat >> 10) & 7];
         }
         break;
     case 11:
@@ -311,6 +342,7 @@ void __GXShadowDispList(void *list, u32 nbytes)
     u32 reg32;
     u32 d32;
     u8 reg8;
+    u8 cpAddr;
     u32 i;
     u32 addr;
     u32 cnt;
@@ -322,9 +354,10 @@ void __GXShadowDispList(void *list, u32 nbytes)
     dlist = list;
     dlistSize = nbytes;
     bytesRead = 0;
+    DPF("Displaylist IN\n");
     while (dlistSize > bytesRead) {
         if (!__ReadMem(&cmd, 1)) {
-            return;
+            break;
         }
         cmdOp = (u32)GET_REG_FIELD((u32)cmd, 5, 3);
         vatIdx = cmd & 7;
@@ -339,12 +372,15 @@ void __GXShadowDispList(void *list, u32 nbytes)
         case 21:
         case 22:
         case 23:
+            __ReconstVtxStatus(vatIdx);
             __GXVerifyState(vatIdx);
             __ParseVertexData(vatIdx);
             break;
         case 1:
             if (__ReadMem(&reg8, 1) && __ReadMem(&d32, 4)) {
-                __SaveCPRegs(reg8, vatIdx, d32);
+                vatIdx = reg8 & 0xF;
+                cpAddr = (reg8 & 0xF0) >> 4;
+                __SaveCPRegs(cpAddr, vatIdx, d32);
             }
             break;
         case 2:
@@ -371,7 +407,10 @@ void __GXShadowDispList(void *list, u32 nbytes)
             }
             break;
         case 8:
-            OSReport("GX DisplayList: Nested Display Lists\n");
+            // OSReport("GX DisplayList: Nested Display Lists\n");
+            if (__gxVerif->verifyLevel >= __gxvWarnLev[114]) {
+                (*__gxVerif->cb)(__gxvWarnLev[114], 114, __gxvWarnings[114]);
+            }
             return;
         case 12:
         case 13:
@@ -381,10 +420,15 @@ void __GXShadowDispList(void *list, u32 nbytes)
             }
             break;
         default:
-            OSReport("GX DisplayList: Bad Display List Command: %d\n", cmdOp);
+            if (__gxVerif->verifyLevel >= __gxvWarnLev[113]) {
+                (*__gxVerif->cb)(__gxvWarnLev[113], 113, __gxvWarnings[113]);
+            }
+            OSReport("[Bad Display List Command: %d\n]", cmdOp);
             break;
         }
     }
+
+    DPF("Displaylist OUT\n");
 }
 
 void __GXShadowIndexState(u32 idx_reg, u32 reg_data)
@@ -405,6 +449,7 @@ void __GXShadowIndexState(u32 idx_reg, u32 reg_data)
     cnt = (reg_data >> 12) & 0xF;
     index = reg_data >> 16;
     memAddr = (u32 *)((u8 *)basePtr + (index * stride));
+    cnt++;
 
     while (cnt-- != 0) {
         data = *memAddr;

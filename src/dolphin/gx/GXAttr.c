@@ -34,7 +34,7 @@ static void __GXXfVtxSpecs(void)
     nTex += GET_REG_FIELD(gx->vcdHi, 2, 14) ? 1 : 0;
     reg = (nCols) | (nNrm << 2) | (nTex << 4);
     GX_WRITE_XF_REG(8, reg);
-    gx->bpSent = 0;
+    gx->bpSentNot = 1;
 }
 
 static inline void SETVCDATTR(GXAttr Attr, GXAttrType Type)
@@ -51,15 +51,21 @@ static inline void SETVCDATTR(GXAttr Attr, GXAttrType Type)
     case GX_VA_TEX7MTXIDX: SET_REG_FIELD(0xB0, gx->vcdLo, 1, 8, Type); break;
     case GX_VA_POS:        SET_REG_FIELD(0xB1, gx->vcdLo, 2, 9, Type); break;
     case GX_VA_NRM:
-        gx->hasNrms = (Type != 0);
         if (Type != GX_NONE) {
+            gx->hasNrms = GX_TRUE;
+            gx->hasBiNrms = GX_FALSE;
             gx->nrmType = Type;
+        } else {
+            gx->hasNrms = GX_FALSE;
         }
         break;
     case GX_VA_NBT:
-        gx->hasBiNrms = (Type != 0);
         if (Type != GX_NONE) {
+            gx->hasBiNrms = GX_TRUE;
+            gx->hasNrms = GX_FALSE;
             gx->nrmType = Type;
+        } else {
+            gx->hasBiNrms = GX_FALSE;
         }
         break;
     case GX_VA_CLR0: SET_REG_FIELD(0xBA, gx->vcdLo, 2, 13, Type); break;
@@ -110,9 +116,6 @@ void GXSetVtxDescv(const GXVtxDescList *attrPtr)
 
 void __GXSetVCD(void)
 {
-    static u8 tbl1[] = { 0, 4, 1, 2 };
-    static u8 tbl2[] = { 0, 8, 1, 2 };
-    static u8 tbl3[] = { 0, 12, 1, 2 };
     unsigned long vlm;
     unsigned long b;
     unsigned long vl;
@@ -121,9 +124,26 @@ void __GXSetVCD(void)
     GX_WRITE_SOME_REG4(8, 0x50, gx->vcdLo, -12);
     GX_WRITE_SOME_REG4(8, 0x60, gx->vcdHi, -12);
     __GXXfVtxSpecs();
+}
+
+void __GXCalculateVLim(void) {
+    static u8 tbl1[] = { 0, 4, 1, 2 };
+    static u8 tbl2[] = { 0, 8, 1, 2 };
+    static u8 tbl3[] = { 0, 12, 1, 2 };
+
+    GXCompCnt nc = 0;
+    u32 vlm;
+    u32 b;
+    u32 vl;
+    u32 vh;
+    u32 va;
+
     if (gx->vNum != 0) {
         vl = gx->vcdLo;
         vh = gx->vcdHi;
+        va = gx->vatA[0];
+        nc = GET_REG_FIELD(va, 1, 9);
+
         vlm  = GET_REG_FIELD(vl, 1, 0);
         vlm += (u8)GET_REG_FIELD(vl, 1, 1);
         vlm += (u8)GET_REG_FIELD(vl, 1, 2);
@@ -134,7 +154,13 @@ void __GXSetVCD(void)
         vlm += (u8)GET_REG_FIELD(vl, 1, 7);
         vlm += (u8)GET_REG_FIELD(vl, 1, 8);
         vlm += tbl3[(u8)GET_REG_FIELD(vl, 2, 9)];
-        b = (gx->hasBiNrms << 1) + 1;
+        
+        if (nc == 1) {
+            b = 3;
+        } else {
+            b = 1;
+        }
+
         vlm += tbl3[(u8)GET_REG_FIELD(vl, 2, 11)] * b;
         vlm += tbl1[(u8)GET_REG_FIELD(vl, 2, 13)];
         vlm += tbl1[(u8)GET_REG_FIELD(vl, 2, 15)];
