@@ -1,14 +1,24 @@
-#include "game/sound_3d.h"
 #include "game/snd.h"
+#include "game/sound_3d.h"
 
-extern sound_3d SndInstances[MAX_SND_INSTANCES];
-extern sound_3d AmbientSounds[MAX_AMBIENT_SOUNDS];
+class volume_info {
+  public:
+    float m_soundVolume;
+    float m_voiceVolume;
+    float m_musicVolume;
+};
+
+extern volume_info volumeInfo;
 
 class sound_header {
     char header[32];
 };
 
-void InitializeSoundSystem();
-void ReinitializeSoundSystems(void);
-void SetupSoundEffect(sound_3d *soundEffect);
-sound_header *GetSoundHeader(char *filename);
+class SoundConvert {
+  public:
+    static void InitializeSoundSystem();
+    static void ReinitializeSoundSystems(void);
+    static void SetupSoundEffect(sound_3d *soundEffect);
+    static float GetSoundVolume(int type) { return volumeInfo.m_soundVolume; };
+    static sound_header *GetSoundHeader(char *filename);
+};

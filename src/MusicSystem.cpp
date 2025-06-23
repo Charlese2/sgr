@@ -1,6 +1,8 @@
 #include "game/MusicSystem.h"
 #include "dolphin/dtk.h"
 
+MusicSystem gMusicSystem;
+
 void MusicSystem::LoadMusic(void) {
     
 }

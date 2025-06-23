@@ -1,12 +1,22 @@
 #ifndef SOUND_3D_H
 #define SOUND_3D_H
 
+#include "game/snd.h"
 #include "game/vector.h"
 #include "game/timestamp.h"
 #include "dolphin/types.h"
 
 class sound_3d {
   public:
+    static void set_sound_volume(int type, float volume);
+    static void set_music_volume(float volume);
+    static void snd_cleanup(u32 unk1, u32 unk2);
+    static void snd_mark(void);
+    static void snd_release(void);
+    static void snd_setup(void);
+    static void snd_init(void);
+    static void snd_ambient_mask(void);
+
     char unk0;
     char unk1;
     u16 unk2;
@@ -26,11 +36,7 @@ class sound_3d {
     RealtimeTimer unk48;
 };
 
-void snd_cleanup(unsigned int, unsigned int);
-void snd_mark(void);
-void snd_release(void);
-void snd_setup(void);
-void snd_init(void);
-void snd_ambient_mask(void);
+extern class sound_3d SndInstances[MAX_SND_INSTANCES];
+extern sound_3d AmbientSounds[MAX_AMBIENT_SOUNDS];
 
 #endif // SOUND_3D_H

@@ -28,20 +28,38 @@
 
 enum SndInstanceType { SND_INSTANCE = 6, AMBIENT_SOUND };
 
-typedef struct {
-    bool field0_0x0;
-    bool filed1_0x0;
-    bool field2_0x2;
-    bool field3_0x3;
-    bool field4_0x4;
-    bool field5_0x5;
-    bool field6_0x6;
-    bool field7_0x7;
-    float sound_effect_volume;
-    float voice_volume;
-    float music_volume;
-    bool special_sound_mode;
-} SoundInfo;
+class sound_info {
+  public:
+    sound_info() {
+        unk0                  = true;
+        unk1                  = false;
+        unk2                  = false;
+        unk3                  = true;
+        unk4                  = false;
+        m_sound_effect_volume = 0.5f;
+        m_voice_volume        = 0.5f;
+        m_music_volume        = 0.5f;
+        m_special_sound_mode  = true;
+    }
+
+    bool unk0;
+    bool unk1;
+    bool unk2;
+    bool unk3;
+    bool unk4;
+    bool unk5;
+    bool unk6;
+    bool unk7;
+    float m_sound_effect_volume;
+    float m_voice_volume;
+    float m_music_volume;
+    bool m_special_sound_mode;
+};
+
+class sound_volume {
+  public:
+    sound_info m_sound_info;
+};
 
 class sound_data {
   public:
@@ -71,8 +89,8 @@ class snd_instance {
     AXART_SOUND m_AXArtSound;
     AXART_VOLUME m_AXARTVolume;
     AXART_PANNING m_AXARTPanning;
-    int m_length;
-    int m_lengthMilliseconds;
+    int m_length;             // TODO: Name could be wrong for how it is functioning
+    int m_lengthMilliseconds; // TODO: Name could be wrong for how it is functioning
     s32 m_attenuation;
     s8 m_pan;
     bool m_finishedPlaying;
@@ -100,11 +118,11 @@ class SoundSystem {
   public:
     SoundSystem();
     static void ProcessSounds(void);
+    sound_header *GetAudioFileSoundHeader(int index); // TODO: Name of the function might be wrong
     static void RemoveSndInstance(snd_instance *sound);
-    sound_header *GetAudioFileSoundHeader(int index);
     void Initialize(void);
-    static void *AllocateReverbMemory(u32 unk);
     static void FreeReverbMemory(void *);
+    static void *AllocateReverbMemory(u32 unk);
     u32 GetEntry(char *filename, bool bIsPersistent, bool bFindExisting);
     void CacheSoundFromDisk(void);
     sound_load *AddToLoadQueue(int instance);
@@ -117,8 +135,9 @@ class SoundSystem {
     void SetAmbientSoundPanAndVolume(int instance, float pan, float volume);
     void BlankUnknown1(int unk, float unk2);
     void SetSndInstancePanAndVolume(int instance, float pan, float volume);
-    void PlaySndInstance(snd_instance *pSndInstance, s32 pan, float volume, u32 length, bool axVoiceState, bool bIsSndInstance);
     void PlayAmbientSound(int instance);
+    void CleanupPlayedAmbientSound(int index);
+    void PlaySndInstance(snd_instance *pSndInstance, s32 pan, float volume, u32 length, bool axVoiceState, bool bIsSndInstance);
     int PlayAmbientSoundFile(int instance, s32 pan, float volume, int length);
     void BlankUnknown2(int unk, float unk2, int unk3, float unk4);
     int PlaySndInstanceFile(int instance, s32 pan, float volume);
@@ -127,9 +146,8 @@ class SoundSystem {
 #ifdef DEBUG
     void Shutdown(void);
 #else
-    void Shutdown(bool);
+    void Shutdown(bool bShutdownDiskTrack);
 #endif
-    void CleanupPlayedAmbientSound(int index);
     void ReinitializeAudio(bool state);
     void InitializeAudio(void);
     play_slot *GetSndInstancePlaySlot(snd_instance *pInstance);

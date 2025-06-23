@@ -1,7 +1,12 @@
 #include "dolphin/types.h"
 
+void set_sound_volume();
+void set_music_volume();
+void print_to_tty();
+void print_break_to_tty();
 void show_title_credits();
 void hide_title_credits();
+void render_title_credits();
 
 typedef struct {
     u16 unk0;

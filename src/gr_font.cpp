@@ -1,4 +1,5 @@
 #include "game/gr.h"
+#include "game/gr_font.h"
 #include "game/FileSystem.h"
 #include "game/living_entity.h"
 #include "game/macros.h"
@@ -11,18 +12,20 @@ void DrawTextOnScreen2D(int width_offset, int height_offset, char *text, int par
     char character;
 
     left_pos = width_offset;
-    top_pos = height_offset;
+    top_pos  = height_offset;
     if (text) {
         left_pos = width_offset;
         gRenderSystem.SetupTextureDrawIn3DSpace();
+#ifdef DEBUG
         gRenderSystem.Setup2DElementDraw();
+#else
+        gRenderSystem.Setup2DElementDraw(false);
+#endif
 
         for (; text; text++) {
             character = *text;
         }
-
     }
-
 }
 
 void draw_mempool_info_on_new_line(char *text, int param_2) {

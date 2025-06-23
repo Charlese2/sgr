@@ -18,7 +18,7 @@
 #include "dolphin/types.h"
 
 SoundSystem gSoundSystem;
-extern SoundInfo soundInfo;
+extern sound_info soundInfo;
 char buffer[2048];
 
 SoundSystem::SoundSystem() {
@@ -87,10 +87,6 @@ void SoundSystem::ProcessSounds(void) {
 #endif
 }
 
-#ifndef DEBUG
-sound_header *SoundSystem::GetAudioFileSoundHeader(int index) { return m_audio_file[index].m_pSoundHeader; }
-#endif
-
 void SoundSystem::RemoveSndInstance(snd_instance *sound) {
     AXARTRemoveSound(&sound->m_AXArtSound);
     sound->m_pSound = NULL;
@@ -101,9 +97,7 @@ void SoundSystem::RemoveSndInstance(snd_instance *sound) {
     sound->m_finishedPlaying = false;
 }
 
-#ifdef DEBUG
 sound_header *SoundSystem::GetAudioFileSoundHeader(int index) { return m_audio_file[index].m_pSoundHeader; }
-#endif
 
 void SoundSystem::Initialize() {
     bool lastInUseState;
@@ -125,11 +119,11 @@ void SoundSystem::Initialize() {
     AXARTInit();
 #ifndef DEBUG
     if (OSGetSoundMode() == 1) {
-        soundInfo.special_sound_mode = true;
+        soundInfo.m_special_sound_mode = true;
         AXSetMode(0);
         MIXSetSoundMode(1);
     } else {
-        soundInfo.special_sound_mode = false;
+        soundInfo.m_special_sound_mode = false;
         AXSetMode(0);
         MIXSetSoundMode(0);
     }
@@ -263,7 +257,7 @@ sound_load *SoundSystem::AddToLoadQueue(int instance) {
     lastInUseState         = m_inUse;
     m_inUse                = true;
     pSound                 = &m_audio_file[instance];
-    pSound->m_pSoundHeader = GetSoundHeader(pSound->m_filename);
+    pSound->m_pSoundHeader = SoundConvert::GetSoundHeader(pSound->m_filename);
     if (pSound->m_loadStatus == kLoadNotStarted) {
         pLoad = GetNextFreeAudioLoadQueueEntry();
         DEBUGASSERTLINE(318, pLoad);
@@ -723,14 +717,14 @@ int SoundSystem::PlaySndInstanceFile(int instance, s32 pan, float volume) {
     pSndInstance->m_pSound       = &m_audio_file[instance];
     pSndInstance->m_AXVoiceState = m_SndInstanceAXVoiceState;
     if (pLoad == NULL) {
-        PlaySndInstance(pSndInstance, pan, volume, 0xFFFFFFFF, 0, true);
+        PlaySndInstance(pSndInstance, pan, volume, -1, 0, true);
     } else {
         pPlay = GetFreePlaySlot(pSndInstance->m_pSound);
         DEBUGASSERTLINE(932, pPlay);
         pPlay->m_pInstance      = pSndInstance;
         pPlay->m_pan            = pan;
         pPlay->m_volume         = volume;
-        pPlay->m_length         = 0xFFFFFFFF;
+        pPlay->m_length         = -1;
         pPlay->m_bIsSndInstance = true;
     }
     m_inUse = lastInUseState;
@@ -757,8 +751,8 @@ void SoundSystem::ClearSndInstance(int instance, SndInstanceType type) {
         }
     } else {
         AXSetVoiceState(pInstance->m_pVoice, 0);
-        pInstance->m_length             = 0xFFFFFFFF;
-        pInstance->m_lengthMilliseconds = 0xFFFFFFFF;
+        pInstance->m_length             = -1;
+        pInstance->m_lengthMilliseconds = -1;
     }
     m_inUse = lastInUseState;
 }

@@ -2,6 +2,13 @@
 #include "dolphin/types.h"
 
 class MusicSystem {
+  public:
+    void LoadMusic(void);
+    void PlayMusic(void);
+    void SetMusicVolume(u8 volume);
+    u8 GetMusicVolume() const { return m_Volume; };
+
+  private:
     char music_path[32];
     u32 *unk20;
     u32 *unk24;
@@ -54,8 +61,6 @@ class MusicSystem {
     bool unke5;
     bool unke6;
     bool unke7;
-
-    void LoadMusic(void);
-    void PlayMusic(void);
-    void SetMusicVolume(u8 volume);
 };
+
+extern MusicSystem gMusicSystem;

@@ -7,6 +7,8 @@
 #define kRenderModeDraw   1
 #define kRenderModeDraw2D 2
 
+#define NGPS_HEIGHT 448
+
 class RenderSystem {
   public:
     virtual ~RenderSystem();
@@ -15,14 +17,24 @@ class RenderSystem {
     void SetShadowPositionMatrix(vector3x3 *unk1, vector3 *unk2);
     void GetShadowPositionMatrixCopy(Mtx shadowPositionMatrix);
     void GetShadowCameraMatrixCopy(Mtx44 shadowCameraMatrix);
-    void SomethingRenderMode();
+    void SomethingRenderMode(void);
     u32 GetCurrentMode(u32 flag) { return flag & m_curMode; }
+#ifdef DEBUG
     void Setup2DElementDraw(void);
+#else
+    void Setup2DElementDraw(bool force);
+#endif // DEBUG
+
+    void InitRenderMode(GXRenderModeObj *pRenderMode);
+    void InitFramebuffers(void);
+    void DrawFirstFramebuffer(void);
+    void SwapFramebuffers(void);
+    void SetupUnknownDraw(void);
     void SetupTextureDrawIn3DSpace(void);
 
   private:
     u32 m_curMode;
-    int unk8;
+    u8 m_firstFrame;
     GXRenderModeObj *m_pRenderMode;
     GXRenderModeObj m_RenderMode;
     void *m_pFirstFramebuffer;
