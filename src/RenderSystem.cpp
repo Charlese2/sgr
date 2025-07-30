@@ -1,4 +1,7 @@
 #include "game/RenderSystem.h"
+#include "dolphin/gx/GXStruct.h"
+#include "dolphin/vi/vifuncs.h"
+#include "game/NGCSystem.h"
 extern "C" {
 #include "dolphin/gx.h"
 #include "dolphin/vi.h"
@@ -8,6 +11,11 @@ extern "C" {
 #include "game/macros.h"
 
 RenderSystem gRenderSystem;
+static unsigned long FrameCount;
+static unsigned long FrameMissThreshold;
+static BOOL GPHangWorkaround;
+static void *DefaultFifo         = NULL;
+static GXFifoObj *DefaultFifoObj = NULL;
 
 void RenderSystem::UpdateShadowCameraMatrix(Mtx44 matrix, float field_of_view, float aspect_ratio, float near_clip, float far_clip) {
     float cot;
@@ -167,6 +175,10 @@ void RenderSystem::InitFramebuffers(void) {
     m_pCurrentFramebuffer = m_pSecondFramebuffer;
 
     arenaLo = (void *)OSRoundUp32B((u32)m_pSecondFramebuffer + fbSize);
+#ifndef DEBUG
+    DCFlushRange(m_pFirstFramebuffer, fbSize);
+    DCFlushRange(m_pSecondFramebuffer, fbSize);
+#endif
     OSSetArenaLo(arenaLo);
 }
 
@@ -202,6 +214,9 @@ void RenderSystem::DrawFirstFramebuffer(void) {
     if (bDsTvMode) {
         VIWaitForRetrace();
     }
+#ifndef DEBUG
+    EnableGPHangWorkaround(5);
+#endif
 }
 
 void RenderSystem::Unknown() {
@@ -212,6 +227,13 @@ void RenderSystem::Unknown() {
     GXSetClipMode(GX_CLIP_ENABLE);
 }
 void RenderSystem::SetupUnknownDraw(void) {
+#ifndef DEBUG
+    if (UnknownRenderBool) {
+        UnknownRenderBool = false;
+        m_curMode |= kRenderModeDraw;
+        Unknown2();
+    }
+#endif
     if (!(m_curMode & kRenderModeDraw)) {
         DEBUGASSERTLINE(515, !(m_curMode & kRenderModeDraw2D));
         m_curMode = m_curMode | kRenderModeDraw;
@@ -234,6 +256,12 @@ void RenderSystem::Unknown2() {
         SomethingRenderMode();
     }
     m_curMode &= ~kRenderModeDraw;
+#ifndef DEBUG
+    if (GPHangWorkaround) {
+        RenderFrame();
+        return;
+    }
+#endif
     GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
     GXSetColorUpdate(GX_TRUE);
     GXCopyDisp(m_pCurrentFramebuffer, GX_TRUE);
@@ -396,4 +424,150 @@ void RenderSystem::Unknown7() {
     GXDrawDone();
     GXCopyDisp(m_pSecondFramebuffer, GX_TRUE);
     GXDrawDone();
+}
+
+void RenderSystem::SetGPHangMetric(u8 enable) {
+    if (enable) {
+        GXSetGPMetric(GX_PERF0_NONE, GX_PERF1_NONE);
+
+        GXWGFifo.u8  = 0x61;
+        GXWGFifo.u32 = 0x2402C004;
+
+        GXWGFifo.u8  = 0x61;
+        GXWGFifo.u32 = 0x23000020;
+
+        GXWGFifo.u8  = 0x10;
+        GXWGFifo.u16 = 0;
+        GXWGFifo.u16 = 0x1006;
+        GXWGFifo.u32 = 0x84400;
+    } else {
+        GXWGFifo.u8  = 0x61;
+        GXWGFifo.u32 = 0x24000000;
+
+        GXWGFifo.u8  = 0x61;
+        GXWGFifo.u32 = 0x23000000;
+
+        GXWGFifo.u8  = 0x10;
+        GXWGFifo.u16 = 0;
+        GXWGFifo.u16 = 0x1006;
+        GXWGFifo.u32 = 0;
+    }
+}
+
+void RenderSystem::DiagnoseHang(void) {
+    u32 xfTop0, xfBot0, suRdy0, r0Rdy0;
+    u32 xfTop1, xfBot1, suRdy1, r0Rdy1;
+    u32 xfTopD, xfBotD, suRdyD, r0RdyD;
+    u8 readIdle, cmdIdle;
+    u8 junk;
+
+    GXReadXfRasMetric(&xfBot0, &xfTop0, &r0Rdy0, &suRdy0);
+    GXReadXfRasMetric(&xfBot1, &xfTop1, &r0Rdy1, &suRdy1);
+
+    xfTopD = (xfTop1 - xfTop0) == 0;
+    xfBotD = (xfBot1 - xfBot0) == 0;
+    suRdyD = (suRdy1 - suRdy0) > 0;
+    r0RdyD = (r0Rdy1 - r0Rdy0) > 0;
+
+    GXGetGPStatus(&junk, &junk, &readIdle, &cmdIdle, &junk);
+    OSReport("GP status %d%d%d%d%d%d --> ", readIdle, cmdIdle, xfTopD, xfBotD, suRdyD, r0RdyD);
+
+    if (xfBotD == 0 && suRdyD != 0) {
+        OSReport("GP hang due to XF stall bug.\n");
+    } else if (xfTopD == 0 && xfBotD != 0 && suRdyD != 0) {
+        OSReport("GP hang due to unterminated primitive.\n");
+    } else if (cmdIdle == 0 && xfTopD != 0 && xfBotD != 0 && suRdyD != 0) {
+        OSReport("GP hang due to illegal instruction.\n");
+    } else if (readIdle != 0 && cmdIdle != 0 && xfTopD != 0 && xfBotD != 0 && suRdyD != 0 && r0RdyD != 0) {
+        OSReport("GP appears to be not hung (waiting for input).\n");
+    } else {
+        OSReport("GP is in unknown state.\n");
+    }
+}
+
+void RenderSystem::EnableGPHangWorkaround(u32 timeoutFrames) {
+    if (timeoutFrames != 0) {
+        GPHangWorkaround   = 1;
+        FrameMissThreshold = timeoutFrames;
+        VISetPreRetraceCallback(NoHangRetraceCallback);
+        SetGPHangMetric(1);
+    } else {
+        GPHangWorkaround   = 0;
+        FrameMissThreshold = 0;
+        SetGPHangMetric(0);
+        VISetPreRetraceCallback(NULL);
+    }
+}
+
+void RenderSystem::NoHangRetraceCallback(u32 count) { FrameCount += 1; }
+
+void RenderSystem::NoHangDoneRender(u16 token) {
+    int abort;
+
+    abort = 0;
+    GXSetDrawSync(token);
+    FrameCount = 0;
+    GXFlush();
+    while ((GXReadDrawSync() != token) && (abort == 0)) {
+        if (FrameCount >= FrameMissThreshold) {
+            OSReport("---------WARNING : ABORTING FRAME----------\n");
+            abort = TRUE;
+            DiagnoseHang();
+            ReInit(gRenderSystem.m_pRenderMode);
+        }
+    }
+    gRenderSystem.SwapFramebuffers();
+}
+
+void RenderSystem::ReInit(GXRenderModeObj *mode) {
+    u32 fbSize;
+    GXFifoObj tmpobj;
+    GXFifoObj *realFifoObj;
+    void *realFifoBase;
+    u32 realFifoSize;
+
+    realFifoObj  = GXGetCPUFifo();
+    realFifoBase = GXGetFifoBase(realFifoObj);
+    realFifoSize = GXGetFifoSize(realFifoObj);
+
+    GXAbortFrame();
+
+    for (int i = 0; i < sizeof(pFifo); i++) {
+        pFifo[i] = 0;
+    }
+
+    GXInitFifoBase(&tmpobj, pFifo, 64 * 1024);
+
+    GXSetCPUFifo(&tmpobj);
+    GXSetGPFifo(&tmpobj);
+
+    gRenderSystem.InitRenderMode(mode);
+
+    DefaultFifoObj = GXInit(realFifoBase, realFifoSize);
+
+    gRenderSystem.Unknown();
+
+    gRenderSystem.InitGX();
+    VIConfigure(gRenderSystem.m_pRenderMode);
+    InitVI();
+}
+
+void RenderSystem::InitVI(void) {
+    u32 nin;
+
+    VISetNextFrameBuffer(gRenderSystem.m_pFirstFramebuffer);
+    gRenderSystem.m_pCurrentFramebuffer = gRenderSystem.m_pSecondFramebuffer;
+    VIFlush();
+    VIWaitForRetrace();
+    nin = gRenderSystem.m_pRenderMode->viTVmode & VI_TVMODE_NTSC_DS;
+    if (nin != 0) {
+        VIWaitForRetrace();
+    }
+    EnableGPHangWorkaround(5);
+}
+
+void RenderSystem::RenderFrame() {
+    SetGPHangMetric(true);
+    NoHangDoneRender(0xB00B);
+    NoHangDoneRender(0xB00C);
 }

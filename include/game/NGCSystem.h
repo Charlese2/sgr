@@ -1,6 +1,14 @@
+#include "dolphin/gx/GXFifo.h"
 #include "dolphin/types.h"
 
 extern u32 Volume_table[21];
+extern bool UnknownRenderBool;
+extern u32 pFifo[16384];
+
+class NGCSystem {
+  public:
+    static void InitializeSystems();
+};
 
 #ifdef DEBUG
 #define DriveStatus(first, second) DriveStatusStuff(first)

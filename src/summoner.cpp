@@ -16,7 +16,6 @@
 #include "game/inv.h"
 #include "game/vif_particles.h"
 #include "game/gamemem.h"
-#include "game/NGCSystem.h"
 #include "game/living_entity.h"
 #include "game/gr.h"
 #include "dolphin/types.h"
@@ -227,7 +226,7 @@ void Initialize() {
 }
 
 void MainLoop() {
-    InitializeNGCSystems();
+    NGCSystem::InitializeSystems();
     DriveStatus(0, 0);
     Initialize();
     DriveStatus(0, 0);

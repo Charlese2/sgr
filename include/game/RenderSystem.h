@@ -39,6 +39,14 @@ class RenderSystem {
     void Unknown5(bool unk);
     void Unknown6(float alpha, bool unk);
     void Unknown7(void);
+    static void DiagnoseHang();
+    static void SetGPHangMetric(u8 enable);
+    static void EnableGPHangWorkaround(u32 timeoutFrames);
+    static void NoHangRetraceCallback(u32 count);
+    static void NoHangDoneRender(u16 token);
+    static void ReInit(GXRenderModeObj* mode);
+    static void InitVI();
+    static void RenderFrame();
 
   private:
     u32 m_curMode;
