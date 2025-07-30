@@ -1117,6 +1117,7 @@ RenderSystem.cpp:
 	.bss        start:0x803C1970 end:0x803C1A88
 	.sbss       start:0x804755D0 end:0x804755F8
 	.sdata2     start:0x80479C60 end:0x80479C98
+	.sbss2      start:0x8047B088 end:0x8047B08C
 
 gr_ngc.cpp:
 	extab       start:0x8000A4E4 end:0x8000A5D4

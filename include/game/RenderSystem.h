@@ -27,10 +27,18 @@ class RenderSystem {
 
     void InitRenderMode(GXRenderModeObj *pRenderMode);
     void InitFramebuffers(void);
+    void InitGX(void);
     void DrawFirstFramebuffer(void);
-    void SwapFramebuffers(void);
+    void Unknown(void);
     void SetupUnknownDraw(void);
+    void Unknown2(void);
+    void SwapFramebuffers(void);
     void SetupTextureDrawIn3DSpace(void);
+    void Unknown3(bool unk);
+    void Unknown4(bool unk);
+    void Unknown5(bool unk);
+    void Unknown6(float alpha, bool unk);
+    void Unknown7(void);
 
   private:
     u32 m_curMode;
