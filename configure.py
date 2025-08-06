@@ -508,6 +508,7 @@ config.libs = [
             Object(NonMatching, "birds.cpp"),
             Object(NonMatching, "rain.cpp"),
             Object(NonMatching, "trees.cpp"),
+            Object(NonMatching, "mainloop.cpp"),
             Object(NonMatching, "mainmenu.cpp"),
             Object(NonMatching, "pathfinding_debug.cpp"),
             Object(NonMatching, "level_scripts_loadsave.cpp"),
