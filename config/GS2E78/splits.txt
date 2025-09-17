@@ -936,6 +936,7 @@ birds.cpp:
 	.text       start:0x8013A4D4 end:0x8013B23C
 	.ctors      start:0x801EE9A0 end:0x801EE9A4
 	.rodata     start:0x801FBBE8 end:0x801FBC08
+	.bss        start:0x803AB310 end:0x803ABCC0
 	.sbss       start:0x804754D0 end:0x804754E0
 
 rain.cpp:
