@@ -1,0 +1,1 @@
+#define MAX_DC_MENU_ITEMS 255

@@ -1,0 +1,1 @@
+#define MAX_TREE_TYPES 3

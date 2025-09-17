@@ -1,0 +1,3 @@
+#define MAX_DECAL_FACES 1024
+#define MAX_DECALS      256
+#define MAX_CBSP_FACES  4064

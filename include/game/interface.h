@@ -1,3 +1,9 @@
+#define MAX_POSTED_TEXT_LENGTH        128
+#define MAX_POSTED_CORNER_TEXT_LENGTH 128
+#define MAX_MBOX_STRING_LENGTH        256
+#define MAX_MBOX_OPTIONS              8
+#define MAX_MBOX_OPTION_STRING_LENGTH 32
+
 typedef void (*DialogueCallback)(int state);
 
 extern int Num_interfaces_showing;

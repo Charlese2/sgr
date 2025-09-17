@@ -1,0 +1,9 @@
+#define MAX_DROPPED_ITEMS             256
+#define MAX_LEVEL_SAVE_GAME_DATA_SIZE 0x26000
+#define MAX_MC_NAME_LEN               32
+#define MAX_MESHES_PER_LEVEL          2000
+#define MAX_NUM_GLOBAL_FLAGS          2048
+#define MAX_NUM_GLOBAL_INTS           512
+#define MAX_NUM_LEVEL_DOORS           64
+#define MAX_NUM_LEVEL_FX_CONSTRAIN    64
+#define MAX_NUM_LEVEL_ITEMS           512

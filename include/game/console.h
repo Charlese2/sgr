@@ -1,7 +1,7 @@
 #include "dolphin/types.h"
 
 #define MAX_COMMANDS            300
-#define MAX_CONSOLE_LINE_LENGTH 64
+#define MAX_CONSOLE_LINE_LENGTH 128
 
 #define ARGUMENT_TYPE_UNKNOWN1 1 << 0
 #define ARGUMENT_TYPE_UNKNOWN2 1 << 1

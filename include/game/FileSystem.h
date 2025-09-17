@@ -4,6 +4,8 @@
 #include "game/macros.h"
 #include "game/CrankyFileManager.h"
 
+#define FILE_MAX_BASE_FILENAME_LEN 80
+
 extern CrankyFileManager gFileManager;
 extern const char PathIds[10][16];
 

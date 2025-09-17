@@ -1,6 +1,8 @@
 #include "game/vector.h"
 #include "dolphin/types.h"
 
+#define MAX_OBJECTS 1000
+
 class object {
     void *next;
     void *prev;

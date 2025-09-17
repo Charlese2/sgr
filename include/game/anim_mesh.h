@@ -1,0 +1,2 @@
+#define MAX_MATS_PER_MESH  24
+#define MAX_VERTS_PER_MESH 3000

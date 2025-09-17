@@ -1,0 +1,1 @@
+#define MAX_PARTY_MEMBERS 6

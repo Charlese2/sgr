@@ -1,0 +1,1 @@
+#define MAX_RECOVERY_INFOS 64

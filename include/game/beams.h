@@ -1,0 +1,1 @@
+#define MAX_LIGHTNING_CHAINS 20

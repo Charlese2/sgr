@@ -1,0 +1,1 @@
+#define MAX_FOOTSTEP_SETS 256

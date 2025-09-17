@@ -1,0 +1,1 @@
+#define MAX_FLIPBOOK_ANIMS 16

@@ -1,5 +1,9 @@
 #include "game/object.h"
 
+#define MAX_LIVING_ENTIITES     180
+#define MAX_SPELL_STATUSES      100
+#define MAX_ITEMS_PER_CONTAINER 16
+
 extern bool Players_immortal;
 
 class living_entity : object {

@@ -1,0 +1,3 @@
+#define MAX_VAD_NAME_LEN     64
+#define MAX_TAG_NAME_LEN     24
+#define MAX_PROPS_PER_PLAYER 2

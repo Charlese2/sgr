@@ -1,0 +1,15 @@
+#define MAX_BASE_CHARACTERS         200
+#define MAX_CHARACTER_NAME_LENGTH   47
+#define MAX_SKELETONS_PER_CHARACTER 50
+#define MAX_BONES_PER_CHARACTER     50
+#define MAX_FORCED_BONES            4
+#define MAX_TRIGGERS                5
+#define MAX_CHARACTER_INFO          226
+#define MAX_DEFAULT_ITEMS_PER_CHAR  2
+#define MAX_SOULC_SKILLS_GRANTED    5
+#define MAX_LOOT_ITEMS              5
+#define MAX_TOTAL_SPELLS            1000
+#define MAX_MAIN_PLAYERS            3
+#define MAX_OFFENSE_TAGS            10
+#define MAX_PLAYERS                 13
+#define MAX_CHARACTER_SEQUENCES     32

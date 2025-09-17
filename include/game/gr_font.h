@@ -1,3 +1,5 @@
+#define MAX_FONT_FILENAME_LENGTH 32
+
 class font_face {
 
 };

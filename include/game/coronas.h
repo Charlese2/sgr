@@ -1,0 +1,1 @@
+#define MAX_LIGHT_CORONAS 250

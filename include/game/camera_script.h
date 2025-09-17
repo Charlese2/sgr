@@ -1,0 +1,3 @@
+#define MAX_TRANSLATION_KEYS 700
+#define MAX_ROTATION_KEYS    700
+#define MAX_SHORT_QUATS      578
