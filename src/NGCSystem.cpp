@@ -1,3 +1,4 @@
+#include "dolphin/os.h"
 #include "game/RenderSystem.h"
 #include "game/NGCSystem.h"
 #include "game/macros.h"
@@ -38,5 +39,25 @@ u32 NGCSystem::GetTicks(int tick_resolution) {
     default:
         DEBUGASSERTLINE(397, 0);
         return 0;
+    }
+}
+
+void NGCSystem::Wait(int milliseconds) {
+    u32 ticks      = OSMillisecondsToTicks(milliseconds);
+    u32 tick_start = OSGetTick();
+    u32 tick_current;
+    int difference;
+    while (ticks != 0) {
+        tick_current = OSGetTick();
+        if (tick_current >= tick_start) {
+            difference = tick_current - tick_start;
+        } else {
+            difference = - 1 - tick_start + tick_current;
+        }
+        if (ticks > difference) {
+            ticks -= difference;
+        } else {
+            ticks = 0;
+        }
     }
 }

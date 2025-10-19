@@ -1,6 +1,8 @@
 #include "game/frametime.h"
 #include "game/NGCSystem.h"
+#include "game/delay.h"
 #include "game/timestamp.h"
+#include "game/macros.h"
 
 const int frametime_history_size = 16;
 
@@ -25,9 +27,9 @@ int Animation_timer_paused;
 float frametime_history[frametime_history_size];
 
 void frametime_initialize() {
-    actual_frametime        = 1.0f / (target_fps / 2);
+    actual_frametime        = 1.0f / target_fps;
     reported_frametime      = actual_frametime;
-    fps                     = target_fps / 2;
+    fps                     = target_fps;
     min_reported_frametime  = 1.0f / (target_fps * 2);
     frames_rendered         = 0;
     milliseconds_unpaused   = 0;
@@ -62,9 +64,10 @@ void FrameDone() {
     actual_frametime   = delta_time / 1000000.0f;
     reported_frametime = actual_frametime;
     if (reported_frametime < min_reported_frametime) {
+        float frame_limit_wait_time = min_reported_frametime - reported_frametime;
+        Wait(frame_limit_wait_time * 1000.0f);
         reported_frametime = min_reported_frametime;
-    }
-    if (reported_frametime > max_reported_frametime) {
+    } else if (reported_frametime > max_reported_frametime) {
         reported_frametime = max_reported_frametime;
     }
     if (frametime_history_index == -1) {
@@ -94,4 +97,24 @@ void FrameDone() {
     if (!Animation_timer_paused) {
         milliseconds_unpaused += time;
     }
+}
+
+void set_divisor(float divisor) {
+    DEBUGASSERTLINE(189, divisor != 0);
+    frametime_divisor = divisor;
+}
+
+void increase_frametime_pause_counter() { Frametime_paused++; }
+
+void decrease_frametime_pause_counter() {
+    Frametime_paused--;
+    DEBUGASSERTLINE(263, Frametime_paused >= 0);
+    previous_done_time = NGCSystem::GetTicks(1000000);
+}
+
+void increase_animation_pause_counter() { Animation_timer_paused++; }
+
+void decrease_animation_pause_counter() {
+    Animation_timer_paused--;
+    DEBUGASSERTLINE(281, Animation_timer_paused >= 0);
 }

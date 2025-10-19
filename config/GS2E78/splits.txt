@@ -69,6 +69,7 @@ frametime.cpp:
 	.text       start:0x80027158 end:0x800274D0
 	.ctors      start:0x801EE858 end:0x801EE85C
 	.rodata     start:0x801EF230 end:0x801EF250
+	.bss        start:0x8025A420 end:0x8025A460
 	.sdata      start:0x80473C68 end:0x80473C88
 	.sbss       start:0x80474540 end:0x80474568
 	.sdata2     start:0x80476330 end:0x80476360
@@ -263,6 +264,11 @@ timestamp.cpp:
 	.text       start:0x8005AD50 end:0x8005B2F0
 	.sdata      start:0x80473D30 end:0x80473D38
 	.sbss       start:0x80474A58 end:0x80474A60
+
+delay.cpp:
+	extab       start:0x80006540 end:0x80006548
+	extabindex  start:0x8000CD78 end:0x8000CD84
+	.text       start:0x8005B2F0 end:0x8005B310
 
 parse.cpp:
 	extab       start:0x80006548 end:0x80006628
