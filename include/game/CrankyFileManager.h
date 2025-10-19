@@ -47,7 +47,10 @@ class CrankyFileManager {
   public:
     virtual ~CrankyFileManager();
     CrankyFileManager();
-    int OpenNewFile(char *file_name, char *file_path);
+    int OpenNewFile(const char *file_name, char *file_path);
+    u32 GetFileSize(int file_record);
+    bool GetFileFromCache(char *file_path, char* file_name);
+    int CloseFile(int file_record);
     void SetMissingFileCallback(FileMissingCallback *callback);
 
   private:

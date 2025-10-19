@@ -1,6 +1,6 @@
 #include "game/CrankyFileManager.h"
 #include "dolphin/os.h"
-#include "game/macros.h"
+#include "macros.h"
 
 
 CrankyFileManager::CrankyFileManager() {
@@ -28,7 +28,7 @@ CrankyFileManager::~CrankyFileManager() {
     }
 }
 
-int CrankyFileManager::OpenNewFile(char* file_name, char* file_path) {
+int CrankyFileManager::OpenNewFile(const char* file_name, char* file_path) {
     for (int file_index = 0; file_index < m_MaxNumberOfOpenFiles; file_index++) {
         if (!m_pFile[file_index].IsOpened()) {
             m_pFile[file_index].OpenFile(file_name, file_path);
@@ -38,6 +38,15 @@ int CrankyFileManager::OpenNewFile(char* file_name, char* file_path) {
 
     ASSERTMSGLINE(135, false, "maximum open files exceeded");
     return -1;
+}
+
+u32 CrankyFileManager::GetFileSize(int file_record) {
+    u32 file_size = 1;
+    if (!m_pFile[file_record].IsOpened()) {
+        ASSERTMSGLINE(167, false, "accessing a file that has not been opened");
+    }
+    file_size = m_pFile[file_record].GetFileSize();
+    return file_size;
 }
 
 void CrankyFileManager::SetMissingFileCallback(FileMissingCallback* callback) {

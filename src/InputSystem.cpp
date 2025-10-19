@@ -216,7 +216,7 @@ void InputSystem::RunSystem(bool unk) {
     float x, y;
 
     if (unk) {
-        DriveStatus(0, 0);
+        NGCSystem::DriveStatus(0, 0);
     }
     tick = OSGetTick();
     if (m_CurrentTick != 0) {

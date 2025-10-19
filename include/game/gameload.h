@@ -1,2 +1,2 @@
-void RunFrame(void);
+void LevelInit(void);
 void LoadLevel(void);

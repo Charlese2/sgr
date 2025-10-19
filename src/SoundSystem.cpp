@@ -1,4 +1,5 @@
 #include "game/SoundSystem.h"
+#include "game/frametime.h"
 #include "am/__am.h"
 #include "dolphin/sp.h"
 #include "game/gamemem.h"
@@ -70,7 +71,7 @@ void SoundSystem::ProcessSounds(void) {
                         if (pVoice->pb.state == 0) {
                             gSoundSystem.CleanupPlayedAmbientSound(i);
                             if (pAmbientSound->m_length != -1) {
-                                pAmbientSound->m_lengthMilliseconds -= frametime * 1000;
+                                pAmbientSound->m_lengthMilliseconds -= reported_frametime * 1000;
                                 if (pAmbientSound->m_lengthMilliseconds <= 0) {
                                     gSoundSystem.PlayAmbientSound(i);
                                     pAmbientSound->m_lengthMilliseconds = pAmbientSound->m_length;
@@ -161,7 +162,7 @@ u32 SoundSystem::GetEntry(char *filename, bool bIsPersistent, bool bFindExisting
     sound_file *pFile;
 
 #ifndef DEBUG
-    DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
 #endif
 
     lastInUseState = m_inUse;
@@ -360,11 +361,11 @@ void SoundSystem::LoadSoundFile(sound_load *pLoad) {
 
 #ifdef DEBUG
         DVDOpen(pLoad->m_fileName, &m_fileHandle);
-        DriveStatus(0, 0);
+        NGCSystem::DriveStatus(0, 0);
         DVDReadAsyncPrio(&m_fileHandle, pSound->m_pSoundData, 128, 0, (DVDCallback)DVDReadCallback, 2);
 #else
     if (DVDOpen(pLoad->m_fileName, &m_fileHandle)) {
-        DriveStatus(0, 0);
+        NGCSystem::DriveStatus(0, 0);
         DVDReadAsyncPrio(&m_fileHandle, pSound->m_pSoundData, 128, 0, (DVDCallback)DVDReadCallback, 2);
     } else {
         printf("********************************************************\n");
@@ -929,9 +930,7 @@ void SoundSystem::LoadNewSoundsFromDisk(void) {
     lastInUseState = m_inUse;
     m_inUse        = true;
     while (m_LoadQueueEntries) {
-
-        DriveStatus(0, 0);
-
+        NGCSystem::DriveStatus(0, 0);
         CacheSoundFromDisk();
     }
     m_inUse = lastInUseState;

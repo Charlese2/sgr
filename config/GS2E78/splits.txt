@@ -38,7 +38,7 @@ gr.cpp:
 	.ctors      start:0x801EE84C end:0x801EE850
 	.rodata     start:0x801EF0B8 end:0x801EF1E8
 	.bss        start:0x8024B7E0 end:0x8024C078
-	.sdata      start:0x80473C50 end:0x80473C70
+	.sdata      start:0x80473C50 end:0x80473C68
 	.sbss       start:0x80474428 end:0x804744B0
 	.sdata2     start:0x80476268 end:0x804762B8
 
@@ -61,7 +61,7 @@ gr_3d.cpp:
 	extabindex  start:0x8000BD64 end:0x8000BDF4
 	.text       start:0x80025454 end:0x8002714C
 	.ctors      start:0x801EE854 end:0x801EE858
-	.sbss       start:0x804744F8 end:0x80474548
+	.sbss       start:0x804744F8 end:0x80474540
 
 frametime.cpp:
 	extab       start:0x80005A80 end:0x80005A90
@@ -69,7 +69,9 @@ frametime.cpp:
 	.text       start:0x80027158 end:0x800274D0
 	.ctors      start:0x801EE858 end:0x801EE85C
 	.rodata     start:0x801EF230 end:0x801EF250
-	.sbss       start:0x80474548 end:0x80474568
+	.sdata      start:0x80473C68 end:0x80473C88
+	.sbss       start:0x80474540 end:0x80474568
+	.sdata2     start:0x80476330 end:0x80476360
 
 gameplay.cpp:
 	extab       start:0x80005A90 end:0x80005AD0
@@ -938,6 +940,7 @@ birds.cpp:
 	.rodata     start:0x801FBBE8 end:0x801FBC08
 	.bss        start:0x803AB310 end:0x803ABCC0
 	.sbss       start:0x804754D0 end:0x804754E0
+	.sdata2     start:0x804797A8 end:0x804797B0
 
 rain.cpp:
 	extab       start:0x800099E4 end:0x80009A24

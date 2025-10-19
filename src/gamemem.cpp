@@ -1,5 +1,6 @@
 #include "game/gamemem.h"
 #include "game/gr.h"
+#include "game/console.h"
 #include "game/characterinfo.h"
 #include "game/effect_mem.h"
 #include "game/debug.h"

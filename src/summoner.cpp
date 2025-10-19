@@ -18,11 +18,11 @@
 #include "game/gamemem.h"
 #include "game/living_entity.h"
 #include "game/gr.h"
+#include "game/console.h"
 #include "dolphin/types.h"
 #include "dolphin/os.h"
 #include <stdlib.h>
 
-extern void StatusStuff(u32, u32, double, double);
 extern void SoundStuff();
 
 extern bool gHeapAlloc;
@@ -51,6 +51,7 @@ extern Mempool Quest_mempool;
 mainParameters parameters;
 sound_volume volume;
 Mempool test;
+bool fx_mem_info_initialized;
 
 #ifdef DEBUG
 console_command call_set_sound_volume("sound_volume", "Set the sound volume", CALL, (CommandCallbackInt)set_sound_volume);
@@ -58,6 +59,8 @@ console_command call_set_music_volume("music_volume", "Set the music volume", CA
 console_command call_print_to_tty("tty_print", "Print to the TTY", CALL, (CommandCallbackInt)print_to_tty);
 console_command call_print_break_to_tty("tty_break", "Print a break to the TTY", CALL, (CommandCallbackInt)print_break_to_tty);
 #endif
+
+effects_mem_info fx_mem_info;
 
 void set_sound_volume() {
     if (calling_a_command_function) {
@@ -100,7 +103,7 @@ void set_music_volume() {
 }
 
 void print_to_tty() {
-    Flle file;
+    File file;
 
     if (calling_a_command_function) {
         process_command(2);
@@ -111,7 +114,7 @@ void print_to_tty() {
 }
 
 void print_break_to_tty() {
-    Flle file;
+    File file;
 
     if (calling_a_command_function) {
         printf("##############################################################################\n", next_arg);
@@ -129,11 +132,11 @@ void show_title_credits() {
     titleCreditsTimer.SetTimeout(505);
     int font_height = gr_font::GetFontHeight();
     while (!titleCreditsTimer.elapsed()) {
-        DriveStatus(0, 0);
+        NGCSystem::DriveStatus(0, 0);
 #ifdef DEBUG
-gRenderSystem.Setup2DElementDraw();
+        gRenderSystem.Setup2DElementDraw();
 #else
-gRenderSystem.Setup2DElementDraw(false);
+        gRenderSystem.Setup2DElementDraw(false);
 #endif
     }
     TimeTick = OSGetTick();
@@ -144,7 +147,7 @@ void hide_title_credits() {
 
     titleCreditsTimer.SetTimeout(505);
     while (!titleCreditsTimer.elapsed()) {
-        DriveStatus(0, 0);
+        NGCSystem::DriveStatus(0, 0);
 #ifdef DEBUG
         gRenderSystem.Setup2DElementDraw();
 #else
@@ -156,31 +159,31 @@ void hide_title_credits() {
 
 void render_title_credits() {
     stop_loadscreen();
-    DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
     show_title_credits();
-    DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
     Mempool *cur_mempool = get_current_mempool();
     DEBUGASSERTLINE(641, cur_mempool == NULL);
     set_current_mempool(NULL);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
 }
 
 void InitializeInput() {
@@ -227,19 +230,25 @@ void Initialize() {
 
 void MainLoop() {
     NGCSystem::InitializeSystems();
-    DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
     Initialize();
-    DriveStatus(0, 0);
-
+    NGCSystem::DriveStatus(0, 0);
+    if (!fx_mem_info_initialized) {
+        fx_mem_info.initialize();
+        fx_mem_info_initialized = true;
+    }
+    fx_mem_info.initialize_info();
+    DEBUGASSERTLINE(817, fx_mem_info.verify());
+    Fx_mem_external_info = &fx_mem_info;
     Gamemem_info.ActivateGamemem();
-    DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
     Gamemem_info.ActivatePerlevelMempool();
     Gamemem_info.ActivatePersistantMempool();
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
-    DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
     GraphicsInit(512, 448, 105, 201, 0, 1);
-    DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
 
     printf("**** Game startup time: %.3f ***");
 }

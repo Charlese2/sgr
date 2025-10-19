@@ -12,7 +12,7 @@ int MainMenuIndexCurrent  = -1;
 int MainMenuIndexPrevious = -1;
 int MainMenuIndexNext     = -1;
 
-MainCallback *mainloop_callbacks[6][3] = { 0, RunMainMenu, 0, 0, 0, 0, NULL, NULL, NULL, RunFrame, RunLevel, LoadLevel, 0, 0, 0, 0, 0, 0 };
+MainCallback *mainloop_callbacks[6][3] = { 0, RunMainMenu, 0, 0, 0, 0, NULL, NULL, NULL, LevelInit, RunLevel, LoadLevel, 0, 0, 0, 0, 0, 0 };
 
 void MainMenuIndexProceed() {
     MainMenuIndexPrevious  = MainMenuIndexCurrent;

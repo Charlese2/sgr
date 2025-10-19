@@ -1,4 +1,3 @@
-#include "dolphin/types.h"
 #include "game/RenderSystem.h"
 
 extern float frametime;

@@ -10,7 +10,7 @@ void parse::ParseFile(char* fname, int path_index, u8* data, int unk)
         m_pData = data;
         unkE4 = unk;
     } else {
-        strcpy(this->m_fileName, fname);
+        strcpy(m_pFileName, fname);
         m_pBuffer = allocate_in_commonblock(0x2000);
         m_fileBuff.SetFileBuffer(m_pBuffer, 0x2000);
     }

@@ -1,4 +1,3 @@
-#include "game/console.h"
 #include "game/memory.h"
 #include "game/MemSystem.h"
 
@@ -6,6 +5,9 @@ extern bool gHeapAlloc;
 
 class GameMem {
   public:
+    Mempool persistantMempool;
+    u8 *persistant_data;
+    
     GameMem();
     static int toggle_show_gamemem_prints(void);
     static int toggle_show_mempool_usage(void);
@@ -34,8 +36,6 @@ class GameMem {
     void DisplayMempoolUsage();
 
   private:
-    Mempool persistantMempool;
-    u8 *persistant_data;
     Mempool soundMempool;
     u8 *sound_data;
     Mempool perlevelMempool;
