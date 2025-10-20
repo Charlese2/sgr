@@ -357,7 +357,7 @@ void SoundSystem::LoadSoundFile(sound_load *pLoad) {
         pSound->m_pSoundData = (table *)vmemory::Unknown(128, NULL);
         set_current_mempool(pPreviousMempool);
 
-        sprintf(pLoad->m_fileName, "%s%s", GetFilePath(5), file.filename);
+        sprintf(pLoad->m_fileName, "%s%s", FileSystem::GetFilePath(5), file.filename);
 
 #ifdef DEBUG
         DVDOpen(pLoad->m_fileName, &m_fileHandle);

@@ -49,7 +49,7 @@ void FrameDone() {
     if (Frametime_paused) {
         return;
     }
-    int microsecond_ticks = NGCSystem::GetTicks(1000000);
+    int microsecond_ticks = NGCSystem::GetTimeFromTicks(1000000);
     int delta_time;
     if (microsecond_ticks < previous_done_time) {
         delta_time = microsecond_ticks;
@@ -109,7 +109,7 @@ void increase_frametime_pause_counter() { Frametime_paused++; }
 void decrease_frametime_pause_counter() {
     Frametime_paused--;
     DEBUGASSERTLINE(263, Frametime_paused >= 0);
-    previous_done_time = NGCSystem::GetTicks(1000000);
+    previous_done_time = NGCSystem::GetTimeFromTicks(1000000);
 }
 
 void increase_animation_pause_counter() { Animation_timer_paused++; }

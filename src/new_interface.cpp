@@ -14,6 +14,7 @@
 bool Animator_debug_mode;
 bool Debug_frame_dump_protection = true;
 int Num_interfaces_showing;
+int front_end_peg_loaded;
 
 console_command toggle_animator_mode("animator_mode", "Toggles Animator_debug_mode", TOGGLE, new_interface::toggle_debug_animator_mode);
 console_command toggle_frame_dump_protection("animator_mode", "Toggles Animator_debug_mode", TOGGLE,

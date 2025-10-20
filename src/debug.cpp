@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 void DebugPrint(char* buffer) {
-    if (getGrInitialized()) {
+    if (gr::getGrInitialized()) {
         stop_loadscreen();
         gRenderSystem.GetCurrentMode(kRenderModeDraw);
         printf(buffer);

@@ -6,7 +6,7 @@ class MusicSystem {
     void LoadMusic(void);
     void PlayMusic(void);
     void SetMusicVolume(u8 volume);
-    u8 GetMusicVolume() const { return m_Volume; };
+    u32 GetMusicVolume() const { return m_Volume; };
 
   private:
     char music_path[32];

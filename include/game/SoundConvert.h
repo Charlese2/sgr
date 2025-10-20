@@ -3,9 +3,7 @@
 
 class volume_info {
   public:
-    float m_soundVolume;
-    float m_voiceVolume;
-    float m_musicVolume;
+    float volumes[4];
 };
 
 extern volume_info volumeInfo;
@@ -19,6 +17,6 @@ class SoundConvert {
     static void InitializeSoundSystem();
     static void ReinitializeSoundSystems(void);
     static void SetupSoundEffect(sound_3d *soundEffect);
-    static float GetSoundVolume(int type) { return volumeInfo.m_soundVolume; };
+    static float GetSoundVolume(int type) { return volumeInfo.volumes[type]; };
     static sound_header *GetSoundHeader(char *filename);
 };

@@ -7,6 +7,7 @@
 typedef void (*DialogueCallback)(int state);
 
 extern int Num_interfaces_showing;
+extern int front_end_peg_loaded;
 
 class interface_sound {
   public:

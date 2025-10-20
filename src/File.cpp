@@ -15,7 +15,7 @@ u32 File::GetFileSize(char *file, int pathIndex) {
     int file_record;
     u32 file_size;
     if (file) {
-        file_record = gFileManager.OpenNewFile(GetFilePath(pathIndex), file);
+        file_record = gFileManager.OpenNewFile(FileSystem::GetFilePath(pathIndex), file);
         file_size   = gFileManager.GetFileSize(file_record);
         gFileManager.CloseFile(file_record);
         return file_size;

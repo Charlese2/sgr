@@ -284,20 +284,20 @@ void GameMem::DisplayMempoolUsage() {
     if (bShowMempoolUsage) {
         mempool = (Mempool *)Gamemem_info.GetGameMem();
         sprintf(buffer, "Persistant: %5dKB of %5dKB in use\n", mempool->offset >> 10, mempool->size >> 10);
-        DrawTextOnScreen2D(10, 10, buffer, -1);
+        gr::DrawTextOnScreen2D(10, 10, buffer, -1);
 
         mempool = Gamemem_info.GetPerlevelMempool();
         sprintf(buffer, "Per Level:  %5dKB of %5dKB in use\n", mempool->offset >> 10, mempool->size >> 10);
-        draw_mempool_info_on_new_line(buffer, -1);
+        gr::draw_mempool_info_on_new_line(buffer, -1);
 
         if (Gamemem_info.cutscene_mempool_is_active()) {
             mempool = Gamemem_info.GetCutsceneMempool();
             sprintf(buffer, "Cutscene:   %5dKB of %5dKB in use\n", mempool->offset >> 10, mempool->size >> 10);
-            draw_mempool_info_on_new_line(buffer, -1);
+            gr::draw_mempool_info_on_new_line(buffer, -1);
         } else if (Gamemem_info.summon_mempool_is_active()) {
             mempool = Gamemem_info.GetSummonMempool();
             sprintf(buffer, "Summon:     %5dKB of %5dKB in use\n", mempool->offset >> 10, mempool->size >> 10);
-            draw_mempool_info_on_new_line(buffer, -1);
+            gr::draw_mempool_info_on_new_line(buffer, -1);
         }
         DisplayCharacterMeminfo(buffer);
     }

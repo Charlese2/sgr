@@ -19,7 +19,9 @@ summoner.cpp:
 	.text       start:0x80014180 end:0x80015274
 	.ctors      start:0x801EE844 end:0x801EE848
 	.rodata     start:0x801EEA80 end:0x801EED70
+	.data       start:0x80207CE0 end:0x80207D00
 	.bss        start:0x80228F80 end:0x80228F94
+	.sdata      start:0x80473C20 end:0x80473C30
 	.sbss       start:0x804743E0 end:0x80474408
 	.sdata2     start:0x80476100 end:0x80476128
 

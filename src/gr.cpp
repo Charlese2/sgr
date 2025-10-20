@@ -1,6 +1,7 @@
 #include "game/gr.h"
 #include "game/effect_mem.h"
 #include "game/console.h"
+#include "game/frametime.h"
 #include <stdio.h>
 
 bool gr_initialized;
@@ -8,13 +9,12 @@ bool Gr_show_stats;
 bool Gr_show_paging;
 
 int Gr_ngps_hires = 1;
-float frametime = 1.0f/60.0f;
 
-console_command toggle_show_stats_gr("gr_show_stats", "Toggles Gr_show_stats", TOGGLE, toggle_gr_show_stats);
+console_command toggle_show_stats_gr("gr_show_stats", "Toggles Gr_show_stats", TOGGLE, gr::toggle_gr_show_stats);
 #ifdef DEBUG
-console_command toggle_show_paging_gr("gr_show_paging", "Toggles Gr_show_paging", TOGGLE, toggle_gr_show_paging);
+console_command toggle_show_paging_gr("gr_show_paging", "Toggles Gr_show_paging", TOGGLE, gr::toggle_gr_show_paging);
 #endif
-console_command set_ngps_hires_gr("ngps_hires", "Sets Gr_ngps_hires", TOGGLE, set_gr_ngps_hires);
+console_command set_ngps_hires_gr("ngps_hires", "Sets Gr_ngps_hires", TOGGLE, gr::set_gr_ngps_hires);
 
 int toggle_gr_show_stats(void) {
     if (calling_a_command_function) {
@@ -84,6 +84,13 @@ int set_gr_ngps_hires(void) {
         print_to_console(string_buffer, false);
     }
     return Gr_ngps_hires;
+}
+
+Color::Color(int red, int green, int blue, int alpha) {
+    this->red = red;
+    this->green = green;
+    this->blue = blue;
+    this->alpha = alpha;
 }
 
 bool getGrInitialized(void) { return gr_initialized; }

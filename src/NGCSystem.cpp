@@ -27,7 +27,7 @@ void NGCSystem::InitializeSystems() {
     VIWaitForRetrace();
 }
 
-u32 NGCSystem::GetTicks(int tick_resolution) {
+u32 NGCSystem::GetTimeFromTicks(int tick_resolution) {
     OSTick tick = OSGetTick();
     switch (tick_resolution) {
     case 1000:

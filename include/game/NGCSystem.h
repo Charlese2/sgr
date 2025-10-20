@@ -15,6 +15,6 @@ class NGCSystem {
   public:
     static void DriveStatus(u8 unk1, int unk2);
     static void InitializeSystems();
-    static u32 GetTicks(int tick_resolution);
+    static u32 GetTimeFromTicks(int tick_resolution);
     static void Wait(int milliseconds);
 };

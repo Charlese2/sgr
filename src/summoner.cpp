@@ -1,7 +1,14 @@
 #include "game/summoner.h"
 #include "game/SoundSystem.h"
 #include "game/MusicSystem.h"
+#include "game/FileSystem.h"
+#include "game/PackFileSystem.h"
+#include "game/interface.h"
+#include "game/gamewide.h"
 #include "game/loading.h"
+#include "game/frametime.h"
+#include "game/memory.h"
+#include "game/mainloop.h"
 #include "game/text_effects.h"
 #include "game/effect_mem.h"
 #include "game/gr_font.h"
@@ -48,10 +55,32 @@ extern Mempool Level_sequence_mempool;
 extern Mempool Cutscene_sequence_mempool;
 extern Mempool Quest_mempool;
 
+int file_id = -1;
+
 mainParameters parameters;
 sound_volume volume;
 Mempool test;
-bool fx_mem_info_initialized;
+Color background_color(150, 166, 212, 255);
+char fx_mem_info_initialized;
+int startup_time_start;
+int startup_time_end;
+
+int font_number;
+
+const char *credits[8] = {
+#ifdef DEBUG
+    "Summoner \xaf: The Prophecy - \xaa 2002 THQ Inc.",     "Developed by Cranky Pants Games and Volition Inc.",
+    "Uses Bink Video. Copyright \xaa 1991-2002 by RAD",     "Game Tools, Inc. Summoner, Cranky Pants Games,",
+    "Volition, THQ and their respective logos are",         "trademarks and/or registered trademarks of THQ Inc.",
+    "All rights reserved. All other trademarks, logos and", "copyrights are property of their respective owners.",
+#else
+    "Summoner \xaf: A Goddess Reborn - \xaa 2002, 2003",       "THQ Inc. Developed by Cranky Pants Games and Volition,",
+    "Inc. Uses Bink Video. Copyright \xaa 1991-2002 by RAD",   "Game Tools, Inc. Summoner, Cranky Pants Games,",
+    "Volition, THQ and their respective logos are trademarks", "and/or registered trademarks of THQ Inc. All rights",
+    "reserved. All other trademarks, logos and copyrights",    "are property of their respective owners.",
+
+#endif
+};
 
 #ifdef DEBUG
 console_command call_set_sound_volume("sound_volume", "Set the sound volume", CALL, (CommandCallbackInt)set_sound_volume);
@@ -129,21 +158,58 @@ void print_break_to_tty() {
 
 void show_title_credits() {
     RealtimeTimer titleCreditsTimer;
+    int font_height = gr_font::GetFontHeight(font_number);
+    int width       = 0;
+    int height;
+    int credits_height;
+    int credits_width;
+    int i;
+    for (i = 0; i < 8; i++) {
+        gr_font::setup_text_effect(&credits_height, &credits_width, credits[i], -1, -1);
+        if (credits_width > width) {
+            width = credits_width;
+        }
+    }
+
+    int credits2_height = 0;
+    int credits2_width  = 0;
+    gr_font::setup_text_effect(&credits2_height, &credits2_width, "Licensed by Nintendo", -1, -1);
+    credits2_height = (512 - credits2_height) / 2;
+    credits2_width  = 428 - credits2_width;
+
     titleCreditsTimer.SetTimeout(505);
-    int font_height = gr_font::GetFontHeight();
     while (!titleCreditsTimer.elapsed()) {
         NGCSystem::DriveStatus(0, 0);
+        gRenderSystem.SetupUnknownDraw();
 #ifdef DEBUG
         gRenderSystem.Setup2DElementDraw();
 #else
         gRenderSystem.Setup2DElementDraw(false);
 #endif
+        gr::DrawHudColor(&background_color);
+        for (i = 0; i < 8; i++) {
+            gr_font::DrawTextOnScreen2D((512 - width) / 2, (font_height * -8 + 448), credits[i], -1);
+        }
+        gr_font::DrawTextOnScreen2D(credits2_height, credits2_width, "Licensed by Nintendo", -1);
+        FrameDone();
     }
     TimeTick = OSGetTick();
 }
 
 void hide_title_credits() {
     RealtimeTimer titleCreditsTimer;
+    int font_height = gr_font::GetFontHeight(font_number);
+    int width       = 0;
+    int height;
+    int credits_height;
+    int credits_width;
+    int i;
+    for (i = 0; i < 8; i++) {
+        gr_font::setup_text_effect(&credits_height, &credits_width, credits[i], -1, -1);
+        if (credits_width > width) {
+            width = credits_width;
+        }
+    }
 
     titleCreditsTimer.SetTimeout(505);
     while (!titleCreditsTimer.elapsed()) {
@@ -153,8 +219,32 @@ void hide_title_credits() {
 #else
         gRenderSystem.Setup2DElementDraw(false);
 #endif
+        gr::DrawHudColor(&background_color);
+        for (i = 0; i < 8; i++) {
+            gr_font::DrawTextOnScreen2D((512 - width) / 2, (font_height * -8 + 448), credits[i], -1);
+        }
+        FrameDone();
     }
     TimeTick = OSGetTick();
+}
+
+void init_graphics() { gr::GraphicsInit(512, 448, 105, 201, 0, 1); }
+
+void startup() {
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    startup_time_start = NGCSystem::GetTimeFromTicks(1000);
+    NGCSystem::DriveStatus(0, 0);
+    init_graphics();
+    NGCSystem::DriveStatus(0, 0);
+    set_current_mempool(&Gamemem_info.GetGameMem()->persistantMempool);
+    gPackFileSystem.add_pack_file("fonts.pkf", 1, 32, 6);
+    NGCSystem::DriveStatus(0, 0);
+    gPackFileSystem.add_pack_file("persistent.pkf", 1, 0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    set_current_mempool(NULL);
+    NGCSystem::DriveStatus(0, 0);
+    NGCSystem::DriveStatus(0, 0);
 }
 
 void render_title_credits() {
@@ -173,6 +263,7 @@ void render_title_credits() {
     NGCSystem::DriveStatus(0, 0);
     NGCSystem::DriveStatus(0, 0);
     NGCSystem::DriveStatus(0, 0);
+    hide_title_credits();
     NGCSystem::DriveStatus(0, 0);
     NGCSystem::DriveStatus(0, 0);
     NGCSystem::DriveStatus(0, 0);
@@ -184,6 +275,7 @@ void render_title_credits() {
     NGCSystem::DriveStatus(0, 0);
     NGCSystem::DriveStatus(0, 0);
     NGCSystem::DriveStatus(0, 0);
+    ResetMainMenuIndexes();
 }
 
 void InitializeInput() {
@@ -240,17 +332,38 @@ void MainLoop() {
     fx_mem_info.initialize_info();
     DEBUGASSERTLINE(817, fx_mem_info.verify());
     Fx_mem_external_info = &fx_mem_info;
-    Gamemem_info.ActivateGamemem();
+    FileSystem::Setup();
+    NGCSystem::DriveStatus(0, 0);
+    GameMem::ActivateGamemem();
     NGCSystem::DriveStatus(0, 0);
     Gamemem_info.ActivatePerlevelMempool();
     Gamemem_info.ActivatePersistantMempool();
+    startup();
     NGCSystem::DriveStatus(0, 0);
     NGCSystem::DriveStatus(0, 0);
     NGCSystem::DriveStatus(0, 0);
-    GraphicsInit(512, 448, 105, 201, 0, 1);
+    if (parameters.valid_demo) {
+        for (int i = 0; i < 4; i++) {
+            volumeInfo.volumes[i] = parameters.unkC / 10.0f;
+        }
+    }
+    render_title_credits();
     NGCSystem::DriveStatus(0, 0);
-
-    printf("**** Game startup time: %.3f ***");
+    if (!parameters.unk4) {
+        int status = PlayVideo("ATTRACT.PSS", 1);
+        Cleanup(status != 0);
+        Gamemem_info.ClearPerlevelMempool();
+    } else {
+        PlayVideo("LOGOS.PSS", 1);
+    }
+    NGCSystem::DriveStatus(0, 0);
+    set_current_mempool(Gamemem_info.GetPerlevelMempool());
+    file_id = gPackFileSystem.add_pack_file("mainmenu.pkf", 0, 0, 0);
+    NGCSystem::DriveStatus(0, 0);
+    front_end_peg_loaded = true;
+    set_current_mempool(NULL);
+    startup_time_end = NGCSystem::GetTimeFromTicks(1000);
+    printf("**** Game startup time: %.3f ***", (startup_time_end - startup_time_start) * 0.001f);
 }
 
 void setParameters(int input1, char *argv[]) {

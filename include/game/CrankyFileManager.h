@@ -1,3 +1,6 @@
+#ifndef _GAME_CRANKYFILEMANAGER_H_
+#define _GAME_CRANKYFILEMANAGER_H_
+
 #include "global.h"
 extern "C" {
 #include "dolphin/dvd.h"
@@ -69,3 +72,5 @@ void set_missing_file_callback(FileMissingCallback *callback);
 void ReadFileCallback(void);
 
 STATIC_ASSERT(sizeof(CrankyFileManager) == 0x24);
+
+#endif // _GAME_CRANKYFILEMANAGER_H_

@@ -11,7 +11,7 @@ class GameMem {
     GameMem();
     static int toggle_show_gamemem_prints(void);
     static int toggle_show_mempool_usage(void);
-    int ActivateGamemem(void);
+    static int ActivateGamemem(void);
     bool AllocateMempools(void);
     void ActivateSummonMempool(void);
     void DeactivateSummonMempool(void);

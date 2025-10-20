@@ -23,7 +23,7 @@ void LoadFileCallback() {
     
 }
 
-void SetupFilesystem(void) {
+void FileSystem::Setup(void) {
 
     gHeapAlloc = true;
     

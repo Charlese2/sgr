@@ -11,12 +11,15 @@ extern const char PathIds[10][16];
 
 const int kNumPathIds = 10;
 
-void LoadFile(void);
-void SetupFilesystem(void);
+class FileSystem {
+  public:
+    void LoadFile(void);
+    static void Setup(void);
 
-inline const char *GetFilePath(int index) {
-    DEBUGASSERTLINE(57, index >= 0 && index < kNumPathIds);
-    return PathIds[index];
-}
+    static const char *GetFilePath(int index) {
+        DEBUGASSERTLINE(57, index >= 0 && index < kNumPathIds);
+        return PathIds[index];
+    }
+};
 
 #endif // _GAME_FILESYSTEM_H_
