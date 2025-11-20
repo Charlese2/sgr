@@ -66,7 +66,7 @@ void RenderSystem::GetShadowPositionMatrixCopy(Mtx shadowPositionMatrix) { MTXCo
 
 void RenderSystem::GetShadowCameraMatrixCopy(Mtx44 shadowCameraMatrix) { MTX44Copy(m_shadowCameraMatrix, shadowCameraMatrix); }
 
-void RenderSystem::SomethingRenderMode() {
+void RenderSystem::EndDraw2D() {
     DEBUGASSERTLINE(233, m_curMode & kRenderModeDraw);
     if (m_curMode & kRenderModeDraw2D) {
         m_curMode &= ~kRenderModeDraw2D;
@@ -76,7 +76,7 @@ void RenderSystem::SomethingRenderMode() {
 }
 
 #ifdef DEBUG
-void RenderSystem::Setup2DElementDraw(void) {
+void RenderSystem::StartDraw2D(void) {
     Mtx mtx;
     DEBUGASSERTLINE(262, m_curMode & kRenderModeDraw);
     if (!(m_curMode & kRenderModeDraw2D)) {
@@ -90,7 +90,7 @@ void RenderSystem::Setup2DElementDraw(void) {
     }
 }
 #else
-void RenderSystem::Setup2DElementDraw(bool force) {
+void RenderSystem::StartDraw2D(bool force) {
     Mtx mtx;
     DEBUGASSERTLINE(262, m_curMode & kRenderModeDraw);
     if (force || !(m_curMode & kRenderModeDraw2D)) {
@@ -226,12 +226,12 @@ void RenderSystem::Unknown() {
     GXSetScissor(0, 0, 512, 448);
     GXSetClipMode(GX_CLIP_ENABLE);
 }
-void RenderSystem::SetupUnknownDraw(void) {
+void RenderSystem::StartDraw(void) {
 #ifndef DEBUG
     if (UnknownRenderBool) {
         UnknownRenderBool = false;
         m_curMode |= kRenderModeDraw;
-        Unknown2();
+        EndDraw();
     }
 #endif
     if (!(m_curMode & kRenderModeDraw)) {
@@ -248,12 +248,12 @@ void RenderSystem::SetupUnknownDraw(void) {
     }
 }
 
-void RenderSystem::Unknown2() {
+void RenderSystem::EndDraw() {
     if ((m_curMode & kRenderModeDraw) == 0) {
         return;
     }
     if ((m_curMode & kRenderModeDraw2D) != 0) {
-        SomethingRenderMode();
+        EndDraw2D();
     }
     m_curMode &= ~kRenderModeDraw;
 #ifndef DEBUG

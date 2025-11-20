@@ -54,7 +54,7 @@ int MainLoopCalls() {
         }
     }
     MoveMouse();
-    gRenderSystem.SetupUnknownDraw();
+    gRenderSystem.StartDraw();
     callback = mainloop_callbacks[MainMenuIndexCurrent][1];
     if (callback) {
         callback();

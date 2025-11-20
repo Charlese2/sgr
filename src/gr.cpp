@@ -1,4 +1,5 @@
 #include "game/gr.h"
+#include "game/gr_ngc.h"
 #include "game/effect_mem.h"
 #include "game/console.h"
 #include "game/frametime.h"
@@ -14,7 +15,7 @@ console_command toggle_show_stats_gr("gr_show_stats", "Toggles Gr_show_stats", T
 #ifdef DEBUG
 console_command toggle_show_paging_gr("gr_show_paging", "Toggles Gr_show_paging", TOGGLE, gr::toggle_gr_show_paging);
 #endif
-console_command set_ngps_hires_gr("ngps_hires", "Sets Gr_ngps_hires", TOGGLE, gr::set_gr_ngps_hires);
+console_command set_ngps_hires_gr("ngps_hires", "Sets Gr_ngps_hires", SET_INT, gr::set_gr_ngps_hires);
 
 int toggle_gr_show_stats(void) {
     if (calling_a_command_function) {
@@ -91,6 +92,10 @@ Color::Color(int red, int green, int blue, int alpha) {
     this->green = green;
     this->blue = blue;
     this->alpha = alpha;
+}
+
+void gr::rect(s32 start_x_position, s32 start_y_position, s32 x_size, s32 y_size) {
+    DrawDynamicTexture(start_x_position, start_y_position, start_x_position + x_size, start_y_position + y_size);
 }
 
 bool getGrInitialized(void) { return gr_initialized; }

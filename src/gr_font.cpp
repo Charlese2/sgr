@@ -6,7 +6,7 @@
 
 gr_font mempool_info_text;
 
-void DrawTextOnScreen2D(int width_offset, int height_offset, char *text, int param_4) {
+void gr_font::DrawTextOnScreen2D(int width_offset, int height_offset, const char *text, int font_face_index) {
     int left_pos;
     int top_pos;
     char character;
@@ -17,9 +17,9 @@ void DrawTextOnScreen2D(int width_offset, int height_offset, char *text, int par
         left_pos = width_offset;
         gRenderSystem.SetupTextureDrawIn3DSpace();
 #ifdef DEBUG
-        gRenderSystem.Setup2DElementDraw();
+        gRenderSystem.StartDraw2D();
 #else
-        gRenderSystem.Setup2DElementDraw(false);
+        gRenderSystem.StartDraw2D(false);
 #endif
 
         for (; text; text++) {
@@ -28,6 +28,6 @@ void DrawTextOnScreen2D(int width_offset, int height_offset, char *text, int par
     }
 }
 
-void draw_mempool_info_on_new_line(char *text, int param_2) {
-    DrawTextOnScreen2D(mempool_info_text.current_width_offset, mempool_info_text.current_height_offset, text, param_2);
+void gr_font::draw_mempool_info_on_new_line(const char *text, int font_face_index) {
+    DrawTextOnScreen2D(mempool_info_text.current_width_offset, mempool_info_text.current_height_offset, text, font_face_index);
 }

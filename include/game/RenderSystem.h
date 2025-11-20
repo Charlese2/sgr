@@ -17,12 +17,12 @@ class RenderSystem {
     void SetShadowPositionMatrix(vector3x3 *unk1, vector3 *unk2);
     void GetShadowPositionMatrixCopy(Mtx shadowPositionMatrix);
     void GetShadowCameraMatrixCopy(Mtx44 shadowCameraMatrix);
-    void SomethingRenderMode(void);
+    void EndDraw2D(void);
     u32 GetCurrentMode(u32 flag) { return flag & m_curMode; }
 #ifdef DEBUG
-    void Setup2DElementDraw(void);
+    void StartDraw2D(void);
 #else
-    void Setup2DElementDraw(bool force);
+    void StartDraw2D(bool force);
 #endif // DEBUG
 
     void InitRenderMode(GXRenderModeObj *pRenderMode);
@@ -30,8 +30,8 @@ class RenderSystem {
     void InitGX(void);
     void DrawFirstFramebuffer(void);
     void Unknown(void);
-    void SetupUnknownDraw(void);
-    void Unknown2(void);
+    void StartDraw(void);
+    void EndDraw(void);
     void SwapFramebuffers(void);
     void SetupTextureDrawIn3DSpace(void);
     void Unknown3(bool unk);

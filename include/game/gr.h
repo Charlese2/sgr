@@ -16,7 +16,6 @@ class gr {
     static int toggle_gr_show_paging(void);
     static int set_gr_ngps_hires(void);
     static void DrawHudColor(Color *color);
+    static void rect(s32 start_x_position, s32 start_y_position, s32 end_x_position, s32 end_y_position);
     static bool getGrInitialized(void);
-    static void DrawTextOnScreen2D(int left_offset, int top_offset, char *text, int param_4);
-    static void draw_mempool_info_on_new_line(char *text, int param_2);
 };

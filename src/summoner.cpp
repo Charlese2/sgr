@@ -180,11 +180,11 @@ void show_title_credits() {
     titleCreditsTimer.SetTimeout(505);
     while (!titleCreditsTimer.elapsed()) {
         NGCSystem::DriveStatus(0, 0);
-        gRenderSystem.SetupUnknownDraw();
+        gRenderSystem.StartDraw();
 #ifdef DEBUG
-        gRenderSystem.Setup2DElementDraw();
+        gRenderSystem.StartDraw2D();
 #else
-        gRenderSystem.Setup2DElementDraw(false);
+        gRenderSystem.StartDraw2D(false);
 #endif
         gr::DrawHudColor(&background_color);
         for (i = 0; i < 8; i++) {
@@ -215,9 +215,9 @@ void hide_title_credits() {
     while (!titleCreditsTimer.elapsed()) {
         NGCSystem::DriveStatus(0, 0);
 #ifdef DEBUG
-        gRenderSystem.Setup2DElementDraw();
+        gRenderSystem.StartDraw2D();
 #else
-        gRenderSystem.Setup2DElementDraw(false);
+        gRenderSystem.StartDraw2D(false);
 #endif
         gr::DrawHudColor(&background_color);
         for (i = 0; i < 8; i++) {
