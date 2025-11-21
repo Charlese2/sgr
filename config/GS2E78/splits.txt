@@ -1592,7 +1592,7 @@ dolphin/os/OSError.c:
 	.text       start:0x8018CEC4 end:0x8018D28C
 	.data       start:0x80211C80 end:0x80211FA0
 	.bss        start:0x80451FD0 end:0x8045200C
-	.sdata      start:0x804741D0 end:0x804741D4
+	.sdata      start:0x804741D0 end:0x804741D8
 
 dolphin/os/OSFont.c:
 	.text       start:0x8018D28C end:0x8018DFEC
