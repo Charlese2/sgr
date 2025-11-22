@@ -11,8 +11,8 @@ bird gBirds[MAX_BIRDS];
 char birdStringBuffer[32];
 
 void bird::Render() {
-    set_alpha_blending_mode(1);
-    set_z_mode(4);
+    gr_ngc::set_alpha_blending_mode(1);
+    gr_ngc::set_z_mode(4);
     for (int i = 0; i < Num_birds; i++) {
         bird *pBird = &gBirds[i];
         if (pBird->unk64 != 3 && pBird->unk64 != 5) {

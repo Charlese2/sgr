@@ -4,7 +4,7 @@
 #include "dolphin/gx.h"
 #include "game/macros.h"
 
-void set_z_mode(int mode) {
+void gr_ngc::set_z_mode(int mode) {
     switch (mode) {
     case 0:
         GXSetZMode(false, GX_ALWAYS, false);
@@ -26,7 +26,7 @@ void set_z_mode(int mode) {
     }
 }
 
-void DrawDynamicTexture(u16 param_1, u16 param_2, u16 param_3, u16 param_4) {
+void gr_ngc::DrawDynamicTexture(s16 start_x_pixel, s16 start_y_pixel, s16 end_x_pixel, s16 end_y_pixel) {
 #ifdef DEBUG
     gRenderSystem.StartDraw2D();
 #else
@@ -42,7 +42,7 @@ void DrawDynamicTexture(u16 param_1, u16 param_2, u16 param_3, u16 param_4) {
     GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_F32, 0);
 }
 
-void set_alpha_blending_mode(int mode) {
+void gr_ngc::set_alpha_blending_mode(int mode) {
     switch (mode) {
     case 1:
         GXSetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);

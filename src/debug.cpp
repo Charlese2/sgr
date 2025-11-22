@@ -6,11 +6,11 @@
 #include <stdio.h>
 
 void DebugPrint(char* buffer) {
-    if (gr::getGrInitialized()) {
-        stop_loadscreen();
+    if (gr::getInitialized()) {
+        loading::stop_loadscreen();
         gRenderSystem.GetCurrentMode(kRenderModeDraw);
         printf(buffer);
-        set_alpha_blending_mode(2);
+        gr_ngc::set_alpha_blending_mode(2);
     }
     OSPanic("debug.cpp", 51, buffer);
 }

@@ -9,6 +9,12 @@
 
 #define NGPS_HEIGHT 448
 
+#ifdef DEBUG
+#define StartDraw_2D(force) StartDraw2D()
+#else
+#define StartDraw_2D(force) StartDraw2D(force)
+#endif
+
 class RenderSystem {
   public:
     virtual ~RenderSystem();

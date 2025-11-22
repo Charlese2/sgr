@@ -198,7 +198,7 @@ u8 *effect::LoadSpellslotVfx(u32 size, r_header *rheader) {
     effect_slot *pEffectSlot;
     char *target_filename = NULL;
 
-    if (FindTargetFromFilename(rheader->m_filename, &target_filename)) {
+    if (gr_ngc::FindTargetFromFilename(rheader->m_filename, &target_filename)) {
         File file;
         file.GetFile(target_filename, 2);
         file_size = OSRoundUp32B(file.GetFileSize(NULL, 0));

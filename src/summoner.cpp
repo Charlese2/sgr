@@ -228,7 +228,7 @@ void hide_title_credits() {
     TimeTick = OSGetTick();
 }
 
-void init_graphics() { gr::GraphicsInit(512, 448, 105, 201, 0, 1); }
+void init_graphics() { gr::init(512, 448, 105, 201, 0, 1); }
 
 void startup() {
     NGCSystem::DriveStatus(0, 0);
@@ -248,7 +248,7 @@ void startup() {
 }
 
 void render_title_credits() {
-    stop_loadscreen();
+    loading::stop_loadscreen();
     NGCSystem::DriveStatus(0, 0);
     show_title_credits();
     NGCSystem::DriveStatus(0, 0);
