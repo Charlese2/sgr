@@ -186,7 +186,7 @@ void show_title_credits() {
 #else
         gRenderSystem.StartDraw2D(false);
 #endif
-        gr::DrawHudColor(&background_color);
+        gr::DrawHudColor(background_color);
         for (i = 0; i < 8; i++) {
             gr_font::DrawTextOnScreen2D((512 - width) / 2, (font_height * -8 + 448), credits[i], -1);
         }
@@ -219,7 +219,7 @@ void hide_title_credits() {
 #else
         gRenderSystem.StartDraw2D(false);
 #endif
-        gr::DrawHudColor(&background_color);
+        gr::DrawHudColor(background_color);
         for (i = 0; i < 8; i++) {
             gr_font::DrawTextOnScreen2D((512 - width) / 2, (font_height * -8 + 448), credits[i], -1);
         }

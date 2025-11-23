@@ -9,4 +9,5 @@ class ImageHeader {
     ImageHeader();
     ~ImageHeader();
     void Unknown();
+    void GetImageDimentions(u16 &bmpHeight, u16 &bmpWidth);
 };
