@@ -10,6 +10,7 @@ class PackFileSystem {
     PackFileSystem();
 
     int add_pack_file(const char *pak_file, int unk1, int unk2, int unk3);
+    void get_file(const char* filename, int packFileId);
     void set_current_file_data(u8 *data);
     int ReadFileFromPack(char *pak_file, u32 file_path_index, u8 *destination, u32 buffSize);
 

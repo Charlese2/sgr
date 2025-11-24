@@ -1139,6 +1139,7 @@ gr_ngc.cpp:
 	.text       start:0x80157A88 end:0x80158F54
 	.rodata     start:0x801FDF38 end:0x801FDF88
 	.sbss       start:0x804755F8 end:0x80475610
+	.sdata2     start:0x80479C98 end:0x80479CC0
 
 S3dConvert.cpp:
 	extab       start:0x8000A5D4 end:0x8000A5DC

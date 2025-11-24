@@ -1,5 +1,6 @@
 #include "game/new_math.h"
 #include "dolphin/gx/GXStruct.h"
+#include "dolphin/gx/GXEnum.h"
 #include "dolphin/mtx.h"
 #include "dolphin/types.h"
 #include "game/vector.h"
@@ -23,8 +24,10 @@ class RenderSystem {
     void SetShadowPositionMatrix(vector3x3 *unk1, vector3 *unk2);
     void GetShadowPositionMatrixCopy(Mtx shadowPositionMatrix);
     void GetShadowCameraMatrixCopy(Mtx44 shadowCameraMatrix);
+    void LoadTexture(int bitmap_id, bool repeat_texture, GXTexMapID texMapId);
     void EndDraw2D(void);
     u32 GetCurrentMode(u32 flag) { return flag & m_curMode; }
+    bool IsAAEnabled() {return m_pRenderMode->aa;}
 #ifdef DEBUG
     void StartDraw2D(void);
 #else

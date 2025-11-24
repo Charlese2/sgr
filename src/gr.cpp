@@ -284,7 +284,7 @@ void gr::Unknown1(int unk1, int unk2) {
     gGr.unk58 = unk2;
 }
 
-void gr::DrawStaticTexture(int *bmpHandle, u32 unk2, u32 unk3, int unk4, int unk5, int unk6, int unk7, int unk8, int unk9) {
+void gr::DrawStaticTexture(int bmpHandle, u32 unk2, u32 unk3, int unk4, int unk5, int unk6, int unk7, int unk8, int unk9) {
     gr_ngc::DrawStaticTexture(bmpHandle, unk6, unk7, unk8, unk9, unk2, unk3, unk4, unk5, 1);
 }
 

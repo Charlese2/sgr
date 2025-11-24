@@ -52,7 +52,7 @@ class CrankyFileManager {
     CrankyFileManager();
     int OpenNewFile(const char *file_name, char *file_path);
     u32 GetFileSize(int file_record);
-    bool GetFileFromCache(char *file_path, char* file_name);
+    bool GetFileFromCache(const char *file_path, char* file_name);
     int CloseFile(int file_record);
     void SetMissingFileCallback(FileMissingCallback *callback);
 

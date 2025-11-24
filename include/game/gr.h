@@ -28,7 +28,7 @@ class gr {
     static void DrawHudColor(const Color &color);
     static void SetDynamicTextureColorAlpha(u32 alpha);
     static void Unknown1(int unk1, int unk2);
-    static void DrawStaticTexture(int *bmpHandle, u32 unk2, u32 unk3, int unk4, int unk5, int unk6, int unk7, int unk8, int unk9);
+    static void DrawStaticTexture(int bmpHandle, u32 unk2, u32 unk3, int unk4, int unk5, int unk6, int unk7, int unk8, int unk9);
     static void DrawBlackBackground(void);
     static void rect(s32 start_x_position, s32 start_y_position, s32 end_x_position, s32 end_y_position);
     static bool getInitialized(void);
