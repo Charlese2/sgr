@@ -165,7 +165,7 @@ class SoundSystem {
     snd_instance *GetSndInstance(u32 instance) { return &m_sndInstances[instance]; };
     bool GetSndInstanceAXVoiceState() { return m_SndInstanceAXVoiceState; };
     void SetProcessingSounds(bool processing) { m_processingQueue = processing; };
-    bool GetUnknown() { return field14_0xee34; };
+    bool IsInitialized() { return m_initialized; };
 #ifndef DEBUG
     bool IsDeactivated() { return m_deactivated; };
 #endif
@@ -225,7 +225,7 @@ class SoundSystem {
     /* 0xcb34 */ snd_instance m_ambientSounds[64];
     /* 0xdc34 */ sound_load m_audioLoadQueue[32];
     /* 0xe434 */ play_slot m_PlaySlots[128];
-    /* 0xee34 */ bool field14_0xee34;
+    /* 0xee34 */ bool m_initialized;
     /* 0xee35 */ bool m_inUse;
     /* 0xee36 */ bool m_AmbientSoundAXVoiceState;
     /* 0xee37 */ bool m_SndInstanceAXVoiceState;

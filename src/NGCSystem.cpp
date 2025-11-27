@@ -1,5 +1,12 @@
+#include "dolphin/gx/GXManage.h"
 #include "dolphin/os.h"
+#include "dolphin/os/OSReset.h"
 #include "game/RenderSystem.h"
+#include "game/InputSystem.h"
+#include "game/SoundSystem.h"
+#include "game/MusicSystem.h"
+#include "game/MemSystem.h"
+#include "game/loading.h"
 #include "game/NGCSystem.h"
 #include "game/macros.h"
 #include "dolphin.h"
@@ -7,6 +14,36 @@
 #include "dolphin/vi/vifuncs.h"
 
 bool UnknownRenderBool;
+u8 *pFifoBase[0x4000];
+GXFifoObj *pFifoObj;
+bool SystemResetting;
+
+void NGCSystem::Reset(int reset, bool forceMenu) {
+    SystemResetting = true;
+    gInputSystem.StopAllMotors();
+    loading::stop_loadscreen();
+    if (gSoundSystem.IsInitialized()) {
+        if (DVDCheckDisk()) {
+            gMusicSystem.Reinitialize();
+        }
+        gSoundSystem.EnableAmbientSoundAXVoiceState();
+        gSoundSystem.EnableSndInstanceAXVoiceState();
+        gSoundSystem.DisableAmbientSoundAXVoiceState();
+#ifdef DEBUG
+        gSoundSystem.Shutdown();
+#else
+        gSoundSystem.Shutdown(true);
+#endif
+    }
+    if (DVDCheckDisk()) {
+        DVDCancelAll();
+    }
+    GXDrawDone();
+    VISetBlack(1);
+    VIFlush();
+    VIWaitForRetrace();
+    OSResetSystem(reset, 0, forceMenu);
+}
 
 void NGCSystem::DriveStatus(u8 unk1, int unk2) {}
 
@@ -14,7 +51,6 @@ void NGCSystem::InitializeSystems() {
     OSInit();
     DVDInit();
     VIInit();
-
     gRenderSystem.InitRenderMode(NULL);
     gRenderSystem.InitFramebuffers();
 
@@ -52,7 +88,7 @@ void NGCSystem::Wait(int milliseconds) {
         if (tick_current >= tick_start) {
             difference = tick_current - tick_start;
         } else {
-            difference = - 1 - tick_start + tick_current;
+            difference = -1 - tick_start + tick_current;
         }
         if (ticks > difference) {
             ticks -= difference;

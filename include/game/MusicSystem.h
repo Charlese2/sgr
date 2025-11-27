@@ -5,6 +5,7 @@ class MusicSystem {
   public:
     void LoadMusic(void);
     void PlayMusic(void);
+    void Reinitialize(void);
     void SetMusicVolume(u8 volume);
     u32 GetMusicVolume() const { return m_Volume; };
 

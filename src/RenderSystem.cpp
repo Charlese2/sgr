@@ -532,11 +532,11 @@ void RenderSystem::ReInit(GXRenderModeObj *mode) {
 
     GXAbortFrame();
 
-    for (int i = 0; i < sizeof(pFifo); i++) {
-        pFifo[i] = 0;
+    for (int i = 0; i < sizeof(pFifoBase); i++) {
+        pFifoBase[i] = 0;
     }
 
-    GXInitFifoBase(&tmpobj, pFifo, 64 * 1024);
+    GXInitFifoBase(&tmpobj, pFifoBase, 64 * 1024);
 
     GXSetCPUFifo(&tmpobj);
     GXSetGPFifo(&tmpobj);

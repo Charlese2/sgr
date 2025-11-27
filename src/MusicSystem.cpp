@@ -3,13 +3,9 @@
 
 MusicSystem gMusicSystem;
 
-void MusicSystem::LoadMusic(void) {
-    
-}
+void MusicSystem::LoadMusic(void) {}
 
-void MusicSystem::PlayMusic(void) {
-
-}
+void MusicSystem::PlayMusic(void) {}
 
 void MusicSystem::SetMusicVolume(u8 volume) {
     DTKSetVolume(volume, volume);

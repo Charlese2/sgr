@@ -26,7 +26,7 @@ SoundSystem::SoundSystem() {
     m_buffer       = buffer;
     m_AMZeroBuffer = 0;
     m_curEntry     = 0;
-    field14_0xee34 = false;
+    m_initialized  = false;
     m_inUse        = false;
     m_lastPersist  = 0;
 #ifndef DEBUG
@@ -110,7 +110,7 @@ void SoundSystem::Initialize() {
 #endif
     m_AmbientSoundAXVoiceState = false;
     m_SndInstanceAXVoiceState  = false;
-    field14_0xee34             = true;
+    m_initialized              = true;
     ARInit((u32 *)stack_index_addr, 3);
     ARQInit();
     AIInit(0);

@@ -50,6 +50,9 @@ class CrankyInput {
         }
         return currentTick - savedTick;
     };
+    void StopAllMotors() {
+        StopAllRumbleMotors();
+    }
     void StopAllRumbleMotors();
     void GetDeadzone(float *low, float *high) {
         *low  = m_JoystickLow / 128.0f;
