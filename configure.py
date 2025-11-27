@@ -532,7 +532,7 @@ config.libs = [
             Object(NonMatching, "File.cpp"),
             Object(NonMatching, "file_or_buffer.cpp"),
             Object(NonMatching, "NGCSystem.cpp"),
-            Object(NonMatching, "MemSystem.cpp"),
+            Object(Matching, "MemSystem.cpp"),
             Object(Matching, "InputSystem.cpp"),
             Object(NonMatching, "LevelManager.cpp"),
             Object(NonMatching, "RenderSystem.cpp"),

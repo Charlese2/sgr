@@ -3,10 +3,11 @@ class MemSystem {
   public:
     MemSystem();
     virtual ~MemSystem();
-    u32 GetHeapHandle() { return heapHandle; }
+    void CreateHeap();
+    u32 GetHeapHandle() { return m_heapHandle; }
 
   private:
-    int heapHandle;
+    int m_heapHandle;
 };
 
 extern MemSystem gMemSystem;

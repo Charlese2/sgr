@@ -1100,6 +1100,9 @@ MemSystem.cpp:
 	.text       start:0x801547B0 end:0x801548E4
 	.ctors      start:0x801EE9BC end:0x801EE9C0
 	.rodata     start:0x801FDDA0 end:0x801FDDB0
+	.data       start:0x80210360 end:0x80210370
+	.bss        start:0x803C17F8 end:0x803C1808
+	.sdata      start:0x80474100 end:0x80474108
 	.sbss       start:0x804755C0 end:0x804755C8
 
 InputSystem.cpp:
