@@ -299,7 +299,7 @@ void gr::DrawBlackBackground() {
         gRenderSystem.StartDraw();
     }
     if (!gRenderSystem.GetCurrentMode(kRenderModeDraw2D)) {
-        gRenderSystem.StartDraw_2D(false);
+        gRenderSystem.StartDraw2D();
     }
     SetDynamicTextureColor(0, 0, 0, 255);
     rect(0, 0, 512, 448);

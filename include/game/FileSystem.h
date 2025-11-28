@@ -11,15 +11,13 @@ extern const char PathIds[10][16];
 
 const int kNumPathIds = 10;
 
-class FileSystem {
-  public:
-    void LoadFile(void);
-    static void Setup(void);
+void LoadFile(void);
+void SetupFileSystem(void);
+bool PkfFileTypeHandler(int *unk);
 
-    static const char *GetFilePath(int index) {
-        DEBUGASSERTLINE(57, index >= 0 && index < kNumPathIds);
-        return PathIds[index];
-    }
-};
+static const char *GetFilePath(int index) {
+    DEBUGASSERTLINE(57, index >= 0 && index < kNumPathIds);
+    return PathIds[index];
+}
 
 #endif // _GAME_FILESYSTEM_H_

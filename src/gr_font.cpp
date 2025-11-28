@@ -16,11 +16,7 @@ void gr_font::DrawTextOnScreen2D(int width_offset, int height_offset, const char
     if (text) {
         left_pos = width_offset;
         gRenderSystem.SetupTextureDrawIn3DSpace();
-#ifdef DEBUG
         gRenderSystem.StartDraw2D();
-#else
-        gRenderSystem.StartDraw2D(false);
-#endif
 
         for (; text; text++) {
             character = *text;

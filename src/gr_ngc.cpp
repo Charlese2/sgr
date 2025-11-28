@@ -9,7 +9,7 @@
 
 void gr_ngc::GetFile(char *filename, int packFileId) {
     if (packFileId < 0) {
-        gFileManager.GetFileFromCache(FileSystem::GetFilePath(0), filename);
+        gFileManager.GetFileFromCache(GetFilePath(0), filename);
     } else {
         gPackFileSystem.get_file(filename, packFileId);
     }
@@ -48,7 +48,7 @@ void gr_ngc::DrawLine(float x1, float y1, float z1, float x2, float y2, float z2
 }
 
 void gr_ngc::DrawLine2D(float x1, float y1, float x2, float y2) {
-    gRenderSystem.StartDraw_2D(false);
+    gRenderSystem.StartDraw2D();
     GXSetNumChans(1);
     GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
     GXSetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
@@ -112,7 +112,7 @@ void gr_ngc::set_z_mode(int mode) {
 }
 
 void gr_ngc::DrawDynamicTexture(s16 start_x_pixel, s16 start_y_pixel, s16 end_x_pixel, s16 end_y_pixel) {
-    gRenderSystem.StartDraw_2D(false);
+    gRenderSystem.StartDraw2D();
     GXSetNumChans(1);
     GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
     GXSetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
@@ -149,7 +149,7 @@ void gr_ngc::DrawStaticTexture(int bmpHandle, int unk2, int unk3, int unk4, int 
     if (unk4 == 0 || unk5 == 0) {
         return;
     }
-    gRenderSystem.StartDraw_2D(false);
+    gRenderSystem.StartDraw2D();
     gRenderSystem.SetupTextureDrawIn3DSpace();
     gRenderSystem.LoadTexture(bmpHandle, false, GX_TEXMAP0);
     unk6 += gGr.m_left + gGr.m_left_bound;

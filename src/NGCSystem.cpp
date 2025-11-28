@@ -45,7 +45,7 @@ void NGCSystem::Reset(int reset, bool forceMenu) {
     OSResetSystem(reset, 0, forceMenu);
 }
 
-void NGCSystem::DriveStatus(u8 unk1, int unk2) {}
+void NGCSystem::DriveStatus(bool unk1, bool unk2) {}
 
 void NGCSystem::InitializeSystems() {
     OSInit();

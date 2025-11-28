@@ -16,7 +16,7 @@ void set_missing_file_callback(FileMissingCallback *callback) { file_missing_cal
 
 void set_file_found_callback(FileFoundCallback *callback) { file_found_callback = callback; }
 
-void CrankyFile::OpenFile(const char *file_path, char *file_name) {
+void CrankyFile::OpenFile(const char *file_path, const char *file_name) {
     char file[56];
     char buffer[56];
     ASSERTMSGLINE(87, strlen(file_path) < 8, "path name exceeds maximum allowable length");

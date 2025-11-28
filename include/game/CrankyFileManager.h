@@ -14,7 +14,7 @@ class CrankyFile {
   public:
     virtual ~CrankyFile();
     CrankyFile();
-    void OpenFile(const char *file_path, char *file_name);
+    void OpenFile(const char *file_path, const char *file_name);
     void CloseFile(void);
     u32 GetFileSize(void);
     void SetReadPosition(int startPos, u32 mode);
@@ -50,9 +50,10 @@ class CrankyFileManager {
   public:
     virtual ~CrankyFileManager();
     CrankyFileManager();
-    int OpenNewFile(const char *file_name, char *file_path);
+    int OpenNewFile(const char *file_name, const char *file_path);
     u32 GetFileSize(int file_record);
-    bool GetFileFromCache(const char *file_path, char* file_name);
+    u32 GetFileFromCache(const char *file_path, char* file_name);
+    void ReadFile(int file_record, u32 *buffer, FileTypeCallback callback);
     int CloseFile(int file_record);
     void SetMissingFileCallback(FileMissingCallback *callback);
 

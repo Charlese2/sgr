@@ -28,10 +28,10 @@ CrankyFileManager::~CrankyFileManager() {
     }
 }
 
-int CrankyFileManager::OpenNewFile(const char* file_name, char* file_path) {
+int CrankyFileManager::OpenNewFile(const char* file_path, const char* file_name) {
     for (int file_index = 0; file_index < m_MaxNumberOfOpenFiles; file_index++) {
         if (!m_pFile[file_index].IsOpened()) {
-            m_pFile[file_index].OpenFile(file_name, file_path);
+            m_pFile[file_index].OpenFile(file_path, file_name);
             return file_index;
         }
     }

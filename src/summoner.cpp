@@ -332,7 +332,7 @@ void MainLoop() {
     fx_mem_info.initialize_info();
     DEBUGASSERTLINE(817, fx_mem_info.verify());
     Fx_mem_external_info = &fx_mem_info;
-    FileSystem::Setup();
+    SetupFileSystem();
     NGCSystem::DriveStatus(0, 0);
     GameMem::ActivateGamemem();
     NGCSystem::DriveStatus(0, 0);

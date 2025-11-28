@@ -200,9 +200,9 @@ u8 *effect::LoadSpellslotVfx(u32 size, r_header *rheader) {
 
     if (gr_ngc::FindTargetFromFilename(rheader->m_filename, &target_filename)) {
         File file;
-        file.GetFile(target_filename, 2);
-        file_size = OSRoundUp32B(file.GetFileSize(NULL, 0));
-        file.CloseFile();
+        file.get(target_filename, 2);
+        file_size = OSRoundUp32B(file.size());
+        file.close();
         size += file_size;
     }
     DEBUGASSERTLINE(463, Gamemem_info.spellslot_mempool_is_active());

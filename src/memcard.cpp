@@ -60,7 +60,7 @@ void GetSaveIcon(u32 *icon) {
     u32 *iconBuffer = allocate_in_commonblock(2079);
     CrankyFile iconFile;
     int size;
-    iconFile.OpenFile(FileSystem::GetFilePath(0), "s2-mcicon.imd");
+    iconFile.OpenFile(GetFilePath(0), "s2-mcicon.imd");
     size = iconFile.GetFileSize();
     DEBUGASSERTLINE(286, size == kMemcardIconSizeRGB5A3);
     iconFile.ReadFile(iconBuffer, kMemcardIconSizeRGB5A3);

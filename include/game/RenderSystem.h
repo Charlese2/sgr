@@ -10,12 +10,6 @@
 
 #define NGPS_HEIGHT 448
 
-#ifdef DEBUG
-#define StartDraw_2D(force) StartDraw2D()
-#else
-#define StartDraw_2D(force) StartDraw2D(force)
-#endif
-
 class RenderSystem {
   public:
     virtual ~RenderSystem();
@@ -31,7 +25,7 @@ class RenderSystem {
 #ifdef DEBUG
     void StartDraw2D(void);
 #else
-    void StartDraw2D(bool force);
+    void StartDraw2D(bool force = false);
 #endif // DEBUG
 
     void InitRenderMode(GXRenderModeObj *pRenderMode);

@@ -9,11 +9,13 @@ class File {
     File();
     ~File();
 
-    bool GetFile(char *filename, int filePath);
-    u32 GetFileSize(char *file, int pathIndex);
-    void CloseFile(void);
+    void initialize(void);
+    BOOL get(const char *filename, int filePath);
+    s32 size(const char *file = NULL, int pathIndex = 0);
+    bool close(void);
+    BOOL read(u32* buf, s32 bufSize);
 
     char m_fileName[48];
-    int m_filePath;
+    int m_pathId;
     u32 m_fileRec;
 };

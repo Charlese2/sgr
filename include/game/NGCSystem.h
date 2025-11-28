@@ -19,7 +19,7 @@ extern bool SystemResetting;
 class NGCSystem {
   public:
     static void Reset(int reset, bool forceMenu);
-    static void DriveStatus(u8 unk1, int unk2);
+    static void DriveStatus(bool unk1, bool unk2);
     static void InitializeSystems();
     static u32 GetTimeFromTicks(int tick_resolution);
     static void Wait(int milliseconds);
