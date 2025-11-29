@@ -529,7 +529,7 @@ config.libs = [
             Object(NonMatching, "plainstring.cpp"),
             Object(NonMatching, "FileSystem.cpp"),
             Object(NonMatching, "PackFileSystem.cpp"),
-            Object(Equivalent, "File.cpp"),
+            Object(Matching, "File.cpp"),
             Object(NonMatching, "file_or_buffer.cpp"),
             Object(NonMatching, "NGCSystem.cpp"),
             Object(Matching, "MemSystem.cpp"),
