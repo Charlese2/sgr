@@ -35,6 +35,9 @@ class CrankyFileCache {};
 
 class CrankyFileBuffer : CrankyFile {
   public:
+    void Open(const char *file_path, const char *file_name) {
+      OpenFile(file_path, file_name);
+    }
     void SetFileBuffer(u32 *buf, int requested_size);
     BOOL IsActive() const { return IsOpened(); };
 

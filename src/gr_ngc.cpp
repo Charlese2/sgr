@@ -15,12 +15,12 @@ void gr_ngc::GetFile(char *filename, int packFileId) {
     }
 }
 
-void gr_ngc::BitmapInfo(int bitmapId, int &bmpWidth, int &bmpHeight) {
+void gr_ngc::BitmapInfo(Bitmap *bitmapId, int &bmpWidth, int &bmpHeight) {
     u16 width;
     u16 height;
     DEBUGASSERTLINE(122, bitmapId != BM_BOGUS_BITMAP_HANDLE);
-    int id = bitmapId;
-    Bitmap::GetFromId(id).GetImageDimentions(height, width);
+    Bitmap *pBitmapId = bitmapId;
+    pBitmapId->GetImageHeader().GetImageDimentions(height, width);
     bmpWidth  = width;
     bmpHeight = height;
 }
@@ -145,31 +145,28 @@ void gr_ngc::DrawDynamicTexture(s16 start_x_pixel, s16 start_y_pixel, s16 end_x_
     gRenderSystem.EndDraw2D();
 }
 
-void gr_ngc::DrawStaticTexture(int bmpHandle, int unk2, int unk3, int unk4, int unk5, int unk6, int unk7, int unk8, int unk9, int unk10) {
-    if (unk4 == 0 || unk5 == 0) {
+void gr_ngc::DrawStaticTexture(Bitmap *bmpHandle, const int bmp_section_x, const int bmp_section_y, const int bmp_section_width,
+                               const int bmp_section_height, int x, int y, int width, int height) {
+    if (bmp_section_width == 0 || bmp_section_height == 0) {
         return;
     }
     gRenderSystem.StartDraw2D();
     gRenderSystem.SetupTextureDrawIn3DSpace();
-    gRenderSystem.LoadTexture(bmpHandle, false, GX_TEXMAP0);
-    unk6 += gGr.m_left + gGr.m_left_bound;
-    unk7 += gGr.m_top + gGr.m_top_bound;
-    int bmpWidth;
-    int bmpHeight;
-    float position1 = (float)(unk6);
-    float position2 = (float)(unk8 + unk6);
-    float position3 = -(float)unk6;
-    float position4 = -(float)unk7;
-    unk4 += unk6;
-    unk5 += unk7;
-    unk2 += gGr.m_left;
-    unk3 += gGr.m_top;
+    gRenderSystem.LoadTexture(*bmpHandle, false, GX_TEXMAP0);
+    x += gGr.m_left + gGr.m_left_bound;
+    y += gGr.m_top + gGr.m_top_bound;
+    float position1 = (float)(x);
+    float position2 = (float)(x + width);
+    float position3 = -(float)y;
+    float position4 = -(float)(y + height);
+    int bmpWidth    = 0;
+    int bmpHeight   = 0;
     BitmapInfo(bmpHandle, bmpWidth, bmpHeight);
     DEBUGASSERTLINE(415, bmpWidth && bmpHeight);
-    float coord1 = unk9;
-    float coord2 = unk7;
-    float coord3 = unk6 + unk8;
-    float coord4 = unk2;
+    float coord1 = bmp_section_x / (float)bmpWidth;
+    float coord2 = bmp_section_y / (float)bmpHeight;
+    float coord3 = (bmp_section_x + bmp_section_width) / (float)bmpWidth;
+    float coord4 = (bmp_section_y + bmp_section_height) / (float)bmpHeight;
     GXColor color;
     color.r = gGr.m_dynamic_texture_color.red;
     color.g = gGr.m_dynamic_texture_color.green;

@@ -1,10 +1,17 @@
+#ifndef _BITMAP_H_
+#define _BITMAP_H_
+
 #include "dolphin/types.h"
 #include "game/ImageHeader.h"
 
 class Bitmap {
   public:
-    static ImageHeader &GetFromId(int bitmapId);
+    ImageHeader &GetImageHeader();
 
-    u32 m_width;
-    u32 m_height;
+    ImageHeader *m_header;
+    int unk;
+    u16 m_width;
+    u16 m_height;
 };
+
+#endif // _BITMAP_H_

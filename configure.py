@@ -529,7 +529,7 @@ config.libs = [
             Object(NonMatching, "plainstring.cpp"),
             Object(NonMatching, "FileSystem.cpp"),
             Object(NonMatching, "PackFileSystem.cpp"),
-            Object(NonMatching, "File.cpp"),
+            Object(Equivalent, "File.cpp"),
             Object(NonMatching, "file_or_buffer.cpp"),
             Object(NonMatching, "NGCSystem.cpp"),
             Object(Matching, "MemSystem.cpp"),
@@ -936,6 +936,7 @@ config.libs = [
             Object(NonMatching, "DisplayStateEntry.cpp"),
             Object(NonMatching, "MaterialShader.cpp"),
             Object(NonMatching, "ImageHeader.cpp"),
+            Object(NonMatching, "Bitmap.cpp"),
             Object(NonMatching, "MeshCollisionData.cpp"),
             Object(NonMatching, "Summoner2Item.cpp"),
         ]

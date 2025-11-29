@@ -26,6 +26,21 @@ int Animation_timer_paused;
 
 float frametime_history[frametime_history_size];
 
+#ifdef DEBUG
+void frametime_initialize() {
+    actual_frametime        = 1.0f / (target_fps / 2);
+    reported_frametime      = actual_frametime;
+    fps                     = (target_fps / 2);
+    frames_rendered         = 0;
+    milliseconds_unpaused   = 0;
+    frametime_divisor       = 1.0f;
+    min_reported_frametime  = 1.0f / (target_fps * 2);
+    max_reported_frametime  = 1.0f / (target_fps / 15);
+    previous_done_time      = 0;
+    frametime_history_index = -1;
+    total_history_frametime = 0.0f;
+}
+#else
 void frametime_initialize() {
     actual_frametime        = 1.0f / target_fps;
     reported_frametime      = actual_frametime;
@@ -39,6 +54,7 @@ void frametime_initialize() {
     frametime_history_index = -1;
     total_history_frametime = 0.0f;
 }
+#endif
 
 void FrameDone() {
 

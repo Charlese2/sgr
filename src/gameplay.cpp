@@ -6,6 +6,12 @@
 
 GameplayStage Gameplay_stage;
 
+void RenderGameplay() {
+    if ((Game_mode & 0x1000) == 0) {
+        
+    }
+}
+
 void RunLevel() {
     Gameplay_stage = Running;
     if (Game_mode & 0x80000000) {

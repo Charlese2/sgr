@@ -1,7 +1,7 @@
 #include "game/FileSystem.h"
 #include "game/gamemem.h"
 
-const char PathIds[10][16] = {
+const char PathIds[kNumPathIds][MAX_PATH_LENGTH] = {
     "/",
     "/char/",
     "/fx/",

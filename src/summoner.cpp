@@ -9,7 +9,6 @@
 #include "game/frametime.h"
 #include "game/memory.h"
 #include "game/mainloop.h"
-#include "game/text_effects.h"
 #include "game/effect_mem.h"
 #include "game/gr_font.h"
 #include "game/File.h"

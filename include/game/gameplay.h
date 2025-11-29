@@ -7,4 +7,5 @@ enum GameplayStage {
 
 extern GameplayStage Gameplay_stage;
 
+void RenderGameplay(void);
 void RunLevel(void);

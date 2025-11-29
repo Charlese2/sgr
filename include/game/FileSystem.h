@@ -5,17 +5,19 @@
 #include "game/CrankyFileManager.h"
 
 #define FILE_MAX_BASE_FILENAME_LEN 80
+#define MAX_PATH_LENGTH 16
 
 extern CrankyFileManager gFileManager;
-extern const char PathIds[10][16];
-
 const int kNumPathIds = 10;
+
+extern const char PathIds[kNumPathIds][MAX_PATH_LENGTH];
+
 
 void LoadFile(void);
 void SetupFileSystem(void);
 bool PkfFileTypeHandler(int *unk);
 
-static const char *GetFilePath(int index) {
+inline const char *GetFilePath(int index) {
     DEBUGASSERTLINE(57, index >= 0 && index < kNumPathIds);
     return PathIds[index];
 }

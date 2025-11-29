@@ -2368,7 +2368,7 @@ ImageHeader.cpp:
 	extabindex  start:0x80013F54 end:0x80013F60
 	.text       start:0x801CD8F0 end:0x801CDA5C
 
-unknown11.cpp:
+Bitmap.cpp:
 	extab       start:0x8000B63C end:0x8000B64C
 	extabindex  start:0x80013F60 end:0x80013F78
 	.text       start:0x801CDA5C end:0x801CDB20
