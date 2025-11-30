@@ -59,7 +59,7 @@ void gr_font::DrawTextOnScreen3D(char *text, int font_number, float x, float y, 
         text_width        = Math::add_half_float(text_width * size);
         text_height       = Math::add_half_float(text_height * size);
         gr_ngc::DrawStaticTexture(p_font->m_bmpHandle, char_x, char_y, text_width, font_height, Math::add_half_float(x),
-                                  Math::add_half_float(y), text_width, text_height);
+                                  Math::add_half_float(y), text_width, text_height, false);
         x += text_width;
     }
     gRenderSystem.EndDraw2D();

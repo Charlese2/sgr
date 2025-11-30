@@ -30,7 +30,7 @@ effects.cpp:
 	extabindex  start:0x8000B80C end:0x8000BC14
 	.text       start:0x800154E4 end:0x800216BC
 	.ctors      start:0x801EE848 end:0x801EE84C
-	.rodata     start:0x801EED70 end:0x801EF0B8
+	.rodata     start:0x801EED70 end:0x801EF0A8
 	.sbss       start:0x80474408 end:0x80474428
 
 gr.cpp:
@@ -38,7 +38,7 @@ gr.cpp:
 	extabindex  start:0x8000BC14 end:0x8000BCC8
 	.text       start:0x800216BC end:0x80023574
 	.ctors      start:0x801EE84C end:0x801EE850
-	.rodata     start:0x801EF0B8 end:0x801EF1E8
+	.rodata     start:0x801EF0A8 end:0x801EF1E8
 	.bss        start:0x8024B7E0 end:0x8024C078
 	.sdata      start:0x80473C50 end:0x80473C68
 	.sbss       start:0x80474428 end:0x804744B0

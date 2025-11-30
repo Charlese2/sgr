@@ -102,6 +102,8 @@ int gr::set_gr_ngps_hires(void) {
     return Gr_ngps_hires;
 }
 
+void gr::Unknown1() {}
+
 bool gr::init(int width, int height, int unk3, int window_mode, u32 unk5, bool unk6) {
     memset(&gGr, 0, sizeof(gr));
     gGr.unkC          = unk3;
@@ -113,18 +115,19 @@ bool gr::init(int width, int height, int unk3, int window_mode, u32 unk5, bool u
 #else
     gGr.unk18 = 0.85714287f;
 #endif
-    gGr.m_left_bound   = 0;
-    gGr.m_top_bound    = 0;
-    gGr.m_left         = 0;
-    gGr.m_top          = 0;
-    gGr.unk44          = gGr.m_width - 1;
-    gGr.unk4C          = gGr.m_height - 1;
-    gGr.m_width_bound  = gGr.m_width;
-    gGr.m_height_bound = gGr.m_height;
-    gGr.unk54          = -1;
-    gGr.unk58          = -1;
-    gGr.unk6C          = unk6;
-    gGr.unk70          = 0;
+    gGr.m_left_bound      = 0;
+    gGr.m_top_bound       = 0;
+    gGr.m_left            = 0;
+    gGr.m_top             = 0;
+    gGr.m_drawable_width  = gGr.m_width - 1;
+    gGr.m_drawable_height = gGr.m_height - 1;
+    gGr.m_width_bound     = gGr.m_width;
+    gGr.m_height_bound    = gGr.m_height;
+    gGr.unk54             = -1;
+    gGr.unk58             = -1;
+    gGr.unk6C             = unk6;
+    gGr.unk70             = 0;
+    Unknown1();
 
     switch (gGr.m_window_mode) {
     case 200:
@@ -148,6 +151,50 @@ bool gr::init(int width, int height, int unk3, int window_mode, u32 unk5, bool u
         DrawScreen();
     }
     return false;
+}
+
+void gr::Unknown3(bool unk) { gGr.unk6C = unk; }
+
+void gr::Unknown4(int unk) { unknown4 = unk; }
+
+bool gr::Unknown5() {
+    bool return_value = false;
+    if (unknown3 && !unknown4) {
+        return_value = true;
+    }
+    return return_value;
+}
+
+void gr::Unknown6(int unk) {
+    if (unk <= 0) {
+        unknown3 = 0;
+        alpha    = 1.0f;
+    } else {
+        unknown3 = 2;
+        unknown1 = 0.0f;
+        unknown2 = unk / 1000.0f;
+    }
+}
+
+void gr::Unknown7(int unk) {
+    if (unk <= 0) {
+        unknown3 = 0;
+        alpha    = -1.0f;
+    } else {
+        unknown3 = 1;
+        unknown1 = 0.0f;
+        unknown2 = unk / 1000.0f;
+    }
+}
+
+float gr::GetAlpha() {
+    float returnValue;
+    if (alpha < 0.0f) {
+        returnValue = 0.0f;
+    } else {
+        returnValue = alpha;
+    }
+    return returnValue;
 }
 
 void gr::DrawScreenFade() {
@@ -187,34 +234,34 @@ Color::Color(s32 red, s32 green, s32 blue, s32 alpha) {
 }
 
 void gr::SetBounds(int left, int top, int width, int height) {
-    gGr.m_left_bound = left;
-    gGr.m_top_bound  = top;
-    gGr.m_left       = 0;
-    gGr.unk44        = width - 1;
-    gGr.m_top        = 0;
-    gGr.unk4C        = height - 1;
+    gGr.m_left_bound      = left;
+    gGr.m_top_bound       = top;
+    gGr.m_left            = 0;
+    gGr.m_drawable_width  = width - 1;
+    gGr.m_top             = 0;
+    gGr.m_drawable_height = height - 1;
     if (gGr.m_left + left < 0) {
         gGr.m_left = -left;
     } else if (gGr.m_left + left > gGr.m_width - 1) {
         gGr.m_left = gGr.m_width - 1 - left;
     }
-    if (gGr.unk44 + left < 0) {
-        gGr.unk44 = -left;
-    } else if (gGr.unk44 + left >= gGr.m_width - 1) {
-        gGr.unk44 = gGr.m_width - 1 - left;
+    if (gGr.m_drawable_width + left < 0) {
+        gGr.m_drawable_width = -left;
+    } else if (gGr.m_drawable_width + left >= gGr.m_width - 1) {
+        gGr.m_drawable_width = gGr.m_width - 1 - left;
     }
     if (gGr.m_top + top < 0) {
         gGr.m_top = -top;
     } else if (gGr.m_top + top > gGr.m_height - 1) {
         gGr.m_top = gGr.m_height - 1 - top;
     }
-    if (gGr.unk4C + top < 0) {
-        gGr.unk4C = -top;
-    } else if (gGr.unk4C + top > gGr.m_height - 1) {
-        gGr.unk4C = gGr.m_height - 1 - top;
+    if (gGr.m_drawable_height + top < 0) {
+        gGr.m_drawable_height = -top;
+    } else if (gGr.m_drawable_height + top > gGr.m_height - 1) {
+        gGr.m_drawable_height = gGr.m_height - 1 - top;
     }
-    gGr.m_width_bound  = gGr.unk44 - gGr.m_left + 1;
-    gGr.m_height_bound = gGr.unk4C - gGr.m_top + 1;
+    gGr.m_width_bound  = gGr.m_drawable_width - gGr.m_left + 1;
+    gGr.m_height_bound = gGr.m_drawable_height - gGr.m_top + 1;
     gr_ngc::CalculateScissor();
 }
 
@@ -270,22 +317,119 @@ void gr::SetDynamicTextureColor(s32 red, s32 green, s32 blue, s32 alpha) {
 
 void gr::ResetDynamicTextureColor() {
     gGr.m_dynamic_texture_color.red = gGr.m_dynamic_texture_color.green = gGr.m_dynamic_texture_color.blue =
-        gGr.m_dynamic_texture_color.alpha                                = 255;
+        gGr.m_dynamic_texture_color.alpha                               = 255;
 }
 
-void gr::DrawHudColor(const Color& color) { SetDynamicTextureColor(color.red, color.green, color.blue, color.alpha); }
+void gr::DrawHudColor(const Color &color) { SetDynamicTextureColor(color.red, color.green, color.blue, color.alpha); }
 
-void gr::SetDynamicTextureColorAlpha(u32 alpha) {
-    gGr.m_dynamic_texture_color.alpha = alpha;
-}
+void gr::SetDynamicTextureColorAlpha(u32 alpha) { gGr.m_dynamic_texture_color.alpha = alpha; }
 
-void gr::Unknown1(int unk1, int unk2) {
+void gr::Unknown2(int unk1, int unk2) {
     gGr.unk54 = unk1;
     gGr.unk58 = unk2;
 }
 
-void gr::DrawStaticTexture(Bitmap *bmpHandle, u32 unk2, u32 unk3, int unk4, int unk5, int unk6, int unk7, int unk8, int unk9) {
-    gr_ngc::DrawStaticTexture(bmpHandle, unk6, unk7, unk8, unk9, unk2, unk3, unk4, unk5);
+void gr::DrawStaticTexture(Bitmap *bmpHandle, u32 x, u32 y, int width, int height, int bmp_section_x, int bmp_section_y,
+                           int bmp_section_width, int bmp_section_height) {
+    gr_ngc::DrawStaticTexture(bmpHandle, bmp_section_x, bmp_section_y, bmp_section_width, bmp_section_height, x, y, width, height, 1);
+}
+
+void gr::DrawImage(Bitmap *bmpHandle, int x, int y) {
+    int width;
+    int height;
+    gr_ngc::BitmapInfo(bmpHandle, width, height);
+    if (width) {
+        gr_ngc::DrawStaticTexture(bmpHandle, 0, 0, width, height, x, y, width, height, true);
+    }
+}
+
+void gr::DrawLine2D(float x1, float y1, float x2, float y2) {
+    bool unk1    = false;
+    bool reversed    = false;
+    float left   = gGr.m_left;
+    float top    = gGr.m_top;
+    float width  = gGr.m_drawable_width;
+    float height = gGr.m_drawable_height;
+    float y;
+    float x;
+    if (y1 > y2) {
+        y  = y1;
+        y1 = y2;
+        y2 = y;
+        x  = x1;
+        x1 = x2;
+        x2 = x;
+        reversed = true;
+    }
+    if (y2 < top || y1 > height) {
+        return;
+    }
+    if (x1 < x2) {
+        if (x2 < left) {
+            if (x1 < width) {
+                return;
+            }
+            if (x1 < left) {
+                y1 = (y1 + ((y2 - y1) * (left - x1)) / (x2 - x1));
+                if (y1 < width) {
+                    x1   = left;
+                    unk1 = true;
+                }
+            }
+            if (x2 > width) {
+                y2 = (y2 - ((y2 - y1) * (x2 - width)) / (x2 - x1));
+            }
+            if (y2 < top) {
+                x2   = height;
+                unk1 = true;
+            }
+            if (y1 < top) {
+                x1   = (x1 + ((y2 - y1)) * (top - y1) / (y2 - y1));
+                y1   = top;
+                unk1 = true;
+            }
+            if (y2 < height) {
+                x2   = (x2 - ((y2 - y1) * (y2 - height) / (y2 - y1)));
+                y2   = height;
+                unk1 = true;
+            }
+        }
+
+    } else {
+        if (x1 < left) {
+            return;
+        }
+        if (y2 < width) {
+            return;
+        }
+        if (x1 < width) {
+            y1 = (y1 + ((y2 - y1) * (x1 - width) / (x1 - x2)));
+            if (y1 < left) {
+                return;
+            }
+            x1   = width;
+            unk1 = true;
+        }
+        if (x2 < left) {
+            y2 = (y2 - ((y2 - y1) * (left - x2) / (x1 - x2)));
+            if (y2 < top) {
+                return;
+            }
+            x2   = left;
+            unk1 = true;
+        }
+        if (y1 < top) {
+            x1   = (x1 - ((x1 - x2) * (top - y1) / (y2 - y1)));
+            y1   = top;
+            unk1 = true;
+        }
+        if (y2 < height) {
+            x2   = (x2 + ((x1 - x2) * (y2 - height) / (y2 - y1)));
+            y2   = height;
+            unk1 = true;
+        }
+    }
+    gr_ngc::DrawLine2D(x1, y1, x2, y2);
 }
 
 void gr::rect(s32 start_x_position, s32 start_y_position, s32 x_size, s32 y_size) {

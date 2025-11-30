@@ -14,7 +14,7 @@ class gr_ngc {
     static void SetScissor(u32 left, u32 top, u32 width, u32 height);
     static void set_z_mode(int mode);
     static void DrawStaticTexture(Bitmap *bmpHandle, int bmp_section_x, int bmp_section_y, int bmp_section_width, int bmp_section_height,
-                                  int x, int y, int width, int height);
+                                  int x, int y, int width, int height, bool unk);
     static void DrawDynamicTexture(s16 start_x_pixel, s16 start_y_pixel, s16 end_x_pixel, s16 end_y_pixel);
     static int FindTargetFromFilename(const char *filename, char **target_filename);
     static void set_alpha_blending_mode(int mode);

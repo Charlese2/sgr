@@ -146,7 +146,7 @@ void gr_ngc::DrawDynamicTexture(s16 start_x_pixel, s16 start_y_pixel, s16 end_x_
 }
 
 void gr_ngc::DrawStaticTexture(Bitmap *bmpHandle, const int bmp_section_x, const int bmp_section_y, const int bmp_section_width,
-                               const int bmp_section_height, int x, int y, int width, int height) {
+                               const int bmp_section_height, int x, int y, int width, int height, bool unk) {
     if (bmp_section_width == 0 || bmp_section_height == 0) {
         return;
     }
@@ -208,8 +208,8 @@ void gr_ngc::set_alpha_blending_mode(int mode) {
 
 void gr_ngc::CalculateScissor() {
     u32 left   = gGr.m_left + gGr.m_left_bound;
-    u32 width  = gGr.unk44 - gGr.m_left + 1;
+    u32 width  = gGr.m_drawable_width - gGr.m_left + 1;
     u32 top    = gGr.m_top + gGr.m_top_bound;
-    u32 height = gGr.unk4C - gGr.m_top + 1;
+    u32 height = gGr.m_drawable_height - gGr.m_top + 1;
     SetScissor(left, top, width, height);
 }
