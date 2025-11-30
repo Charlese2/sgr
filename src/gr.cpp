@@ -350,13 +350,12 @@ void gr::DrawLine2D(float x1, float y1, float x2, float y2) {
     float top     = gGr.m_top;
     float width   = gGr.m_drawable_width;
     float height  = gGr.m_drawable_height;
-    float y;
-    float x;
+    float tmp;
     if (y1 > y2) {
-        y        = y1;
+        float y  = y1;
         y1       = y2;
         y2       = y;
-        x        = x1;
+        float x  = x1;
         x1       = x2;
         x2       = x;
         reversed = true;
@@ -364,48 +363,56 @@ void gr::DrawLine2D(float x1, float y1, float x2, float y2) {
     if (y2 < top || y1 > height) {
         return;
     }
-    if (x1 < x2 && x2 < left || x1 > width) {
-        return;
-    }
-    if (x1 < left) {
-        y1 = y1 + (y2 - y1) * (left - x1) / (x2 - x1);
-        if (y1 > width) {
+    if (x1 < x2) {
+        if (x2 < left || x1 > width) {
             return;
         }
-        x1   = left;
-        unk1 = true;
-    }
-    if (x2 > width) {
-        y2 = y2 - (y2 - y1) * (x2 - width) / (x2 - x1);
-    }
-    if (y2 < top) {
-        return;
-    }
-    x2   = height;
-    unk1 = true;
-    if (y1 < top) {
-        x1   = x1 + (y2 - y1) * (top - y1) / (y2 - y1);
-        y1   = top;
-        unk1 = true;
-    }
-    if (y2 > height) {
-        x2   = x2 - (y2 - y1) * (y2 - height) / (y2 - y1);
-        y2   = height;
-        unk1 = true;
+        if (x1 < left) {
+            tmp = (y2 - y1) * (left - x1) / (x2 - x1);
+            y1 += tmp;
+            if (y1 > height) {
+                return;
+            }
+            x1   = left;
+            unk1 = true;
+        }
+        if (x2 > width) {
+            tmp = (y2 - y1) * (x2 - width) / (x2 - x1);
+            y2 -= tmp;
+            if (y2 < top) {
+                return;
+            }
+            x2   = width;
+            unk1 = true;
+        }
+        if (y1 < top) {
+            tmp = (x2 - x1) * (top - y1) / (y2 - y1);
+            x1 += tmp;
+            y1   = top;
+            unk1 = true;
+        }
+        if (y2 > height) {
+            tmp = (x2 - x1) * (y2 - height) / (y2 - y1);
+            x2 -= tmp;
+            y2   = height;
+            unk1 = true;
+        }
     } else {
-        if (x1 < left || y2 > width) {
+        if (x1 < left || x2 > width) {
             return;
         }
         if (x1 > width) {
-            y1 = y1 + (y2 - y1) * (x1 - width) / (x1 - x2);
-            if (y1 > left) {
+            tmp = (y2 - y1) * (x1 - width) / (x1 - x2);
+            y1 += tmp;
+            if (y1 > height) {
                 return;
             }
             x1   = width;
             unk1 = true;
         }
         if (x2 < left) {
-            y2 = y2 - (y2 - y1) * (left - x2) / (x1 - x2);
+            tmp = (y2 - y1) * (left - x2) / (x1 - x2);
+            y2 -= tmp;
             if (y2 < top) {
                 return;
             }
@@ -413,12 +420,14 @@ void gr::DrawLine2D(float x1, float y1, float x2, float y2) {
             unk1 = true;
         }
         if (y1 < top) {
-            x1   = x1 - (x1 - x2) * (top - y1) / (y2 - y1);
+            tmp = (x1 - x2) * (top - y1) / (y2 - y1);
+            x1 -= tmp;
             y1   = top;
             unk1 = true;
         }
         if (y2 > height) {
-            x2   = x2 + (x1 - x2) * (y2 - height) / (y2 - y1);
+            tmp = (x1 - x2) * (y2 - height) / (y2 - y1);
+            x2 += tmp;
             y2   = height;
             unk1 = true;
         }
