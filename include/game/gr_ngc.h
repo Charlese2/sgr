@@ -4,6 +4,15 @@
 #define MAX_TARGETS            1200
 #define BM_BOGUS_BITMAP_HANDLE 0
 
+struct rect{
+    int start_x_position;
+    int start_y_position;
+    int end_x_position;
+    int end_y_position;
+};
+
+extern rect black_bar_content_rect;
+
 class gr_ngc {
   public:
     static void GetFile(char *filename, int packFileId);

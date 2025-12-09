@@ -81,7 +81,7 @@ BOOL InputSystem::IsButtonPressed(int contId, int ButtonId) {
         }
         return 0;
     }
-    return CrankyInput::is_button_pressed(contId, m_buttons[ButtonId], true);
+    return is_button_just_pressed(contId, m_buttons[ButtonId], true);
 }
 
 bool InputSystem::DebounceTimerExpired(int contId, int joyId, int dir) {
@@ -227,8 +227,8 @@ void InputSystem::RunSystem(bool unk) {
     m_CurrentTick = tick;
 #ifdef DEBUG
     RunRumbleMotorTimer();
-    if (is_button_pressed(CONTROLLER_ONE, PAD_BUTTON_X, false) && is_button_pressed(CONTROLLER_ONE, PAD_BUTTON_B, false) &&
-        is_button_pressed(CONTROLLER_ONE, PAD_BUTTON_START, false)) {
+    if (is_button_just_pressed(CONTROLLER_ONE, PAD_BUTTON_X, false) && is_button_just_pressed(CONTROLLER_ONE, PAD_BUTTON_B, false) &&
+        is_button_just_pressed(CONTROLLER_ONE, PAD_BUTTON_START, false)) {
         if (m_GameResetSavedTick == 0) {
             m_GameResetSavedTick = OSGetTick();
         }

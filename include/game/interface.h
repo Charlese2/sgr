@@ -4,6 +4,10 @@
 #define MAX_MBOX_OPTIONS              8
 #define MAX_MBOX_OPTION_STRING_LENGTH 32
 
+enum interfaces {
+  worldmap = 17
+};
+
 typedef void (*DialogueCallback)(int state);
 
 extern int Num_interfaces_showing;
@@ -24,4 +28,5 @@ class new_interface {
     static void DebugButtonsCheck(void);
 };
 
+interfaces get_interface_to_open();
 void ShowDialogue(char *buffer, int unk_2, int num_options, int unk_4, DialogueCallback dialogueCallback, int unk_6);

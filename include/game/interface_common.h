@@ -1,5 +1,7 @@
 #include "game/vector.h"
 
+void DrawBlackBars(void);
+
 class interface_common_targeting_info {
   public:
     int target_spell;

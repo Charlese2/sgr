@@ -65,7 +65,7 @@ class CrankyInput {
         
         return m_ActiveMask & GetControllerMask(contId);
     };
-    u32 is_button_pressed(int contId, u32 button, bool unk) {
+    u32 is_button_just_pressed(int contId, u32 button, bool unk) {
         u8 status;
 
         ASSERTLINE(315, contId >= 0 && contId < PAD_MAX_CONTROLLERS);
@@ -79,6 +79,20 @@ class CrankyInput {
         }
         return m_PadStatus[contId].button & button;
     };
+    u8 is_button_just_released(int contId, u32 button, bool unk) {
+        u32 status;
+
+        ASSERTLINE(343, contId >= 0 && contId < PAD_MAX_CONTROLLERS);
+
+        if (unk) {
+            status = 0;
+            if ((m_PadStatus[contId].button & button) == 0 && (m_ControllerStatus[contId].button & button) != 0) {
+                status = 1;
+            }
+            return status;
+        }
+        return m_PadStatus[contId].button & button;
+    }
     void InitializeController(int contId) {
         InitializeControllerStatus(contId);
         memset(&m_InputTicks[contId], 0, 32);

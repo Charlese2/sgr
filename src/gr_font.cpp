@@ -56,10 +56,10 @@ void gr_font::DrawTextOnScreen3D(char *text, int font_number, float x, float y, 
         glyph_data *pData = &p_font->m_pCharData[index];
         char_x            = p_font->m_pCharX[index];
         char_y            = p_font->m_pCharY[index];
-        text_width        = Math::add_half_float(text_width * size);
-        text_height       = Math::add_half_float(text_height * size);
-        gr_ngc::DrawStaticTexture(p_font->m_bmpHandle, char_x, char_y, text_width, font_height, Math::add_half_float(x),
-                                  Math::add_half_float(y), text_width, text_height, false);
+        text_width        = Math::round_float_to_int(text_width * size);
+        text_height       = Math::round_float_to_int(text_height * size);
+        gr_ngc::DrawStaticTexture(p_font->m_bmpHandle, char_x, char_y, text_width, font_height, Math::round_float_to_int(x),
+                                  Math::round_float_to_int(y), text_width, text_height, false);
         x += text_width;
     }
     gRenderSystem.EndDraw2D();

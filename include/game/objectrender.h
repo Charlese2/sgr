@@ -4,6 +4,8 @@
 #define MAX_TWO_STAGE_MESHES_PER_LEVEL 64
 #define MAX_CUSTOM_VIS_SETS            16
 
+void Render3DObjects();
+
 class objectrender {};
 
 class render_layer {};

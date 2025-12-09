@@ -223,6 +223,7 @@ interface_common.cpp:
 	.ctors      start:0x801EE898 end:0x801EE89C
 	.rodata     start:0x801F1D98 end:0x801F2308
 	.sbss       start:0x804748D0 end:0x804748F8
+	.sdata2     start:0x80476C90 end:0x80476CD0
 
 new_munari_poker.cpp:
 	extab       start:0x800063E0 end:0x80006450

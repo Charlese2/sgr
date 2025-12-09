@@ -187,15 +187,24 @@ void gr::Unknown7(int unk) {
     }
 }
 
+#ifdef DEBUG
 float gr::GetAlpha() {
-    float returnValue;
+    float value;
     if (alpha < 0.0f) {
-        returnValue = 0.0f;
+        value = 0.0f;
     } else {
-        returnValue = alpha;
+        value = alpha;
     }
-    return returnValue;
+    return value;
 }
+#else
+float gr::GetAlpha() {
+    if (alpha < 0.0f) {
+        return 0.0f;
+    }
+    return alpha;
+}
+#endif
 
 void gr::DrawScreenFade() {
     if (unknown4 == 0) {

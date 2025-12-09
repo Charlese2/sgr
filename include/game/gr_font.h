@@ -5,6 +5,8 @@
 #define MAX_FONT_FILENAME_LENGTH 32
 #define MAX_FONTS                2
 
+extern int font_number;
+
 class glyph_data {
   public:
     int x;

@@ -15,5 +15,3 @@ class living_entity : object {
   private:
     char unk[1382];
 };
-
-extern living_entity *Main_entity;

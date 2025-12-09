@@ -7,6 +7,8 @@
 #include "dolphin/gx.h"
 #include "game/macros.h"
 
+rect black_bar_text_bounds = {0, 74, 512, 298};
+
 void gr_ngc::GetFile(char *filename, int packFileId) {
     if (packFileId < 0) {
         gFileManager.GetFileFromCache(GetFilePath(0), filename);
